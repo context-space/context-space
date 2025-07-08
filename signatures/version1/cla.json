@@ -1,3 +1,12 @@
 {
-   "signedContributors": []
+  "signedContributors": [
+    {
+      "name": "clarenous",
+      "id": 18611530,
+      "comment_id": 3050003638,
+      "created_at": "2025-07-08T19:02:03Z",
+      "repoId": 1016271077,
+      "pullRequestNo": 1
+    }
+  ]
 }
