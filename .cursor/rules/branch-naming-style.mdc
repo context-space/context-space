@@ -1,0 +1,47 @@
+---
+description: Generating properly formatted git branch name.
+alwaysApply: false
+---
+# Branch Naming Guidelines
+
+## Standard Format
+```
+<type>/<short-description>
+```
+
+## Type Categories
+- **feat**: New feature development
+- **fix**: Bug fix branches
+- **docs**: Documentation updates
+- **chore**: Maintenance, build, tools, dependencies
+- **refactor**: Code refactoring
+- **test**: Adding or modifying tests
+- **hotfix**: Critical production fixes
+
+## Naming Rules
+- Use lowercase letters only
+- Use hyphens (-) to separate words
+- Keep under 50 characters
+- No spaces, underscores, or special characters
+- Be descriptive but concise
+
+## Examples
+```bash
+# Good
+feat/user-authentication
+fix/login-button-alignment
+docs/api-documentation
+chore/update-dependencies
+
+# Avoid
+feature-branch          # Too generic
+fix_bug                 # Use hyphens, not underscores
+UpdateDocumentation     # No camelCase
+```
+
+## Best Practices
+1. **Keep it short** - Under 50 characters
+2. **Be descriptive** - Name should explain the purpose
+3. **Use consistent prefixes** - Follow the type categories
+4. **Match commit style** - Use similar type prefixes as commits
+5. **Use hyphens** - Always use hyphens, never underscores
