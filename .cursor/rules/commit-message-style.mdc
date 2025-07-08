@@ -1,0 +1,36 @@
+---
+description: Generating properly formatted git commit message.
+alwaysApply: false
+---
+# Commit Message Guidelines
+
+## Format
+```
+<type>(<scope>): <description>
+```
+
+## Types
+- **feat**: New feature
+- **fix**: Bug fix
+- **docs**: Documentation changes
+- **refactor**: Code refactoring
+- **test**: Adding or modifying tests
+- **chore**: Build process, tools, dependencies
+- **perf**: Performance improvements
+
+## Rules
+- Use present tense, imperative mood ("add", not "added")
+- Don't capitalize first letter
+- Don't end with period
+- Keep under 50 characters
+- Optional scope in parentheses: `(auth)`, `(ui)`, `(api)`
+- Breaking changes: add `!` after type/scope
+
+## Examples
+```bash
+feat: add user authentication
+fix(ui): resolve responsive layout issues
+docs: update API documentation
+chore(deps): upgrade React to v18
+feat!: redesign authentication API
+```
