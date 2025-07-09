@@ -1,0 +1,68 @@
+{
+  "name": "Stripe",
+  "description": "Stripe API integration for payments, customers, and subscriptions.",
+  "permissions": [
+    {
+      "identifier": "read_payments",
+      "name": "Read Payments",
+      "description": "Allows reading payment information."
+    },
+    {
+      "identifier": "write_payments",
+      "name": "Write Payments",
+      "description": "Allows creating and confirming payments."
+    },
+    {
+      "identifier": "read_customers",
+      "name": "Read Customers",
+      "description": "Allows reading customer information."
+    },
+    {
+      "identifier": "write_customers",
+      "name": "Write Customers",
+      "description": "Allows creating and modifying customer information."
+    },
+    {
+      "identifier": "write_subscriptions",
+      "name": "Manage Subscriptions",
+      "description": "Allows managing subscriptions."
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "create_payment_intent",
+      "name": "Create Payment Intent",
+      "description": "Creates a payment intent."
+    },
+    {
+      "identifier": "retrieve_payment_intent",
+      "name": "Retrieve Payment Intent",
+      "description": "Retrieves a payment intent."
+    },
+    {
+      "identifier": "confirm_payment_intent",
+      "name": "Confirm Payment Intent",
+      "description": "Confirms a payment intent."
+    },
+    {
+      "identifier": "create_customer",
+      "name": "Create Customer",
+      "description": "Creates a customer."
+    },
+    {
+      "identifier": "list_customer_payment_methods",
+      "name": "List Customer Payment Methods",
+      "description": "Lists a customer's payment methods."
+    },
+    {
+      "identifier": "delete_payment_method",
+      "name": "Delete Payment Method",
+      "description": "Deletes a payment method."
+    },
+    {
+      "identifier": "create_subscription",
+      "name": "Create Subscription",
+      "description": "Creates a subscription."
+    }
+  ]
+} 

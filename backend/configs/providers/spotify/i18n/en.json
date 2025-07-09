@@ -1,0 +1,58 @@
+{
+  "name": "Spotify",
+  "description": "Spotify API integration for managing playlists and user library.",
+  "permissions": [
+    {
+      "identifier": "read_private_playlists",
+      "name": "Read Private Playlists",
+      "description": "Read access to a user's private playlists."
+    },
+    {
+      "identifier": "modify_public_playlists",
+      "name": "Modify Public Playlists",
+      "description": "Write access to a user's public playlists."
+    },
+    {
+      "identifier": "modify_private_playlists",
+      "name": "Modify Private Playlists",
+      "description": "Write access to a user's private playlists."
+    },
+    {
+      "identifier": "read_user_library",
+      "name": "Read User Library",
+      "description": "Read access to a user's library."
+    },
+    {
+      "identifier": "modify_user_library",
+      "name": "Modify User Library",
+      "description": "Write/delete access to a user's library."
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "create_playlist",
+      "name": "Create Playlist",
+      "description": "Create a new playlist for a user."
+    },
+    {
+      "identifier": "add_tracks_to_playlist",
+      "name": "Add Tracks to Playlist",
+      "description": "Add one or more tracks to a playlist."
+    },
+    {
+      "identifier": "get_playlist_tracks",
+      "name": "Get Playlist's Tracks",
+      "description": "Get a list of the tracks in a playlist."
+    },
+    {
+      "identifier": "remove_playlist_tracks",
+      "name": "Remove Playlist Tracks",
+      "description": "Remove one or more tracks from a playlist."
+    },
+    {
+      "identifier": "get_current_user_playlists",
+      "name": "Get Current User's Playlists",
+      "description": "Get a list of the playlists owned or followed by the current Spotify user."
+    }
+  ]
+} 

@@ -1,0 +1,66 @@
+{
+  "name": "Zoom",
+  "description": "Zoom API 集成，用于管理会议、用户和录像。",
+  "permissions": [
+    {
+      "identifier": "read_user_info",
+      "name": "读取用户信息",
+      "description": "允许读取基本用户信息。"
+    },
+    {
+      "identifier": "manage_meetings",
+      "name": "管理会议",
+      "description": "允许创建、更新和删除会议。"
+    },
+    {
+      "identifier": "read_meetings",
+      "name": "读取会议",
+      "description": "允许读取会议详情。"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "get_user_info",
+      "name": "获取用户信息",
+      "description": "获取当前认证用户的信息。"
+    },
+    {
+      "identifier": "create_meeting",
+      "name": "创建会议",
+      "description": "为用户创建新会议。"
+    },
+    {
+      "identifier": "list_meetings",
+      "name": "列出会议",
+      "description": "列出用户的所有会议。"
+    },
+    {
+      "identifier": "get_meeting_details",
+      "name": "获取会议详情",
+      "description": "获取特定会议的详细信息。"
+    },
+    {
+      "identifier": "list_recordings",
+      "name": "列出录像",
+      "description": "列出已认证用户的所有录像。",
+      "parameters": [
+        {
+          "name": "page_size",
+          "description": "每页结果数量。"
+        },
+        {
+          "name": "next_page_token",
+          "description": "下一页结果的令牌。"
+        },
+        {
+          "name": "from",
+          "description": "录像查询的开始日期 (YYYY-MM-DD)。"
+        },
+        {
+          "name": "to",
+          "description": "录像查询的结束日期 (YYYY-MM-DD)。"
+        }
+      ]
+    }
+  ]
+} 

@@ -1,0 +1,68 @@
+{
+  "name": "Stripe",
+  "description": "Stripe API 整合，用於支付、客戶管理和訂閱服務。",
+  "permissions": [
+    {
+      "identifier": "read_payments",
+      "name": "讀取支付資訊",
+      "description": "允許讀取支付資訊。"
+    },
+    {
+      "identifier": "write_payments",
+      "name": "寫入支付資訊",
+      "description": "允許建立和確認支付。"
+    },
+    {
+      "identifier": "read_customers",
+      "name": "讀取客戶資訊",
+      "description": "允許讀取客戶資訊。"
+    },
+    {
+      "identifier": "write_customers",
+      "name": "寫入客戶資訊",
+      "description": "允許建立和修改客戶資訊。"
+    },
+    {
+      "identifier": "write_subscriptions",
+      "name": "管理訂閱",
+      "description": "允許管理訂閱服務。"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "create_payment_intent",
+      "name": "建立付款意圖",
+      "description": "建立一個付款意圖。"
+    },
+    {
+      "identifier": "retrieve_payment_intent",
+      "name": "取得付款意圖",
+      "description": "取得一個付款意圖。"
+    },
+    {
+      "identifier": "confirm_payment_intent",
+      "name": "確認付款意圖",
+      "description": "確認一個付款意圖。"
+    },
+    {
+      "identifier": "create_customer",
+      "name": "建立客戶",
+      "description": "建立一個客戶。"
+    },
+    {
+      "identifier": "list_customer_payment_methods",
+      "name": "列出客戶付款方式",
+      "description": "列出客戶的付款方式。"
+    },
+    {
+      "identifier": "delete_payment_method",
+      "name": "刪除付款方式",
+      "description": "刪除一個付款方式。"
+    },
+    {
+      "identifier": "create_subscription",
+      "name": "建立訂閱",
+      "description": "建立一個訂閱。"
+    }
+  ]
+} 

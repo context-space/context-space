@@ -1,0 +1,231 @@
+{
+  "name": "Slack",
+  "description": "團隊和組織的訊息傳遞平台。",
+  "categories": ["通訊", "團隊協作", "訊息傳遞"],
+  "permissions": [
+    {
+      "identifier": "send_message",
+      "name": "傳送訊息",
+      "description": "允許在頻道、群組和私訊中傳送訊息 (chat.write)"
+    },
+    {
+      "identifier": "read_conversations",
+      "name": "讀取對話",
+      "description": "允許讀取對話的基本資訊（頻道、群組、私訊）"
+    },
+    {
+      "identifier": "read_messages",
+      "name": "讀取訊息",
+      "description": "允許讀取對話中的訊息歷史"
+    },
+    {
+      "identifier": "write_im",
+      "name": "開啟私訊",
+      "description": "允許開啟私訊對話"
+    },
+    {
+      "identifier": "read_users",
+      "name": "讀取使用者資訊",
+      "description": "讀取基本使用者資訊"
+    },
+    {
+      "identifier": "read_user_profile",
+      "name": "讀取使用者資料",
+      "description": "讀取詳細的使用者資料資訊"
+    },
+    {
+      "identifier": "read_reactions",
+      "name": "讀取表情反應",
+      "description": "讀取訊息上的表情符號反應"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "post_message",
+      "name": "發布訊息",
+      "description": "向頻道、群組或私訊對話傳送訊息 (chat.postMessage)",
+      "parameters": [
+        {
+          "name": "channel",
+          "description": "對話 ID（頻道、群組或私訊）"
+        },
+        {
+          "name": "text",
+          "description": "純文字訊息內容"
+        },
+        {
+          "name": "blocks",
+          "description": "Block Kit 富文字訊息區塊 (JSON)"
+        }
+      ]
+    },
+    {
+      "identifier": "reply_in_thread",
+      "name": "在話題中回覆",
+      "description": "回覆訊息話題 (chat.postMessage with thread_ts)",
+      "parameters": [
+        {
+          "name": "channel",
+          "description": "包含話題的對話 ID"
+        },
+        {
+          "name": "thread_ts",
+          "description": "要回覆的父訊息時間戳"
+        },
+        {
+          "name": "text",
+          "description": "純文字回覆內容"
+        },
+        {
+          "name": "reply_broadcast",
+          "description": "是否同時將回覆傳送到頻道"
+        },
+        {
+          "name": "blocks",
+          "description": "Block Kit 富文字訊息區塊 (JSON)"
+        }
+      ]
+    },
+    {
+      "identifier": "list_thread_messages",
+      "name": "列出話題訊息",
+      "description": "列出話題中的訊息 (conversations.replies)",
+      "parameters": [
+        {
+          "name": "channel",
+          "description": "包含話題的對話 ID"
+        },
+        {
+          "name": "ts",
+          "description": "父訊息的時間戳"
+        },
+        {
+          "name": "cursor",
+          "description": "分頁游標"
+        },
+        {
+          "name": "limit",
+          "description": "回傳的最大訊息數"
+        }
+      ]
+    },
+    {
+      "identifier": "list_channels",
+      "name": "列出頻道",
+      "description": "列出已驗證使用者可見的頻道 (conversations.list)",
+      "parameters": [
+        {
+          "name": "types",
+          "description": "過濾對話類型（逗號分隔）"
+        },
+        {
+          "name": "exclude_archived",
+          "description": "是否排除已封存的對話"
+        },
+        {
+          "name": "cursor",
+          "description": "分頁游標"
+        },
+        {
+          "name": "limit",
+          "description": "回傳的最大結果數"
+        }
+      ]
+    },
+    {
+      "identifier": "list_direct_messages",
+      "name": "列出私訊",
+      "description": "列出已驗證使用者的私訊對話 (conversations.list with types=im)",
+      "parameters": [
+        {
+          "name": "cursor",
+          "description": "分頁游標"
+        },
+        {
+          "name": "limit",
+          "description": "回傳的最大結果數"
+        }
+      ]
+    },
+    {
+      "identifier": "open_direct_message",
+      "name": "開啟私訊",
+      "description": "開啟（或擷取）與使用者的私訊對話 (conversations.open)",
+      "parameters": [
+        {
+          "name": "user_id",
+          "description": "要開啟私訊的 Slack 使用者 ID"
+        },
+        {
+          "name": "return_im",
+          "description": "如果私訊對話已存在，設定為 true 以回傳該對話"
+        }
+      ]
+    },
+    {
+      "identifier": "list_channel_members",
+      "name": "列出頻道成員",
+      "description": "列出頻道中的成員 (conversations.members)",
+      "parameters": [
+        {
+          "name": "channel",
+          "description": "頻道 ID"
+        },
+        {
+          "name": "cursor",
+          "description": "分頁游標"
+        },
+        {
+          "name": "limit",
+          "description": "回傳的最大結果數"
+        }
+      ]
+    },
+    {
+      "identifier": "list_channel_messages",
+      "name": "列出頻道訊息",
+      "description": "列出頻道或私訊中的訊息 (conversations.history)",
+      "parameters": [
+        {
+          "name": "channel",
+          "description": "要取得歷史記錄的對話 ID"
+        },
+        {
+          "name": "cursor",
+          "description": "分頁游標"
+        },
+        {
+          "name": "limit",
+          "description": "回傳的最大訊息數"
+        },
+        {
+          "name": "oldest",
+          "description": "僅包含此時間戳之後的訊息"
+        },
+        {
+          "name": "latest",
+          "description": "僅包含此時間戳之前的訊息"
+        }
+      ]
+    },
+    {
+      "identifier": "send_direct_message",
+      "name": "傳送私訊",
+      "description": "向使用者傳送私訊。這是一個便利包裝器：如果需要，它首先與使用者開啟私訊頻道 (conversations.open)，然後使用 chat.postMessage 傳送訊息。",
+      "parameters": [
+        {
+          "name": "user_id",
+          "description": "要傳送訊息的 Slack 使用者 ID"
+        },
+        {
+          "name": "text",
+          "description": "純文字訊息內容"
+        },
+        {
+          "name": "blocks",
+          "description": "Block Kit 富文字訊息區塊 (JSON)"
+        }
+      ]
+    }
+  ]
+} 

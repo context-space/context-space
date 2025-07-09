@@ -1,0 +1,231 @@
+{
+  "name": "Slack",
+  "description": "团队和组织的消息传递平台。",
+  "categories": ["通信", "团队协作", "消息传递"],
+  "permissions": [
+    {
+      "identifier": "send_message",
+      "name": "发送消息",
+      "description": "允许在频道、群组和私信中发送消息 (chat.write)"
+    },
+    {
+      "identifier": "read_conversations",
+      "name": "读取对话",
+      "description": "允许读取对话的基本信息（频道、群组、私信）"
+    },
+    {
+      "identifier": "read_messages",
+      "name": "读取消息",
+      "description": "允许读取对话中的消息历史"
+    },
+    {
+      "identifier": "write_im",
+      "name": "打开私信",
+      "description": "允许打开私信对话"
+    },
+    {
+      "identifier": "read_users",
+      "name": "读取用户信息",
+      "description": "读取基本用户信息"
+    },
+    {
+      "identifier": "read_user_profile",
+      "name": "读取用户资料",
+      "description": "读取详细的用户资料信息"
+    },
+    {
+      "identifier": "read_reactions",
+      "name": "读取表情反应",
+      "description": "读取消息上的表情符号反应"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "post_message",
+      "name": "发布消息",
+      "description": "向频道、群组或私信对话发送消息 (chat.postMessage)",
+      "parameters": [
+        {
+          "name": "channel",
+          "description": "对话 ID（频道、群组或私信）"
+        },
+        {
+          "name": "text",
+          "description": "纯文本消息内容"
+        },
+        {
+          "name": "blocks",
+          "description": "Block Kit 富文本消息块 (JSON)"
+        }
+      ]
+    },
+    {
+      "identifier": "reply_in_thread",
+      "name": "在话题中回复",
+      "description": "回复消息话题 (chat.postMessage with thread_ts)",
+      "parameters": [
+        {
+          "name": "channel",
+          "description": "包含话题的对话 ID"
+        },
+        {
+          "name": "thread_ts",
+          "description": "要回复的父消息时间戳"
+        },
+        {
+          "name": "text",
+          "description": "纯文本回复内容"
+        },
+        {
+          "name": "reply_broadcast",
+          "description": "是否同时将回复发送到频道"
+        },
+        {
+          "name": "blocks",
+          "description": "Block Kit 富文本消息块 (JSON)"
+        }
+      ]
+    },
+    {
+      "identifier": "list_thread_messages",
+      "name": "列出话题消息",
+      "description": "列出话题中的消息 (conversations.replies)",
+      "parameters": [
+        {
+          "name": "channel",
+          "description": "包含话题的对话 ID"
+        },
+        {
+          "name": "ts",
+          "description": "父消息的时间戳"
+        },
+        {
+          "name": "cursor",
+          "description": "分页游标"
+        },
+        {
+          "name": "limit",
+          "description": "返回的最大消息数"
+        }
+      ]
+    },
+    {
+      "identifier": "list_channels",
+      "name": "列出频道",
+      "description": "列出已认证用户可见的频道 (conversations.list)",
+      "parameters": [
+        {
+          "name": "types",
+          "description": "过滤对话类型（逗号分隔）"
+        },
+        {
+          "name": "exclude_archived",
+          "description": "是否排除已归档的对话"
+        },
+        {
+          "name": "cursor",
+          "description": "分页游标"
+        },
+        {
+          "name": "limit",
+          "description": "返回的最大结果数"
+        }
+      ]
+    },
+    {
+      "identifier": "list_direct_messages",
+      "name": "列出私信",
+      "description": "列出已认证用户的私信对话 (conversations.list with types=im)",
+      "parameters": [
+        {
+          "name": "cursor",
+          "description": "分页游标"
+        },
+        {
+          "name": "limit",
+          "description": "返回的最大结果数"
+        }
+      ]
+    },
+    {
+      "identifier": "open_direct_message",
+      "name": "打开私信",
+      "description": "打开（或检索）与用户的私信对话 (conversations.open)",
+      "parameters": [
+        {
+          "name": "user_id",
+          "description": "要打开私信的 Slack 用户 ID"
+        },
+        {
+          "name": "return_im",
+          "description": "如果私信对话已存在，设置为 true 以返回该对话"
+        }
+      ]
+    },
+    {
+      "identifier": "list_channel_members",
+      "name": "列出频道成员",
+      "description": "列出频道中的成员 (conversations.members)",
+      "parameters": [
+        {
+          "name": "channel",
+          "description": "频道 ID"
+        },
+        {
+          "name": "cursor",
+          "description": "分页游标"
+        },
+        {
+          "name": "limit",
+          "description": "返回的最大结果数"
+        }
+      ]
+    },
+    {
+      "identifier": "list_channel_messages",
+      "name": "列出频道消息",
+      "description": "列出频道或私信中的消息 (conversations.history)",
+      "parameters": [
+        {
+          "name": "channel",
+          "description": "要获取历史记录的对话 ID"
+        },
+        {
+          "name": "cursor",
+          "description": "分页游标"
+        },
+        {
+          "name": "limit",
+          "description": "返回的最大消息数"
+        },
+        {
+          "name": "oldest",
+          "description": "仅包含此时间戳之后的消息"
+        },
+        {
+          "name": "latest",
+          "description": "仅包含此时间戳之前的消息"
+        }
+      ]
+    },
+    {
+      "identifier": "send_direct_message",
+      "name": "发送私信",
+      "description": "向用户发送私信。这是一个便利包装器：如果需要，它首先与用户打开私信频道 (conversations.open)，然后使用 chat.postMessage 发送消息。",
+      "parameters": [
+        {
+          "name": "user_id",
+          "description": "要发送消息的 Slack 用户 ID"
+        },
+        {
+          "name": "text",
+          "description": "纯文本消息内容"
+        },
+        {
+          "name": "blocks",
+          "description": "Block Kit 富文本消息块 (JSON)"
+        }
+      ]
+    }
+  ]
+} 

@@ -1,0 +1,380 @@
+{
+  "identifier": "slack",
+  "name": "Slack",
+  "description": "Slack API integration",
+  "icon_url": "",
+  "categories": [
+    "communication",
+    "messaging",
+    "collaboration"
+  ],
+  "auth_type": "oauth",
+  "oauth_config": {
+    "client_id": "your_client_id",
+    "client_secret": "your_client_secret"
+  },
+  "permissions": [
+    {
+      "identifier": "send_message",
+      "name": "Send Messages",
+      "description": "Allows sending messages in channels, groups, and direct messages (chat.write)",
+      "oauth_scopes": [
+        "chat:write"
+      ]
+    },
+    {
+      "identifier": "read_conversations",
+      "name": "Read Conversations",
+      "description": "Allows reading basic information about conversations (channels, groups, ims)",
+      "oauth_scopes": [
+        "channels:read",
+        "groups:read",
+        "im:read"
+      ]
+    },
+    {
+      "identifier": "read_messages",
+      "name": "Read Messages",
+      "description": "Allows reading message history in conversations",
+      "oauth_scopes": [
+        "channels:history",
+        "groups:history",
+        "im:history"
+      ]
+    },
+    {
+      "identifier": "write_im",
+      "name": "Open Direct Messages",
+      "description": "Allows opening direct message conversations",
+      "oauth_scopes": [
+        "im:write"
+      ]
+    },
+    {
+      "identifier": "read_users",
+      "name": "Read User Info",
+      "description": "Read basic user information",
+      "oauth_scopes": [
+        "users:read"
+      ]
+    },
+    {
+      "identifier": "read_user_profile",
+      "name": "Read User Profile",
+      "description": "Read detailed user profile information",
+      "oauth_scopes": [
+        "users.profile:read"
+      ]
+    },
+    {
+      "identifier": "read_reactions",
+      "name": "Read Reactions",
+      "description": "Read emoji reactions on messages",
+      "oauth_scopes": [
+        "reactions:read"
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "post_message",
+      "name": "Post Message",
+      "description": "Send a message to a channel, group or direct message conversation (chat.postMessage)",
+      "category": "messages",
+      "required_permissions": [
+        "send_message"
+      ],
+      "parameters": [
+        {
+          "name": "channel",
+          "type": "string",
+          "description": "Conversation ID (channel, group or DM)",
+          "required": true
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "description": "Plain-text message content",
+          "required": true
+        },
+        {
+          "name": "blocks",
+          "type": "array",
+          "description": "Block Kit rich message blocks (JSON)",
+          "required": false,
+          "items": {
+            "type": "object"
+          }
+        }
+      ],
+      "http_method": "POST",
+      "endpoint_path": "/chat.postMessage"
+    },
+    {
+      "identifier": "reply_in_thread",
+      "name": "Reply In Thread",
+      "description": "Reply to a message thread (chat.postMessage with thread_ts)",
+      "category": "messages",
+      "required_permissions": [
+        "send_message"
+      ],
+      "parameters": [
+        {
+          "name": "channel",
+          "type": "string",
+          "description": "Conversation ID that contains the thread",
+          "required": true
+        },
+        {
+          "name": "thread_ts",
+          "type": "string",
+          "description": "Timestamp of the parent message to reply to",
+          "required": true
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "description": "Plain-text reply content",
+          "required": true
+        },
+        {
+          "name": "reply_broadcast",
+          "type": "boolean",
+          "description": "Whether to also send the reply to the channel",
+          "required": false,
+          "default": false
+        },
+        {
+          "name": "blocks",
+          "type": "array",
+          "description": "Block Kit rich message blocks (JSON)",
+          "required": false,
+          "items": {
+            "type": "object"
+          }
+        }
+      ],
+      "http_method": "POST",
+      "endpoint_path": "/chat.postMessage"
+    },
+    {
+      "identifier": "list_thread_messages",
+      "name": "List Thread Messages",
+      "description": "List messages in a thread (conversations.replies)",
+      "category": "messages",
+      "required_permissions": [
+        "read_messages"
+      ],
+      "parameters": [
+        {
+          "name": "channel",
+          "type": "string",
+          "description": "Conversation ID that contains the thread",
+          "required": true
+        },
+        {
+          "name": "ts",
+          "type": "string",
+          "description": "Timestamp of the parent message",
+          "required": true
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "description": "Cursor for pagination",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "description": "Maximum number of messages to return",
+          "required": false,
+          "default": 100
+        }
+      ],
+      "http_method": "GET",
+      "endpoint_path": "/conversations.replies"
+    },
+    {
+      "identifier": "list_channels",
+      "name": "List Channels",
+      "description": "List channels visible to the authenticated user (conversations.list)",
+      "category": "channels",
+      "required_permissions": [
+        "read_conversations"
+      ],
+      "parameters": [
+        {
+          "name": "types",
+          "type": "string",
+          "description": "Filter conversation types (comma-separated)",
+          "required": false
+        },
+        {
+          "name": "exclude_archived",
+          "type": "boolean",
+          "description": "Whether to exclude archived conversations",
+          "required": false,
+          "default": false
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "description": "Cursor for pagination",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "description": "Maximum number of results to return",
+          "required": false,
+          "default": 100
+        }
+      ],
+      "http_method": "GET",
+      "endpoint_path": "/conversations.list"
+    },
+    {
+      "identifier": "list_direct_messages",
+      "name": "List Direct Messages",
+      "description": "List direct message conversations for the authenticated user (conversations.list with types=im)",
+      "category": "direct_messages",
+      "required_permissions": [
+        "read_conversations"
+      ],
+      "parameters": [
+        {
+          "name": "cursor",
+          "type": "string",
+          "description": "Cursor for pagination",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "description": "Maximum number of results to return",
+          "required": false,
+          "default": 100
+        }
+      ],
+      "http_method": "GET",
+      "endpoint_path": "/conversations.list"
+    },
+    {
+      "identifier": "open_direct_message",
+      "name": "Open Direct Message",
+      "description": "Open (or retrieve) a direct message conversation with a user (conversations.open)",
+      "category": "direct_messages",
+      "required_permissions": [
+        "write_im"
+      ],
+      "parameters": [
+        {
+          "name": "user_id",
+          "type": "string",
+          "description": "Slack User ID to open a DM with",
+          "required": true
+        },
+        {
+          "name": "return_im",
+          "type": "boolean",
+          "description": "Set to true to return the DM conversation if it already exists",
+          "required": false,
+          "default": false
+        }
+      ],
+      "http_method": "POST",
+      "endpoint_path": "/conversations.open"
+    },
+    {
+      "identifier": "list_channel_members",
+      "name": "List Channel Members",
+      "description": "List members in a channel (conversations.members)",
+      "category": "channels",
+      "required_permissions": [
+        "read_conversations"
+      ],
+      "parameters": [
+        {
+          "name": "channel",
+          "type": "string",
+          "description": "Channel ID",
+          "required": true
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "description": "Cursor for pagination",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "description": "Maximum number of results to return",
+          "required": false,
+          "default": 100
+        }
+      ],
+      "http_method": "GET",
+      "endpoint_path": "/conversations.members"
+    },
+    {
+      "identifier": "list_channel_messages",
+      "name": "List Channel Messages",
+      "description": "List messages in a channel or DM (conversations.history)",
+      "category": "messages",
+      "required_permissions": [
+        "read_messages"
+      ],
+      "parameters": [
+        {
+          "name": "channel",
+          "type": "string",
+          "description": "Conversation ID to fetch history for",
+          "required": true
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "description": "Cursor for pagination",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "description": "Maximum number of messages to return",
+          "required": false,
+          "default": 100
+        },
+        {
+          "name": "oldest",
+          "type": "string",
+          "description": "Only include messages after this timestamp",
+          "required": false
+        },
+        {
+          "name": "latest",
+          "type": "string",
+          "description": "Only include messages before this timestamp",
+          "required": false
+        }
+      ],
+      "http_method": "GET",
+      "endpoint_path": "/conversations.history"
+    },
+    {
+      "identifier": "send_direct_message",
+      "name": "Send Direct Message",
+      "description": "Send a direct message to a user. This is a convenience wrapper: it first opens a DM channel with the user (conversations.open) if needed, then sends the message using chat.postMessage.",
+      "category": "direct_messages",
+      "required_permissions": ["write_im", "send_message"],
+      "http_method": "POST",
+      "endpoint_path": "/chat.postMessage",
+      "parameters": [
+        { "name": "user_id", "type": "string", "description": "Slack User ID to send message to", "required": true },
+        { "name": "text", "type": "string", "description": "Plain-text message content", "required": true },
+        { "name": "blocks", "type": "array", "description": "Block Kit rich message blocks (JSON)", "required": false, "items": { "type": "object" } }
+      ]
+    }
+  ]
+}
