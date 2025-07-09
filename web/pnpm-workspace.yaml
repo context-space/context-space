@@ -1,0 +1,9 @@
+onlyBuiltDependencies:
+  - '@tailwindcss/oxide'
+  - contentlayer2
+  - esbuild
+  - msw
+  - protobufjs
+  - sharp
+  - simple-git-hooks
+  - unrs-resolver
