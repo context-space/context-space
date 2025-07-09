@@ -1,0 +1,82 @@
+---
+title: Getting Started with Integrations
+description: Learn how to connect your first MCP integration
+---
+
+# Getting Started with Integrations
+
+This guide will walk you through connecting your first Model Context Protocol (MCP) integration to Context Space.
+
+## Prerequisites
+
+Before you begin, make sure you have:
+
+- A Context Space account
+- Access to the integration you want to connect
+- Required API keys or credentials (if applicable)
+
+## Step 1: Browse Available Integrations
+
+1. Navigate to the [Integrations page](/integrations)
+2. Browse through available integrations or use the search functionality
+3. Click on an integration to view its details
+
+## Step 2: Connect Your Integration
+
+### OAuth-based Integrations
+
+For integrations that support OAuth:
+
+1. Click the **Connect with OAuth** button
+2. Grant the required permissions
+3. You'll be redirected back to Context Space once connected
+
+### API Key-based Integrations
+
+For integrations requiring API keys:
+
+1. Click **Connect** and select **API Key**
+2. Enter your API key in the provided field
+3. Click **Save API Key** to establish the connection
+
+```bash
+# Example: Getting your API key (varies by service)
+curl -H "Authorization: Bearer YOUR_TOKEN" \
+  https://api.example.com/keys
+```
+
+## Step 3: Test Your Connection
+
+Once connected, you can:
+
+1. View the integration in your **Connected Integrations** list
+2. Test the connection using the **Playground** feature
+3. Start building workflows with your new integration
+
+## Next Steps
+
+- [Explore the Playground](/docs/playground) to test your integrations
+- [Build your first workflow](/docs/workflows/creating-workflows)
+- [Manage integration permissions](/docs/integrations/permissions)
+
+## Troubleshooting
+
+### Connection Failed
+
+If your connection fails:
+
+1. Verify your API key or credentials are correct
+2. Check that you have the required permissions
+3. Ensure the service is not experiencing downtime
+
+### Missing Permissions
+
+Some integrations require specific permissions:
+
+- Review the permission requirements on the integration page
+- Update your OAuth permissions if needed
+- Contact the service provider if you need additional access
+
+---
+
+Need help? [Contact our support team](/support) or check out our [FAQ](/docs/faq).

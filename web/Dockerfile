@@ -1,0 +1,24 @@
+FROM node:22.15.0-alpine AS builder
+
+WORKDIR /app
+
+COPY package.json pnpm-lock.yaml ./
+
+# 设置 npm 配置并安装依赖
+RUN corepack enable
+RUN pnpm install
+
+COPY . ./
+
+# 设置环境变量
+ENV PORT=4321
+ENV HOSTNAME=0.0.0.0
+
+# 构建应用
+RUN pnpm build
+
+# 暴露端口
+EXPOSE $PORT
+
+# 启动命令
+CMD ["pnpm", "start", "--hostname", "0.0.0.0", "--port", "4321"]

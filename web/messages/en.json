@@ -1,0 +1,394 @@
+{
+  "404": {
+    "title": "Page Not Found",
+    "description": "Sorry, the page you are looking for does not exist.",
+    "backHome": "Back to Home"
+  },
+  "500": {
+    "title": "500",
+    "description": "Internal Server Error",
+    "goHome": "Go Home"
+  },
+  "hero": {
+    "badge": "Open Source",
+    "getStarted": "Get Started",
+    "viewOnGithub": "View on GitHub",
+    "title": {
+      "part1": "Ultimate",
+      "part2": "Context Engineering",
+      "part3": "Infrastructure"
+    },
+    "typewriter": {
+      "prefix": "One",
+      "word1": "Context",
+      "word2": "Space",
+      "word3": "Step"
+    },
+    "features": {
+      "1": {
+        "title": "Context Engineering Infrastructure",
+        "description": "Comprehensive context management beyond prompt engineering - the right information, at the right time, in the right format."
+      },
+      "2": {
+        "title": "14+ Service Integrations",
+        "description": "Production-ready integrations with GitHub, Slack, Airtable, HubSpot, Notion, Figma, Spotify, Stripe, and more."
+      },
+      "3": {
+        "title": "Enhanced MCP Support",
+        "description": "Production-grade Model Context Protocol implementation with built-in OAuth flows and persistent credential management."
+      },
+      "4": {
+        "title": "Enterprise Security",
+        "description": "HashiCorp Vault integration, automatic token rotation, encrypted credential storage, and OAuth UI flows."
+      },
+      "5": {
+        "title": "RESTful API",
+        "description": "Clean HTTP endpoints with comprehensive documentation at api.context.space that actually work reliably in production."
+      },
+      "6": {
+        "title": "Open Source Community",
+        "description": "AGPL v3 license transitioning to Apache 2.0, with active Discord community and welcoming contribution process."
+      }
+    },
+    "readMore": "Read More"
+  },
+  "landing": {
+    "features": {
+      "title": "Everything You Need",
+      "subtitle": "Powerful features designed to streamline your workflow and boost productivity with enterprise-grade security and performance",
+      "cta": {
+        "text": "Want to see more? Check out our roadmap or",
+        "link": "contribute on GitHub"
+      }
+    },
+    "roadmap": {
+      "title": "Context Engineering Roadmap",
+      "subtitle": "Our journey from production-ready integrations to full context engineering infrastructure built on MCP principles.",
+      "status": {
+        "completed": "Production Ready",
+        "current": "In Development",
+        "planned": "Planned"
+      },
+      "items": {
+        "productionInfrastructure": "Production-ready deployment infrastructure",
+        "serviceIntegrations": "14+ service integrations (GitHub, Slack, HubSpot, etc.)",
+        "oauthFlows": "Built-in OAuth flows and credential management",
+        "enterpriseSecurity": "HashiCorp Vault integration and enterprise security",
+        "nativeMcpSupport": "Native Model Context Protocol support",
+        "contextMemory": "Persistent context memory and state management",
+        "smartAggregation": "Smart context aggregation across services",
+        "apiDocumentation": "Comprehensive RESTful API documentation",
+        "semanticRetrieval": "Semantic context retrieval and search",
+        "contextOptimization": "Intelligent context optimization",
+        "realtimeUpdates": "Real-time context updates and synchronization",
+        "advancedMcp": "Advanced MCP ecosystem features",
+        "contextSynthesis": "AI-powered context synthesis",
+        "predictiveLoading": "Predictive context loading",
+        "aiContextReasoning": "AI context reasoning and intelligence",
+        "fullContextEngineering": "Complete context engineering platform"
+      }
+    }
+  },
+  "index": {
+    "title": "Context Space"
+  },
+  "nav": {
+    "integrations": "Integrations",
+    "workflows": "Workflows",
+    "documents": "Docs",
+    "blogs": "Blogs",
+    "home": "Home",
+    "features": "Features",
+    "roadmap": "Roadmap"
+  },
+  "header": {
+    "login": "Login",
+    "openMobileMenu": "Open main menu",
+    "closeMobileMenu": "Close main menu"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "toggle": "Toggle theme"
+  },
+  "language": {
+    "toggle": "Toggle language",
+    "english": "English",
+    "chinese": "中文",
+    "traditionalChinese": "繁體中文"
+  },
+  "common": {
+    "loggingOut": "Logging out...",
+    "logout": "Log Out",
+    "loading": "Loading...",
+    "toggle": "Toggle",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "loggingIn": "Logging in...",
+    "anonymous": "Anonymous",
+    "user": "User",
+    "connected": "Connected",
+    "logo": "Context Space Logo",
+    "goHome": "Go Home",
+    "github": "GitHub"
+  },
+  "login": {
+    "title": "Log In",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Enter your email",
+    "codeLabel": "Verification Code",
+    "codePlaceholder": "000000",
+    "sendCode": "Send Code",
+    "sendingCode": "Sending...",
+    "codeSent": "Verification code sent! Please check your email.",
+    "codeFailed": "Failed to send verification code. Please try again.",
+    "invalidEmail": "Please enter a valid email address",
+    "emptyEmail": "Please enter your email address",
+    "terms": "I agree to the",
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy Policy",
+    "loginWithEmail": "Login with Email",
+    "or": "OR",
+    "continueAsGuest": "Continue as Guest",
+    "continueWith": "Continue with {provider}",
+    "loginFailed": "Login failed. Please try again.",
+    "enterBothFields": "Please enter both email and verification code",
+    "oauthFailed": "OAuth login failed",
+    "anonymousFailed": "Anonymous login failed",
+    "enterCode": "Code",
+    "invalidCode": "Invalid Code",
+    "captchaRequired": "Please complete the CAPTCHA verification",
+    "captchaFailed": "CAPTCHA verification failed. Please try again."
+  },
+  "oauth": {
+    "loggingIn": "Logging you in...",
+    "connectingWith": "Connecting with {provider}...",
+    "pleaseWait": "Please wait..."
+  },
+  "auth": {
+    "oauth": {
+      "processing": "Processing authentication...",
+      "loginSuccess": "Login successful!",
+      "redirecting": "Redirecting you to your destination...",
+      "authenticationFailed": "Authentication failed",
+      "serverError": "Server error occurred",
+      "unknownError": "An unknown error occurred",
+      "tryAgain": "Please try again or contact support",
+      "retryLogin": "Retry Login",
+      "continueNow": "Continue Now",
+      "noAutoRedirect": "If you are not redirected automatically,",
+      "clickHere": "click here",
+      "titles": {
+        "authenticationError": "Authentication Error",
+        "authenticationSuccessful": "Authentication Successful",
+        "processingAuthentication": "Processing Authentication"
+      },
+      "redirectingAutomatically": "Redirecting automatically...",
+      "mcp": {
+        "connectingWith": "Connecting with {provider}...",
+        "errorOccurred": "An error occurred during the OAuth process.",
+        "connectionSuccessful": "Connection completed successfully.",
+        "redirectWait": "Please wait while we redirect you to complete the authentication.",
+        "processingCallback": "Processing OAuth callback...",
+        "successMessage": "Connection successful! This window will close automatically.",
+        "autoCloseMessage": "This window will close automatically.",
+        "close": "Close",
+        "tryAgain": "Try Again",
+        "authenticationFailed": "OAuth authentication failed",
+        "invalidCallback": "Invalid OAuth callback - missing required parameters"
+      }
+    }
+  },
+    "footer": {
+    "product": "Product",
+    "features": "Features",
+    "community": "Community",
+    "resources": "Resources",
+    "legal": "Legal",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "resourcesItems": {
+      "docs": "Docs",
+      "blogs": "Blogs",
+      "roadmap": "Roadmap"
+    },
+    "contact": {
+      "text": "Contact us at",
+      "email": "hi@context.space"
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "success": "Success",
+      "description": "Stay up to date with the latest features and releases.",
+      "placeholder": "Enter your email",
+      "button": "Subscribe",
+      "error": "Fail"
+    },
+    "info": {
+      "title": "Info",
+      "aboutUs": "About Us",
+      "contact": "Contact"
+    },
+    "copyright": "© {year} Context Space. All rights reserved."
+  },
+  "account": {
+    "title": "Account",
+    "logout": "Log Out",
+    "accountInformation": "Account Information",
+    "userId": "User ID",
+    "accountType": "Account Type",
+    "accountTypes": {
+      "anonymous": "Anonymous",
+      "registered": "Registered"
+    },
+    "createdAt": "Created At",
+    "lastSignIn": "Last Sign In",
+    "connectedAccounts": "Connected Accounts",
+    "settings": {
+      "title": "Account Settings",
+      "email": "Email",
+      "password": "Password",
+      "save": "Save"
+    }
+  },
+  "documents": {
+    "title": "Documents",
+    "pageTitle": "Documentation",
+    "pageSubtitle": "Comprehensive guides, tutorials, and API documentation",
+    "featured": "Featured",
+    "totalDocuments": "documents",
+    "categories": "categories",
+    "noDocumentsFound": "No documents found",
+    "workingOnMore": "We're working on adding more documentation. Check back soon!",
+    "search": {
+      "title": "Search Documentation",
+      "placeholder": "Search guides and tutorials...",
+      "noResults": "No documents found for your search.",
+      "tryDifferentQuery": "Try searching with different keywords."
+    }
+  },
+  "workflows": {
+    "title": "Workflows"
+  },
+  "blogs": {
+    "title": "Blog",
+    "pageTitle": "Latest Updates & Insights",
+    "pageSubtitle": "Stay updated with the latest news, tutorials, and insights from Context Space",
+    "featured": "Featured",
+    "readMore": "Read More",
+    "publishedOn": "Published on",
+    "by": "by",
+    "minuteRead": "min read",
+    "noPostsFound": "No blog posts found",
+    "workingOnMore": "We're working on adding more content. Check back soon!",
+    "categories": {
+      "all": "All",
+      "news": "News",
+      "tutorials": "Tutorials",
+      "tutorial": "Tutorial",
+      "updates": "Updates",
+      "insights": "Insights",
+      "docs": "Documentation",
+      "AI Engineering": "AI Engineering"
+    },
+    "search": {
+      "placeholder": "Search blog posts...",
+      "noResults": "No posts found matching your search.",
+      "tryDifferentQuery": "Try searching with different keywords."
+    },
+    "recentBlogs": "Recent"
+  },
+  "integrations": {
+    "pageTitle": "Integrations",
+    "pageSubtitle": "Browse and discover integrations",
+    "noIntegrationsFound": "No integrations found",
+    "workingOnMore": "We're working on adding more integrations. Check back soon!",
+    "latestIntegrations": "Latest",
+    "search": {
+      "title": "Search Integrations",
+      "description": "Search for integrations and providers",
+      "placeholder": "Search integrations...",
+      "noResults": "No integrations found.",
+      "empty": "Can't find what you're looking for?",
+      "submitIssue": "Submit GitHub Issue",
+      "or": "or",
+      "contactUs": "Contact us"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "connected": "Connected",
+      "unconnected": "Available",
+      "free": "Connection-free"
+    },
+    "connect": {
+      "title": "Connect",
+      "connected": "Connected",
+      "noConnectionRequired": "No connection required",
+      "noConnectionRequiredDesc": "No connection required for this integration.",
+      "oauth": {
+        "description": "Connect using OAuth to authorize access to your account.",
+        "requiredPermissions": "Permissions",
+        "selectAll": "Select All",
+        "permissionsNote": "Missing permissions may cause some operations to not work properly.",
+        "connecting": "Connecting...",
+        "updating": "Updating...",
+        "connectWithOAuth": "Connect with OAuth",
+        "updatePermissions": "Update Permissions",
+        "disconnect": "Disconnect",
+        "permissions": "permissions"
+      },
+      "apiKey": {
+        "title": "API Key",
+        "description": "Enter your API key to connect this integration.",
+        "placeholder": "Enter your API Key",
+        "howToGet": "How to get API Key?",
+        "secureNote": "Your API key is securely stored and encrypted",
+        "saveApiKey": "Save API Key",
+        "connecting": "Connecting...",
+        "disconnecting": "Disconnecting...",
+        "show": "Show",
+        "hide": "Hide"
+      },
+      "loginRequired": "Login Required",
+      "loginRequiredDescription": "Please login to connect integrations and access this feature."
+    }
+  },
+  "operations": {
+    "title": "Operations",
+    "description": "Available operations for this integration",
+    "availableCount": "There are {count} operations available",
+    "clickToExecute": "Click any operation to execute it in the playground"
+  },
+  "playground": {
+    "title": "Playground",
+    "thinking": "Thinking...",
+    "processing": "Processing...",
+    "error": "Error",
+    "clear": "Clear",
+    "send": "Send",
+    "stop": "Stop",
+    "placeholder": "Type your message...",
+    "waitingResponse": "Waiting for response...",
+    "welcomeMessage": "Hello! I'm your AI assistant. How can I help you today?",
+    "defaultInput": "What can you do?",
+    "placeholderResponse": "This is a placeholder response for provider {provider}. The chat functionality will be implemented later.",
+    "functionCall": {
+      "parameters": "Parameters",
+      "result": "Result"
+    },
+    "description": "You can test and experiment with the integration.",
+    "connectionRequired": "Integration Connection Required",
+    "connectionRequiredDescription": "Please connect this integration first to use it in the playground."
+  },
+  "waiting": {
+    "title": "Coming Soon",
+    "description": "We are working on this feature. Please check back later."
+  }
+}
