@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # Migrations service
+  migrations:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.migrations
+      # args:
+      #   - GOPROXY=https://goproxy.cn,direct
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=contextspace
+      - DB_SSL_MODE=disable
+      # - GOPROXY=https://goproxy.cn,direct
+    networks:
+      - context-space-network
+
+  # PostgreSQL database (needed as dependency)
+  postgres:
+    image: postgres:15-alpine
+    container_name: context-space-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=contextspace
+    networks:
+      - context-space-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+networks:
+  context-space-network:
+    driver: bridge 

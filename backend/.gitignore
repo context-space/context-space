@@ -1,0 +1,118 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# Go workspace file
+go.work
+
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+
+# macOS specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows specific files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# VS Code specific files
+.vscode/
+.history/
+
+# GoLand specific files
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Environment variables
+.env
+.env.local
+
+# Log files
+*.log
+logs/
+
+# Build directory
+bin/
+build/
+dist/
+
+# Generated certificates
+*.pem
+*.key
+*.crt
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+.temp/
+build-errors.log
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Docker-specific files to ignore
+.dockerignore
+
+# Credential files
+*.pem
+*.key
+*.p12
+*.pfx
+*.password
+
+# Database files
+*.db
+*.sqlite
+
+# Swagger generated files
+docs/swagger/*
+!docs/swagger/.gitkeep
+
+# Custom binaries
+context-space-backend
+
+# Local utility scripts
+self_scripts/
+
+*.mdc
+
+# Dev & Prod configs
+configs.dev/
+configs.prod/
+
+configs/local.json
+
+configs/*.yaml
+
+.cursor/*.md
+
+.specstory/**
+
+# Cursor IDE files
+.cursorindexingignore
+
+# Task files
+.tasks/

@@ -1,0 +1,128 @@
+with-expecter: true
+log-level: info
+
+# Mock generation configuration grouped by context
+packages:
+  # Credential Management Context
+  github.com/context-space/context-space/backend/internal/credentialmanagement/domain:
+    config:
+      dir: "./internal/shared/testing/mocks/credentialmanagement"
+      filename: "mock_{{.InterfaceName}}.go"
+      mockname: "Mock{{.InterfaceName}}"
+      outpkg: "credentialmanagement_mocks"
+    interfaces:
+      CredentialRepository:
+      OAuthCredentialRepository:
+      APIKeyCredentialRepository:
+      VaultService:
+      OAuthProvider:
+      OAuthStateRepository:
+      OAuthStateService:
+      TokenRefresh:
+
+  # Identity Access Context
+  github.com/context-space/context-space/backend/internal/identityaccess/domain:
+    config:
+      dir: "./internal/shared/testing/mocks/identityaccess"
+      filename: "mock_{{.InterfaceName}}.go"
+      mockname: "Mock{{.InterfaceName}}"
+      outpkg: "identityaccess_mocks"
+    interfaces:
+      UserRepository:
+      APIKeyRepository:
+      UserInfoRepository:
+
+  # Provider Core Context
+  github.com/context-space/context-space/backend/internal/providercore/domain:
+    config:
+      dir: "./internal/shared/testing/mocks/providercore"
+      filename: "mock_{{.InterfaceName}}.go"
+      mockname: "Mock{{.InterfaceName}}"
+      outpkg: "providercore_mocks"
+    interfaces:
+      ProviderRepository:
+      OperationRepository:
+
+  # Provider Adapter Context
+  github.com/context-space/context-space/backend/internal/provideradapter/domain:
+    config:
+      dir: "./internal/shared/testing/mocks/provideradapter"
+      filename: "mock_{{.InterfaceName}}.go"
+      mockname: "Mock{{.InterfaceName}}"
+      outpkg: "provideradapter_mocks"
+    interfaces:
+      Adapter:
+      OAuthAdapter:
+      APIKeyAdapter:
+      BasicAuthAdapter:
+      PublicAdapter:
+      ProviderAdapterConfigRepository:
+      ProviderCoreDataProvider:
+
+  github.com/context-space/context-space/backend/internal/provideradapter/application:
+    config:
+      dir: "./internal/shared/testing/mocks/provideradapter"
+      filename: "mock_{{.InterfaceName}}.go"
+      mockname: "Mock{{.InterfaceName}}"
+      outpkg: "provideradapter_mocks"
+    interfaces:
+      AdapterTemplate:
+      ProviderLoaderInterface:
+
+  # Integration Context
+  github.com/context-space/context-space/backend/internal/integration/domain:
+    config:
+      dir: "./internal/shared/testing/mocks/integration"
+      filename: "mock_{{.InterfaceName}}.go"
+      mockname: "Mock{{.InterfaceName}}"
+      outpkg: "integration_mocks"
+    interfaces:
+      InvocationRepository:
+      ProviderProvider:
+      AdapterProvider:
+      CredentialProvider:
+
+  # Shared - Events
+  github.com/context-space/context-space/backend/internal/shared/events:
+    config:
+      dir: "./internal/shared/testing/mocks/shared"
+      filename: "mock_{{.InterfaceName}}.go"
+      mockname: "Mock{{.InterfaceName}}"
+      outpkg: "shared_mocks"
+    interfaces:
+      EventBus:
+      EventHandler:
+      EventPublisher:
+
+  # Shared - Resilience
+  github.com/context-space/context-space/backend/internal/shared/resilience:
+    config:
+      dir: "./internal/shared/testing/mocks/shared"
+      filename: "mock_{{.InterfaceName}}.go"
+      mockname: "Mock{{.InterfaceName}}"
+      outpkg: "shared_mocks"
+    interfaces:
+      RetryFunction:
+      RetryPolicy:
+
+  # Shared - Redis
+  github.com/context-space/context-space/backend/internal/shared/infrastructure/cache:
+    config:
+      dir: "./internal/shared/testing/mocks/shared"
+      filename: "mock_{{.InterfaceName}}.go"
+      mockname: "Mock{{.InterfaceName}}"
+      outpkg: "shared_mocks"
+    interfaces:
+      Cache:
+
+  # Shared - Database
+  github.com/context-space/context-space/backend/internal/shared/infrastructure/database:
+    config:
+      dir: "./internal/shared/testing/mocks/shared"
+      filename: "mock_{{.InterfaceName}}.go"
+      mockname: "Mock{{.InterfaceName}}"
+      outpkg: "shared_mocks"
+    interfaces:
+      Database:
+      UnitOfWork:
+      UnitOfWorkFactory:
