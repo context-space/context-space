@@ -1,0 +1,77 @@
+{
+  "name": "EOD Historical Data",
+  "description": "Provides access to financial market data via the EOD Historical Data API (eodhd.com).",
+  "categories": ["Financial Data", "Stock Market", "Fundamental Data", "Intraday Data"],
+  "operations": [
+    {
+      "identifier": "get_user",
+      "name": "Get User Information",
+      "description": "Retrieves information about the API user account."
+    },
+    {
+      "identifier": "get_eod_historical_data",
+      "name": "Get End-of-Day Historical Data",
+      "description": "Fetches end-of-day historical stock data for a specific symbol.",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "The stock symbol (e.g., AAPL.US)."
+        },
+        {
+          "name": "from",
+          "description": "The start date for the data (YYYY-MM-DD)."
+        },
+        {
+          "name": "to",
+          "description": "The end date for the data (YYYY-MM-DD)."
+        }
+      ]
+    },
+    {
+      "identifier": "get_fundamental_data",
+      "name": "Get Fundamental Data",
+      "description": "Retrieves fundamental data for a specific symbol.",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "The stock symbol (e.g., AAPL.US)."
+        },
+        {
+          "name": "filter",
+          "description": "Specific fundamental data section to retrieve."
+        }
+      ]
+    },
+    {
+      "identifier": "get_intraday_historical_data",
+      "name": "Get Intraday Historical Data",
+      "description": "Fetches intraday historical data for a specific symbol.",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "The stock symbol (e.g., AAPL.US)."
+        },
+        {
+          "name": "interval",
+          "description": "The time interval for the data."
+        }
+      ]
+    },
+    {
+      "identifier": "get_real_time_data",
+      "name": "Get Real-Time Data",
+      "description": "Fetches live or delayed stock data for one or more symbols.",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "A single stock symbol or multiple symbols separated by commas."
+        }
+      ]
+    },
+    {
+      "identifier": "get_exchanges",
+      "name": "Get Exchanges List",
+      "description": "Retrieves the list of supported stock exchanges."
+    }
+  ]
+} 
