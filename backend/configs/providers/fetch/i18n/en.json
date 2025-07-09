@@ -1,0 +1,18 @@
+{
+  "name": "Website Fetch",
+  "description": "Fetches and extracts content from a website using the Serper Scraping API.",
+  "categories": ["Web Scraping", "Content Extraction"],
+  "operations": [
+    {
+      "identifier": "fetch_content",
+      "name": "Fetch Website Content",
+      "description": "Fetches the text and optionally Markdown content of a given URL.",
+      "parameters": [
+        {
+          "name": "url",
+          "description": "The URL of the website to fetch."
+        }
+      ]
+    }
+  ]
+} 
