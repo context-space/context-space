@@ -1,0 +1,26 @@
+FROM golang:1.24-alpine
+
+# Install build dependencies
+RUN apk add --no-cache git ca-certificates build-base
+
+# Set working directory
+WORKDIR /app
+
+# # Set GOPROXY argument with default value
+# ARG GOPROXY=https://proxy.golang.org,direct
+# ENV GOPROXY=$GOPROXY
+
+# Copy go.mod and go.sum
+COPY go.mod go.sum ./
+
+# Download dependencies
+RUN go mod download
+
+# Set build argument
+ARG COPY_ALL=false
+
+# Copy the entire project if COPY_ALL is true
+COPY . .
+
+# Run migrations
+CMD ["go", "run", "./migrations/migrate.go", "-up"] 

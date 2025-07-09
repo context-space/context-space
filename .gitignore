@@ -24,3 +24,5 @@ Desktop.ini
 # VS Code specific files
 .vscode/
 .history/
+
+.specstory/

@@ -1,0 +1,34 @@
+version: '3.7'
+
+services:
+  vault:
+    image: hashicorp/vault:1.19.3
+    container_name: vault
+    ports:
+      - "8200:8200"
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - /root/vault/config:/vault/config
+      - /root/data/vault/policies:/vault/policies
+      - /root/data/vault/data:/vault/data
+      - /root/data/vault/logs:/vault/logs
+    environment:
+      - VAULT_ADDR=http://0.0.0.0:8200
+      - VAULT_API_ADDR=http://0.0.0.0:8200
+    command: server
+    restart: unless-stopped
+    networks:
+      - vault-network
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2048M
+        reservations:
+          cpus: '1'
+          memory: 1024M
+
+networks:
+  vault-network:
+    driver: bridge

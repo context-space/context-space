@@ -1,0 +1,15 @@
+[Unit]
+Description=Context Space Backend Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/context-space/backend
+ExecStart=/root/context-space/backend/build/context-space-backend
+Environment=APP_ENV=development
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
