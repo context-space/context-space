@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Verification Code</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .email-card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 40px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid rgba(229, 231, 235, 0.5);
+            transition: transform 0.2s ease-in-out;
+        }
+        .logo {
+            margin-bottom: 32px;
+        }
+        .logo img {
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .verification-code {
+            font-family: 'SF Mono', 'Roboto Mono', monospace;
+            font-size: 36px;
+            letter-spacing: 0.5em;
+            color: #1a1a1a;
+            background: linear-gradient(145deg, #f3f4f6, #ffffff);
+            padding: 24px 32px;
+            border-radius: 12px;
+            margin: 32px 0;
+            display: inline-block;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(229, 231, 235, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        .verification-code::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+        }
+        .title {
+            color: #111827;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0 0 20px 0;
+            letter-spacing: -0.02em;
+        }
+        .description {
+            color: #4b5563;
+            font-size: 16px;
+            margin: 0 0 28px 0;
+            line-height: 1.7;
+        }
+        .footer {
+            color: #6b7280;
+            font-size: 14px;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(229, 231, 235, 0.5);
+        }
+        .button {
+            display: inline-block;
+            background: linear-gradient(145deg, #111827, #1f2937);
+            color: #ffffff;
+            padding: 14px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 24px 0;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            letter-spacing: 0.025em;
+        }
+        .button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.15);
+        }
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #0f172a;
+            }
+            .email-card {
+                background-color: #1e293b;
+                border-color: rgba(255, 255, 255, 0.1);
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+            }
+            .verification-code {
+                background: linear-gradient(145deg, #1e293b, #0f172a);
+                color: #f8fafc;
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+            .title {
+                color: #f8fafc;
+            }
+            .description {
+                color: #cbd5e1;
+            }
+            .footer {
+                color: #94a3b8;
+                border-top-color: rgba(255, 255, 255, 0.1);
+            }
+            .button {
+                background: linear-gradient(145deg, #3b82f6, #2563eb);
+            }
+        }
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 16px;
+            }
+            .email-card {
+                padding: 32px 24px;
+            }
+            .verification-code {
+                font-size: 28px;
+                padding: 20px;
+                letter-spacing: 0.3em;
+            }
+            .title {
+                font-size: 24px;
+            }
+            .button {
+                padding: 12px 24px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="email-card">
+            <div class="logo">
+                <svg width="80" height="80" viewBox="0 0 181 181" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <style>
+                    circle {
+                      stroke: #9899BD;
+                    }
+
+                    .dark circle {
+                      stroke: #9899BD;
+                    }
+                  </style>
+                  <circle cx="90.5" cy="90.5" r="89" stroke-width="3" stroke-linejoin="round" stroke-dasharray="3 3" />
+                  <circle cx="90" cy="85" r="83.5" stroke-width="3" stroke-linejoin="round" stroke-dasharray="3 3" />
+                  <circle cx="90" cy="79" r="77.5" stroke-width="3" stroke-linejoin="round" stroke-dasharray="3 3" />
+                  <circle cx="90.5" cy="73.5" r="72" stroke-width="3" stroke-linejoin="round" stroke-dasharray="3 3" />
+                  <circle cx="90.5" cy="67.5" r="66" stroke-width="3" stroke-linejoin="round" stroke-dasharray="3 3" />
+                  <circle cx="90" cy="62" r="60.5" stroke-width="3" stroke-linejoin="round" stroke-dasharray="3 3" />
+                  <circle cx="90.5" cy="56.5" r="55" stroke-width="3" stroke-linejoin="round" stroke-dasharray="3 3" />
+                  <circle cx="90.5" cy="51.5" r="50" stroke-width="3" stroke-linejoin="round" stroke-dasharray="3 3" />
+                  <circle cx="90.5" cy="46.5" r="45" stroke-width="3" stroke-linejoin="round" stroke-dasharray="3 3" />
+                  <circle cx="90" cy="41" r="39.5" stroke-width="3" stroke-linejoin="round" stroke-dasharray="3 3" />
+                  <circle cx="90.5" cy="35.5" r="34" stroke-width="3" stroke-linejoin="round" stroke-dasharray="3 3" />
+                </svg>
+
+            </div>
+            <h1 class="title">Your Verification Code</h1>
+            <p class="description">
+                Please use the following verification code to complete your login:
+            </p>
+            <div class="verification-code">
+                {{ .Token }}
+            </div>
+            <p class="description">
+                This code will expire in 10 minutes. If you didn't request this code, please ignore this email.
+            </p>
+            <a href="{{ .ConfirmationURL }}" class="button">Login in</a>
+            <p class="footer">
+                This is an automated message, please do not reply to this email.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+</html>
