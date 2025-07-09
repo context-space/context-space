@@ -1,0 +1,115 @@
+---
+title: API Reference
+description: Complete API documentation for Context Space
+---
+
+# API Reference
+
+The Context Space API provides programmatic access to all platform features, allowing you to integrate Context Space into your applications and workflows.
+
+## Base URL
+
+```
+https://api.contextspace.com/v1
+```
+
+## Authentication
+
+All API requests require authentication using a bearer token:
+
+```bash
+curl -H "Authorization: Bearer YOUR_API_TOKEN" \
+  https://api.contextspace.com/v1/integrations
+```
+
+### Getting Your API Token
+
+1. Log in to your Context Space account
+2. Navigate to **Account Settings** → **API Tokens**
+3. Click **Generate New Token**
+4. Copy and securely store your token
+
+## Rate Limits
+
+- **Free Tier**: 100 requests per hour
+- **Pro Tier**: 1,000 requests per hour
+- **Enterprise**: 10,000 requests per hour
+
+Rate limit headers are included in all responses:
+
+```
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 999
+X-RateLimit-Reset: 1640995200
+```
+
+## Response Format
+
+All API responses are in JSON format:
+
+```json
+{
+  "data": {
+    // Response data
+  },
+  "meta": {
+    "total": 100,
+    "page": 1,
+    "per_page": 20
+  }
+}
+```
+
+## Error Handling
+
+Error responses include a descriptive message and error code:
+
+```json
+{
+  "error": {
+    "code": "INVALID_TOKEN",
+    "message": "The provided API token is invalid or expired",
+    "details": {}
+  }
+}
+```
+
+## Endpoints
+
+### Integrations
+
+- `GET /integrations` - [List all integrations](/docs/api/integrations#list-integrations)
+- `GET /integrations/{id}` - [Get integration details](/docs/api/integrations#get-integration)
+- `POST /integrations/{id}/connect` - [Connect integration](/docs/api/integrations#connect-integration)
+- `DELETE /integrations/{id}/disconnect` - [Disconnect integration](/docs/api/integrations#disconnect-integration)
+
+### Workflows
+
+- `GET /workflows` - [List workflows](/docs/api/workflows#list-workflows)
+- `POST /workflows` - [Create workflow](/docs/api/workflows#create-workflow)
+- `GET /workflows/{id}` - [Get workflow](/docs/api/workflows#get-workflow)
+- `PUT /workflows/{id}` - [Update workflow](/docs/api/workflows#update-workflow)
+- `DELETE /workflows/{id}` - [Delete workflow](/docs/api/workflows#delete-workflow)
+
+### Chat
+
+- `POST /chat` - [Send chat message](/docs/api/chat#send-message)
+- `GET /chat/history` - [Get chat history](/docs/api/chat#get-history)
+
+## SDKs
+
+Official SDKs are available for popular programming languages:
+
+- [JavaScript/TypeScript SDK](https://www.npmjs.com/package/@contextspace/sdk)
+- [Python SDK](https://pypi.org/project/contextspace-sdk/)
+- [Go SDK](https://github.com/contextspace/go-sdk)
+
+## Webhooks
+
+Context Space can send webhooks for various events:
+
+- Integration connected/disconnected
+- Workflow execution completed
+- API quota exceeded
+
+[Learn more about webhooks →](/docs/api/webhooks)
