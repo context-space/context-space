@@ -1,0 +1,151 @@
+{
+  "name": "Notion",
+  "description": "A workspace for your team's ideas, projects, and knowledge.",
+  "categories": ["Productivity", "Note Taking", "Collaboration", "Database"],
+  "permissions": [
+    {
+      "name": "Access Notion",
+      "identifier": "access_notion",
+      "description": "Select available pages on Notion"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "create_page",
+      "name": "Create Page",
+      "description": "Create a new page either under a parent page or within a database.",
+      "parameters": [
+        {
+          "name": "parent_id",
+          "description": "The ID of the parent page or database."
+        },
+        {
+          "name": "parent_type",
+          "description": "The type of the parent, either 'page' or 'database'."
+        },
+        {
+          "name": "title",
+          "description": "The title of the new page (required for both page and database entry)."
+        },
+        {
+          "name": "content_blocks_json",
+          "description": "Optional. A JSON string representing an array of Notion block objects to add as content."
+        },
+        {
+          "name": "database_properties_json",
+          "description": "Optional. A JSON string representing the page properties when creating an entry in a database."
+        }
+      ]
+    },
+    {
+      "identifier": "search",
+      "name": "Search Pages/Databases",
+      "description": "Search for pages and databases accessible to the integration.",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "The text to search for in page or database titles. Leave empty to list all accessible items."
+        },
+        {
+          "name": "filter_type",
+          "description": "Filter results to only 'page' or 'database'."
+        },
+        {
+          "name": "sort_by",
+          "description": "Field to sort results by."
+        },
+        {
+          "name": "sort_direction",
+          "description": "Sort direction."
+        }
+      ]
+    },
+    {
+      "identifier": "query_database",
+      "name": "Query Database",
+      "description": "Query pages (entries) within a specific database, with filtering and sorting.",
+      "parameters": [
+        {
+          "name": "database_id",
+          "description": "The ID of the database to query."
+        },
+        {
+          "name": "filter_json",
+          "description": "Optional. A JSON string representing the Notion filter object."
+        },
+        {
+          "name": "sorts_json",
+          "description": "Optional. A JSON string representing the Notion sorts array."
+        }
+      ]
+    },
+    {
+      "identifier": "append_to_block",
+      "name": "Append Content",
+      "description": "Append new content blocks to a specific block (usually a page).",
+      "parameters": [
+        {
+          "name": "block_id",
+          "description": "The ID of the block (e.g., page) to append children to."
+        },
+        {
+          "name": "content_blocks_json",
+          "description": "A JSON string representing an array of Notion block objects to append."
+        }
+      ]
+    },
+    {
+      "identifier": "get_page",
+      "name": "Get Page Info",
+      "description": "Retrieve information (metadata and properties) about a specific page.",
+      "parameters": [
+        {
+          "name": "page_id",
+          "description": "The ID of the page to retrieve."
+        }
+      ]
+    },
+    {
+      "identifier": "update_page_properties",
+      "name": "Update Page Properties",
+      "description": "Update the properties (metadata, database fields) of a specific page.",
+      "parameters": [
+        {
+          "name": "page_id",
+          "description": "The ID of the page to update."
+        },
+        {
+          "name": "properties_update_json",
+          "description": "A JSON string representing the properties object to update."
+        },
+        {
+          "name": "archived",
+          "description": "Optional. Set to true to archive the page, false to unarchive."
+        }
+      ]
+    },
+    {
+      "identifier": "list_users",
+      "name": "List Users",
+      "description": "List all users in the workspace (requires appropriate integration permissions).",
+      "parameters": []
+    },
+    {
+      "identifier": "get_database",
+      "name": "Get Database Info",
+      "description": "Retrieve information (schema, properties) about a specific database.",
+      "parameters": [
+        {
+          "name": "database_id",
+          "description": "The ID of the database to retrieve."
+        }
+      ]
+    },
+    {
+      "identifier": "list_databases",
+      "name": "List Databases",
+      "description": "List databases accessible to the integration.",
+      "parameters": []
+    }
+  ]
+} 
