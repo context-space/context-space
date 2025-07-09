@@ -1,0 +1,360 @@
+{
+    "identifier": "figma",
+    "name": "Figma",
+    "description": "Interact with Figma files, projects, teams, and components.",
+    "auth_type": "oauth",
+    "icon_url": "",
+    "categories": [
+        "design",
+        "collaboration",
+        "prototyping"
+    ],
+    "oauth_config": {
+        "client_id": "client_id",
+        "client_secret": "client_secret"
+    },
+    "permissions": [
+        {
+            "identifier": "files_read",
+            "name": "Read Files",
+            "description": "Read Figma files content, nodes, components, styles.",
+            "oauth_scopes": [
+                "files:read"
+            ]
+        },
+        {
+            "identifier": "variables_read",
+            "name": "Read Variables",
+            "description": "Read variables within Figma files.",
+            "oauth_scopes": [
+                "file_variables:read"
+            ]
+        },
+        {
+            "identifier": "variables_write",
+            "name": "Write Variables",
+            "description": "Write or modify variables within Figma files.",
+            "oauth_scopes": [
+                "file_variables:write"
+            ]
+        },
+        {
+            "identifier": "analytics_read",
+            "name": "Read Library Analytics",
+            "description": "Read usage analytics for component libraries.",
+            "oauth_scopes": [
+                "library_analytics:read"
+            ]
+        }
+    ],
+    "operations": [
+        {
+            "identifier": "get_me",
+            "name": "Get Authenticated User",
+            "description": "Returns the user information authenticated by the access token.",
+            "category": "user_info",
+            "required_permissions": [],
+            "http_method": "GET",
+            "endpoint_path": "/me",
+            "parameters": []
+        },
+        {
+            "identifier": "get_team_styles",
+            "name": "Get Team Styles",
+            "description": "Retrieves all published styles for a given team.",
+            "category": "retrieval",
+            "required_permissions": [
+                "files_read"
+            ],
+            "http_method": "GET",
+            "endpoint_path": "/teams/{team_id}/styles",
+            "parameters": [
+                {
+                    "name": "team_id",
+                    "type": "string",
+                    "description": "ID of the team.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "page_size",
+                    "type": "integer",
+                    "description": "Number of items per page.",
+                    "required": false,
+                    "location": "query"
+                },
+                {
+                    "name": "after",
+                    "type": "integer",
+                    "description": "Cursor for pagination.",
+                    "required": false,
+                    "location": "query"
+                }
+            ]
+        },
+        {
+            "identifier": "get_file_nodes",
+            "name": "Get File Nodes",
+            "description": "Retrieves details for one or more specific nodes within a Figma file.",
+            "category": "retrieval",
+            "required_permissions": [
+                "files_read"
+            ],
+            "http_method": "GET",
+            "endpoint_path": "/files/{file_key}/nodes",
+            "parameters": [
+                {
+                    "name": "file_key",
+                    "type": "string",
+                    "description": "Key of the file.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "ids",
+                    "type": "string",
+                    "description": "Comma-separated list of node IDs to retrieve.",
+                    "required": true,
+                    "location": "query"
+                },
+                {
+                    "name": "depth",
+                    "type": "integer",
+                    "description": "Depth of the node tree to return.",
+                    "required": false,
+                    "location": "query"
+                },
+                {
+                    "name": "geometry",
+                    "type": "string",
+                    "description": "Include geometry data ('paths' or 'bounds').",
+                    "required": false,
+                    "location": "query"
+                }
+            ]
+        },
+        {
+            "identifier": "get_file",
+            "name": "Get File",
+            "description": "Retrieves the complete document structure and content of a Figma file.",
+            "category": "retrieval",
+            "required_permissions": [
+                "files_read"
+            ],
+            "http_method": "GET",
+            "endpoint_path": "/files/{file_key}",
+            "parameters": [
+                {
+                    "name": "file_key",
+                    "type": "string",
+                    "description": "Key of the file.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "geometry",
+                    "type": "string",
+                    "description": "Include geometry data ('paths' or 'bounds').",
+                    "required": false,
+                    "location": "query"
+                },
+                {
+                    "name": "version",
+                    "type": "string",
+                    "description": "Get a specific version of the file.",
+                    "required": false,
+                    "location": "query"
+                }
+            ]
+        },
+        {
+            "identifier": "get_image_renders",
+            "name": "Get Image Renders",
+            "description": "Renders images for one or more nodes in a Figma file.",
+            "category": "retrieval",
+            "required_permissions": [
+                "files_read"
+            ],
+            "http_method": "GET",
+            "endpoint_path": "/images/{file_key}",
+            "parameters": [
+                {
+                    "name": "file_key",
+                    "type": "string",
+                    "description": "Key of the file.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "ids",
+                    "type": "string",
+                    "description": "Comma-separated list of node IDs to render.",
+                    "required": true,
+                    "location": "query"
+                },
+                {
+                    "name": "scale",
+                    "type": "number",
+                    "description": "Image scale (0.01 to 4).",
+                    "required": false,
+                    "location": "query"
+                },
+                {
+                    "name": "format",
+                    "type": "string",
+                    "description": "Image format ('jpg', 'png', 'svg', 'pdf').",
+                    "required": false,
+                    "location": "query",
+                    "enum": [
+                        "jpg",
+                        "png",
+                        "svg",
+                        "pdf"
+                    ]
+                },
+                {
+                    "name": "version",
+                    "type": "string",
+                    "description": "Render nodes from a specific version.",
+                    "required": false,
+                    "location": "query"
+                },
+                {
+                    "name": "use_absolute_bounds",
+                    "type": "boolean",
+                    "description": "Use absolute bounds for rendering.",
+                    "required": false,
+                    "location": "query"
+                }
+            ]
+        },
+        {
+            "identifier": "get_team_components",
+            "name": "Get Team Components",
+            "description": "Retrieves all published components for a given team.",
+            "category": "retrieval",
+            "required_permissions": [
+                "files_read"
+            ],
+            "http_method": "GET",
+            "endpoint_path": "/teams/{team_id}/components",
+            "parameters": [
+                {
+                    "name": "team_id",
+                    "type": "string",
+                    "description": "ID of the team.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "page_size",
+                    "type": "integer",
+                    "description": "Number of items per page.",
+                    "required": false,
+                    "location": "query"
+                },
+                {
+                    "name": "after",
+                    "type": "integer",
+                    "description": "Cursor for pagination.",
+                    "required": false,
+                    "location": "query"
+                }
+            ]
+        },
+        {
+            "identifier": "get_team_component_sets",
+            "name": "Get Team Component Sets",
+            "description": "Retrieves all published component sets for a given team.",
+            "category": "retrieval",
+            "required_permissions": [
+                "files_read"
+            ],
+            "http_method": "GET",
+            "endpoint_path": "/teams/{team_id}/component_sets",
+            "parameters": [
+                {
+                    "name": "team_id",
+                    "type": "string",
+                    "description": "ID of the team.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "page_size",
+                    "type": "integer",
+                    "description": "Number of items per page.",
+                    "required": false,
+                    "location": "query"
+                },
+                {
+                    "name": "after",
+                    "type": "integer",
+                    "description": "Cursor for pagination.",
+                    "required": false,
+                    "location": "query"
+                }
+            ]
+        },
+        {
+            "identifier": "get_file_component_sets",
+            "name": "Get File Component Sets",
+            "description": "Retrieves all component sets defined within a specific Figma file.",
+            "category": "retrieval",
+            "required_permissions": [
+                "files_read"
+            ],
+            "http_method": "GET",
+            "endpoint_path": "/files/{file_key}/component_sets",
+            "parameters": [
+                {
+                    "name": "file_key",
+                    "type": "string",
+                    "description": "Key of the file.",
+                    "required": true,
+                    "location": "path"
+                }
+            ]
+        },
+        {
+            "identifier": "get_file_styles",
+            "name": "Get File Styles",
+            "description": "Retrieves all styles defined within a specific Figma file.",
+            "category": "retrieval",
+            "required_permissions": [
+                "files_read"
+            ],
+            "http_method": "GET",
+            "endpoint_path": "/files/{file_key}/styles",
+            "parameters": [
+                {
+                    "name": "file_key",
+                    "type": "string",
+                    "description": "Key of the file.",
+                    "required": true,
+                    "location": "path"
+                }
+            ]
+        },
+        {
+            "identifier": "get_file_components",
+            "name": "Get File Components",
+            "description": "Retrieves all components defined within a specific Figma file.",
+            "category": "retrieval",
+            "required_permissions": [
+                "files_read"
+            ],
+            "http_method": "GET",
+            "endpoint_path": "/files/{file_key}/components",
+            "parameters": [
+                {
+                    "name": "file_key",
+                    "type": "string",
+                    "description": "Key of the file.",
+                    "required": true,
+                    "location": "path"
+                }
+            ]
+        }
+    ]
+}

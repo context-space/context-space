@@ -1,0 +1,141 @@
+{
+  "name": "Figma",
+  "description": "与 Figma 文件、项目、团队和组件进行交互。",
+  "categories": ["设计", "协作", "原型"],
+  "permissions": [
+    {
+      "identifier": "files_read",
+      "name": "读取文件",
+      "description": "读取 Figma 文件内容、节点、组件、样式。"
+    },
+    {
+      "identifier": "variables_read",
+      "name": "读取变量",
+      "description": "读取 Figma 文件中的变量。"
+    },
+    {
+      "identifier": "variables_write",
+      "name": "写入变量",
+      "description": "在 Figma 文件中写入或修改变量。"
+    },
+    {
+      "identifier": "analytics_read",
+      "name": "读取库分析",
+      "description": "读取组件库的使用分析。"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "get_me",
+      "name": "获取已认证用户",
+      "description": "返回访问令牌认证的用户信息。"
+    },
+    {
+      "identifier": "get_team_styles",
+      "name": "获取团队样式",
+      "description": "检索给定团队的所有已发布样式。",
+      "parameters": [
+        {
+          "name": "team_id",
+          "description": "团队的 ID。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_file_nodes",
+      "name": "获取文件节点",
+      "description": "检索 Figma 文件中一个或多个特定节点的详细信息。",
+      "parameters": [
+        {
+          "name": "file_key",
+          "description": "文件的键。"
+        },
+        {
+          "name": "ids",
+          "description": "要检索的节点 ID 的逗号分隔列表。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_file",
+      "name": "获取文件",
+      "description": "检索 Figma 文件的完整文档结构和内容。",
+      "parameters": [
+        {
+          "name": "file_key",
+          "description": "文件的键。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_image_renders",
+      "name": "获取图像渲染",
+      "description": "为 Figma 文件中的一个或多个节点渲染图像。",
+      "parameters": [
+        {
+          "name": "file_key",
+          "description": "文件的键。"
+        },
+        {
+          "name": "ids",
+          "description": "要渲染的节点 ID 的逗号分隔列表。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_team_components",
+      "name": "获取团队组件",
+      "description": "检索给定团队的所有已发布组件。",
+      "parameters": [
+        {
+          "name": "team_id",
+          "description": "团队的 ID。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_team_component_sets",
+      "name": "获取团队组件集",
+      "description": "检索给定团队的所有已发布组件集。",
+      "parameters": [
+        {
+          "name": "team_id",
+          "description": "团队的 ID。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_file_component_sets",
+      "name": "获取文件组件集",
+      "description": "检索特定 Figma 文件中定义的所有组件集。",
+      "parameters": [
+        {
+          "name": "file_key",
+          "description": "文件的键。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_file_styles",
+      "name": "获取文件样式",
+      "description": "检索特定 Figma 文件中定义的所有样式。",
+      "parameters": [
+        {
+          "name": "file_key",
+          "description": "文件的键。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_file_components",
+      "name": "获取文件组件",
+      "description": "检索特定 Figma 文件中定义的所有组件。",
+      "parameters": [
+        {
+          "name": "file_key",
+          "description": "文件的键。"
+        }
+      ]
+    }
+  ]
+} 
