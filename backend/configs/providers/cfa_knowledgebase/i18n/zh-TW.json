@@ -1,0 +1,48 @@
+{
+  "name": "CFA 知識庫",
+  "description": "CFA 的火山引擎知識庫 API 整合",
+  "categories": ["人工智慧", "知識庫", "搜尋", "金融"],
+  "operations": [
+    {
+      "identifier": "search_knowledge",
+      "name": "搜尋知識",
+      "description": "在知識庫中搜尋相關文件",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "搜尋查詢字串"
+        }
+      ]
+    },
+    {
+      "identifier": "chat_completions",
+      "name": "聊天補全",
+      "description": "使用知識庫上下文產生聊天回應",
+      "parameters": [
+        {
+          "name": "model",
+          "description": "用於聊天產生的模型 ID 或端點 ID"
+        },
+        {
+          "name": "messages",
+          "description": "對話歷史訊息"
+        }
+      ]
+    },
+    {
+      "identifier": "query",
+      "name": "查詢",
+      "description": "查詢知識庫",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "查詢字串"
+        },
+        {
+          "name": "messages",
+          "description": "對話歷史訊息"
+        }
+      ]
+    }
+  ]
+} 

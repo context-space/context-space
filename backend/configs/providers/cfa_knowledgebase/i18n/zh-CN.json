@@ -1,0 +1,48 @@
+{
+  "name": "CFA 知识库",
+  "description": "CFA 的火山引擎知识库 API 集成",
+  "categories": ["人工智能", "知识库", "搜索", "金融"],
+  "operations": [
+    {
+      "identifier": "search_knowledge",
+      "name": "搜索知识",
+      "description": "在知识库中搜索相关文档",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "搜索查询字符串"
+        }
+      ]
+    },
+    {
+      "identifier": "chat_completions",
+      "name": "聊天补全",
+      "description": "使用知识库上下文生成聊天响应",
+      "parameters": [
+        {
+          "name": "model",
+          "description": "用于聊天生成的模型 ID 或端点 ID"
+        },
+        {
+          "name": "messages",
+          "description": "对话历史消息"
+        }
+      ]
+    },
+    {
+      "identifier": "query",
+      "name": "查询",
+      "description": "查询知识库",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "查询字符串"
+        },
+        {
+          "name": "messages",
+          "description": "对话历史消息"
+        }
+      ]
+    }
+  ]
+} 
