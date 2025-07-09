@@ -1,0 +1,226 @@
+{
+  "name": "Airtable",
+  "description": "Airtable API 适配器，允许与基础、表格和记录进行交互。",
+  "categories": ["数据库", "生产力", "协作"],
+  "permissions": [
+    {
+      "identifier": "read_records",
+      "name": "读取记录",
+      "description": "允许从表格中读取记录数据。"
+    },
+    {
+      "identifier": "write_records",
+      "name": "写入记录",
+      "description": "允许在表格中创建、更新和删除记录数据。"
+    },
+    {
+      "identifier": "read_schema",
+      "name": "读取基础架构",
+      "description": "允许读取基础的结构（表格、字段）。"
+    },
+    {
+      "identifier": "write_schema",
+      "name": "写入基础架构",
+      "description": "允许修改基础的结构（创建/更新表格、字段）。"
+    },
+    {
+      "identifier": "read_user_email",
+      "name": "读取用户邮箱",
+      "description": "允许读取用户的邮箱地址。"
+    },
+    {
+      "identifier": "manage_webhooks",
+      "name": "管理 Webhooks",
+      "description": "允许创建、列出和删除 webhooks。"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "list_bases",
+      "name": "列出基础",
+      "description": "列出当前访问令牌可访问的所有基础。",
+      "parameters": [
+        {
+          "name": "offset",
+          "description": "分页偏移量，用于检索下一页基础。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_base_schema",
+      "name": "获取基础架构",
+      "description": "返回指定基础中所有表格的架构。",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "Airtable 基础的 ID。"
+        }
+      ]
+    },
+    {
+      "identifier": "list_records",
+      "name": "列出记录",
+      "description": "列出指定表格中的记录。",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "Airtable 基础的 ID。"
+        },
+        {
+          "name": "tableIdOrName",
+          "description": "Airtable 表格的 ID 或名称。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_record",
+      "name": "获取记录",
+      "description": "通过 ID 检索单个记录。",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "Airtable 基础的 ID。"
+        },
+        {
+          "name": "tableIdOrName",
+          "description": "Airtable 表格的 ID 或名称。"
+        },
+        {
+          "name": "recordId",
+          "description": "要检索的记录的 ID。"
+        }
+      ]
+    },
+    {
+      "identifier": "create_records",
+      "name": "创建记录",
+      "description": "在指定表格中创建新记录。",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "Airtable 基础的 ID。"
+        },
+        {
+          "name": "tableIdOrName",
+          "description": "Airtable 表格的 ID 或名称。"
+        }
+      ]
+    },
+    {
+      "identifier": "update_records_patch",
+      "name": "更新记录 (PATCH)",
+      "description": "通过仅覆盖提供的字段来更新记录。",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "Airtable 基础的 ID。"
+        },
+        {
+          "name": "tableIdOrName",
+          "description": "Airtable 表格的 ID 或名称。"
+        }
+      ]
+    },
+    {
+      "identifier": "update_records_put",
+      "name": "更新记录 (PUT)",
+      "description": "通过覆盖所有字段来更新记录。",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "Airtable 基础的 ID。"
+        },
+        {
+          "name": "tableIdOrName",
+          "description": "Airtable 表格的 ID 或名称。"
+        }
+      ]
+    },
+    {
+      "identifier": "delete_records",
+      "name": "删除记录",
+      "description": "从指定表格中删除记录。",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "Airtable 基础的 ID。"
+        },
+        {
+          "name": "tableIdOrName",
+          "description": "Airtable 表格的 ID 或名称。"
+        }
+      ]
+    },
+    {
+      "identifier": "list_webhooks",
+      "name": "列出 Webhooks",
+      "description": "列出给定基础 ID 的 webhooks。",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "Airtable 基础的 ID。"
+        }
+      ]
+    },
+    {
+      "identifier": "create_webhook",
+      "name": "创建 Webhook",
+      "description": "为给定基础 ID 创建新的 webhook。",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "Airtable 基础的 ID。"
+        }
+      ]
+    },
+    {
+      "identifier": "delete_webhook",
+      "name": "删除 Webhook",
+      "description": "删除特定的 webhook。",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "Airtable 基础的 ID。"
+        },
+        {
+          "name": "webhookId",
+          "description": "要删除的 webhook 的 ID。"
+        }
+      ]
+    },
+    {
+      "identifier": "manage_webhook_payload_signing",
+      "name": "管理 Webhook 负载签名",
+      "description": "启用或禁用 webhook 的负载签名。",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "Airtable 基础的 ID。"
+        },
+        {
+          "name": "webhookId",
+          "description": "要管理的 webhook 的 ID。"
+        },
+        {
+          "name": "enable_body",
+          "description": "是否启用或禁用负载签名。"
+        }
+      ]
+    },
+    {
+      "identifier": "refresh_webhook_pii",
+      "name": "刷新 Webhook 个人信息",
+      "description": "刷新 webhook 的个人身份信息。",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "Airtable 基础的 ID。"
+        },
+        {
+          "name": "webhookId",
+          "description": "要刷新的 webhook 的 ID。"
+        }
+      ]
+    }
+  ]
+} 

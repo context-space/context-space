@@ -1,0 +1,764 @@
+{
+    "identifier": "airtable",
+    "name": "Airtable",
+    "description": "Adapter for Airtable API, allowing interaction with bases, tables, and records.",
+    "icon_url": "",
+    "categories": ["database", "productivity", "collaboration"],
+    "auth_type": "oauth",
+    "oauth_config": {
+        "client_id": "YOUR_AIRTABLE_CLIENT_ID",
+        "client_secret": "YOUR_AIRTABLE_CLIENT_SECRET"
+    },
+    "permissions": [
+        {
+            "identifier": "read_records",
+            "name": "Read Records",
+            "description": "Allows reading record data from tables.",
+            "oauth_scopes": ["data.records:read"]
+        },
+        {
+            "identifier": "write_records",
+            "name": "Write Records",
+            "description": "Allows creating, updating, and deleting record data in tables.",
+            "oauth_scopes": ["data.records:write"]
+        },
+        {
+            "identifier": "read_schema",
+            "name": "Read Base Schema",
+            "description": "Allows reading the structure of bases (tables, fields).",
+            "oauth_scopes": ["schema.bases:read"]
+        },
+        {
+            "identifier": "write_schema",
+            "name": "Write Base Schema",
+            "description": "Allows modifying the structure of bases (creating/updating tables, fields).",
+            "oauth_scopes": ["schema.bases:write"]
+        },
+        {
+            "identifier": "read_user_email",
+            "name": "Read User Email",
+            "description": "Allows reading the user's email address.",
+            "oauth_scopes": ["user.email:read"]
+        },
+        {
+            "identifier": "manage_webhooks",
+            "name": "Manage Webhooks",
+            "description": "Allows creating, listing, and deleting webhooks.",
+            "oauth_scopes": ["webhook:manage"]
+        }
+    ],
+    "operations": [
+        {
+            "identifier": "list_bases",
+            "name": "List Bases",
+            "description": "Lists all bases accessible to the current access token.",
+            "category": "retrieval",
+            "required_permissions": ["read_schema"],
+            "http_method": "GET",
+            "endpoint_path": "/meta/bases",
+            "parameters": [
+                {
+                    "name": "offset",
+                    "type": "string",
+                    "description": "Pagination offset to retrieve the next page of bases.",
+                    "required": false,
+                    "location": "query"
+                }
+            ]
+        },
+        {
+            "identifier": "get_base_schema",
+            "name": "Get Base Schema",
+            "description": "Returns the schema for all tables in a specified base.",
+            "category": "retrieval",
+            "required_permissions": ["read_schema"],
+            "http_method": "GET",
+            "endpoint_path": "/meta/bases/{baseId}/tables",
+            "parameters": [
+                {
+                    "name": "baseId",
+                    "type": "string",
+                    "description": "The ID of the Airtable base.",
+                    "required": true,
+                    "location": "path"
+                }
+            ]
+        },
+        {
+            "identifier": "list_records",
+            "name": "List Records",
+            "description": "Lists records in a specified table. Records are returned in the order they appear in the specified view.",
+            "category": "retrieval",
+            "required_permissions": ["read_records"],
+            "http_method": "GET",
+            "endpoint_path": "/{baseId}/{tableIdOrName}",
+            "parameters": [
+                {
+                    "name": "baseId",
+                    "type": "string",
+                    "description": "The ID of the Airtable base.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "tableIdOrName",
+                    "type": "string",
+                    "description": "The ID or name of the Airtable table.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "timeZone",
+                    "type": "string",
+                    "description": "The timezone for formula fields and createdTime. (e.g., 'America/Los_Angeles').",
+                    "required": false,
+                    "location": "query"
+                },
+                {
+                    "name": "userLocale",
+                    "type": "string",
+                    "description": "The user locale for formula fields. (e.g., 'en-US').",
+                    "required": false,
+                    "location": "query"
+                },
+                {
+                    "name": "pageSize",
+                    "type": "integer",
+                    "description": "The number of records to return per page (max 100).",
+                    "required": false,
+                    "location": "query"
+                },
+                {
+                    "name": "maxRecords",
+                    "type": "integer",
+                    "description": "The maximum total number of records to return.",
+                    "required": false,
+                    "location": "query"
+                },
+                {
+                    "name": "offset",
+                    "type": "string",
+                    "description": "Pagination offset to retrieve the next page of records.",
+                    "required": false,
+                    "location": "query"
+                },
+                {
+                    "name": "view",
+                    "type": "string",
+                    "description": "The name or ID of a view in the table. If set, records will be returned in that view's order.",
+                    "required": false,
+                    "location": "query"
+                },
+                {
+                    "name": "sort",
+                    "type": "array",
+                    "description": "Specifies how the records will be sorted. Array of sort objects.",
+                    "required": false,
+                    "location": "query",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "field": {"type": "string", "description": "Name of the field to sort by."},
+                            "direction": {"type": "string", "enum": ["asc", "desc"], "description": "Sort direction."}
+                        }
+                    }
+                },
+                {
+                    "name": "filterByFormula",
+                    "type": "string",
+                    "description": "A formula used to filter records.",
+                    "required": false,
+                    "location": "query"
+                },
+                {
+                    "name": "cellFormat",
+                    "type": "string",
+                    "description": "Specifies how cell values are returned ('json' or 'string').",
+                    "required": false,
+                    "location": "query"
+                },
+                {
+                    "name": "fields",
+                    "type": "array",
+                    "description": "Only return specified field Rames or field IDs. Cannot be used with returnFieldsByFieldId=true.",
+                    "required": false,
+                    "location": "query",
+                    "items": {"type": "string"}
+                },
+                {
+                    "name": "returnFieldsByFieldId",
+                    "type": "boolean",
+                    "description": "Use field IDs in the response 'fields' key instead of field names. Cannot be used with the fields parameter.",
+                    "required": false,
+                    "location": "query"
+                },
+                 {
+                    "name": "recordMetadata",
+                    "type": "array",
+                    "description": "An array of strings for desired record metadata. Currently the only supported option is 'commentCount'.",
+                    "required": false,
+                    "location": "query",
+                    "items": {"type": "string", "enum": ["commentCount"]}
+                }
+            ]
+        },
+        {
+            "identifier": "get_record",
+            "name": "Get Record",
+            "description": "Retrieves a single record by its ID.",
+            "category": "retrieval",
+            "required_permissions": ["read_records"],
+            "http_method": "GET",
+            "endpoint_path": "/{baseId}/{tableIdOrName}/{recordId}",
+            "parameters": [
+                {
+                    "name": "baseId",
+                    "type": "string",
+                    "description": "The ID of the Airtable base.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "tableIdOrName",
+                    "type": "string",
+                    "description": "The ID or name of the Airtable table.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "recordId",
+                    "type": "string",
+                    "description": "The ID of the record to retrieve.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "cellFormat",
+                    "type": "string",
+                    "description": "Specifies how cell values are returned ('json' or 'string').",
+                    "required": false,
+                    "location": "query"
+                },
+                {
+                    "name": "returnFieldsByFieldId",
+                    "type": "boolean",
+                    "description": "Use field IDs in the response 'fields' key instead of field names.",
+                    "required": false,
+                    "location": "query"
+                }
+            ]
+        },
+        {
+            "identifier": "create_records",
+            "name": "Create Records",
+            "description": "Creates new records in a specified table. Up to 10 records can be created at a time.",
+            "category": "mutation",
+            "required_permissions": ["write_records"],
+            "http_method": "POST",
+            "endpoint_path": "/{baseId}/{tableIdOrName}",
+            "parameters": [
+                {
+                    "name": "baseId",
+                    "type": "string",
+                    "description": "The ID of the Airtable base.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "tableIdOrName",
+                    "type": "string",
+                    "description": "The ID or name of the Airtable table.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "records_body",
+                    "type": "array",
+                    "description": "Array of record objects to create. Each object should have a 'fields' property. Passed in request body.",
+                    "required": true,
+                    "location": "body",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "fields": {
+                                "type": "object",
+                                "description": "Key-value pairs of field names and their values for the new record."
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "typecast_body",
+                    "type": "boolean",
+                    "description": "Attempt to convert string values to Airtable cell values. Passed in request body. Defaults to false.",
+                    "required": false,
+                    "location": "body"
+                },
+                {
+                    "name": "returnFieldsByFieldId_body",
+                    "type": "boolean",
+                    "description": "Use field IDs in the response 'fields' key instead of field names. Passed in request body. Defaults to false.",
+                    "required": false,
+                    "location": "body"
+                }
+            ],
+            "request_body_schema": {
+                "type": "object",
+                "properties": {
+                    "records": {
+                        "type": "array",
+                        "description": "Array of record objects to create. Each object should have a 'fields' property.",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "fields": {
+                                    "type": "object",
+                                    "description": "Key-value pairs of field names and their values for the new record."
+                                }
+                            }
+                        }
+                    },
+                    "typecast": {
+                        "type": "boolean",
+                        "description": "Attempt to convert string values to Airtable cell values. Defaults to false.",
+                        "default": false
+                    },
+                    "returnFieldsByFieldId": {
+                        "type": "boolean",
+                        "description": "Use field IDs in the response 'fields' key instead of field names. Defaults to false.",
+                        "default": false
+                    }
+                },
+                "required": ["records"]
+            }
+        },
+        {
+            "identifier": "update_records_patch",
+            "name": "Update Records (PATCH)",
+            "description": "Updates records in a specified table by destructively overwriting only the fields provided. Up to 10 records can be updated at a time.",
+            "category": "mutation",
+            "required_permissions": ["write_records"],
+            "http_method": "PATCH",
+            "endpoint_path": "/{baseId}/{tableIdOrName}",
+            "parameters": [
+                {
+                    "name": "baseId",
+                    "type": "string",
+                    "description": "The ID of the Airtable base.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "tableIdOrName",
+                    "type": "string",
+                    "description": "The ID or name of the Airtable table.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "records_body",
+                    "type": "array",
+                    "description": "Array of record objects to update. Each object must have an 'id' and a 'fields' property. Passed in request body.",
+                    "required": true,
+                    "location": "body",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "string", "description": "The ID of the record to update."},
+                            "fields": {
+                                "type": "object",
+                                "description": "Key-value pairs of field names and their new values."
+                            }
+                        },
+                        "required": ["id", "fields"]
+                    }
+                },
+                {
+                    "name": "typecast_body",
+                    "type": "boolean",
+                    "description": "Attempt to convert string values to Airtable cell values. Passed in request body. Defaults to false.",
+                    "required": false,
+                    "location": "body"
+                },
+                {
+                    "name": "returnFieldsByFieldId_body",
+                    "type": "boolean",
+                    "description": "Use field IDs in the response 'fields' key instead of field names. Passed in request body. Defaults to false.",
+                    "required": false,
+                    "location": "body"
+                }
+            ],
+            "request_body_schema": {
+                "type": "object",
+                "properties": {
+                    "records": {
+                        "type": "array",
+                        "description": "Array of record objects to update. Each object must have an 'id' and a 'fields' property.",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {"type": "string", "description": "The ID of the record to update."},
+                                "fields": {
+                                    "type": "object",
+                                    "description": "Key-value pairs of field names and their new values."
+                                }
+                            },
+                            "required": ["id", "fields"]
+                        }
+                    },
+                    "typecast": {
+                        "type": "boolean",
+                        "description": "Attempt to convert string values to Airtable cell values. Defaults to false.",
+                        "default": false
+                    },
+                    "returnFieldsByFieldId": {
+                        "type": "boolean",
+                        "description": "Use field IDs in the response 'fields' key instead of field names. Defaults to false.",
+                        "default": false
+                    }
+                },
+                "required": ["records"]
+            }
+        },
+        {
+            "identifier": "update_records_put",
+            "name": "Update Records (PUT)",
+            "description": "Updates records in a specified table by destructively overwriting all fields (i.e., clears all unspecified cell values). Up to 10 records can be updated at a time.",
+            "category": "mutation",
+            "required_permissions": ["write_records"],
+            "http_method": "PUT",
+            "endpoint_path": "/{baseId}/{tableIdOrName}",
+            "parameters": [
+                {
+                    "name": "baseId",
+                    "type": "string",
+                    "description": "The ID of the Airtable base.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "tableIdOrName",
+                    "type": "string",
+                    "description": "The ID or name of the Airtable table.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "records_body",
+                    "type": "array",
+                    "description": "Array of record objects to update. Each object must have an 'id' and a 'fields' property. Passed in request body.",
+                    "required": true,
+                    "location": "body",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "string", "description": "The ID of the record to update."},
+                            "fields": {
+                                "type": "object",
+                                "description": "Key-value pairs of field names and their new values."
+                            }
+                        },
+                        "required": ["id", "fields"]
+                    }
+                },
+                {
+                    "name": "typecast_body",
+                    "type": "boolean",
+                    "description": "Attempt to convert string values to Airtable cell values. Passed in request body. Defaults to false.",
+                    "required": false,
+                    "location": "body"
+                },
+                {
+                    "name": "returnFieldsByFieldId_body",
+                    "type": "boolean",
+                    "description": "Use field IDs in the response 'fields' key instead of field names. Passed in request body. Defaults to false.",
+                    "required": false,
+                    "location": "body"
+                }
+            ],
+            "request_body_schema": {
+                "type": "object",
+                "properties": {
+                    "records": {
+                        "type": "array",
+                        "description": "Array of record objects to update. Each object must have an 'id' and a 'fields' property.",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {"type": "string", "description": "The ID of the record to update."},
+                                "fields": {
+                                    "type": "object",
+                                    "description": "Key-value pairs of field names and their new values."
+                                }
+                            },
+                            "required": ["id", "fields"]
+                        }
+                    },
+                    "typecast": {
+                        "type": "boolean",
+                        "description": "Attempt to convert string values to Airtable cell values. Defaults to false.",
+                        "default": false
+                    },
+                    "returnFieldsByFieldId": {
+                        "type": "boolean",
+                        "description": "Use field IDs in the response 'fields' key instead of field names. Defaults to false.",
+                        "default": false
+                    }
+                },
+                "required": ["records"]
+            }
+        },
+        {
+            "identifier": "delete_records",
+            "name": "Delete Records",
+            "description": "Deletes up to 10 records at a time from a specified table.",
+            "category": "mutation",
+            "required_permissions": ["write_records"],
+            "http_method": "DELETE",
+            "endpoint_path": "/{baseId}/{tableIdOrName}",
+            "parameters": [
+                {
+                    "name": "baseId",
+                    "type": "string",
+                    "description": "The ID of the Airtable base.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "tableIdOrName",
+                    "type": "string",
+                    "description": "The ID or name of the Airtable table.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "records",
+                    "type": "array",
+                    "description": "An array of record IDs to delete.",
+                    "required": true,
+                    "location": "query",
+                    "items": {"type": "string"}
+                }
+            ]
+        },
+        {
+            "identifier": "list_webhooks",
+            "name": "List Webhooks",
+            "description": "Lists webhooks for a given base ID.",
+            "category": "retrieval",
+            "required_permissions": ["manage_webhooks"],
+            "http_method": "GET",
+            "endpoint_path": "/bases/{baseId}/webhooks",
+            "parameters": [
+                {
+                    "name": "baseId",
+                    "type": "string",
+                    "description": "The ID of the Airtable base.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "cursor",
+                    "type": "string",
+                    "description": "Cursor for pagination to retrieve the next set of webhooks.",
+                    "required": false,
+                    "location": "query"
+                }
+            ]
+        },
+        {
+            "identifier": "create_webhook",
+            "name": "Create Webhook",
+            "description": "Creates a new webhook for a given base ID.",
+            "category": "mutation",
+            "required_permissions": ["manage_webhooks"],
+            "http_method": "POST",
+            "endpoint_path": "/bases/{baseId}/webhooks",
+            "parameters": [
+                {
+                    "name": "baseId",
+                    "type": "string",
+                    "description": "The ID of the Airtable base.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "notificationUrl_body",
+                    "type": "string",
+                    "description": "The URL where webhook notifications will be sent. Passed in request body.",
+                    "required": true,
+                    "location": "body"
+                },
+                {
+                    "name": "specification_body",
+                    "type": "object",
+                    "description": "Defines what events the webhook should listen to. Passed in request body.",
+                    "required": true,
+                    "location": "body",
+                    "properties": {
+                        "options": {
+                            "type": "object",
+                            "properties": {
+                                "filters": {
+                                    "type": "object",
+                                    "description": "Conditions for triggering the webhook (e.g., based on data changes, record creation).",
+                                    "properties": {
+                                        "dataTypes": {"type": "array", "items": {"type": "string", "enum": ["tableData", "tableFields", "tableMetadata"]}},
+                                        "recordChangeScope": {"type": "string"},
+                                        "watchDataInFieldIds": {"type": "array", "items": {"type": "string"}},
+                                        "watchSchemasForTableIds": {"type": "array", "items": {"type": "string"}}
+                                    }
+                                },
+                                "includes": {
+                                    "type": "object",
+                                    "description": "Specifies what data to include in the webhook payload.",
+                                    "properties": {
+                                        "data": {"type": "boolean"},
+                                        "schema": {"type": "boolean"},
+                                        "previousData": {"type": "boolean"},
+                                        "cellValuesAsParent": {"type": "boolean"}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required_properties": ["options"]
+                }
+            ],
+            "request_body_schema": {
+                "type": "object",
+                "properties": {
+                    "notificationUrl": {
+                        "type": "string",
+                        "description": "The URL where webhook notifications will be sent."
+                    },
+                    "specification": {
+                        "type": "object",
+                        "description": "Defines what events the webhook should listen to.",
+                        "properties": {
+                            "options": {
+                                "type": "object",
+                                "properties": {
+                                    "filters": {
+                                        "type": "object",
+                                        "description": "Conditions for triggering the webhook (e.g., based on data changes, record creation).",
+                                        "properties": {
+                                            "dataTypes": {"type": "array", "items": {"type": "string", "enum": ["tableData", "tableFields", "tableMetadata"]}},
+                                            "recordChangeScope": {"type": "string"},
+                                            "watchDataInFieldIds": {"type": "array", "items": {"type": "string"}},
+                                            "watchSchemasForTableIds": {"type": "array", "items": {"type": "string"}}
+                                        }
+                                    },
+                                    "includes": {
+                                        "type": "object",
+                                        "description": "Specifies what data to include in the webhook payload.",
+                                        "properties": {
+                                            "data": {"type": "boolean"},
+                                            "schema": {"type": "boolean"},
+                                            "previousData": {"type": "boolean"},
+                                            "cellValuesAsParent": {"type": "boolean"}
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "required": ["options"]
+                    }
+                },
+                "required": ["notificationUrl", "specification"]
+            }
+        },
+        {
+            "identifier": "delete_webhook",
+            "name": "Delete Webhook",
+            "description": "Deletes a specific webhook.",
+            "category": "mutation",
+            "required_permissions": ["manage_webhooks"],
+            "http_method": "DELETE",
+            "endpoint_path": "/bases/{baseId}/webhooks/{webhookId}",
+            "parameters": [
+                {
+                    "name": "baseId",
+                    "type": "string",
+                    "description": "The ID of the Airtable base.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "webhookId",
+                    "type": "string",
+                    "description": "The ID of the webhook to delete.",
+                    "required": true,
+                    "location": "path"
+                }
+            ]
+        },
+        {
+            "identifier": "manage_webhook_payload_signing",
+            "name": "Enable/Disable Webhook Payload Signing",
+            "description": "Enables or disables payload signing for a specific webhook.",
+            "category": "mutation",
+            "required_permissions": ["manage_webhooks"],
+            "http_method": "POST",
+            "endpoint_path": "/bases/{baseId}/webhooks/{webhookId}/enablePayloadSigning",
+            "parameters": [
+                {
+                    "name": "baseId",
+                    "type": "string",
+                    "description": "The ID of the Airtable base.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "webhookId",
+                    "type": "string",
+                    "description": "The ID of the webhook.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "enable_body",
+                    "type": "boolean",
+                    "description": "Set to true to enable payload signing, false to disable. Passed in request body.",
+                    "required": true,
+                    "location": "body"
+                }
+            ],
+            "request_body_schema": {
+                "type": "object",
+                "properties": {
+                    "enable": {
+                        "type": "boolean",
+                        "description": "Set to true to enable payload signing, false to disable."
+                    }
+                },
+                "required": ["enable"]
+            }
+        },
+        {
+            "identifier": "refresh_webhook_pii",
+            "name": "Refresh Webhook PII",
+            "description": "Refreshes a webhook if it has been disabled due to prolonged PII errors.",
+            "category": "mutation",
+            "required_permissions": ["manage_webhooks"],
+            "http_method": "POST",
+            "endpoint_path": "/bases/{baseId}/webhooks/{webhookId}/refresh",
+            "parameters": [
+                {
+                    "name": "baseId",
+                    "type": "string",
+                    "description": "The ID of the Airtable base.",
+                    "required": true,
+                    "location": "path"
+                },
+                {
+                    "name": "webhookId",
+                    "type": "string",
+                    "description": "The ID of the webhook to refresh.",
+                    "required": true,
+                    "location": "path"
+                }
+            ]
+        }
+    ]
+}
