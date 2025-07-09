@@ -1,0 +1,141 @@
+{
+  "name": "Figma",
+  "description": "與 Figma 檔案、專案、團隊和元件進行互動。",
+  "categories": ["設計", "協作", "原型"],
+  "permissions": [
+    {
+      "identifier": "files_read",
+      "name": "讀取檔案",
+      "description": "讀取 Figma 檔案內容、節點、元件、樣式。"
+    },
+    {
+      "identifier": "variables_read",
+      "name": "讀取變數",
+      "description": "讀取 Figma 檔案中的變數。"
+    },
+    {
+      "identifier": "variables_write",
+      "name": "寫入變數",
+      "description": "在 Figma 檔案中寫入或修改變數。"
+    },
+    {
+      "identifier": "analytics_read",
+      "name": "讀取程式庫分析",
+      "description": "讀取元件程式庫的使用分析。"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "get_me",
+      "name": "取得已驗證使用者",
+      "description": "回傳存取權杖驗證的使用者資訊。"
+    },
+    {
+      "identifier": "get_team_styles",
+      "name": "取得團隊樣式",
+      "description": "擷取給定團隊的所有已發布樣式。",
+      "parameters": [
+        {
+          "name": "team_id",
+          "description": "團隊的 ID。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_file_nodes",
+      "name": "取得檔案節點",
+      "description": "擷取 Figma 檔案中一個或多個特定節點的詳細資訊。",
+      "parameters": [
+        {
+          "name": "file_key",
+          "description": "檔案的鍵。"
+        },
+        {
+          "name": "ids",
+          "description": "要擷取的節點 ID 的逗號分隔清單。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_file",
+      "name": "取得檔案",
+      "description": "擷取 Figma 檔案的完整文件結構和內容。",
+      "parameters": [
+        {
+          "name": "file_key",
+          "description": "檔案的鍵。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_image_renders",
+      "name": "取得影像渲染",
+      "description": "為 Figma 檔案中的一個或多個節點渲染影像。",
+      "parameters": [
+        {
+          "name": "file_key",
+          "description": "檔案的鍵。"
+        },
+        {
+          "name": "ids",
+          "description": "要渲染的節點 ID 的逗號分隔清單。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_team_components",
+      "name": "取得團隊元件",
+      "description": "擷取給定團隊的所有已發布元件。",
+      "parameters": [
+        {
+          "name": "team_id",
+          "description": "團隊的 ID。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_team_component_sets",
+      "name": "取得團隊元件集",
+      "description": "擷取給定團隊的所有已發布元件集。",
+      "parameters": [
+        {
+          "name": "team_id",
+          "description": "團隊的 ID。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_file_component_sets",
+      "name": "取得檔案元件集",
+      "description": "擷取特定 Figma 檔案中定義的所有元件集。",
+      "parameters": [
+        {
+          "name": "file_key",
+          "description": "檔案的鍵。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_file_styles",
+      "name": "取得檔案樣式",
+      "description": "擷取特定 Figma 檔案中定義的所有樣式。",
+      "parameters": [
+        {
+          "name": "file_key",
+          "description": "檔案的鍵。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_file_components",
+      "name": "取得檔案元件",
+      "description": "擷取特定 Figma 檔案中定義的所有元件。",
+      "parameters": [
+        {
+          "name": "file_key",
+          "description": "檔案的鍵。"
+        }
+      ]
+    }
+  ]
+} 
