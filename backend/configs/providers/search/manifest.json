@@ -1,0 +1,65 @@
+{
+    "identifier": "search",
+    "name": "Internet Search",
+    "description": "Provides access to Google Search results via the Serper API.",
+    "auth_type": "none",
+    "icon_url": "",
+    "categories": [
+        "search",
+        "web-search"
+    ],
+    "api_key_config": {
+        "value": "SERPER_API_KEY"
+    },
+    "operations": [
+        {
+            "identifier": "search",
+            "name": "Search",
+            "description": "Performs a search query using the Serper API.",
+            "category": "search",
+            "parameters": [
+                {
+                    "name": "query",
+                    "type": "string",
+                    "description": "The search query string.",
+                    "required": true
+                },
+                {
+                    "name": "country",
+                    "type": "string",
+                    "description": "Select the country code for the search. Examples: us (United States), gb (United Kingdom), fr (France), es (Spain), ca (Canada), mx (Mexico), it (Italy), cn (China), tw (Taiwan), jp (Japan), kr (South Korea), in (India), id (Indonesia).",
+                    "required": false,
+                    "enum": [
+                        "us",
+                        "gb",
+                        "fr",
+                        "es",
+                        "ca",
+                        "mx",
+                        "it",
+                        "cn",
+                        "tw",
+                        "jp",
+                        "kr",
+                        "in",
+                        "id"
+                    ],
+                    "default": "us"
+                },
+                {
+                    "name": "data_range",
+                    "type": "string",
+                    "description": "Select the time range for search results, looking back from the present (e.g., 'hour' restricts results to the past hour).",
+                    "required": false,
+                    "enum": [
+                        "hour",
+                        "day",
+                        "week",
+                        "month",
+                        "year"
+                    ]
+                }
+            ]
+        }
+    ]
+} 

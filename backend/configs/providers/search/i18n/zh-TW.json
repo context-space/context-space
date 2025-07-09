@@ -1,0 +1,26 @@
+{
+  "name": "網際網路搜尋",
+  "description": "透過 Serper API 提供對 Google 搜尋結果的存取。",
+  "categories": ["搜尋", "網路搜尋"],
+  "operations": [
+    {
+      "identifier": "search",
+      "name": "搜尋",
+      "description": "使用 Serper API 執行搜尋查詢。",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "搜尋查詢字串。"
+        },
+        {
+          "name": "country",
+          "description": "選擇搜尋的國家代碼。"
+        },
+        {
+          "name": "data_range",
+          "description": "選擇搜尋結果的時間範圍。"
+        }
+      ]
+    }
+  ]
+} 

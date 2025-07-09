@@ -1,0 +1,26 @@
+{
+  "name": "Internet Search",
+  "description": "Provides access to Google Search results via the Serper API.",
+  "categories": ["Search", "Web Search"],
+  "operations": [
+    {
+      "identifier": "search",
+      "name": "Search",
+      "description": "Performs a search query using the Serper API.",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "The search query string."
+        },
+        {
+          "name": "country",
+          "description": "Select the country code for the search."
+        },
+        {
+          "name": "data_range",
+          "description": "Select the time range for search results."
+        }
+      ]
+    }
+  ]
+} 
