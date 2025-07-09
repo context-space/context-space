@@ -1,0 +1,66 @@
+{
+  "name": "Zoom",
+  "description": "Zoom API integration for managing meetings, users, and recordings.",
+  "permissions": [
+    {
+      "identifier": "read_user_info",
+      "name": "Read User Info",
+      "description": "Allows reading basic user information."
+    },
+    {
+      "identifier": "manage_meetings",
+      "name": "Manage Meetings",
+      "description": "Allows creating, updating, and deleting meetings."
+    },
+    {
+      "identifier": "read_meetings",
+      "name": "Read Meetings",
+      "description": "Allows reading meeting details."
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "get_user_info",
+      "name": "Get User Information",
+      "description": "Retrieves information for the current authenticated user."
+    },
+    {
+      "identifier": "create_meeting",
+      "name": "Create Meeting",
+      "description": "Creates a new meeting for a user."
+    },
+    {
+      "identifier": "list_meetings",
+      "name": "List Meetings",
+      "description": "Lists all meetings for a user."
+    },
+    {
+      "identifier": "get_meeting_details",
+      "name": "Get Meeting Details",
+      "description": "Retrieves the details of a specific meeting."
+    },
+    {
+      "identifier": "list_recordings",
+      "name": "List Recordings",
+      "description": "List all recordings for the authenticated user.",
+      "parameters": [
+        {
+          "name": "page_size",
+          "description": "Number of results per page."
+        },
+        {
+          "name": "next_page_token",
+          "description": "Token for next page results."
+        },
+        {
+          "name": "from",
+          "description": "Start date for recordings query (YYYY-MM-DD)."
+        },
+        {
+          "name": "to",
+          "description": "End date for recordings query (YYYY-MM-DD)."
+        }
+      ]
+    }
+  ]
+} 

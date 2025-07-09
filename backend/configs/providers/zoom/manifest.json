@@ -1,0 +1,151 @@
+{
+  "identifier": "zoom",
+  "name": "Zoom",
+  "description": "Zoom API integration for managing meetings, users, and recordings.",
+  "icon_url": "", 
+  "categories": [
+    "communication",
+    "video conferencing",
+    "collaboration"
+  ],
+  "auth_type": "oauth",
+  "oauth_config": {
+    "client_id": "YOUR_CLIENT_ID",
+    "client_secret": "YOUR_CLIENT_SECRET"
+  },
+  "permissions": [
+    {
+      "identifier": "read_user_info",
+      "name": "Read User Info",
+      "description": "Allows reading basic user information.",
+      "oauth_scopes": ["user:read"] 
+    },
+    {
+      "identifier": "manage_meetings",
+      "name": "Manage Meetings",
+      "description": "Allows creating, updating, and deleting meetings.",
+      "oauth_scopes": ["meeting:write"] 
+    },
+    {
+      "identifier": "read_meetings",
+      "name": "Read Meetings",
+      "description": "Allows reading meeting details.",
+      "oauth_scopes": ["meeting:read"]
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "get_user_info",
+      "name": "Get User Information",
+      "description": "Retrieves information for the current authenticated user.",
+      "category": "users",
+      "required_permissions": ["read_user_info"],
+      "http_method": "GET",
+      "endpoint_path": "/users/me"
+    },
+    {
+      "identifier": "create_meeting",
+      "name": "Create Meeting",
+      "description": "Creates a new meeting for a user.",
+      "category": "meetings",
+      "required_permissions": ["manage_meetings"],
+      "http_method": "POST",
+      "endpoint_path": "/users/me/meetings",
+      "parameters": [
+        {
+          "name": "topic",
+          "type": "string",
+          "description": "Meeting topic.",
+          "required": true,
+          "location": "body"
+        },
+        {
+          "name": "type",
+          "type": "integer",
+          "description": "Meeting type (1: Instant, 2: Scheduled, 3: Recurring no fixed time, 8: Recurring fixed time).",
+          "required": true,
+          "location": "body"
+        },
+        {
+          "name": "start_time",
+          "type": "string",
+          "description": "Meeting start time (ISO 8601 format). Required for scheduled meetings.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "duration",
+          "type": "integer",
+          "description": "Meeting duration in minutes.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "timezone",
+          "type": "string",
+          "description": "Timezone for the meeting.",
+          "required": false,
+          "location": "body"
+        },
+        {
+            "name": "settings",
+            "type": "object",
+            "description": "Meeting settings object.",
+            "required": false,
+            "location": "body"
+        }
+      ]
+    },
+    {
+      "identifier": "list_meetings",
+      "name": "List Meetings",
+      "description": "Lists all meetings for a user.",
+      "category": "meetings",
+      "required_permissions": ["read_meetings"],
+      "http_method": "GET",
+      "endpoint_path": "/users/me/meetings",
+      "parameters": [
+        {
+          "name": "type",
+          "type": "string",
+          "description": "The type of meeting to list (scheduled, live, upcoming). Defaults to 'live'.",
+          "required": false,
+          "location": "query"
+        },
+        {
+          "name": "page_size",
+          "type": "integer",
+          "description": "Number of results per page.",
+          "required": false,
+          "location": "query",
+          "default": 30
+        },
+        {
+            "name": "next_page_token",
+            "type": "string",
+            "description": "Token for next page results.",
+            "required": false,
+            "location": "query"
+        }
+      ]
+    },
+    {
+      "identifier": "get_meeting_details",
+      "name": "Get Meeting Details",
+      "description": "Retrieves the details of a specific meeting.",
+      "category": "meetings",
+      "required_permissions": ["read_meetings"],
+      "http_method": "GET",
+      "endpoint_path": "/meetings/{meetingId}",
+      "parameters": [
+        {
+          "name": "meetingId",
+          "type": "string",
+          "description": "The ID of the meeting.",
+          "required": true,
+          "location": "path"
+        }
+      ]
+    }
+  ]
+}
