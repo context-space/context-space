@@ -1,0 +1,48 @@
+{
+  "name": "CFA Knowledge Base",
+  "description": "Volcengine Knowledge Base API integration for CFA",
+  "categories": ["AI", "Knowledge Base", "Search", "Finance"],
+  "operations": [
+    {
+      "identifier": "search_knowledge",
+      "name": "Search Knowledge",
+      "description": "Search for relevant documents in a knowledge base",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "The search query string"
+        }
+      ]
+    },
+    {
+      "identifier": "chat_completions",
+      "name": "Chat Completions",
+      "description": "Generate chat responses using a knowledge base context",
+      "parameters": [
+        {
+          "name": "model",
+          "description": "The model ID or endpoint ID for chat generation"
+        },
+        {
+          "name": "messages",
+          "description": "Conversation history messages"
+        }
+      ]
+    },
+    {
+      "identifier": "query",
+      "name": "Query",
+      "description": "Query the knowledge base",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "The query string"
+        },
+        {
+          "name": "messages",
+          "description": "Conversation history messages"
+        }
+      ]
+    }
+  ]
+} 
