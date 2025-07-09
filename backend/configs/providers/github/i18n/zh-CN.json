@@ -1,0 +1,600 @@
+{
+  "name": "GitHub",
+  "description": "版本控制与协作平台。",
+  "categories": ["开发者工具", "版本控制", "协作"],
+  "permissions": [
+    {
+      "identifier": "read_user",
+      "name": "读取用户信息",
+      "description": "读取用户信息"
+    },
+    {
+      "identifier": "repo_access",
+      "name": "仓库访问",
+      "description": "完全控制私有仓库"
+    },
+    {
+      "identifier": "read_org",
+      "name": "读取组织信息",
+      "description": "读取组织成员资格和公开信息"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "list_repositories",
+      "name": "列出仓库",
+      "description": "列出已认证用户的仓库",
+      "parameters": [
+        {
+          "name": "visibility",
+          "description": "按仓库可见性筛选"
+        },
+        {
+          "name": "type",
+          "description": "按仓库类型筛选"
+        },
+        {
+          "name": "sort",
+          "description": "仓库排序方式"
+        }
+      ]
+    },
+    {
+      "identifier": "get_repository",
+      "name": "获取仓库",
+      "description": "按拥有者和仓库名称获取仓库",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        }
+      ]
+    },
+    {
+      "identifier": "create_issue",
+      "name": "创建议题",
+      "description": "在仓库中创建议题",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        },
+        {
+          "name": "title",
+          "description": "议题标题"
+        },
+        {
+          "name": "body",
+          "description": "议题内容"
+        }
+      ]
+    },
+    {
+      "identifier": "get_me",
+      "name": "获取当前用户",
+      "description": "获取已认证用户的信息"
+    },
+    {
+      "identifier": "get_issue",
+      "name": "获取议题",
+      "description": "获取特定议题的详情",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        },
+        {
+          "name": "issue_number",
+          "description": "议题编号"
+        }
+      ]
+    },
+    {
+      "identifier": "get_issue_comments",
+      "name": "获取议题评论",
+      "description": "列出议题的评论",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        },
+        {
+          "name": "issue_number",
+          "description": "议题编号"
+        }
+      ]
+    },
+    {
+      "identifier": "update_issue",
+      "name": "更新议题",
+      "description": "更新现有议题",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        },
+        {
+          "name": "issue_number",
+          "description": "议题编号"
+        }
+      ]
+    },
+    {
+      "identifier": "create_file",
+      "name": "创建文件",
+      "description": "在仓库中创建新文件",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        },
+        {
+          "name": "path",
+          "description": "文件路径"
+        },
+        {
+          "name": "message",
+          "description": "提交消息"
+        },
+        {
+          "name": "content",
+          "description": "文件内容"
+        }
+      ]
+    },
+    {
+      "identifier": "update_file",
+      "name": "更新文件",
+      "description": "更新仓库中的现有文件",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        },
+        {
+          "name": "path",
+          "description": "文件路径"
+        },
+        {
+          "name": "message",
+          "description": "提交消息"
+        },
+        {
+          "name": "content",
+          "description": "文件内容"
+        },
+        {
+          "name": "sha",
+          "description": "文件 SHA"
+        }
+      ]
+    },
+    {
+      "identifier": "get_repository_content",
+      "name": "获取仓库内容",
+      "description": "获取文件或目录的内容",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        },
+        {
+          "name": "path",
+          "description": "内容路径"
+        }
+      ]
+    },
+    {
+      "identifier": "list_commits",
+      "name": "列出提交",
+      "description": "列出仓库中的提交",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        }
+      ]
+    },
+    {
+      "identifier": "delete_file",
+      "name": "删除文件",
+      "description": "从仓库中删除文件",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        },
+        {
+          "name": "path",
+          "description": "文件路径"
+        },
+        {
+          "name": "message",
+          "description": "提交消息"
+        },
+        {
+          "name": "sha",
+          "description": "文件 SHA"
+        }
+      ]
+    },
+    {
+      "identifier": "get_commit",
+      "name": "获取提交",
+      "description": "获取特定提交的详情",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        },
+        {
+          "name": "ref",
+          "description": "提交引用"
+        }
+      ]
+    },
+    {
+      "identifier": "list_pull_requests",
+      "name": "列出拉取请求",
+      "description": "列出仓库中的拉取请求",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        }
+      ]
+    },
+    {
+      "identifier": "get_pull_request",
+      "name": "获取拉取请求",
+      "description": "获取特定拉取请求的详情",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        },
+        {
+          "name": "number",
+          "description": "拉取请求编号"
+        }
+      ]
+    },
+    {
+      "identifier": "create_pull_request",
+      "name": "创建拉取请求",
+      "description": "创建新的拉取请求",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        },
+        {
+          "name": "title",
+          "description": "拉取请求标题"
+        },
+        {
+          "name": "head",
+          "description": "源分支"
+        },
+        {
+          "name": "base",
+          "description": "目标分支"
+        }
+      ]
+    },
+    {
+      "identifier": "list_repository_issues",
+      "name": "列出仓库议题",
+      "description": "列出仓库中的议题",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        }
+      ]
+    },
+    {
+      "identifier": "update_pull_request",
+      "name": "更新拉取请求",
+      "description": "更新现有拉取请求",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        },
+        {
+          "name": "number",
+          "description": "拉取请求编号"
+        }
+      ]
+    },
+    {
+      "identifier": "delete_ref",
+      "name": "删除引用",
+      "description": "删除 Git 引用",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        },
+        {
+          "name": "ref",
+          "description": "Git 引用"
+        }
+      ]
+    },
+    {
+      "identifier": "get_ref",
+      "name": "获取引用",
+      "description": "获取 Git 引用",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        },
+        {
+          "name": "ref",
+          "description": "Git 引用"
+        }
+      ]
+    },
+    {
+      "identifier": "create_ref",
+      "name": "创建引用",
+      "description": "创建新的 Git 引用",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        },
+        {
+          "name": "ref",
+          "description": "Git 引用"
+        },
+        {
+          "name": "sha",
+          "description": "指向的 SHA"
+        }
+      ]
+    },
+    {
+      "identifier": "merge_pull_request",
+      "name": "合并拉取请求",
+      "description": "合并拉取请求",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        },
+        {
+          "name": "number",
+          "description": "拉取请求编号"
+        }
+      ]
+    },
+    {
+      "identifier": "create_pull_request_review",
+      "name": "创建拉取请求评审",
+      "description": "为拉取请求创建评审",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        },
+        {
+          "name": "number",
+          "description": "拉取请求编号"
+        }
+      ]
+    },
+    {
+      "identifier": "list_pull_request_reviews",
+      "name": "列出拉取请求评审",
+      "description": "列出拉取请求的评审",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        },
+        {
+          "name": "number",
+          "description": "拉取请求编号"
+        }
+      ]
+    },
+    {
+      "identifier": "get_git_tree",
+      "name": "获取 Git 树",
+      "description": "获取 Git 树对象",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        },
+        {
+          "name": "tree_sha",
+          "description": "树 SHA"
+        }
+      ]
+    },
+    {
+      "identifier": "get_blob",
+      "name": "获取 Blob",
+      "description": "获取 Git blob 对象",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        },
+        {
+          "name": "file_sha",
+          "description": "文件 SHA"
+        }
+      ]
+    },
+    {
+      "identifier": "create_blob",
+      "name": "创建 Blob",
+      "description": "创建新的 Git blob 对象",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        },
+        {
+          "name": "content",
+          "description": "Blob 内容"
+        }
+      ]
+    },
+    {
+      "identifier": "create_repository_from_template",
+      "name": "从模板创建仓库",
+      "description": "从模板创建新仓库",
+      "parameters": [
+        {
+          "name": "template_owner",
+          "description": "模板仓库拥有者"
+        },
+        {
+          "name": "template_repo",
+          "description": "模板仓库名称"
+        },
+        {
+          "name": "name",
+          "description": "新仓库名称"
+        }
+      ]
+    },
+    {
+      "identifier": "star_repository",
+      "name": "标星仓库",
+      "description": "为仓库添加星标",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        }
+      ]
+    },
+    {
+      "identifier": "unstar_repository",
+      "name": "取消标星仓库",
+      "description": "取消仓库的星标",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "仓库拥有者"
+        },
+        {
+          "name": "repo",
+          "description": "仓库名称"
+        }
+      ]
+    }
+  ]
+} 

@@ -1,0 +1,600 @@
+{
+  "name": "GitHub",
+  "description": "版本控制與協作平台。",
+  "categories": ["開發者工具", "版本控制", "協作"],
+  "permissions": [
+    {
+      "identifier": "read_user",
+      "name": "讀取使用者資訊",
+      "description": "讀取使用者資訊"
+    },
+    {
+      "identifier": "repo_access",
+      "name": "儲存庫存取",
+      "description": "完全控制私人儲存庫"
+    },
+    {
+      "identifier": "read_org",
+      "name": "讀取組織資訊",
+      "description": "讀取組織成員資格和公開資訊"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "list_repositories",
+      "name": "列出儲存庫",
+      "description": "列出已驗證使用者的儲存庫",
+      "parameters": [
+        {
+          "name": "visibility",
+          "description": "依儲存庫可見性篩選"
+        },
+        {
+          "name": "type",
+          "description": "依儲存庫類型篩選"
+        },
+        {
+          "name": "sort",
+          "description": "儲存庫排序方式"
+        }
+      ]
+    },
+    {
+      "identifier": "get_repository",
+      "name": "取得儲存庫",
+      "description": "依擁有者和儲存庫名稱取得儲存庫",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        }
+      ]
+    },
+    {
+      "identifier": "create_issue",
+      "name": "建立議題",
+      "description": "在儲存庫中建立議題",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        },
+        {
+          "name": "title",
+          "description": "議題標題"
+        },
+        {
+          "name": "body",
+          "description": "議題內容"
+        }
+      ]
+    },
+    {
+      "identifier": "get_me",
+      "name": "取得目前使用者",
+      "description": "取得已驗證使用者的資訊"
+    },
+    {
+      "identifier": "get_issue",
+      "name": "取得議題",
+      "description": "取得特定議題的詳情",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        },
+        {
+          "name": "issue_number",
+          "description": "議題編號"
+        }
+      ]
+    },
+    {
+      "identifier": "get_issue_comments",
+      "name": "取得議題評論",
+      "description": "列出議題的評論",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        },
+        {
+          "name": "issue_number",
+          "description": "議題編號"
+        }
+      ]
+    },
+    {
+      "identifier": "update_issue",
+      "name": "更新議題",
+      "description": "更新現有議題",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        },
+        {
+          "name": "issue_number",
+          "description": "議題編號"
+        }
+      ]
+    },
+    {
+      "identifier": "create_file",
+      "name": "建立檔案",
+      "description": "在儲存庫中建立新檔案",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        },
+        {
+          "name": "path",
+          "description": "檔案路徑"
+        },
+        {
+          "name": "message",
+          "description": "提交訊息"
+        },
+        {
+          "name": "content",
+          "description": "檔案內容"
+        }
+      ]
+    },
+    {
+      "identifier": "update_file",
+      "name": "更新檔案",
+      "description": "更新儲存庫中的現有檔案",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        },
+        {
+          "name": "path",
+          "description": "檔案路徑"
+        },
+        {
+          "name": "message",
+          "description": "提交訊息"
+        },
+        {
+          "name": "content",
+          "description": "檔案內容"
+        },
+        {
+          "name": "sha",
+          "description": "檔案 SHA"
+        }
+      ]
+    },
+    {
+      "identifier": "get_repository_content",
+      "name": "取得儲存庫內容",
+      "description": "取得檔案或目錄的內容",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        },
+        {
+          "name": "path",
+          "description": "內容路徑"
+        }
+      ]
+    },
+    {
+      "identifier": "list_commits",
+      "name": "列出提交",
+      "description": "列出儲存庫中的提交",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        }
+      ]
+    },
+    {
+      "identifier": "delete_file",
+      "name": "刪除檔案",
+      "description": "從儲存庫中刪除檔案",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        },
+        {
+          "name": "path",
+          "description": "檔案路徑"
+        },
+        {
+          "name": "message",
+          "description": "提交訊息"
+        },
+        {
+          "name": "sha",
+          "description": "檔案 SHA"
+        }
+      ]
+    },
+    {
+      "identifier": "get_commit",
+      "name": "取得提交",
+      "description": "取得特定提交的詳情",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        },
+        {
+          "name": "ref",
+          "description": "提交參考"
+        }
+      ]
+    },
+    {
+      "identifier": "list_pull_requests",
+      "name": "列出拉取請求",
+      "description": "列出儲存庫中的拉取請求",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        }
+      ]
+    },
+    {
+      "identifier": "get_pull_request",
+      "name": "取得拉取請求",
+      "description": "取得特定拉取請求的詳情",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        },
+        {
+          "name": "number",
+          "description": "拉取請求編號"
+        }
+      ]
+    },
+    {
+      "identifier": "create_pull_request",
+      "name": "建立拉取請求",
+      "description": "建立新的拉取請求",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        },
+        {
+          "name": "title",
+          "description": "拉取請求標題"
+        },
+        {
+          "name": "head",
+          "description": "來源分支"
+        },
+        {
+          "name": "base",
+          "description": "目標分支"
+        }
+      ]
+    },
+    {
+      "identifier": "list_repository_issues",
+      "name": "列出儲存庫議題",
+      "description": "列出儲存庫中的議題",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        }
+      ]
+    },
+    {
+      "identifier": "update_pull_request",
+      "name": "更新拉取請求",
+      "description": "更新現有拉取請求",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        },
+        {
+          "name": "number",
+          "description": "拉取請求編號"
+        }
+      ]
+    },
+    {
+      "identifier": "delete_ref",
+      "name": "刪除參考",
+      "description": "刪除 Git 參考",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        },
+        {
+          "name": "ref",
+          "description": "Git 參考"
+        }
+      ]
+    },
+    {
+      "identifier": "get_ref",
+      "name": "取得參考",
+      "description": "取得 Git 參考",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        },
+        {
+          "name": "ref",
+          "description": "Git 參考"
+        }
+      ]
+    },
+    {
+      "identifier": "create_ref",
+      "name": "建立參考",
+      "description": "建立新的 Git 參考",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        },
+        {
+          "name": "ref",
+          "description": "Git 參考"
+        },
+        {
+          "name": "sha",
+          "description": "指向的 SHA"
+        }
+      ]
+    },
+    {
+      "identifier": "merge_pull_request",
+      "name": "合併拉取請求",
+      "description": "合併拉取請求",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        },
+        {
+          "name": "number",
+          "description": "拉取請求編號"
+        }
+      ]
+    },
+    {
+      "identifier": "create_pull_request_review",
+      "name": "建立拉取請求審查",
+      "description": "為拉取請求建立審查",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        },
+        {
+          "name": "number",
+          "description": "拉取請求編號"
+        }
+      ]
+    },
+    {
+      "identifier": "list_pull_request_reviews",
+      "name": "列出拉取請求審查",
+      "description": "列出拉取請求的審查",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        },
+        {
+          "name": "number",
+          "description": "拉取請求編號"
+        }
+      ]
+    },
+    {
+      "identifier": "get_git_tree",
+      "name": "取得 Git 樹",
+      "description": "取得 Git 樹物件",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        },
+        {
+          "name": "tree_sha",
+          "description": "樹 SHA"
+        }
+      ]
+    },
+    {
+      "identifier": "get_blob",
+      "name": "取得 Blob",
+      "description": "取得 Git blob 物件",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        },
+        {
+          "name": "file_sha",
+          "description": "檔案 SHA"
+        }
+      ]
+    },
+    {
+      "identifier": "create_blob",
+      "name": "建立 Blob",
+      "description": "建立新的 Git blob 物件",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        },
+        {
+          "name": "content",
+          "description": "Blob 內容"
+        }
+      ]
+    },
+    {
+      "identifier": "create_repository_from_template",
+      "name": "從範本建立儲存庫",
+      "description": "從範本建立新儲存庫",
+      "parameters": [
+        {
+          "name": "template_owner",
+          "description": "範本儲存庫擁有者"
+        },
+        {
+          "name": "template_repo",
+          "description": "範本儲存庫名稱"
+        },
+        {
+          "name": "name",
+          "description": "新儲存庫名稱"
+        }
+      ]
+    },
+    {
+      "identifier": "star_repository",
+      "name": "標星儲存庫",
+      "description": "為儲存庫加星",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        }
+      ]
+    },
+    {
+      "identifier": "unstar_repository",
+      "name": "取消標星儲存庫",
+      "description": "取消儲存庫的星標",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "儲存庫擁有者"
+        },
+        {
+          "name": "repo",
+          "description": "儲存庫名稱"
+        }
+      ]
+    }
+  ]
+} 

@@ -1,0 +1,600 @@
+{
+  "name": "GitHub",
+  "description": "A platform for version control and collaboration.",
+  "categories": ["Developer Tools", "Version Control", "Collaboration"],
+  "permissions": [
+    {
+      "identifier": "read_user",
+      "name": "Read User Info",
+      "description": "Read user information"
+    },
+    {
+      "identifier": "repo_access",
+      "name": "Repository Access",
+      "description": "Full control of private repositories"
+    },
+    {
+      "identifier": "read_org",
+      "name": "Read Organization Info",
+      "description": "Read organization membership and public information"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "list_repositories",
+      "name": "List Repositories",
+      "description": "List repositories for the authenticated user",
+      "parameters": [
+        {
+          "name": "visibility",
+          "description": "Filter by repository visibility"
+        },
+        {
+          "name": "type",
+          "description": "Filter by repository type"
+        },
+        {
+          "name": "sort",
+          "description": "Sort repositories by"
+        }
+      ]
+    },
+    {
+      "identifier": "get_repository",
+      "name": "Get Repository", 
+      "description": "Get a repository by owner and repo name",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        }
+      ]
+    },
+    {
+      "identifier": "create_issue",
+      "name": "Create Issue",
+      "description": "Create an issue in a repository", 
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        },
+        {
+          "name": "title",
+          "description": "Issue title"
+        },
+        {
+          "name": "body",
+          "description": "Issue body"
+        }
+      ]
+    },
+    {
+      "identifier": "get_me",
+      "name": "Get Current User",
+      "description": "Get information about the authenticated user"
+    },
+    {
+      "identifier": "get_issue",
+      "name": "Get Issue",
+      "description": "Get details of a specific issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        },
+        {
+          "name": "issue_number",
+          "description": "Issue number"
+        }
+      ]
+    },
+    {
+      "identifier": "get_issue_comments",
+      "name": "Get Issue Comments",
+      "description": "List comments on an issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        },
+        {
+          "name": "issue_number",
+          "description": "Issue number"
+        }
+      ]
+    },
+    {
+      "identifier": "update_issue",
+      "name": "Update Issue",
+      "description": "Update an existing issue",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        },
+        {
+          "name": "issue_number",
+          "description": "Issue number"
+        }
+      ]
+    },
+    {
+      "identifier": "create_file",
+      "name": "Create File",
+      "description": "Create a new file in a repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        },
+        {
+          "name": "path",
+          "description": "File path"
+        },
+        {
+          "name": "message",
+          "description": "Commit message"
+        },
+        {
+          "name": "content",
+          "description": "File content"
+        }
+      ]
+    },
+    {
+      "identifier": "update_file",
+      "name": "Update File",
+      "description": "Update an existing file in a repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        },
+        {
+          "name": "path",
+          "description": "File path"
+        },
+        {
+          "name": "message",
+          "description": "Commit message"
+        },
+        {
+          "name": "content",
+          "description": "File content"
+        },
+        {
+          "name": "sha",
+          "description": "File SHA"
+        }
+      ]
+    },
+    {
+      "identifier": "get_repository_content",
+      "name": "Get Repository Content",
+      "description": "Get content of a file or directory",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        },
+        {
+          "name": "path",
+          "description": "Content path"
+        }
+      ]
+    },
+    {
+      "identifier": "list_commits",
+      "name": "List Commits",
+      "description": "List commits in a repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        }
+      ]
+    },
+    {
+      "identifier": "delete_file",
+      "name": "Delete File",
+      "description": "Delete a file from a repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        },
+        {
+          "name": "path",
+          "description": "File path"
+        },
+        {
+          "name": "message",
+          "description": "Commit message"
+        },
+        {
+          "name": "sha",
+          "description": "File SHA"
+        }
+      ]
+    },
+    {
+      "identifier": "get_commit",
+      "name": "Get Commit",
+      "description": "Get details of a specific commit",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        },
+        {
+          "name": "ref",
+          "description": "Commit reference"
+        }
+      ]
+    },
+    {
+      "identifier": "list_pull_requests",
+      "name": "List Pull Requests",
+      "description": "List pull requests in a repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        }
+      ]
+    },
+    {
+      "identifier": "get_pull_request",
+      "name": "Get Pull Request",
+      "description": "Get details of a specific pull request",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        },
+        {
+          "name": "number",
+          "description": "Pull request number"
+        }
+      ]
+    },
+    {
+      "identifier": "create_pull_request",
+      "name": "Create Pull Request",
+      "description": "Create a new pull request",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        },
+        {
+          "name": "title",
+          "description": "Pull request title"
+        },
+        {
+          "name": "head",
+          "description": "Head branch"
+        },
+        {
+          "name": "base",
+          "description": "Base branch"
+        }
+      ]
+    },
+    {
+      "identifier": "list_repository_issues",
+      "name": "List Repository Issues",
+      "description": "List issues in a repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        }
+      ]
+    },
+    {
+      "identifier": "update_pull_request",
+      "name": "Update Pull Request",
+      "description": "Update an existing pull request",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        },
+        {
+          "name": "number",
+          "description": "Pull request number"
+        }
+      ]
+    },
+    {
+      "identifier": "delete_ref",
+      "name": "Delete Reference",
+      "description": "Delete a Git reference",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        },
+        {
+          "name": "ref",
+          "description": "Git reference"
+        }
+      ]
+    },
+    {
+      "identifier": "get_ref",
+      "name": "Get Reference",
+      "description": "Get a Git reference",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        },
+        {
+          "name": "ref",
+          "description": "Git reference"
+        }
+      ]
+    },
+    {
+      "identifier": "create_ref",
+      "name": "Create Reference",
+      "description": "Create a new Git reference",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        },
+        {
+          "name": "ref",
+          "description": "Git reference"
+        },
+        {
+          "name": "sha",
+          "description": "SHA to point to"
+        }
+      ]
+    },
+    {
+      "identifier": "merge_pull_request",
+      "name": "Merge Pull Request",
+      "description": "Merge a pull request",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        },
+        {
+          "name": "number",
+          "description": "Pull request number"
+        }
+      ]
+    },
+    {
+      "identifier": "create_pull_request_review",
+      "name": "Create Pull Request Review",
+      "description": "Create a review for a pull request",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        },
+        {
+          "name": "number",
+          "description": "Pull request number"
+        }
+      ]
+    },
+    {
+      "identifier": "list_pull_request_reviews",
+      "name": "List Pull Request Reviews",
+      "description": "List reviews for a pull request",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        },
+        {
+          "name": "number",
+          "description": "Pull request number"
+        }
+      ]
+    },
+    {
+      "identifier": "get_git_tree",
+      "name": "Get Git Tree",
+      "description": "Get a Git tree object",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        },
+        {
+          "name": "tree_sha",
+          "description": "Tree SHA"
+        }
+      ]
+    },
+    {
+      "identifier": "get_blob",
+      "name": "Get Blob",
+      "description": "Get a Git blob object",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        },
+        {
+          "name": "file_sha",
+          "description": "File SHA"
+        }
+      ]
+    },
+    {
+      "identifier": "create_blob",
+      "name": "Create Blob",
+      "description": "Create a new Git blob object",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        },
+        {
+          "name": "content",
+          "description": "Blob content"
+        }
+      ]
+    },
+    {
+      "identifier": "create_repository_from_template",
+      "name": "Create Repository from Template",
+      "description": "Create a new repository from a template",
+      "parameters": [
+        {
+          "name": "template_owner",
+          "description": "Template repository owner"
+        },
+        {
+          "name": "template_repo",
+          "description": "Template repository name"
+        },
+        {
+          "name": "name",
+          "description": "New repository name"
+        }
+      ]
+    },
+    {
+      "identifier": "star_repository",
+      "name": "Star Repository",
+      "description": "Star a repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        }
+      ]
+    },
+    {
+      "identifier": "unstar_repository",
+      "name": "Unstar Repository",
+      "description": "Unstar a repository",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "Repository owner"
+        },
+        {
+          "name": "repo",
+          "description": "Repository name"
+        }
+      ]
+    }
+  ]
+} 
