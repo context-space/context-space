@@ -1,0 +1,58 @@
+{
+  "name": "Spotify",
+  "description": "Spotify API 集成，用于管理播放列表和用户音乐库。",
+  "permissions": [
+    {
+      "identifier": "read_private_playlists",
+      "name": "读取私人播放列表",
+      "description": "读取用户私人播放列表的权限。"
+    },
+    {
+      "identifier": "modify_public_playlists",
+      "name": "修改公开播放列表",
+      "description": "修改用户公开播放列表的权限。"
+    },
+    {
+      "identifier": "modify_private_playlists",
+      "name": "修改私人播放列表",
+      "description": "修改用户私人播放列表的权限。"
+    },
+    {
+      "identifier": "read_user_library",
+      "name": "读取用户音乐库",
+      "description": "读取用户音乐库的权限。"
+    },
+    {
+      "identifier": "modify_user_library",
+      "name": "修改用户音乐库",
+      "description": "修改和删除用户音乐库内容的权限。"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "create_playlist",
+      "name": "创建播放列表",
+      "description": "为用户创建新的播放列表。"
+    },
+    {
+      "identifier": "add_tracks_to_playlist",
+      "name": "添加歌曲到播放列表",
+      "description": "向播放列表添加一首或多首歌曲。"
+    },
+    {
+      "identifier": "get_playlist_tracks",
+      "name": "获取播放列表歌曲",
+      "description": "获取播放列表中的歌曲列表。"
+    },
+    {
+      "identifier": "remove_playlist_tracks",
+      "name": "从播放列表移除歌曲",
+      "description": "从播放列表中移除一首或多首歌曲。"
+    },
+    {
+      "identifier": "get_current_user_playlists",
+      "name": "获取当前用户的播放列表",
+      "description": "获取当前Spotify用户拥有或关注的播放列表。"
+    }
+  ]
+} 

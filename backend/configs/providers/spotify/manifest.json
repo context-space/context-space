@@ -1,0 +1,242 @@
+{
+  "identifier": "spotify",
+  "name": "Spotify",
+  "description": "Spotify API integration for managing playlists and user library.",
+  "icon_url": "",
+  "categories": [
+    "music",
+    "entertainment"
+  ],
+  "auth_type": "oauth",
+  "oauth_config": {
+    "client_id": "YOUR_SPOTIFY_CLIENT_ID",
+    "client_secret": "YOUR_SPOTIFY_CLIENT_SECRET"
+  },
+  "permissions": [
+    {
+      "identifier": "read_private_playlists",
+      "name": "Read Private Playlists",
+      "description": "Read access to a user's private playlists.",
+      "oauth_scopes": ["playlist-read-private"]
+    },
+    {
+      "identifier": "modify_public_playlists",
+      "name": "Modify Public Playlists",
+      "description": "Write access to a user's public playlists.",
+      "oauth_scopes": ["playlist-modify-public"]
+    },
+    {
+      "identifier": "modify_private_playlists",
+      "name": "Modify Private Playlists",
+      "description": "Write access to a user's private playlists.",
+      "oauth_scopes": ["playlist-modify-private"]
+    },
+    {
+      "identifier": "read_user_library",
+      "name": "Read User Library",
+      "description": "Read access to a user's library.",
+      "oauth_scopes": ["user-library-read"]
+    },
+    {
+      "identifier": "modify_user_library",
+      "name": "Modify User Library",
+      "description": "Write/delete access to a user's library.",
+      "oauth_scopes": ["user-library-modify"]
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "create_playlist",
+      "name": "Create Playlist",
+      "description": "Create a new playlist for a user.",
+      "category": "playlists",
+      "required_permissions": ["modify_public_playlists", "modify_private_playlists"],
+      "http_method": "POST",
+      "endpoint_path": "/users/{user_id}/playlists",
+      "parameters": [
+        {
+          "name": "user_id",
+          "type": "string",
+          "description": "The user's Spotify user ID.",
+          "required": true,
+          "location": "path"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "The name for the new playlist.",
+          "required": true,
+          "location": "body" 
+        },
+        {
+          "name": "public",
+          "type": "boolean",
+          "description": "Defaults to true. If true the playlist will be public, if false it will be private.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "collaborative",
+          "type": "boolean",
+          "description": "Defaults to false. If true the playlist will be collaborative.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "Value for playlist description as displayed in Spotify Clients and in the Web API.",
+          "required": false,
+          "location": "body"
+        }
+      ]
+    },
+    {
+      "identifier": "add_tracks_to_playlist",
+      "name": "Add Tracks to Playlist",
+      "description": "Add one or more tracks to a playlist.",
+      "category": "playlists",
+      "required_permissions": ["modify_public_playlists", "modify_private_playlists"],
+      "http_method": "POST",
+      "endpoint_path": "/playlists/{playlist_id}/tracks",
+      "parameters": [
+        {
+          "name": "playlist_id",
+          "type": "string",
+          "description": "The Spotify ID of the playlist.",
+          "required": true,
+          "location": "path"
+        },
+        {
+          "name": "uris",
+          "type": "array",
+          "description": "A JSON array of the Spotify track URIs to add.",
+          "required": true,
+          "location": "body",
+          "items": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "position",
+          "type": "integer",
+          "description": "The position to insert the tracks, a zero-based index.",
+          "required": false,
+          "location": "body"
+        }
+      ]
+    },
+    {
+      "identifier": "get_playlist_tracks",
+      "name": "Get Playlist's Tracks",
+      "description": "Get a list of the tracks in a playlist.",
+      "category": "playlists",
+      "required_permissions": ["read_private_playlists"],
+      "http_method": "GET",
+      "endpoint_path": "/playlists/{playlist_id}/tracks",
+      "parameters": [
+        {
+          "name": "playlist_id",
+          "type": "string",
+          "description": "The Spotify ID of the playlist.",
+          "required": true,
+          "location": "path"
+        },
+        {
+          "name": "fields",
+          "type": "string",
+          "description": "A comma-separated list of fields to return.",
+          "required": false,
+          "location": "query"
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "description": "The maximum number of items to return. Default: 100. Minimum: 1. Maximum: 100.",
+          "required": false,
+          "location": "query"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "description": "The index of the first item to return. Default: 0 (the first object).",
+          "required": false,
+          "location": "query"
+        },
+        {
+          "name": "market",
+          "type": "string",
+          "description": "An ISO 3166-1 alpha-2 country code.",
+          "required": false,
+          "location": "query"
+        }
+      ]
+    },
+    {
+      "identifier": "remove_playlist_tracks",
+      "name": "Remove Playlist Tracks",
+      "description": "Remove one or more tracks from a playlist.",
+      "category": "playlists",
+      "required_permissions": ["modify_public_playlists", "modify_private_playlists"],
+      "http_method": "DELETE",
+      "endpoint_path": "/playlists/{playlist_id}/tracks",
+      "parameters": [
+        {
+          "name": "playlist_id",
+          "type": "string",
+          "description": "The Spotify ID of the playlist.",
+          "required": true,
+          "location": "path"
+        },
+        {
+          "name": "tracks",
+          "type": "array",
+          "description": "An array of objects containing Spotify URIs of the tracks to remove.",
+          "required": true,
+          "location": "body",
+          "items": {
+            "type": "object",
+            "properties": {
+                "uri": {
+                    "type": "string",
+                    "description": "Spotify track URI"
+                }
+            }
+          }
+        },
+        {
+          "name": "snapshot_id",
+          "type": "string",
+          "description": "The playlist's snapshot ID.",
+          "required": false,
+          "location": "body"
+        }
+      ]
+    },
+    {
+      "identifier": "get_current_user_playlists",
+      "name": "Get Current User's Playlists",
+      "description": "Get a list of the playlists owned or followed by the current Spotify user.",
+      "category": "playlists",
+      "required_permissions": ["read_private_playlists"],
+      "http_method": "GET",
+      "endpoint_path": "/me/playlists",
+      "parameters": [
+        {
+          "name": "limit",
+          "type": "integer",
+          "description": "The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.",
+          "required": false,
+          "location": "query"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "description": "The index of the first playlist to return. Default: 0 (the first object). Maximum offset: 100,000.",
+          "required": false,
+          "location": "query"
+        }
+      ]
+    }
+  ]
+}
