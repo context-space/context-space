@@ -1,0 +1,231 @@
+{
+  "name": "Slack",
+  "description": "A messaging platform for teams and organizations.",
+  "categories": ["Communication", "Team Collaboration", "Messaging"],
+  "permissions": [
+    {
+      "identifier": "send_message",
+      "name": "Send Messages",
+      "description": "Allows sending messages in channels, groups, and direct messages (chat.write)"
+    },
+    {
+      "identifier": "read_conversations",
+      "name": "Read Conversations",
+      "description": "Allows reading basic information about conversations (channels, groups, ims)"
+    },
+    {
+      "identifier": "read_messages",
+      "name": "Read Messages",
+      "description": "Allows reading message history in conversations"
+    },
+    {
+      "identifier": "write_im",
+      "name": "Open Direct Messages",
+      "description": "Allows opening direct message conversations"
+    },
+    {
+      "identifier": "read_users",
+      "name": "Read User Info",
+      "description": "Read basic user information"
+    },
+    {
+      "identifier": "read_user_profile",
+      "name": "Read User Profile",
+      "description": "Read detailed user profile information"
+    },
+    {
+      "identifier": "read_reactions",
+      "name": "Read Reactions",
+      "description": "Read emoji reactions on messages"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "post_message",
+      "name": "Post Message",
+      "description": "Send a message to a channel, group or direct message conversation (chat.postMessage)",
+      "parameters": [
+        {
+          "name": "channel",
+          "description": "Conversation ID (channel, group or DM)"
+        },
+        {
+          "name": "text",
+          "description": "Plain-text message content"
+        },
+        {
+          "name": "blocks",
+          "description": "Block Kit rich message blocks (JSON)"
+        }
+      ]
+    },
+    {
+      "identifier": "reply_in_thread",
+      "name": "Reply In Thread",
+      "description": "Reply to a message thread (chat.postMessage with thread_ts)",
+      "parameters": [
+        {
+          "name": "channel",
+          "description": "Conversation ID that contains the thread"
+        },
+        {
+          "name": "thread_ts",
+          "description": "Timestamp of the parent message to reply to"
+        },
+        {
+          "name": "text",
+          "description": "Plain-text reply content"
+        },
+        {
+          "name": "reply_broadcast",
+          "description": "Whether to also send the reply to the channel"
+        },
+        {
+          "name": "blocks",
+          "description": "Block Kit rich message blocks (JSON)"
+        }
+      ]
+    },
+    {
+      "identifier": "list_thread_messages",
+      "name": "List Thread Messages",
+      "description": "List messages in a thread (conversations.replies)",
+      "parameters": [
+        {
+          "name": "channel",
+          "description": "Conversation ID that contains the thread"
+        },
+        {
+          "name": "ts",
+          "description": "Timestamp of the parent message"
+        },
+        {
+          "name": "cursor",
+          "description": "Cursor for pagination"
+        },
+        {
+          "name": "limit",
+          "description": "Maximum number of messages to return"
+        }
+      ]
+    },
+    {
+      "identifier": "list_channels",
+      "name": "List Channels",
+      "description": "List channels visible to the authenticated user (conversations.list)",
+      "parameters": [
+        {
+          "name": "types",
+          "description": "Filter conversation types (comma-separated)"
+        },
+        {
+          "name": "exclude_archived",
+          "description": "Whether to exclude archived conversations"
+        },
+        {
+          "name": "cursor",
+          "description": "Cursor for pagination"
+        },
+        {
+          "name": "limit",
+          "description": "Maximum number of results to return"
+        }
+      ]
+    },
+    {
+      "identifier": "list_direct_messages",
+      "name": "List Direct Messages",
+      "description": "List direct message conversations for the authenticated user (conversations.list with types=im)",
+      "parameters": [
+        {
+          "name": "cursor",
+          "description": "Cursor for pagination"
+        },
+        {
+          "name": "limit",
+          "description": "Maximum number of results to return"
+        }
+      ]
+    },
+    {
+      "identifier": "open_direct_message",
+      "name": "Open Direct Message",
+      "description": "Open (or retrieve) a direct message conversation with a user (conversations.open)",
+      "parameters": [
+        {
+          "name": "user_id",
+          "description": "Slack User ID to open a DM with"
+        },
+        {
+          "name": "return_im",
+          "description": "Set to true to return the DM conversation if it already exists"
+        }
+      ]
+    },
+    {
+      "identifier": "list_channel_members",
+      "name": "List Channel Members",
+      "description": "List members in a channel (conversations.members)",
+      "parameters": [
+        {
+          "name": "channel",
+          "description": "Channel ID"
+        },
+        {
+          "name": "cursor",
+          "description": "Cursor for pagination"
+        },
+        {
+          "name": "limit",
+          "description": "Maximum number of results to return"
+        }
+      ]
+    },
+    {
+      "identifier": "list_channel_messages",
+      "name": "List Channel Messages",
+      "description": "List messages in a channel or DM (conversations.history)",
+      "parameters": [
+        {
+          "name": "channel",
+          "description": "Conversation ID to fetch history for"
+        },
+        {
+          "name": "cursor",
+          "description": "Cursor for pagination"
+        },
+        {
+          "name": "limit",
+          "description": "Maximum number of messages to return"
+        },
+        {
+          "name": "oldest",
+          "description": "Only include messages after this timestamp"
+        },
+        {
+          "name": "latest",
+          "description": "Only include messages before this timestamp"
+        }
+      ]
+    },
+    {
+      "identifier": "send_direct_message",
+      "name": "Send Direct Message",
+      "description": "Send a direct message to a user. This is a convenience wrapper: it first opens a DM channel with the user (conversations.open) if needed, then sends the message using chat.postMessage.",
+      "parameters": [
+        {
+          "name": "user_id",
+          "description": "Slack User ID to send message to"
+        },
+        {
+          "name": "text",
+          "description": "Plain-text message content"
+        },
+        {
+          "name": "blocks",
+          "description": "Block Kit rich message blocks (JSON)"
+        }
+      ]
+    }
+  ]
+} 
