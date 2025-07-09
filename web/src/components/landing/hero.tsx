@@ -58,7 +58,7 @@ export function Hero() {
               </Link>
             </Button>
             <Button asChild variant="outline" className="h-14 px-8 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300" size="lg">
-              <Link href="/blogs/what-is-context-engineering" className="group inline-flex items-center justify-center gap-3">
+              <Link href="/blogs/context-is-the-new-engine" className="group inline-flex items-center justify-center gap-3">
                 {t("hero.readMore")}
                 <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform duration-300" />
               </Link>
