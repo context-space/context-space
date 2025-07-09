@@ -1,0 +1,41 @@
+{
+  "name": "Context Space - Ultimate Context Engineering Infrastructure",
+  "short_name": "Context Space",
+  "description": "Ultimate Context Engineering Infrastructure for AI Agents.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#9496e4",
+  "orientation": "portrait-primary",
+  "categories": [
+    "MCP",
+    "Model Context Protocol",
+    "Context Engineering",
+    "AI Integration",
+    "Workflow Automation",
+    "Enterprise Security",
+    "Cloud Native",
+    "Open Source",
+    "API Integration",
+    "Team Collaboration"
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/api/og",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Context Space Screenshot"
+    }
+  ]
+}

@@ -1,0 +1,394 @@
+{
+  "404": {
+    "title": "页面未找到",
+    "description": "抱歉，您访问的页面不存在。",
+    "backHome": "返回首页"
+  },
+  "500": {
+    "title": "500",
+    "description": "内部服务器错误",
+    "goHome": "返回首页"
+  },
+  "hero": {
+    "badge": "开源",
+    "getStarted": "开始使用",
+    "viewOnGithub": "在 GitHub 上查看",
+    "title": {
+      "part1": "终极",
+      "part2": "语境工程",
+      "part3": "基础设施"
+    },
+    "typewriter": {
+      "prefix": "一个",
+      "word1": "语境",
+      "word2": "空间",
+      "word3": "步骤"
+    },
+    "features": {
+      "1": {
+        "title": "语境工程基础设施",
+        "description": "超越提示工程的全面语境管理 - 在正确的时间，以正确的格式提供正确的信息。"
+      },
+      "2": {
+        "title": "14+ 服务集成",
+        "description": "与 GitHub、Slack、Airtable、HubSpot、Notion、Figma、Spotify、Stripe 等服务的生产级集成。"
+      },
+      "3": {
+        "title": "增强的 MCP 支持",
+        "description": "生产级模型语境协议实现，内置 OAuth 流程和持久化凭证管理。"
+      },
+      "4": {
+        "title": "企业级安全",
+        "description": "HashiCorp Vault 集成、自动令牌轮换、加密凭证存储和 OAuth UI 流程。"
+      },
+      "5": {
+        "title": "RESTful API",
+        "description": "简洁的 HTTP 端点，在 api.context.space 提供全面文档，生产环境中可靠运行。"
+      },
+      "6": {
+        "title": "开源社区",
+        "description": "AGPL v3 许可证过渡到 Apache 2.0，活跃的 Discord 社区和友好的贡献流程。"
+      }
+    },
+    "readMore": "了解更多"
+  },
+  "index": {
+    "title": "Context Space"
+  },
+  "landing": {
+    "features": {
+      "title": "您所需要的一切",
+      "subtitle": "强大的功能设计，旨在简化您的工作流程，提升生产力，并提供企业级安全性和性能保障",
+      "cta": {
+        "text": "想了解更多？查看我们的路线图或",
+        "link": "在 GitHub 上贡献"
+      }
+    },
+    "roadmap": {
+      "title": "语境工程路线图",
+      "subtitle": "从生产级集成到基于 MCP 原则的完整语境工程基础设施的发展历程。",
+      "status": {
+        "completed": "生产就绪",
+        "current": "开发中",
+        "planned": "计划中"
+      },
+      "items": {
+        "productionInfrastructure": "生产级部署基础设施",
+        "serviceIntegrations": "14+ 服务集成 (GitHub、Slack、HubSpot 等)",
+        "oauthFlows": "内置 OAuth 流程和凭证管理",
+        "enterpriseSecurity": "HashiCorp Vault 集成和企业安全",
+        "nativeMcpSupport": "原生模型语境协议支持",
+        "contextMemory": "持久化语境内存和状态管理",
+        "smartAggregation": "跨服务智能语境聚合",
+        "apiDocumentation": "全面的 RESTful API 文档",
+        "semanticRetrieval": "语义语境检索和搜索",
+        "contextOptimization": "智能语境优化",
+        "realtimeUpdates": "实时语境更新和同步",
+        "advancedMcp": "高级 MCP 生态系统功能",
+        "contextSynthesis": "AI 驱动的语境合成",
+        "predictiveLoading": "预测性语境加载",
+        "aiContextReasoning": "AI 语境推理和智能",
+        "fullContextEngineering": "完整语境工程平台"
+      }
+    }
+  },
+  "nav": {
+    "integrations": "集成",
+    "workflows": "工作流",
+    "documents": "文档",
+    "blogs": "博客",
+    "home": "首页",
+    "features": "功能",
+    "roadmap": "路线图"
+  },
+  "header": {
+    "login": "登录",
+    "openMobileMenu": "打开主菜单",
+    "closeMobileMenu": "关闭主菜单"
+  },
+  "theme": {
+    "light": "浅色",
+    "dark": "深色",
+    "system": "系统",
+    "toggle": "切换主题"
+  },
+  "language": {
+    "toggle": "切换语言",
+    "english": "English",
+    "chinese": "中文",
+    "traditionalChinese": "繁体中文"
+  },
+  "common": {
+    "loggingOut": "正在登出...",
+    "logout": "登出",
+    "loading": "加载中...",
+    "toggle": "切换",
+    "connect": "连接",
+    "disconnect": "断开连接",
+    "save": "保存",
+    "cancel": "取消",
+    "confirm": "确认",
+    "yes": "是",
+    "no": "否",
+    "loggingIn": "正在登录...",
+    "anonymous": "匿名",
+    "user": "用户",
+    "connected": "已连接",
+    "logo": "Context Space 标志",
+    "goHome": "返回首页",
+    "github": "GitHub"
+  },
+  "login": {
+    "title": "登录",
+    "emailLabel": "邮箱",
+    "emailPlaceholder": "请输入您的邮箱",
+    "codeLabel": "验证码",
+    "codePlaceholder": "000000",
+    "sendCode": "发送验证码",
+    "sendingCode": "发送中...",
+    "codeSent": "验证码已发送！请检查您的邮箱。",
+    "codeFailed": "发送验证码失败，请重试。",
+    "invalidEmail": "请输入有效的邮箱地址",
+    "emptyEmail": "请输入您的邮箱地址",
+    "terms": "我同意",
+    "termsOfService": "服务条款",
+    "privacyPolicy": "隐私政策",
+    "loginWithEmail": "邮箱登录",
+    "or": "或",
+    "continueAsGuest": "游客继续",
+    "continueWith": "使用 {provider} 继续",
+    "loginFailed": "登录失败。请重试。",
+    "enterBothFields": "请输入邮箱和验证码",
+    "oauthFailed": "OAuth 登录失败",
+    "anonymousFailed": "匿名登录失败",
+    "enterCode": "验证码",
+    "invalidCode": "验证码无效",
+    "captchaRequired": "请完成验证码验证",
+    "captchaFailed": "验证码验证失败。请重试。"
+  },
+  "oauth": {
+    "loggingIn": "正在登录...",
+    "connectingWith": "正在连接 {provider}...",
+    "pleaseWait": "请稍候..."
+  },
+  "auth": {
+    "oauth": {
+      "processing": "正在处理身份验证...",
+      "loginSuccess": "登录成功！",
+      "redirecting": "正在为您跳转到目标页面...",
+      "authenticationFailed": "身份验证失败",
+      "serverError": "服务器错误",
+      "unknownError": "发生未知错误",
+      "tryAgain": "请重试或联系客服",
+      "retryLogin": "重新登录",
+      "continueNow": "立即继续",
+      "noAutoRedirect": "如果没有自动跳转，",
+      "clickHere": "请点击这里",
+      "titles": {
+        "authenticationError": "身份验证错误",
+        "authenticationSuccessful": "身份验证成功",
+        "processingAuthentication": "正在处理身份验证"
+      },
+      "redirectingAutomatically": "自动跳转中...",
+      "mcp": {
+        "connectingWith": "正在连接 {provider}...",
+        "errorOccurred": "OAuth 过程中发生错误。",
+        "connectionSuccessful": "连接成功完成。",
+        "redirectWait": "请稍候，我们将为您跳转以完成身份验证。",
+        "processingCallback": "正在处理 OAuth 回调...",
+        "successMessage": "连接成功！此窗口将自动关闭。",
+        "autoCloseMessage": "此窗口将自动关闭。",
+        "close": "关闭",
+        "tryAgain": "重试",
+        "authenticationFailed": "OAuth 身份验证失败",
+        "invalidCallback": "无效的 OAuth 回调 - 缺少必需的参数"
+      }
+    }
+  },
+  "footer": {
+    "product": "产品",
+    "features": "功能",
+    "community": "社区",
+    "resources": "资源",
+    "legal": "法律条款",
+    "terms": "服务条款",
+    "privacy": "隐私政策",
+    "resourcesItems": {
+      "docs": "文档",
+      "blogs": "博客",
+      "roadmap": "路线图"
+    },
+    "contact": {
+      "text": "联系我们：",
+      "email": "hi@context.space"
+    },
+    "newsletter": {
+      "title": "订阅通讯",
+      "success": "订阅成功",
+      "description": "获取最新功能和发布信息。",
+      "placeholder": "输入您的邮箱",
+      "button": "订阅",
+      "error": "订阅失败"
+    },
+    "info": {
+      "title": "信息",
+      "aboutUs": "关于我们",
+      "contact": "联系我们"
+    },
+    "copyright": "© {year} Context Space. 保留所有权利。"
+  },
+  "account": {
+    "title": "账户",
+    "logout": "登出",
+    "accountInformation": "账户信息",
+    "userId": "用户 ID",
+    "accountType": "账户类型",
+    "accountTypes": {
+      "anonymous": "匿名",
+      "registered": "已注册"
+    },
+    "createdAt": "创建时间",
+    "lastSignIn": "最后登录",
+    "connectedAccounts": "关联账户",
+    "settings": {
+      "title": "账户设置",
+      "email": "邮箱",
+      "password": "密码",
+      "save": "保存"
+    }
+  },
+  "documents": {
+    "title": "文档",
+    "pageTitle": "文档中心",
+    "pageSubtitle": "全面的指南、教程和 API 文档",
+    "featured": "精选",
+    "totalDocuments": "篇文档",
+    "categories": "个分类",
+    "noDocumentsFound": "未找到文档",
+    "workingOnMore": "我们正在努力添加更多文档。请稍后查看！",
+    "search": {
+      "title": "搜索文档",
+      "placeholder": "搜索指南和教程...",
+      "noResults": "未找到相关文档。",
+      "tryDifferentQuery": "请尝试使用不同的关键词搜索。"
+    }
+  },
+  "workflows": {
+    "title": "工作流"
+  },
+  "blogs": {
+    "title": "博客",
+    "pageTitle": "最新动态与洞察",
+    "pageSubtitle": "了解 Context Space 的最新资讯、教程和技术洞察",
+    "featured": "精选",
+    "recentBlogs": "最新文章",
+    "readMore": "阅读更多",
+    "publishedOn": "发布于",
+    "by": "作者",
+    "minuteRead": "分钟阅读",
+    "noPostsFound": "未找到博客文章",
+    "workingOnMore": "我们正在努力添加更多内容。请稍后查看！",
+    "categories": {
+      "all": "全部",
+      "news": "资讯",
+      "tutorials": "教程",
+      "tutorial": "教程",
+      "updates": "更新",
+      "insights": "洞察",
+      "docs": "文档",
+      "AI Engineering": "AI 工程"
+    },
+    "search": {
+      "placeholder": "搜索博客文章...",
+      "noResults": "未找到符合搜索条件的文章。",
+      "tryDifferentQuery": "请尝试使用不同的关键词搜索。"
+    }
+  },
+  "integrations": {
+    "pageTitle": "集成",
+    "pageSubtitle": "浏览和发现集成",
+    "noIntegrationsFound": "未找到集成",
+    "workingOnMore": "我们正在努力添加更多集成。请稍后查看！",
+    "latestIntegrations": "最新",
+    "search": {
+      "title": "搜索集成",
+      "description": "搜索集成和提供商",
+      "placeholder": "搜索集成...",
+      "noResults": "未找到集成。",
+      "empty": "找不到您要的内容？",
+      "submitIssue": "提交 GitHub Issue",
+      "or": "或",
+      "contactUs": "联系我们"
+    },
+    "status": {
+      "active": "活跃",
+      "inactive": "不活跃",
+      "connected": "已连接",
+      "unconnected": "可用",
+      "free": "无需连接"
+    },
+    "connect": {
+      "title": "连接",
+      "connected": "已连接",
+      "noConnectionRequired": "无需连接",
+      "noConnectionRequiredDesc": "此集成无需连接。",
+      "oauth": {
+        "description": "使用 OAuth 连接以授权访问您的账户。",
+        "requiredPermissions": "权限",
+        "selectAll": "全选",
+        "permissionsNote": "缺少权限可能导致某些操作无法正常工作。",
+        "connecting": "连接中...",
+        "updating": "更新中...",
+        "connectWithOAuth": "使用 OAuth 连接",
+        "updatePermissions": "更新权限",
+        "disconnect": "断开连接",
+        "permissions": "个权限"
+      },
+      "apiKey": {
+        "title": "API 密钥",
+        "description": "输入您的 API 密钥以连接此集成。",
+        "placeholder": "输入您的 API 密钥",
+        "howToGet": "如何获取 API 密钥？",
+        "secureNote": "您的 API 密钥将被安全存储和加密",
+        "saveApiKey": "保存 API 密钥",
+        "connecting": "连接中...",
+        "disconnecting": "断开连接中...",
+        "show": "显示",
+        "hide": "隐藏"
+      },
+      "loginRequired": "需要登录",
+      "loginRequiredDescription": "请先登录以连接集成并访问此功能。"
+    }
+  },
+  "operations": {
+    "title": "操作",
+    "description": "此集成可用的操作",
+    "availableCount": "共有 {count} 个可用操作",
+    "clickToExecute": "点击任意操作即可在游乐场中执行"
+  },
+  "playground": {
+    "title": "游乐场",
+    "thinking": "思考中...",
+    "processing": "处理中...",
+    "error": "错误",
+    "clear": "清除",
+    "send": "发送",
+    "stop": "停止",
+    "placeholder": "输入您的消息...",
+    "waitingResponse": "等待响应...",
+    "welcomeMessage": "您好！我是您的 AI 助手。今天我能为您做些什么？",
+    "defaultInput": "你能做什么？",
+    "placeholderResponse": "这是提供商 {provider} 的占位符响应。聊天功能将在稍后实现。",
+    "functionCall": {
+      "parameters": "参数",
+      "result": "结果"
+    },
+    "description": "您可以测试和体验此集成。",
+    "connectionRequired": "需要连接集成",
+    "connectionRequiredDescription": "请先连接此集成后再在游乐场中使用。"
+  },
+  "waiting": {
+    "title": "即将推出",
+    "description": "我们正在开发这个功能。请稍后查看。"
+  }
+}
