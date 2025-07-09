@@ -1,0 +1,61 @@
+{
+  "name": "Serper",
+  "description": "Adapter for Serper (Google Search API). Provides search and website scraping capabilities.",
+  "categories": ["Search", "Data Extraction"],
+  "permissions": [
+    {
+      "identifier": "search_access",
+      "name": "Search Access",
+      "description": "Allows performing search queries."
+    },
+    {
+      "identifier": "scrape_access",
+      "name": "Scrape Access",
+      "description": "Allows scraping website content."
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "search",
+      "name": "Search",
+      "description": "Performs a search query using Serper.",
+      "parameters": [
+        {
+          "name": "q",
+          "description": "The search query."
+        },
+        {
+          "name": "type",
+          "description": "Search type (e.g., search, images, news, videos)."
+        },
+        {
+          "name": "gl",
+          "description": "Country code."
+        },
+        {
+          "name": "location",
+          "description": "More precise geographic location name."
+        },
+        {
+          "name": "hl",
+          "description": "Language code."
+        }
+      ]
+    },
+    {
+      "identifier": "scrape",
+      "name": "Scrape Website",
+      "description": "Scrapes content from a given URL.",
+      "parameters": [
+        {
+          "name": "url",
+          "description": "The URL of the website to scrape."
+        },
+        {
+          "name": "includeMarkdown",
+          "description": "Whether to include Markdown formatted content in the response."
+        }
+      ]
+    }
+  ]
+} 
