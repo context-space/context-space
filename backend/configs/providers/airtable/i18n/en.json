@@ -1,0 +1,226 @@
+{
+  "name": "Airtable",
+  "description": "Adapter for Airtable API, allowing interaction with bases, tables, and records.",
+  "categories": ["Database", "Productivity", "Collaboration"],
+  "permissions": [
+    {
+      "identifier": "read_records",
+      "name": "Read Records",
+      "description": "Allows reading record data from tables."
+    },
+    {
+      "identifier": "write_records",
+      "name": "Write Records",
+      "description": "Allows creating, updating, and deleting record data in tables."
+    },
+    {
+      "identifier": "read_schema",
+      "name": "Read Base Schema",
+      "description": "Allows reading the structure of bases (tables, fields)."
+    },
+    {
+      "identifier": "write_schema",
+      "name": "Write Base Schema",
+      "description": "Allows modifying the structure of bases (creating/updating tables, fields)."
+    },
+    {
+      "identifier": "read_user_email",
+      "name": "Read User Email",
+      "description": "Allows reading the user's email address."
+    },
+    {
+      "identifier": "manage_webhooks",
+      "name": "Manage Webhooks",
+      "description": "Allows creating, listing, and deleting webhooks."
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "list_bases",
+      "name": "List Bases",
+      "description": "Lists all bases accessible to the current access token.",
+      "parameters": [
+        {
+          "name": "offset",
+          "description": "Pagination offset to retrieve the next page of bases."
+        }
+      ]
+    },
+    {
+      "identifier": "get_base_schema",
+      "name": "Get Base Schema",
+      "description": "Returns the schema for all tables in a specified base.",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "The ID of the Airtable base."
+        }
+      ]
+    },
+    {
+      "identifier": "list_records",
+      "name": "List Records",
+      "description": "Lists records in a specified table.",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "The ID of the Airtable base."
+        },
+        {
+          "name": "tableIdOrName",
+          "description": "The ID or name of the Airtable table."
+        }
+      ]
+    },
+    {
+      "identifier": "get_record",
+      "name": "Get Record",
+      "description": "Retrieves a single record by its ID.",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "The ID of the Airtable base."
+        },
+        {
+          "name": "tableIdOrName",
+          "description": "The ID or name of the Airtable table."
+        },
+        {
+          "name": "recordId",
+          "description": "The ID of the record to retrieve."
+        }
+      ]
+    },
+    {
+      "identifier": "create_records",
+      "name": "Create Records",
+      "description": "Creates new records in a specified table.",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "The ID of the Airtable base."
+        },
+        {
+          "name": "tableIdOrName",
+          "description": "The ID or name of the Airtable table."
+        }
+      ]
+    },
+    {
+      "identifier": "update_records_patch",
+      "name": "Update Records (PATCH)",
+      "description": "Updates records by overwriting only the fields provided.",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "The ID of the Airtable base."
+        },
+        {
+          "name": "tableIdOrName",
+          "description": "The ID or name of the Airtable table."
+        }
+      ]
+    },
+    {
+      "identifier": "update_records_put",
+      "name": "Update Records (PUT)",
+      "description": "Updates records by overwriting all fields.",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "The ID of the Airtable base."
+        },
+        {
+          "name": "tableIdOrName",
+          "description": "The ID or name of the Airtable table."
+        }
+      ]
+    },
+    {
+      "identifier": "delete_records",
+      "name": "Delete Records",
+      "description": "Deletes records from a specified table.",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "The ID of the Airtable base."
+        },
+        {
+          "name": "tableIdOrName",
+          "description": "The ID or name of the Airtable table."
+        }
+      ]
+    },
+    {
+      "identifier": "list_webhooks",
+      "name": "List Webhooks",
+      "description": "Lists webhooks for a given base ID.",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "The ID of the Airtable base."
+        }
+      ]
+    },
+    {
+      "identifier": "create_webhook",
+      "name": "Create Webhook",
+      "description": "Creates a new webhook for a given base ID.",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "The ID of the Airtable base."
+        }
+      ]
+    },
+    {
+      "identifier": "delete_webhook",
+      "name": "Delete Webhook",
+      "description": "Deletes a specific webhook.",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "The ID of the Airtable base."
+        },
+        {
+          "name": "webhookId",
+          "description": "The ID of the webhook to delete."
+        }
+      ]
+    },
+    {
+      "identifier": "manage_webhook_payload_signing",
+      "name": "Manage Webhook Payload Signing",
+      "description": "Enable or disable payload signing for a webhook.",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "The ID of the Airtable base."
+        },
+        {
+          "name": "webhookId",
+          "description": "The ID of the webhook to manage."
+        },
+        {
+          "name": "enable_body",
+          "description": "Whether to enable or disable payload signing."
+        }
+      ]
+    },
+    {
+      "identifier": "refresh_webhook_pii",
+      "name": "Refresh Webhook PII",
+      "description": "Refresh the Personal Identifiable Information for a webhook.",
+      "parameters": [
+        {
+          "name": "baseId",
+          "description": "The ID of the Airtable base."
+        },
+        {
+          "name": "webhookId",
+          "description": "The ID of the webhook to refresh."
+        }
+      ]
+    }
+  ]
+} 

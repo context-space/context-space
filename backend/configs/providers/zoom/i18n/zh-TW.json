@@ -1,0 +1,66 @@
+{
+  "name": "Zoom",
+  "description": "Zoom API 整合，用於管理會議、使用者和錄影。",
+  "permissions": [
+    {
+      "identifier": "read_user_info",
+      "name": "讀取使用者資訊",
+      "description": "允許讀取基本使用者資訊。"
+    },
+    {
+      "identifier": "manage_meetings",
+      "name": "管理會議",
+      "description": "允許建立、更新和刪除會議。"
+    },
+    {
+      "identifier": "read_meetings",
+      "name": "讀取會議",
+      "description": "允許讀取會議詳情。"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "get_user_info",
+      "name": "取得使用者資訊",
+      "description": "取得目前認證使用者的資訊。"
+    },
+    {
+      "identifier": "create_meeting",
+      "name": "建立會議",
+      "description": "為使用者建立新會議。"
+    },
+    {
+      "identifier": "list_meetings",
+      "name": "列出會議",
+      "description": "列出使用者的所有會議。"
+    },
+    {
+      "identifier": "get_meeting_details",
+      "name": "取得會議詳情",
+      "description": "取得特定會議的詳細資訊。"
+    },
+    {
+      "identifier": "list_recordings",
+      "name": "列出錄影",
+      "description": "列出已驗證使用者的所有錄影。",
+      "parameters": [
+        {
+          "name": "page_size",
+          "description": "每頁結果數量。"
+        },
+        {
+          "name": "next_page_token",
+          "description": "下一頁結果的權杖。"
+        },
+        {
+          "name": "from",
+          "description": "錄影查詢的開始日期 (YYYY-MM-DD)。"
+        },
+        {
+          "name": "to",
+          "description": "錄影查詢的結束日期 (YYYY-MM-DD)。"
+        }
+      ]
+    }
+  ]
+} 

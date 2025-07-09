@@ -1,0 +1,133 @@
+{
+  "name": "HubSpot",
+  "description": "HubSpot CRM and marketing platform API integration.",
+  "permissions": [
+    {
+      "identifier": "crm.objects.contacts.read",
+      "name": "Read Contacts",
+      "description": "Allows reading contact data."
+    },
+    {
+      "identifier": "crm.objects.contacts.write",
+      "name": "Write Contacts",
+      "description": "Allows creating, updating, and deleting contact data."
+    },
+    {
+      "identifier": "crm.objects.companies.read",
+      "name": "Read Companies",
+      "description": "Allows reading company data."
+    },
+    {
+      "identifier": "crm.objects.companies.write",
+      "name": "Write Companies",
+      "description": "Allows creating, updating, and deleting company data."
+    },
+    {
+      "identifier": "crm.objects.deals.read",
+      "name": "Read Deals",
+      "description": "Allows reading deal data."
+    },
+    {
+      "identifier": "crm.objects.deals.write",
+      "name": "Write Deals",
+      "description": "Allows creating, updating, and deleting deal data."
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "search_contacts",
+      "name": "Search Contacts",
+      "description": "Search for contact records by filter criteria or keyword."
+    },
+    {
+      "identifier": "search_companies",
+      "name": "Search Companies",
+      "description": "Search for company records by filter criteria or keyword."
+    },
+    {
+      "identifier": "create_contact",
+      "name": "Create Contact",
+      "description": "Create a new contact record."
+    },
+    {
+      "identifier": "update_contact",
+      "name": "Update Contact",
+      "description": "Update an existing contact record by ID."
+    },
+    {
+      "identifier": "delete_contact",
+      "name": "Delete Contact",
+      "description": "Delete (archive) a contact record by ID."
+    },
+    {
+      "identifier": "create_deal",
+      "name": "Create Deal",
+      "description": "Create a new deal (sales opportunity) record."
+    },
+    {
+      "identifier": "delete_deal",
+      "name": "Delete Deal",
+      "description": "Delete (archive) a deal record by ID."
+    },
+    {
+      "identifier": "log_call",
+      "name": "Log Call",
+      "description": "Log a call activity in HubSpot CRM.",
+      "parameters": [
+        {
+          "name": "properties",
+          "description": "Call properties object containing call details."
+        },
+        {
+          "name": "associations",
+          "description": "List of associations to other CRM records."
+        }
+      ]
+    },
+    {
+      "identifier": "send_email",
+      "name": "Send Email",
+      "description": "Send a single transactional email using HubSpot email template.",
+      "parameters": [
+        {
+          "name": "emailId",
+          "description": "The ID of the HubSpot email template to use."
+        },
+        {
+          "name": "message",
+          "description": "Message details including recipients and custom properties."
+        }
+      ]
+    },
+    {
+      "identifier": "create_task",
+      "name": "Create Task",
+      "description": "Create a new task record in HubSpot CRM.",
+      "parameters": [
+        {
+          "name": "properties",
+          "description": "Task properties object containing task details."
+        },
+        {
+          "name": "associations",
+          "description": "List of associations to other CRM records."
+        }
+      ]
+    },
+    {
+      "identifier": "create_ticket",
+      "name": "Create Ticket",
+      "description": "Create a new support ticket record in HubSpot CRM.",
+      "parameters": [
+        {
+          "name": "properties",
+          "description": "Ticket properties object containing ticket details."
+        },
+        {
+          "name": "associations",
+          "description": "List of associations to other CRM records."
+        }
+      ]
+    }
+  ]
+} 

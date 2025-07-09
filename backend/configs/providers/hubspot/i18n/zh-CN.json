@@ -1,0 +1,133 @@
+{
+  "name": "HubSpot",
+  "description": "HubSpot 客户关系管理与营销平台 API 集成。",
+  "permissions": [
+    {
+      "identifier": "crm.objects.contacts.read",
+      "name": "读取联系人",
+      "description": "允许读取联系人数据。"
+    },
+    {
+      "identifier": "crm.objects.contacts.write",
+      "name": "写入联系人",
+      "description": "允许创建、更新和删除联系人数据。"
+    },
+    {
+      "identifier": "crm.objects.companies.read",
+      "name": "读取公司",
+      "description": "允许读取公司数据。"
+    },
+    {
+      "identifier": "crm.objects.companies.write",
+      "name": "写入公司",
+      "description": "允许创建、更新和删除公司数据。"
+    },
+    {
+      "identifier": "crm.objects.deals.read",
+      "name": "读取交易",
+      "description": "允许读取交易数据。"
+    },
+    {
+      "identifier": "crm.objects.deals.write",
+      "name": "写入交易",
+      "description": "允许创建、更新和删除交易数据。"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "search_contacts",
+      "name": "搜索联系人",
+      "description": "通过筛选条件或关键词搜索联系人记录。"
+    },
+    {
+      "identifier": "search_companies",
+      "name": "搜索公司",
+      "description": "通过筛选条件或关键词搜索公司记录。"
+    },
+    {
+      "identifier": "create_contact",
+      "name": "创建联系人",
+      "description": "创建新的联系人记录。"
+    },
+    {
+      "identifier": "update_contact",
+      "name": "更新联系人",
+      "description": "通过 ID 更新现有联系人记录。"
+    },
+    {
+      "identifier": "delete_contact",
+      "name": "删除联系人",
+      "description": "通过 ID 删除（归档）联系人记录。"
+    },
+    {
+      "identifier": "create_deal",
+      "name": "创建交易",
+      "description": "创建新的交易（销售机会）记录。"
+    },
+    {
+      "identifier": "delete_deal",
+      "name": "删除交易",
+      "description": "通过 ID 删除（归档）交易记录。"
+    },
+    {
+      "identifier": "log_call",
+      "name": "记录通话",
+      "description": "在 HubSpot CRM 中记录通话活动。",
+      "parameters": [
+        {
+          "name": "properties",
+          "description": "包含通话详情的通话属性对象。"
+        },
+        {
+          "name": "associations",
+          "description": "与其他 CRM 记录的关联列表。"
+        }
+      ]
+    },
+    {
+      "identifier": "send_email",
+      "name": "发送邮件",
+      "description": "使用 HubSpot 邮件模板发送单个事务性邮件。",
+      "parameters": [
+        {
+          "name": "emailId",
+          "description": "要使用的 HubSpot 邮件模板的 ID。"
+        },
+        {
+          "name": "message",
+          "description": "包括收件人和自定义属性的消息详情。"
+        }
+      ]
+    },
+    {
+      "identifier": "create_task",
+      "name": "创建任务",
+      "description": "在 HubSpot CRM 中创建新的任务记录。",
+      "parameters": [
+        {
+          "name": "properties",
+          "description": "包含任务详情的任务属性对象。"
+        },
+        {
+          "name": "associations",
+          "description": "与其他 CRM 记录的关联列表。"
+        }
+      ]
+    },
+    {
+      "identifier": "create_ticket",
+      "name": "创建工单",
+      "description": "在 HubSpot CRM 中创建新的支持工单记录。",
+      "parameters": [
+        {
+          "name": "properties",
+          "description": "包含工单详情的工单属性对象。"
+        },
+        {
+          "name": "associations",
+          "description": "与其他 CRM 记录的关联列表。"
+        }
+      ]
+    }
+  ]
+} 

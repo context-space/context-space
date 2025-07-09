@@ -1,0 +1,238 @@
+{
+  "identifier": "stripe",
+  "name": "Stripe",
+  "description": "Stripe API integration for payments, customers, and subscriptions.",
+  "icon_url": "",
+  "categories": [
+    "payments",
+    "finance",
+    "ecommerce"
+  ],
+  "auth_type": "apikey",
+  "permissions": [
+    {
+      "identifier": "read_payments",
+      "name": "Read Payments",
+      "description": "Allows reading payment information."
+    },
+    {
+      "identifier": "write_payments",
+      "name": "Write Payments",
+      "description": "Allows creating and confirming payments."
+    },
+    {
+      "identifier": "read_customers",
+      "name": "Read Customers",
+      "description": "Allows reading customer information."
+    },
+    {
+      "identifier": "write_customers",
+      "name": "Write Customers",
+      "description": "Allows creating and modifying customer information."
+    },
+    {
+      "identifier": "write_subscriptions",
+      "name": "Manage Subscriptions",
+      "description": "Allows managing subscriptions."
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "create_payment_intent",
+      "name": "Create Payment Intent",
+      "description": "Creates a payment intent.",
+      "category": "payments",
+      "required_permissions": ["write_payments"],
+      "http_method": "POST",
+      "endpoint_path": "/payment_intents",
+      "parameters": [
+        {
+          "name": "amount",
+          "type": "integer",
+          "description": "Payment amount in cents.",
+          "required": true,
+          "location": "body"
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "description": "Currency type (e.g., usd, eur).",
+          "required": true,
+          "location": "body"
+        },
+        {
+          "name": "payment_method_types",
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Payment method types (e.g., card).",
+          "required": true,
+          "location": "body"
+        },
+        {
+          "name": "customer",
+          "type": "string",
+          "description": "Customer ID.",
+          "required": false,
+          "location": "body"
+        }
+      ]
+    },
+    {
+      "identifier": "retrieve_payment_intent",
+      "name": "Retrieve Payment Intent",
+      "description": "Retrieves a payment intent.",
+      "category": "payments",
+      "required_permissions": ["read_payments"],
+      "http_method": "GET",
+      "endpoint_path": "/payment_intents/{payment_intent_id}",
+      "parameters": [
+        {
+          "name": "payment_intent_id",
+          "type": "string",
+          "description": "Payment Intent ID.",
+          "required": true,
+          "location": "path"
+        }
+      ]
+    },
+    {
+      "identifier": "confirm_payment_intent",
+      "name": "Confirm Payment Intent",
+      "description": "Confirms a payment intent.",
+      "category": "payments",
+      "required_permissions": ["write_payments"],
+      "http_method": "POST",
+      "endpoint_path": "/payment_intents/{payment_intent_id}/confirm",
+      "parameters": [
+        {
+          "name": "payment_intent_id",
+          "type": "string",
+          "description": "Payment Intent ID.",
+          "required": true,
+          "location": "path"
+        },
+        {
+          "name": "payment_method",
+          "type": "string",
+          "description": "Payment method ID.",
+          "required": false,
+          "location": "body"
+        }
+      ]
+    },
+    {
+      "identifier": "create_customer",
+      "name": "Create Customer",
+      "description": "Creates a customer.",
+      "category": "customers",
+      "required_permissions": ["write_customers"],
+      "http_method": "POST",
+      "endpoint_path": "/customers",
+      "parameters": [
+        {
+          "name": "email",
+          "type": "string",
+          "description": "Customer's email address.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Customer's name.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "payment_method",
+          "type": "string",
+          "description": "Preset payment method ID.",
+          "required": false,
+          "location": "body"
+        }
+      ]
+    },
+    {
+      "identifier": "list_customer_payment_methods",
+      "name": "List Customer Payment Methods",
+      "description": "Lists a customer's payment methods.",
+      "category": "customers",
+      "required_permissions": ["read_customers"],
+      "http_method": "GET",
+      "endpoint_path": "/payment_methods",
+      "parameters": [
+        {
+          "name": "customer",
+          "type": "string",
+          "description": "Customer ID.",
+          "required": true,
+          "location": "query"
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "description": "Payment method type (e.g., card).",
+          "required": true,
+          "location": "query"
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "description": "Limit the number of payment methods returned.",
+          "required": false,
+          "location": "query"
+        }
+      ]
+    },
+    {
+      "identifier": "delete_payment_method",
+      "name": "Delete Payment Method",
+      "description": "Deletes a payment method.",
+      "category": "customers",
+      "required_permissions": ["write_customers"],
+      "http_method": "DELETE",
+      "endpoint_path": "/payment_methods/{payment_method_id}",
+      "parameters": [
+        {
+          "name": "payment_method_id",
+          "type": "string",
+          "description": "Payment Method ID.",
+          "required": true,
+          "location": "path"
+        }
+      ]
+    },
+    {
+      "identifier": "create_subscription",
+      "name": "Create Subscription",
+      "description": "Creates a subscription.",
+      "category": "subscriptions",
+      "required_permissions": ["write_subscriptions"],
+      "http_method": "POST",
+      "endpoint_path": "/subscriptions",
+      "parameters": [
+        {
+          "name": "customer",
+          "type": "string",
+          "description": "Customer ID.",
+          "required": true,
+          "location": "body"
+        },
+        {
+          "name": "items",
+          "type": "array",
+          "items": {
+             "type": "object",
+             "properties": {
+                "price": { "type": "string", "description": "Price ID of the plan to subscribe to."}
+             },
+             "required": ["price"]
+          },
+          "description": "Subscription items, including service plan ID.",
+          "required": true,
+          "location": "body"
+        }
+      ]
+    }
+  ]
+}
