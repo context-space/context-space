@@ -21,6 +21,8 @@ Join our [Discord](https://discord.gg/Q74Ta5Xv ) and help us build! Have questio
 
 </div>
 
+![Homepage Screenshot](resources/homepage-screenshot.png)
+
 ---
 
 ## What is Context Engineering?
