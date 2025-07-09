@@ -1,0 +1,30 @@
+{
+    "identifier": "fetch",
+    "name": "Website Fetch",
+    "description": "Fetches and extracts content from a website using the Serper Scraping API.",
+    "auth_type": "none",
+    "icon_url": "",
+    "categories": [
+        "web-scraping",
+        "content-extraction"
+    ],
+    "api_key_config": {
+        "value": "SERPER_SCRAPING_API_KEY"
+    },
+    "operations": [
+        {
+            "identifier": "fetch_content",
+            "name": "Fetch Website Content",
+            "description": "Fetches the text and optionally Markdown content of a given URL.",
+            "category": "web-scraping",
+            "parameters": [
+                {
+                    "name": "url",
+                    "type": "string",
+                    "description": "The URL of the website to fetch.",
+                    "required": true
+                }
+            ]
+        }
+    ]
+} 
