@@ -1,0 +1,26 @@
+{
+  "name": "互联网搜索",
+  "description": "通过 Serper API 提供对 Google 搜索结果的访问。",
+  "categories": ["搜索", "网络搜索"],
+  "operations": [
+    {
+      "identifier": "search",
+      "name": "搜索",
+      "description": "使用 Serper API 执行搜索查询。",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "搜索查询字符串。"
+        },
+        {
+          "name": "country",
+          "description": "选择搜索的国家代码。"
+        },
+        {
+          "name": "data_range",
+          "description": "选择搜索结果的时间范围。"
+        }
+      ]
+    }
+  ]
+} 

@@ -1,0 +1,151 @@
+{
+    "identifier": "eodhd",
+    "name": "EOD Historical Data",
+    "description": "Provides access to financial market data via the EOD Historical Data API (eodhd.com).",
+    "auth_type": "apikey",
+    "icon_url": "",
+    "categories": [
+        "financial-data",
+        "stock-market",
+        "fundamental-data",
+        "intraday-data"
+    ],
+    "operations": [
+        {
+            "identifier": "get_user",
+            "name": "Get User Information",
+            "description": "Retrieves information about the API user account.",
+            "category": "account",
+            "parameters": []
+        },
+        {
+            "identifier": "get_eod_historical_data",
+            "name": "Get End-of-Day Historical Data",
+            "description": "Fetches end-of-day historical stock data for a specific symbol.",
+            "category": "historical-data",
+            "parameters": [
+                {
+                    "name": "symbol",
+                    "type": "string",
+                    "description": "The stock symbol (e.g., AAPL.US).",
+                    "required": true
+                },
+                {
+                    "name": "from",
+                    "type": "string",
+                    "format": "date",
+                    "description": "The start date for the data (YYYY-MM-DD).",
+                    "required": false
+                },
+                {
+                    "name": "to",
+                    "type": "string",
+                    "format": "date",
+                    "description": "The end date for the data (YYYY-MM-DD).",
+                    "required": false
+                },
+                {
+                    "name": "period",
+                    "type": "string",
+                    "description": "The period of data aggregation.",
+                    "required": false,
+                    "enum": [
+                        "d",
+                        "w",
+                        "m"
+                    ],
+                    "default": "d"
+                },
+                {
+                    "name": "order",
+                    "type": "string",
+                    "description": "The sorting order of the results.",
+                    "required": false,
+                    "enum": [
+                        "a",
+                        "d"
+                    ],
+                    "default": "a"
+                }
+            ]
+        },
+        {
+            "identifier": "get_fundamental_data",
+            "name": "Get Fundamental Data",
+            "description": "Retrieves fundamental data for a specific symbol (e.g., General, Highlights, Valuation).",
+            "category": "fundamental-data",
+            "parameters": [
+                {
+                    "name": "symbol",
+                    "type": "string",
+                    "description": "The stock symbol (e.g., AAPL.US).",
+                    "required": true
+                },
+                {
+                    "name": "filter",
+                    "type": "string",
+                    "description": "Specific fundamental data section to retrieve (e.g., 'General::CurrencySymbol').",
+                    "required": false
+                }
+            ]
+        },
+        {
+            "identifier": "get_intraday_historical_data",
+            "name": "Get Intraday Historical Data",
+            "description": "Fetches intraday historical data for a specific symbol at a given interval.",
+            "category": "intraday-data",
+            "parameters": [
+                {
+                    "name": "symbol",
+                    "type": "string",
+                    "description": "The stock symbol (e.g., AAPL.US).",
+                    "required": true
+                },
+                {
+                    "name": "interval",
+                    "type": "string",
+                    "description": "The time interval for the data.",
+                    "required": true,
+                    "enum": [
+                        "1m",
+                        "5m",
+                        "1h"
+                    ]
+                },
+                {
+                    "name": "from",
+                    "type": "string",
+                    "description": "The start timestamp (Unix timestamp or YYYY-MM-DD HH:MM:SS).",
+                    "required": false
+                },
+                {
+                    "name": "to",
+                    "type": "string",
+                    "description": "The end timestamp (Unix timestamp or YYYY-MM-DD HH:MM:SS).",
+                    "required": false
+                }
+            ]
+        },
+        {
+            "identifier": "get_real_time_data",
+            "name": "Get Real-Time Data",
+            "description": "Fetches live or delayed stock data for one or more symbols.",
+            "category": "real-time-data",
+            "parameters": [
+                {
+                    "name": "symbol",
+                    "type": "string",
+                    "description": "A single stock symbol or multiple symbols separated by commas (e.g., AAPL.US,MSFT.US).",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "identifier": "get_exchanges",
+            "name": "Get Exchanges List",
+            "description": "Retrieves the list of supported stock exchanges.",
+            "category": "market-info",
+            "parameters": []
+        }
+    ]
+}

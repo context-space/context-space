@@ -1,0 +1,77 @@
+{
+  "name": "EOD 历史数据",
+  "description": "通过 EOD Historical Data API (eodhd.com) 提供对金融市场数据的访问。",
+  "categories": ["金融数据", "股票市场", "基本面数据", "日内数据"],
+  "operations": [
+    {
+      "identifier": "get_user",
+      "name": "获取用户信息",
+      "description": "检索 API 用户账户的信息。"
+    },
+    {
+      "identifier": "get_eod_historical_data",
+      "name": "获取日终历史数据",
+      "description": "获取特定股票代码的日终历史股票数据。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "股票代码（例如 AAPL.US）。"
+        },
+        {
+          "name": "from",
+          "description": "数据的开始日期（YYYY-MM-DD）。"
+        },
+        {
+          "name": "to",
+          "description": "数据的结束日期（YYYY-MM-DD）。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_fundamental_data",
+      "name": "获取基本面数据",
+      "description": "检索特定股票代码的基本面数据。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "股票代码（例如 AAPL.US）。"
+        },
+        {
+          "name": "filter",
+          "description": "要检索的特定基本面数据部分。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_intraday_historical_data",
+      "name": "获取日内历史数据",
+      "description": "获取特定股票代码的日内历史数据。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "股票代码（例如 AAPL.US）。"
+        },
+        {
+          "name": "interval",
+          "description": "数据的时间间隔。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_real_time_data",
+      "name": "获取实时数据",
+      "description": "获取一个或多个股票代码的实时或延迟股票数据。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "单个股票代码或用逗号分隔的多个股票代码。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_exchanges",
+      "name": "获取交易所列表",
+      "description": "检索支持的股票交易所列表。"
+    }
+  ]
+} 

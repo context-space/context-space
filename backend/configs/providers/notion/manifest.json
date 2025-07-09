@@ -1,0 +1,271 @@
+{
+    "identifier": "notion",
+    "name": "Notion",
+    "description": "Interact with Notion pages, databases, and users.",
+    "auth_type": "oauth",
+    "icon_url": "",
+    "categories": [
+        "productivity",
+        "note_taking",
+        "collaboration",
+        "database"
+    ],
+    "oauth_config": {
+        "client_id": "client_id",
+        "client_secret": "client_secret"
+    },
+    "permissions": [
+        {
+            "name": "Access Notion",
+            "identifier": "access_notion",
+            "description": "Select available pages on Notion",
+            "oauth_scopes": []
+        }
+    ],
+    "operations": [
+        {
+            "identifier": "create_page",
+            "name": "Create Page",
+            "description": "Create a new page either under a parent page or within a database.",
+            "category": "content_creation",
+            "required_permissions": [
+                "access_notion"
+            ],
+            "http_method": "POST",
+            "endpoint_path": "/pages",
+            "parameters": [
+                {
+                    "name": "parent_id",
+                    "type": "string",
+                    "description": "The ID of the parent page or database.",
+                    "required": true
+                },
+                {
+                    "name": "parent_type",
+                    "type": "string",
+                    "description": "The type of the parent, either 'page' or 'database'.",
+                    "required": true,
+                    "enum": [
+                        "page",
+                        "database"
+                    ]
+                },
+                {
+                    "name": "title",
+                    "type": "string",
+                    "description": "The title of the new page (required for both page and database entry).",
+                    "required": true
+                },
+                {
+                    "name": "content_blocks_json",
+                    "type": "string",
+                    "description": "Optional. A JSON string representing an array of Notion block objects to add as content. See Notion API docs for block structure.",
+                    "required": false
+                },
+                {
+                    "name": "database_properties_json",
+                    "type": "string",
+                    "description": "Optional. A JSON string representing the page properties when creating an entry in a database. Keys must match database schema. Title property is handled separately via the 'title' parameter. See Notion API docs.",
+                    "required": false
+                }
+            ]
+        },
+        {
+            "identifier": "search",
+            "name": "Search Pages/Databases",
+            "description": "Search for pages and databases accessible to the integration.",
+            "category": "search",
+            "required_permissions": [
+                "access_notion"
+            ],
+            "http_method": "POST",
+            "endpoint_path": "/search",
+            "parameters": [
+                {
+                    "name": "query",
+                    "type": "string",
+                    "description": "The text to search for in page or database titles. Leave empty to list all accessible items.",
+                    "required": false
+                },
+                {
+                    "name": "filter_type",
+                    "type": "string",
+                    "description": "Filter results to only 'page' or 'database'.",
+                    "required": false,
+                    "enum": [
+                        "page",
+                        "database"
+                    ]
+                },
+                {
+                    "name": "sort_by",
+                    "type": "string",
+                    "description": "Field to sort results by.",
+                    "required": false,
+                    "enum": [
+                        "last_edited_time"
+                    ]
+                },
+                {
+                    "name": "sort_direction",
+                    "type": "string",
+                    "description": "Sort direction.",
+                    "required": false,
+                    "enum": [
+                        "ascending",
+                        "descending"
+                    ]
+                }
+            ]
+        },
+        {
+            "identifier": "query_database",
+            "name": "Query Database",
+            "description": "Query pages (entries) within a specific database, with filtering and sorting.",
+            "category": "database",
+            "required_permissions": [
+                "access_notion"
+            ],
+            "http_method": "POST",
+            "endpoint_path": "/databases/{database_id}/query",
+            "parameters": [
+                {
+                    "name": "database_id",
+                    "type": "string",
+                    "description": "The ID of the database to query.",
+                    "required": true
+                },
+                {
+                    "name": "filter_json",
+                    "type": "string",
+                    "description": "Optional. A JSON string representing the Notion filter object. See Notion API documentation for structure.",
+                    "required": false
+                },
+                {
+                    "name": "sorts_json",
+                    "type": "string",
+                    "description": "Optional. A JSON string representing the Notion sorts array (list of sort objects). See Notion API documentation for structure.",
+                    "required": false
+                }
+            ]
+        },
+        {
+            "identifier": "append_to_block",
+            "name": "Append Content",
+            "description": "Append new content blocks to a specific block (usually a page).",
+            "category": "content_update",
+            "required_permissions": [
+                "access_notion"
+            ],
+            "http_method": "PATCH",
+            "endpoint_path": "/blocks/{block_id}/children",
+            "parameters": [
+                {
+                    "name": "block_id",
+                    "type": "string",
+                    "description": "The ID of the block (e.g., page) to append children to.",
+                    "required": true
+                },
+                {
+                    "name": "content_blocks_json",
+                    "type": "string",
+                    "description": "A JSON string representing an array of Notion block objects to append. See Notion API docs for block structure.",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "identifier": "get_page",
+            "name": "Get Page Info",
+            "description": "Retrieve information (metadata and properties) about a specific page.",
+            "category": "retrieval",
+            "required_permissions": [
+                "access_notion"
+            ],
+            "http_method": "GET",
+            "endpoint_path": "/pages/{page_id}",
+            "parameters": [
+                {
+                    "name": "page_id",
+                    "type": "string",
+                    "description": "The ID of the page to retrieve.",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "identifier": "update_page_properties",
+            "name": "Update Page Properties",
+            "description": "Update the properties (metadata, database fields) of a specific page.",
+            "category": "content_update",
+            "required_permissions": [
+                "access_notion"
+            ],
+            "http_method": "PATCH",
+            "endpoint_path": "/pages/{page_id}",
+            "parameters": [
+                {
+                    "name": "page_id",
+                    "type": "string",
+                    "description": "The ID of the page to update.",
+                    "required": true
+                },
+                {
+                    "name": "properties_update_json",
+                    "type": "string",
+                    "description": "A JSON string representing the properties object to update. See Notion API docs for structure.",
+                    "required": true
+                },
+                {
+                    "name": "archived",
+                    "type": "boolean",
+                    "description": "Optional. Set to true to archive the page, false to unarchive.",
+                    "required": false
+                }
+            ]
+        },
+        {
+            "identifier": "list_users",
+            "name": "List Users",
+            "description": "List all users in the workspace (requires appropriate integration permissions). Primarily for admin/internal use.",
+            "category": "admin",
+            "required_permissions": [
+                "access_notion"
+            ],
+            "http_method": "GET",
+            "endpoint_path": "/users",
+            "parameters": []
+        },
+        {
+            "identifier": "get_database",
+            "name": "Get Database Info",
+            "description": "Retrieve information (schema, properties) about a specific database.",
+            "category": "retrieval",
+            "required_permissions": [
+                "access_notion"
+            ],
+            "http_method": "GET",
+            "endpoint_path": "/databases/{database_id}",
+            "parameters": [
+                {
+                    "name": "database_id",
+                    "type": "string",
+                    "description": "The ID of the database to retrieve.",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "identifier": "list_databases",
+            "name": "List Databases",
+            "description": "List databases accessible to the integration. (Uses search endpoint with filter)",
+            "category": "retrieval",
+            "required_permissions": [
+                "access_notion"
+            ],
+            "http_method": "POST",
+            "endpoint_path": "/search",
+            "parameters": []
+        }
+    ]
+}

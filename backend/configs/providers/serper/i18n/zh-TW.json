@@ -1,0 +1,61 @@
+{
+  "name": "Serper",
+  "description": "Serper（Google 搜尋 API）適配器。提供搜尋和網站抓取功能。",
+  "categories": ["搜尋", "資料擷取"],
+  "permissions": [
+    {
+      "identifier": "search_access",
+      "name": "搜尋存取",
+      "description": "允許執行搜尋查詢。"
+    },
+    {
+      "identifier": "scrape_access",
+      "name": "抓取存取",
+      "description": "允許抓取網站內容。"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "search",
+      "name": "搜尋",
+      "description": "使用 Serper 執行搜尋查詢。",
+      "parameters": [
+        {
+          "name": "q",
+          "description": "搜尋查詢。"
+        },
+        {
+          "name": "type",
+          "description": "搜尋類型（如搜尋、圖片、新聞、影片）。"
+        },
+        {
+          "name": "gl",
+          "description": "國家代碼。"
+        },
+        {
+          "name": "location",
+          "description": "更精確的地理位置名稱。"
+        },
+        {
+          "name": "hl",
+          "description": "語言代碼。"
+        }
+      ]
+    },
+    {
+      "identifier": "scrape",
+      "name": "抓取網站",
+      "description": "從給定 URL 抓取內容。",
+      "parameters": [
+        {
+          "name": "url",
+          "description": "要抓取的網站 URL。"
+        },
+        {
+          "name": "includeMarkdown",
+          "description": "是否在回應中包含 Markdown 格式的內容。"
+        }
+      ]
+    }
+  ]
+} 
