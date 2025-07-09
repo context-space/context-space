@@ -1,0 +1,123 @@
+{
+  "name": "HubSpot",
+  "description": "HubSpot 客戶關係管理與行銷平台 API 整合。",
+  "permissions": [
+    {
+      "identifier": "crm.objects.contacts.read",
+      "name": "讀取聯絡人",
+      "description": "允許讀取聯絡人資料。"
+    },
+    {
+      "identifier": "crm.objects.contacts.write",
+      "name": "寫入聯絡人",
+      "description": "允許建立、更新和刪除聯絡人資料。"
+    },
+    {
+      "identifier": "crm.objects.companies.read",
+      "name": "讀取公司",
+      "description": "允許讀取公司資料。"
+    },
+    {
+      "identifier": "crm.objects.companies.write",
+      "name": "寫入公司",
+      "description": "允許建立、更新和刪除公司資料。"
+    },
+    {
+      "identifier": "crm.objects.deals.read",
+      "name": "讀取交易",
+      "description": "允許讀取交易資料。"
+    },
+    {
+      "identifier": "crm.objects.deals.write",
+      "name": "寫入交易",
+      "description": "允許建立、更新和刪除交易資料。"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "search_contacts",
+      "name": "搜尋聯絡人",
+      "description": "透過篩選條件或關鍵字搜尋聯絡人記錄。"
+    },
+    {
+      "identifier": "search_companies",
+      "name": "搜尋公司",
+      "description": "透過篩選條件或關鍵字搜尋公司記錄。"
+    },
+    {
+      "identifier": "create_contact",
+      "name": "建立聯絡人",
+      "description": "建立新的聯絡人記錄。"
+    },
+    {
+      "identifier": "update_contact",
+      "name": "更新聯絡人",
+      "description": "透過 ID 更新現有聯絡人記錄。"
+    },
+    {
+      "identifier": "delete_contact",
+      "name": "刪除聯絡人",
+      "description": "透過 ID 刪除（封存）聯絡人記錄。"
+    },
+    {
+      "identifier": "create_deal",
+      "name": "建立交易",
+      "description": "建立新的交易（銷售機會）記錄。"
+    },
+    {
+      "identifier": "delete_deal",
+      "name": "刪除交易",
+      "description": "透過 ID 刪除（封存）交易記錄。"
+    },
+    {
+      "identifier": "send_email",
+      "name": "傳送郵件",
+      "description": "使用 HubSpot 郵件範本傳送單個交易性郵件。"
+    },
+    {
+      "identifier": "log_call",
+      "name": "記錄通話",
+      "description": "在 HubSpot CRM 中記錄通話活動。",
+      "parameters": [
+        {
+          "name": "properties",
+          "description": "包含通話詳情的通話屬性物件。"
+        },
+        {
+          "name": "associations",
+          "description": "與其他 CRM 記錄的關聯清單。"
+        }
+      ]
+    },
+    {
+      "identifier": "create_task",
+      "name": "建立任務",
+      "description": "在 HubSpot CRM 中建立新的任務記錄。",
+      "parameters": [
+        {
+          "name": "properties",
+          "description": "包含任務詳情的任務屬性物件。"
+        },
+        {
+          "name": "associations",
+          "description": "與其他 CRM 記錄的關聯清單。"
+        }
+      ]
+    },
+    {
+      "identifier": "create_ticket",
+      "name": "建立工單",
+      "description": "在 HubSpot CRM 中建立新的支援工單記錄。",
+      "parameters": [
+        {
+          "name": "properties",
+          "description": "包含工單詳情的工單屬性物件。"
+        },
+        {
+          "name": "associations",
+          "description": "與其他 CRM 記錄的關聯清單。"
+        }
+      ]
+    }
+  ]
+} 
