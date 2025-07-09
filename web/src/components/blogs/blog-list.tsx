@@ -16,7 +16,7 @@ interface BlogListProps {
 export function FeaturedBlogs({ blogs }: BlogListProps) {
   if (blogs.length === 0) return null
   const largeBlog = blogs.find(blog => blog.featured === 1)
-  const mediumBlogs = blogs.filter(blog => blog.featured === 2 || blog.featured === 3)
+  const mediumBlogs = blogs.filter(blog => blog.featured === 2 || blog.featured === 3).sort((a, b) => a.featured - b.featured)
 
   return (
     <>
