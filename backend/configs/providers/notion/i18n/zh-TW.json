@@ -1,0 +1,151 @@
+{
+  "name": "Notion",
+  "description": "為您的團隊提供想法、專案和知識的工作空間。",
+  "categories": ["生產力", "筆記", "協作", "資料庫"],
+  "permissions": [
+    {
+      "name": "訪問 Notion",
+      "identifier": "access_notion",
+      "description": "手動選擇可被訪問的 Notion 頁面"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "create_page",
+      "name": "建立頁面",
+      "description": "在父頁面下或資料庫中建立新頁面。",
+      "parameters": [
+        {
+          "name": "parent_id",
+          "description": "父頁面或資料庫的ID。"
+        },
+        {
+          "name": "parent_type",
+          "description": "父物件的類型，'page'或'database'。"
+        },
+        {
+          "name": "title",
+          "description": "新頁面的標題（頁面和資料庫條目都需要）。"
+        },
+        {
+          "name": "content_blocks_json",
+          "description": "可選。表示Notion區塊物件陣列的JSON字串，用於新增內容。"
+        },
+        {
+          "name": "database_properties_json",
+          "description": "可選。在資料庫中建立條目時表示頁面屬性的JSON字串。"
+        }
+      ]
+    },
+    {
+      "identifier": "search",
+      "name": "搜尋頁面/資料庫",
+      "description": "搜尋整合可存取的頁面和資料庫。",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "在頁面或資料庫標題中搜尋的文字。留空以列出所有可存取項目。"
+        },
+        {
+          "name": "filter_type",
+          "description": "將結果篩選為僅'page'或'database'。"
+        },
+        {
+          "name": "sort_by",
+          "description": "排序結果的欄位。"
+        },
+        {
+          "name": "sort_direction",
+          "description": "排序方向。"
+        }
+      ]
+    },
+    {
+      "identifier": "query_database",
+      "name": "查詢資料庫",
+      "description": "查詢特定資料庫中的頁面（條目），支援篩選和排序。",
+      "parameters": [
+        {
+          "name": "database_id",
+          "description": "要查詢的資料庫ID。"
+        },
+        {
+          "name": "filter_json",
+          "description": "可選。表示Notion篩選物件的JSON字串。"
+        },
+        {
+          "name": "sorts_json",
+          "description": "可選。表示Notion排序陣列的JSON字串。"
+        }
+      ]
+    },
+    {
+      "identifier": "append_to_block",
+      "name": "附加內容",
+      "description": "向特定區塊（通常是頁面）附加新內容區塊。",
+      "parameters": [
+        {
+          "name": "block_id",
+          "description": "要附加子內容的區塊（如頁面）ID。"
+        },
+        {
+          "name": "content_blocks_json",
+          "description": "表示要附加的Notion區塊物件陣列的JSON字串。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_page",
+      "name": "取得頁面資訊",
+      "description": "擷取特定頁面的資訊（中繼資料和屬性）。",
+      "parameters": [
+        {
+          "name": "page_id",
+          "description": "要擷取的頁面ID。"
+        }
+      ]
+    },
+    {
+      "identifier": "update_page_properties",
+      "name": "更新頁面屬性",
+      "description": "更新特定頁面的屬性（中繼資料、資料庫欄位）。",
+      "parameters": [
+        {
+          "name": "page_id",
+          "description": "要更新的頁面ID。"
+        },
+        {
+          "name": "properties_update_json",
+          "description": "表示要更新的屬性物件的JSON字串。"
+        },
+        {
+          "name": "archived",
+          "description": "可選。設定為true以封存頁面，false以取消封存。"
+        }
+      ]
+    },
+    {
+      "identifier": "list_users",
+      "name": "列出使用者",
+      "description": "列出工作空間中的所有使用者（需要適當的整合權限）。",
+      "parameters": []
+    },
+    {
+      "identifier": "get_database",
+      "name": "取得資料庫資訊",
+      "description": "擷取特定資料庫的資訊（架構、屬性）。",
+      "parameters": [
+        {
+          "name": "database_id",
+          "description": "要擷取的資料庫ID。"
+        }
+      ]
+    },
+    {
+      "identifier": "list_databases",
+      "name": "列出資料庫",
+      "description": "列出整合可存取的資料庫。",
+      "parameters": []
+    }
+  ]
+} 

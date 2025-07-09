@@ -1,0 +1,77 @@
+{
+  "name": "EOD 歷史資料",
+  "description": "透過 EOD Historical Data API (eodhd.com) 提供對金融市場資料的存取。",
+  "categories": ["金融資料", "股票市場", "基本面資料", "日內資料"],
+  "operations": [
+    {
+      "identifier": "get_user",
+      "name": "取得使用者資訊",
+      "description": "擷取 API 使用者帳戶的資訊。"
+    },
+    {
+      "identifier": "get_eod_historical_data",
+      "name": "取得日終歷史資料",
+      "description": "取得特定股票代碼的日終歷史股票資料。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "股票代碼（例如 AAPL.US）。"
+        },
+        {
+          "name": "from",
+          "description": "資料的開始日期（YYYY-MM-DD）。"
+        },
+        {
+          "name": "to",
+          "description": "資料的結束日期（YYYY-MM-DD）。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_fundamental_data",
+      "name": "取得基本面資料",
+      "description": "擷取特定股票代碼的基本面資料。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "股票代碼（例如 AAPL.US）。"
+        },
+        {
+          "name": "filter",
+          "description": "要擷取的特定基本面資料部分。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_intraday_historical_data",
+      "name": "取得日內歷史資料",
+      "description": "取得特定股票代碼的日內歷史資料。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "股票代碼（例如 AAPL.US）。"
+        },
+        {
+          "name": "interval",
+          "description": "資料的時間間隔。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_real_time_data",
+      "name": "取得即時資料",
+      "description": "取得一個或多個股票代碼的即時或延遲股票資料。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "單一股票代碼或用逗號分隔的多個股票代碼。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_exchanges",
+      "name": "取得交易所清單",
+      "description": "擷取支援的股票交易所清單。"
+    }
+  ]
+} 

@@ -1,0 +1,117 @@
+{
+    "identifier": "cfa_knowledgebase",
+    "name": "CFA Knowledge Base",
+    "description": "Volcengine Knowledge Base API integration for CFA",
+    "auth_type": "none",
+    "icon_url": "",
+    "categories": [
+        "ai",
+        "knowledge_base",
+        "search",
+        "finance"
+    ],
+    "volcengine_credentials": {
+        "access_key_id": "ACCESS_KEY",
+        "secret_access_key": "SECRET_ACCESS_KEY"
+    },
+    "openai_credentials": {
+        "api_key": "API_KEY",
+        "base_url": "BASE_URL"
+    },
+    "operations": [
+        {
+            "identifier": "search_knowledge",
+            "name": "Search Knowledge",
+            "description": "Search for relevant documents in a knowledge base",
+            "category": "search",
+            "parameters": [
+                {
+                    "name": "query",
+                    "type": "string",
+                    "description": "The search query string",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "identifier": "chat_completions",
+            "name": "Chat Completions",
+            "description": "Generate chat responses using a knowledge base context",
+            "category": "chat",
+            "parameters": [
+                {
+                    "name": "model",
+                    "type": "string",
+                    "description": "The model ID or endpoint ID for chat generation",
+                    "required": true
+                },
+                {
+                    "name": "messages",
+                    "type": "array",
+                    "description": "Conversation history messages",
+                    "required": true,
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "role": {
+                                "type": "string",
+                                "enum": [
+                                    "system",
+                                    "user",
+                                    "assistant"
+                                ]
+                            },
+                            "content": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "role",
+                            "content"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "identifier": "query",
+            "name": "Query",
+            "description": "Query the knowledge base",
+            "category": "query",
+            "parameters": [
+                {
+                    "name": "query",
+                    "type": "string",
+                    "description": "The query string",
+                    "required": true
+                },
+                {
+                    "name": "messages",
+                    "type": "array",
+                    "description": "Conversation history messages",
+                    "required": false,
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "role": {
+                                "type": "string",
+                                "enum": [
+                                    "system",
+                                    "user",
+                                    "assistant"
+                                ]
+                            },
+                            "content": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "role",
+                            "content"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

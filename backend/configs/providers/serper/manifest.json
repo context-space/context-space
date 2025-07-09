@@ -1,0 +1,121 @@
+{
+  "identifier": "serper",
+  "name": "Serper",
+  "description": "Adapter for Serper (Google Search API). Provides search and website scraping capabilities.",
+  "icon_url": "",
+  "categories": ["search", "data_extraction"],
+  "auth_type": "apikey",
+  "permissions": [
+    {
+      "identifier": "search_access",
+      "name": "Search Access",
+      "description": "Allows performing search queries.",
+      "oauth_scopes": []
+    },
+    {
+      "identifier": "scrape_access",
+      "name": "Scrape Access",
+      "description": "Allows scraping website content.",
+      "oauth_scopes": []
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "search",
+      "name": "Search",
+      "description": "Performs a search query using Serper.",
+      "required_permissions": ["search_access"],
+      "http_method": "POST",
+      "endpoint_path": "/search",
+      "parameters": [
+        {
+          "name": "q",
+          "type": "string",
+          "description": "The search query.",
+          "required": true,
+          "location": "body"
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "description": "Search type (e.g., search, images, news, videos). Default: search.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "gl",
+          "type": "string",
+          "description": "Country code. Default: us.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "description": "More precise geographic location name.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "hl",
+          "type": "string",
+          "description": "Language code. Default: en.",
+          "required": false,
+          "location": "body" 
+        },
+        {
+          "name": "tbs",
+          "type": "string",
+          "description": "Date range (e.g., qdr:h, qdr:d). Default: Any Time.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "autocorrect",
+          "type": "boolean",
+          "description": "Enable or disable autocorrect. Default: true.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "num",
+          "type": "integer",
+          "description": "Number of results per page (10, 20, ..., 100). Default: 10.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "page",
+          "type": "integer",
+          "description": "Results page number. Default: 1.",
+          "required": false,
+          "location": "body"
+        }
+      ]
+    },
+    {
+      "identifier": "scrape",
+      "name": "Scrape Website",
+      "description": "Scrapes content from a given URL.",
+      "required_permissions": ["scrape_access"],
+      "http_method": "POST",
+      "endpoint_path": "https://scrape.serper.dev",
+      "parameters": [
+        {
+          "name": "url",
+          "type": "string",
+          "description": "The URL of the website to scrape.",
+          "required": true,
+          "location": "body"
+        },
+        {
+          "name": "includeMarkdown",
+          "type": "boolean",
+          "description": "Whether to include Markdown formatted content in the response. Default: false.",
+          "required": false,
+          "location": "body"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "网站抓取",
+  "description": "使用 Serper 抓取 API 从网站获取和提取内容。",
+  "categories": ["网页抓取", "内容提取"],
+  "operations": [
+    {
+      "identifier": "fetch_content",
+      "name": "抓取网站内容",
+      "description": "抓取给定 URL 的文本和可选的 Markdown 内容。",
+      "parameters": [
+        {
+          "name": "url",
+          "description": "要抓取的网站 URL。"
+        }
+      ]
+    }
+  ]
+} 

@@ -1,0 +1,141 @@
+{
+  "name": "Figma",
+  "description": "Interact with Figma files, projects, teams, and components.",
+  "categories": ["Design", "Collaboration", "Prototyping"],
+  "permissions": [
+    {
+      "identifier": "files_read",
+      "name": "Read Files",
+      "description": "Read Figma files content, nodes, components, styles."
+    },
+    {
+      "identifier": "variables_read",
+      "name": "Read Variables",
+      "description": "Read variables within Figma files."
+    },
+    {
+      "identifier": "variables_write",
+      "name": "Write Variables",
+      "description": "Write or modify variables within Figma files."
+    },
+    {
+      "identifier": "analytics_read",
+      "name": "Read Library Analytics",
+      "description": "Read usage analytics for component libraries."
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "get_me",
+      "name": "Get Authenticated User",
+      "description": "Returns the user information authenticated by the access token."
+    },
+    {
+      "identifier": "get_team_styles",
+      "name": "Get Team Styles",
+      "description": "Retrieves all published styles for a given team.",
+      "parameters": [
+        {
+          "name": "team_id",
+          "description": "ID of the team."
+        }
+      ]
+    },
+    {
+      "identifier": "get_file_nodes",
+      "name": "Get File Nodes",
+      "description": "Retrieves details for one or more specific nodes within a Figma file.",
+      "parameters": [
+        {
+          "name": "file_key",
+          "description": "Key of the file."
+        },
+        {
+          "name": "ids",
+          "description": "Comma-separated list of node IDs to retrieve."
+        }
+      ]
+    },
+    {
+      "identifier": "get_file",
+      "name": "Get File",
+      "description": "Retrieves the complete document structure and content of a Figma file.",
+      "parameters": [
+        {
+          "name": "file_key",
+          "description": "Key of the file."
+        }
+      ]
+    },
+    {
+      "identifier": "get_image_renders",
+      "name": "Get Image Renders",
+      "description": "Renders images for one or more nodes in a Figma file.",
+      "parameters": [
+        {
+          "name": "file_key",
+          "description": "Key of the file."
+        },
+        {
+          "name": "ids",
+          "description": "Comma-separated list of node IDs to render."
+        }
+      ]
+    },
+    {
+      "identifier": "get_team_components",
+      "name": "Get Team Components",
+      "description": "Retrieves all published components for a given team.",
+      "parameters": [
+        {
+          "name": "team_id",
+          "description": "ID of the team."
+        }
+      ]
+    },
+    {
+      "identifier": "get_team_component_sets",
+      "name": "Get Team Component Sets",
+      "description": "Retrieves all published component sets for a given team.",
+      "parameters": [
+        {
+          "name": "team_id",
+          "description": "ID of the team."
+        }
+      ]
+    },
+    {
+      "identifier": "get_file_component_sets",
+      "name": "Get File Component Sets",
+      "description": "Retrieves all component sets defined within a specific Figma file.",
+      "parameters": [
+        {
+          "name": "file_key",
+          "description": "Key of the file."
+        }
+      ]
+    },
+    {
+      "identifier": "get_file_styles",
+      "name": "Get File Styles",
+      "description": "Retrieves all styles defined within a specific Figma file.",
+      "parameters": [
+        {
+          "name": "file_key",
+          "description": "Key of the file."
+        }
+      ]
+    },
+    {
+      "identifier": "get_file_components",
+      "name": "Get File Components",
+      "description": "Retrieves all components defined within a specific Figma file.",
+      "parameters": [
+        {
+          "name": "file_key",
+          "description": "Key of the file."
+        }
+      ]
+    }
+  ]
+} 

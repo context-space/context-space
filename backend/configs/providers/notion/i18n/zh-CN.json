@@ -1,0 +1,151 @@
+{
+  "name": "Notion",
+  "description": "为您的团队提供想法、项目和知识的工作空间。",
+  "categories": ["生产力", "笔记", "协作", "数据库"],
+  "permissions": [
+    {
+      "name": "访问 Notion",
+      "identifier": "access_notion",
+      "description": "手动选择可被访问的 Notion 页面"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "create_page",
+      "name": "创建页面",
+      "description": "在父页面下或数据库中创建新页面。",
+      "parameters": [
+        {
+          "name": "parent_id",
+          "description": "父页面或数据库的ID。"
+        },
+        {
+          "name": "parent_type",
+          "description": "父对象的类型，'page'或'database'。"
+        },
+        {
+          "name": "title",
+          "description": "新页面的标题（页面和数据库条目都需要）。"
+        },
+        {
+          "name": "content_blocks_json",
+          "description": "可选。表示Notion块对象数组的JSON字符串，用于添加内容。"
+        },
+        {
+          "name": "database_properties_json",
+          "description": "可选。在数据库中创建条目时表示页面属性的JSON字符串。"
+        }
+      ]
+    },
+    {
+      "identifier": "search",
+      "name": "搜索页面/数据库",
+      "description": "搜索集成可访问的页面和数据库。",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "在页面或数据库标题中搜索的文本。留空以列出所有可访问项目。"
+        },
+        {
+          "name": "filter_type",
+          "description": "将结果筛选为仅'page'或'database'。"
+        },
+        {
+          "name": "sort_by",
+          "description": "排序结果的字段。"
+        },
+        {
+          "name": "sort_direction",
+          "description": "排序方向。"
+        }
+      ]
+    },
+    {
+      "identifier": "query_database",
+      "name": "查询数据库",
+      "description": "查询特定数据库中的页面（条目），支持筛选和排序。",
+      "parameters": [
+        {
+          "name": "database_id",
+          "description": "要查询的数据库ID。"
+        },
+        {
+          "name": "filter_json",
+          "description": "可选。表示Notion筛选对象的JSON字符串。"
+        },
+        {
+          "name": "sorts_json",
+          "description": "可选。表示Notion排序数组的JSON字符串。"
+        }
+      ]
+    },
+    {
+      "identifier": "append_to_block",
+      "name": "追加内容",
+      "description": "向特定块（通常是页面）追加新内容块。",
+      "parameters": [
+        {
+          "name": "block_id",
+          "description": "要追加子内容的块（如页面）ID。"
+        },
+        {
+          "name": "content_blocks_json",
+          "description": "表示要追加的Notion块对象数组的JSON字符串。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_page",
+      "name": "获取页面信息",
+      "description": "检索特定页面的信息（元数据和属性）。",
+      "parameters": [
+        {
+          "name": "page_id",
+          "description": "要检索的页面ID。"
+        }
+      ]
+    },
+    {
+      "identifier": "update_page_properties",
+      "name": "更新页面属性",
+      "description": "更新特定页面的属性（元数据、数据库字段）。",
+      "parameters": [
+        {
+          "name": "page_id",
+          "description": "要更新的页面ID。"
+        },
+        {
+          "name": "properties_update_json",
+          "description": "表示要更新的属性对象的JSON字符串。"
+        },
+        {
+          "name": "archived",
+          "description": "可选。设置为true以归档页面，false以取消归档。"
+        }
+      ]
+    },
+    {
+      "identifier": "list_users",
+      "name": "列出用户",
+      "description": "列出工作空间中的所有用户（需要适当的集成权限）。",
+      "parameters": []
+    },
+    {
+      "identifier": "get_database",
+      "name": "获取数据库信息",
+      "description": "检索特定数据库的信息（架构、属性）。",
+      "parameters": [
+        {
+          "name": "database_id",
+          "description": "要检索的数据库ID。"
+        }
+      ]
+    },
+    {
+      "identifier": "list_databases",
+      "name": "列出数据库",
+      "description": "列出集成可访问的数据库。",
+      "parameters": []
+    }
+  ]
+} 
