@@ -1,0 +1,61 @@
+{
+  "name": "Serper",
+  "description": "Serper（Google 搜索 API）适配器。提供搜索和网站抓取功能。",
+  "categories": ["搜索", "数据提取"],
+  "permissions": [
+    {
+      "identifier": "search_access",
+      "name": "搜索访问",
+      "description": "允许执行搜索查询。"
+    },
+    {
+      "identifier": "scrape_access",
+      "name": "抓取访问",
+      "description": "允许抓取网站内容。"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "search",
+      "name": "搜索",
+      "description": "使用 Serper 执行搜索查询。",
+      "parameters": [
+        {
+          "name": "q",
+          "description": "搜索查询。"
+        },
+        {
+          "name": "type",
+          "description": "搜索类型（如搜索、图片、新闻、视频）。"
+        },
+        {
+          "name": "gl",
+          "description": "国家代码。"
+        },
+        {
+          "name": "location",
+          "description": "更精确的地理位置名称。"
+        },
+        {
+          "name": "hl",
+          "description": "语言代码。"
+        }
+      ]
+    },
+    {
+      "identifier": "scrape",
+      "name": "抓取网站",
+      "description": "从给定 URL 抓取内容。",
+      "parameters": [
+        {
+          "name": "url",
+          "description": "要抓取的网站 URL。"
+        },
+        {
+          "name": "includeMarkdown",
+          "description": "是否在响应中包含 Markdown 格式的内容。"
+        }
+      ]
+    }
+  ]
+} 
