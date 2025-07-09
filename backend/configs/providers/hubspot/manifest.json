@@ -1,0 +1,249 @@
+{
+  "identifier": "hubspot",
+  "name": "HubSpot",
+  "description": "HubSpot CRM and marketing platform API integration.",
+  "icon_url": "",
+  "categories": [
+    "crm",
+    "marketing",
+    "sales"
+  ],
+  "auth_type": "oauth",
+  "oauth_config": {
+    "client_id": "YOUR_HUBSPOT_CLIENT_ID",
+    "client_secret": "YOUR_HUBSPOT_CLIENT_SECRET"
+  },
+  "permissions": [
+    {
+      "identifier": "crm.objects.contacts.read",
+      "name": "Read Contacts",
+      "description": "Allows reading contact data.",
+      "oauth_scopes": ["crm.objects.contacts.read"]
+    },
+    {
+      "identifier": "crm.objects.contacts.write",
+      "name": "Write Contacts",
+      "description": "Allows creating, updating, and deleting contact data.",
+      "oauth_scopes": ["crm.objects.contacts.write"]
+    },
+    {
+      "identifier": "crm.objects.companies.read",
+      "name": "Read Companies",
+      "description": "Allows reading company data.",
+      "oauth_scopes": ["crm.objects.companies.read"]
+    },
+    {
+      "identifier": "crm.objects.companies.write",
+      "name": "Write Companies",
+      "description": "Allows creating, updating, and deleting company data.",
+      "oauth_scopes": ["crm.objects.companies.write"]
+    },
+    {
+      "identifier": "crm.objects.deals.read",
+      "name": "Read Deals",
+      "description": "Allows reading deal data.",
+      "oauth_scopes": ["crm.objects.deals.read"]
+    },
+    {
+      "identifier": "crm.objects.deals.write",
+      "name": "Write Deals",
+      "description": "Allows creating, updating, and deleting deal data.",
+      "oauth_scopes": ["crm.objects.deals.write"]
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "search_contacts",
+      "name": "Search Contacts",
+      "description": "Search for contact records by filter criteria or keyword.",
+      "category": "contacts",
+      "required_permissions": ["crm.objects.contacts.read"],
+      "http_method": "POST",
+      "endpoint_path": "/crm/v3/objects/contacts/search",
+      "parameters": [
+        {
+          "name": "filterGroups",
+          "type": "array",
+          "items": {"type": "object"},
+          "description": "Filter groups to apply to the search. Each group's filters are ANDed, groups are ORed.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "query",
+          "type": "string",
+          "description": "Keyword string for full-text search across contact properties.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "properties",
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "List of contact property names to return.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "description": "Maximum number of results to return.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "after",
+          "type": "string",
+          "description": "Pagination cursor to get the next page of results.",
+          "required": false,
+          "location": "body"
+        }
+      ]
+    },
+    {
+      "identifier": "search_companies",
+      "name": "Search Companies",
+      "description": "Search for company records by filter criteria or keyword.",
+      "category": "companies",
+      "required_permissions": ["crm.objects.companies.read"],
+      "http_method": "POST",
+      "endpoint_path": "/crm/v3/objects/companies/search",
+      "parameters": [
+        {
+          "name": "filterGroups",
+          "type": "array",
+          "items": {"type": "object"},
+          "description": "Filter groups for company properties.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "query",
+          "type": "string",
+          "description": "Keyword string for full-text search.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "properties",
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "List of company property names to return.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "description": "Maximum number of results.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "after",
+          "type": "string",
+          "description": "Pagination cursor.",
+          "required": false,
+          "location": "body"
+        }
+      ]
+    },
+    {
+      "identifier": "create_contact",
+      "name": "Create Contact",
+      "description": "Create a new contact record.",
+      "category": "contacts",
+      "required_permissions": ["crm.objects.contacts.write"],
+      "http_method": "POST",
+      "endpoint_path": "/crm/v3/objects/contacts",
+      "parameters": [
+        {
+          "name": "properties",
+          "type": "object",
+          "description": "Object containing contact properties (e.g., email, firstname, lastname).",
+          "required": true,
+          "location": "body"
+        }
+      ]
+    },
+    {
+      "identifier": "update_contact",
+      "name": "Update Contact",
+      "description": "Update an existing contact record by ID.",
+      "category": "contacts",
+      "required_permissions": ["crm.objects.contacts.write"],
+      "http_method": "PATCH",
+      "endpoint_path": "/crm/v3/objects/contacts/{contactId}",
+      "parameters": [
+        {
+          "name": "contactId",
+          "type": "string",
+          "description": "The ID of the contact to update.",
+          "required": true,
+          "location": "path"
+        },
+        {
+          "name": "properties",
+          "type": "object",
+          "description": "Object containing contact properties to update.",
+          "required": true,
+          "location": "body"
+        }
+      ]
+    },
+    {
+      "identifier": "delete_contact",
+      "name": "Delete Contact",
+      "description": "Delete (archive) a contact record by ID.",
+      "category": "contacts",
+      "required_permissions": ["crm.objects.contacts.write"],
+      "http_method": "DELETE",
+      "endpoint_path": "/crm/v3/objects/contacts/{contactId}",
+      "parameters": [
+        {
+          "name": "contactId",
+          "type": "string",
+          "description": "The ID of the contact to delete.",
+          "required": true,
+          "location": "path"
+        }
+      ]
+    },
+    {
+      "identifier": "create_deal",
+      "name": "Create Deal",
+      "description": "Create a new deal (sales opportunity) record.",
+      "category": "deals",
+      "required_permissions": ["crm.objects.deals.write"],
+      "http_method": "POST",
+      "endpoint_path": "/crm/v3/objects/deals",
+      "parameters": [
+        {
+          "name": "properties",
+          "type": "object",
+          "description": "Object containing deal properties (e.g., dealname, amount, pipeline, dealstage).",
+          "required": true,
+          "location": "body"
+        }
+      ]
+    },
+    {
+      "identifier": "delete_deal",
+      "name": "Delete Deal",
+      "description": "Delete (archive) a deal record by ID.",
+      "category": "deals",
+      "required_permissions": ["crm.objects.deals.write"],
+      "http_method": "DELETE",
+      "endpoint_path": "/crm/v3/objects/deals/{dealId}",
+      "parameters": [
+        {
+          "name": "dealId",
+          "type": "string",
+          "description": "The ID of the deal to delete.",
+          "required": true,
+          "location": "path"
+        }
+      ]
+    }
+  ]
+}
