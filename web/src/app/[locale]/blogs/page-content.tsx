@@ -9,7 +9,7 @@ interface BlogsPageContentProps {
 export async function BlogsPageContent({ blogs }: BlogsPageContentProps) {
   const t = await getTranslations()
   const featuredBlogs = blogs.filter(blog => blog.featured)
-  const recentBlogs = blogs.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+  const recentBlogs = blogs.filter(blog => !blog.featured).sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
 
   return (
     <div className="max-w-7xl mx-auto w-full">
