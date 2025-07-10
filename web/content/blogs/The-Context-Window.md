@@ -1,11 +1,11 @@
 ---
-id: "context-window"
+id: context-window
 title: "The Context Window Revolution Has Arrived: AI can finally remember everything"
 description: "AI has entered a new era: the context window revolution. Once limited to short-term memory, today’s top models like GPT-4 and Gemini 1.5 now handle millions of tokens, enabling them to process entire books, medical records, or legal cases in a single session."
-publishedAt: "2025-07-09"
-category: "AI Trend"
-author: "Context Space Team"
-image: "/blogs/header11.jpg"
+publishedAt: 2025-07-09
+category: AI Trend
+author: Context Space Team
+image: https://cdn-bucket.tos-cn-hongkong.volces.com/resources/header11_1752144296628.jpg
 ---
 
 
