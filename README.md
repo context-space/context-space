@@ -1,8 +1,7 @@
-# Context Space
-
 <div align="center">
-
-<!-- ![Context Space Banner](resources/banner.png) -->
+<a href="https://context.space">
+<h1 align="center"> Context Space </h1>
+</a>
 
 [![License](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
 [![Go Version](https://img.shields.io/badge/go-1.24-blue.svg)](https://golang.org/dl/)
@@ -33,7 +32,7 @@ Join our [Discord](https://discord.gg/Q74Ta5Xv ) and help us build! Have questio
 **Key Components:**
 - **System Instructions** - Rules and examples that guide model behavior
 - **Dynamic Memory** - Conversation history and persistent knowledge
-- **Retrieved Information** - Real-time data from documents, APIs, and databases  
+- **Retrieved Information** - Real-time data from documents, APIs, and databases
 - **Available Tools** - Functions the model can use (search, send_email, etc.)
 - **User State** - Preferences, context, and session information
 
@@ -69,7 +68,7 @@ When [MCP (Model Context Protocol)](https://modelcontextprotocol.io/) appeared i
 
 **What MCP got right:**
 - **Clear protocol design** for tool-AI communication
-- **Security-first approach** to external integrations  
+- **Security-first approach** to external integrations
 - **Architecture** that can grow with the ecosystem
 - **Open standard** that brings the community together
 
@@ -88,7 +87,7 @@ These weren't flaws in MCP's design - they were opportunities to build the missi
 
 We realized MCP had given us the perfect foundation to build something bigger. So we spent months building **Context Space** - production-ready infrastructure that extends MCP's vision toward full context engineering.
 
-**Today**: A Prouction-ready context provider integration layer with secure credential handling and persistent memory.  
+**Today**: A Prouction-ready context provider integration layer with secure credential handling and persistent memory.
 **Tomorrow**: Full context engineering infrastructure built on MCP principles.
 
 #### 🎬 Live Demo
