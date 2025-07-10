@@ -1,12 +1,12 @@
 ---
-id: "context-is-the-new-engine"
+id: context-is-the-new-engine
 title: "The Practical Guide to Context Engineering: From MCP to Integration Pipelines"
-description: "Context engineering is the key to building intelligent, scalable AI. The foundation starts with MCP and service-level integrations, allowing agents to access and manage relevant context reliably across interactions."
-publishedAt: "2025-07-09"
-category: "AI Tech"
-author: "Context Space Team"
+description: Context engineering is the key to building intelligent, scalable AI. The foundation starts with MCP and service-level integrations, allowing agents to access and manage relevant context reliably across interactions.
+publishedAt: 2025-07-09
+category: AI Tech
+author: Context Space Team
 featured: 1
-image: "/blogs/header01.jpg"
+image: https://cdn-bucket.tos-cn-hongkong.volces.com/resources/header01_1752144272539.jpg
 ---
 
 # What is Context Engineering? Why We Believe the Future Starts with MCP and Integrations
@@ -112,7 +112,7 @@ Building context-aware agents isn't just a prompt problem — it's a software ar
 * Secure OAuth 2.0 Flows
 * JWT-based auth + HashiCorp Vault for credential storage
 
-![Integrations](/blogs/pic01.png)
+![Integrations](https://cdn-bucket.tos-cn-hongkong.volces.com/resources/pic01_1752144080614.png)
 
 ### ✅ MCP-Ready Architecture
 

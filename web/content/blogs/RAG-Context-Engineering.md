@@ -1,11 +1,11 @@
 ---
-id: "rag"
-title: "RAG Isn’t Enough. Context Engineering is how real AI gets built"
-description: "RAG pipelines and prompt tweaks aren’t enough to power truly intelligent systems. The next generation of AI demands context engineering—the ability to deliver the right information, with memory and semantic awareness, at the right time."
-publishedAt: "2025-07-09"
-category: "AI Trend"
-author: "Context Space Team"
-image: "/blogs/header07.jpg"
+id: rag
+title: RAG Isn’t Enough. Context Engineering is how real AI gets built
+description: RAG pipelines and prompt tweaks aren’t enough to power truly intelligent systems. The next generation of AI demands context engineering—the ability to deliver the right information, with memory and semantic awareness, at the right time.
+publishedAt: 2025-07-09
+category: AI Trend
+author: Context Space Team
+image: https://cdn-bucket.tos-cn-hongkong.volces.com/resources/header07_1752144283428.jpg
 ---
 
 # RAG Isn’t Enough. Context Engineering is how real AI gets built

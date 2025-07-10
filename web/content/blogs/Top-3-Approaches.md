@@ -1,11 +1,11 @@
 ---
-id: "3-approaches"
+id: 3-approaches
 title: "The Top 3 Approaches Powering the Future of AI Memory: Native Memory, Context Injection, and Fine-Tuning"
 description: "AI’s future hinges on memory. Three approaches are leading the charge: native memory systems (like Memory³) that give models long-term recall, context injection (RAG) for dynamic knowledge retrieval, and fine-tuning for domain-specific precision."
-publishedAt: "2025-07-09"
-category: "AI Tools"
-author: "Context Space Team"
-image: "/blogs/header08.jpg"
+publishedAt: 2025-07-09
+category: AI Tools
+author: Context Space Team
+image: https://cdn-bucket.tos-cn-hongkong.volces.com/resources/header08_1752144322494.jpg
 ---
 
 
