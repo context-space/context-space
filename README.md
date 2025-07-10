@@ -23,7 +23,6 @@ Join our [Discord](https://discord.gg/Q74Ta5Xv ) and help us build! Have questio
 
 ![Homepage Screenshot](https://r2.context.space/resources/readme-homepage-screenshot.jpg)
 
-![Integrations Screenshot](https://r2.context.space/resources/readme-integrations-screenshot.jpg)
 
 ---
 
