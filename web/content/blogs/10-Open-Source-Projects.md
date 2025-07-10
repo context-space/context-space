@@ -1,12 +1,12 @@
 ---
-id: "10-open-source-projects"
-title: "The 10 Best Context Engineering Open Source Projects in 2025"
-description: "A new era of AI is unfolding and prompts are no longer enough. This article showcases the 10 powerful open-source projects shaping the future of context-aware and memory-enabled AI agents."
-publishedAt: "2025-07-09"
-category: "AI Tools"
-author: "Context Space Team"
+id: 10-open-source-projects
+title: The 10 Best Context Engineering Open Source Projects in 2025
+description: A new era of AI is unfolding and prompts are no longer enough. This article showcases the 10 powerful open-source projects shaping the future of context-aware and memory-enabled AI agents.
+publishedAt: 2025-07-09
+category: AI Tools
+author: Context Space Team
 featured: 2
-image: "/blogs/header02.jpg"
+image: https://cdn-bucket.tos-cn-hongkong.volces.com/resources/header02_1752144200994.jpg
 ---
 
 
@@ -31,7 +31,7 @@ This article highlights 10 of the most impactful open-source projects leading th
 
 LangChain remains the most influential context engineering framework. It helps developers build context-aware chains of LLM calls with modular tools for memory, retrieval, agent workflows, and integration. Its memory modules like `ConversationBufferWindowMemory` and robust RAG pipelines make it a cornerstone of any context-aware app.
 
-![Langchain](/blogs/Langchain.png)
+![Langchain](https://cdn-bucket.tos-cn-hongkong.volces.com/resources/Langchain_1752144038905.png)
 
 ## 2. RAGFlow
 
@@ -41,7 +41,7 @@ LangChain remains the most influential context engineering framework. It helps d
 
 RAGFlow focuses on retrieval-augmented generation, enabling context injection at scale. It supports semantic compression, scoring, and ranking of documents for optimal context curation. Ideal for knowledge-heavy assistants and enterprise search.
 
-![Ragflow](/blogs/Ragflow.png)
+![Ragflow](https://cdn-bucket.tos-cn-hongkong.volces.com/resources/Ragflow_1752144039258.png)
 
 ## 3. LlamaIndex
 
@@ -51,7 +51,7 @@ RAGFlow focuses on retrieval-augmented generation, enabling context injection at
 
 LlamaIndex is a leading data framework for building LLM apps with custom context. It offers powerful document loaders, indexing techniques, and retrieval strategies to structure and access the right data efficiently.
 
-![llma](/blogs/llma.png)
+![llma](https://cdn-bucket.tos-cn-hongkong.volces.com/resources/llma_1752144039310.png)
 
 ## 4. LangGraph
 
@@ -61,7 +61,7 @@ LlamaIndex is a leading data framework for building LLM apps with custom context
 
 Built by the LangChain team, LangGraph introduces graph-based agent workflows with persistent state and inter-agent memory. It's ideal for orchestrating multi-agent conversations with scoped and evolving context.
 
-![langgraph](/blogs/langgraph.png)
+![langgraph](https://cdn-bucket.tos-cn-hongkong.volces.com/resources/langgraph_1752144039370.png)
 
 ## 5. Letta
 
@@ -71,7 +71,7 @@ Built by the LangChain team, LangGraph introduces graph-based agent workflows wi
 
 Letta brings fine-grained control to agent planning and task memory. It's optimized for complex multi-turn conversations where agents need both short-term and long-term memory, and integrates well with voice and assistant platforms.
 
-![letta](/blogs/letta.png)
+![letta](https://cdn-bucket.tos-cn-hongkong.volces.com/resources/letta_1752144039410.png)
 
 
 ## 6. MCP Server (Model Context Protocol)
@@ -82,7 +82,7 @@ Letta brings fine-grained control to agent planning and task memory. It's optimi
 
 The Model Context Protocol (MCP) standardizes how AI agents consume context from external systems. The GitHub MCP server is the reference implementation for building context-aware LLM tools, offering event-driven context injection.
 
-![githubmcp](/blogs/githubmcp.png)
+![githubmcp](https://cdn-bucket.tos-cn-hongkong.volces.com/resources/githubmcp_1752144039450.png)
 
 
 ## 7. modelcontextprotocol/servers
@@ -93,7 +93,7 @@ The Model Context Protocol (MCP) standardizes how AI agents consume context from
 
 This is the official MCP implementation from Anthropic, offering a complete back-end infrastructure for injecting real-time, structured context into AI systems. It supports native agent integration, semantic selection, and lifecycle management.
 
-![servers](/blogs/servers.png)
+![servers](https://cdn-bucket.tos-cn-hongkong.volces.com/resources/servers_1752144039492.png)
 
 ## 8. Rasa
 **Owner:** RasaHQ
@@ -102,7 +102,7 @@ This is the official MCP implementation from Anthropic, offering a complete back
 
 Rasa is the most mature open-source conversational AI framework. With recent upgrades in 2025, it now supports context-aware memory modules, event-based dialogue flow, and real-time API integrations for enhanced agent memory.
 
-![rasa](/blogs/rasa.png)
+![rasa](https://cdn-bucket.tos-cn-hongkong.volces.com/resources/rasa_1752144039534.png)
 
 ## 9. **llama.cpp**
 
@@ -112,7 +112,7 @@ Rasa is the most mature open-source conversational AI framework. With recent upg
 
 While known for on-device LLM inference, llama.cpp now includes support for context-aware session state. It enables low-latency memory retrieval and caching strategies directly on edge devices — a breakthrough for private, personal AI.
 
-![llama](/blogs/llama.png)
+![llama](https://cdn-bucket.tos-cn-hongkong.volces.com/resources/llama_1752144039580.png)
 
 
 ## 10. **Context Space**
@@ -122,7 +122,7 @@ While known for on-device LLM inference, llama.cpp now includes support for cont
 
 An emerging open-source infrastructure project, Context Space focuses on building a production-ready infrastructure that extends MCP's vision toward full context engineering. Today It offers 14+ third-party integrations, JWT-secured APIs, and roadmap features like MCP protocol, memory graphs, and semantic scoring.
 
-![contextspace](/blogs/contextspace.png)
+![contextspace](https://cdn-bucket.tos-cn-hongkong.volces.com/resources/contextspace_1752144039615.png)
 
 
 ---
