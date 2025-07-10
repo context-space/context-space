@@ -14,13 +14,13 @@ const nextConfig: NextConfig = {
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   images: {
     disableStaticImages: true,
-    // remotePatterns: [
-    //   {
-    //     protocol: "https",
-    //     hostname: "img.shields.io",
-    //     pathname: "/**",
-    //   },
-    // ],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn-bucket.tos-cn-hongkong.volces.com",
+        pathname: "/**",
+      },
+    ],
   },
 }
 

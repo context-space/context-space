@@ -3,7 +3,7 @@ import remarkGfm from "remark-gfm"
 
 export const Blog = defineDocumentType(() => ({
   name: "Blog",
-  filePathPattern: `**/*.mdx`,
+  filePathPattern: `**/*.md`,
   contentType: "mdx",
   fields: {
     title: { type: "string", required: true },
