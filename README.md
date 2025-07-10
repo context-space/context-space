@@ -21,7 +21,9 @@ Join our [Discord](https://discord.gg/Q74Ta5Xv ) and help us build! Have questio
 
 </div>
 
-![Homepage Screenshot](resources/homepage-screenshot.jpg)
+![Homepage Screenshot](https://r2.context.space/resources/readme-homepage-screenshot.jpg)
+
+![Integrations Screenshot](https://r2.context.space/resources/readme-integrations-screenshot.jpg)
 
 ---
 
@@ -89,6 +91,23 @@ We realized MCP had given us the perfect foundation to build something bigger. S
 
 **Today**: A Prouction-ready context provider integration layer with secure credential handling and persistent memory.  
 **Tomorrow**: Full context engineering infrastructure built on MCP principles.
+
+#### 🎬 Live Demo
+
+##### OAuth Flow in Action
+![OAuth Demo](https://r2.context.space/resources/readme-demo-oauth-flow-github.gif)
+*Simple OAuth setup - no more config file editing*
+
+##### Star a GitHub Repository
+![GitHub Star Demo](https://r2.context.space/resources/readme-demo-github-star-repo.gif)
+*GitHub integration - Star repositories with natural language*
+
+##### Web Search
+
+![Web Search Demo](https://r2.context.space/resources/readme-demo-web-search.gif)
+*Real-time web search - get the latest information instantly*
+
+**Try Live**: [https://context.space/integrations](https://context.space/integrations)
 
 ### Why We Open-Sourced
 
