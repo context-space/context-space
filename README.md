@@ -94,7 +94,7 @@ We realized MCP had given us the perfect foundation to build something bigger. S
 #### 🎬 Live Demo
 
 ##### OAuth Flow in Action
-![OAuth Demo](https://r2.context.space/resources/readme-demo-oauth-flow-github.gif)
+![OAuth Demo](https://r2.context.space/resources/readme-demo-oauth-flow-github-v2.gif)
 *Simple OAuth setup - no more config file editing*
 
 ##### Star a GitHub Repository
