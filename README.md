@@ -44,10 +44,11 @@ Join our [Discord](https://discord.gg/Q74Ta5Xv ) and help us build! Have questio
 
 | **Prompt Engineering** | **Context Engineering** |
 |----------------------|-------------------------|
-| Single-turn instructions | Multi-turn, stateful workflows |
-| Optimizes immediate output | Manages entire AI ecosystem |
-| Limited by prompt information | Integrates external knowledge |
-| Demo-level solutions | Production-grade systems |
+| Crafting effective instructions | Orchestrating information ecosystems |
+| Optimizing individual interactions | Managing persistent, multi-turn workflows |
+| Immediate, targeted responses | Dynamic knowledge integration & memory |
+
+Both are essential and complementary skills. Context engineering builds upon and extends prompt engineering.
 
 ### Critical Problems Context Engineering Solves
 
@@ -147,9 +148,9 @@ We believe MCP provides the *perfect foundation* for context engineering infrast
 
 | Phase | Timeline | Key Features | MCP Integration |
 |-------|----------|--------------|------------------|
-| **Phase 1** | Next 6 months | Native MCP Support, Context Memory, Smart Aggregation | Full MCP protocol compatibility |
-| **Phase 2** | 6-12 months | Semantic Retrieval, Context Optimization, Real-time Updates | Enhanced MCP tool capabilities |
-| **Phase 3** | 12+ months | Context Synthesis, Predictive Loading, AI Context Reasoning | Advanced MCP ecosystem features |
+| **1** | Next 6 months | Native MCP Support, Context Memory, Smart Aggregation | Full MCP protocol compatibility |
+| **2** | 6-12 months | Semantic Retrieval, Context Optimization, Real-time Updates | Enhanced MCP tool capabilities |
+| **3** | 12+ months | Context Synthesis, Predictive Loading, AI Context Reasoning | Advanced MCP ecosystem features |
 
 ---
 
@@ -159,14 +160,14 @@ We believe MCP provides the *perfect foundation* for context engineering infrast
 
 | Service | Category | Auth | Context Capabilities | Status |
 |---------|----------|------|---------------------|--------|
-| **GitHub** | Development | OAuth | Code repos, issues, PRs, commit history | ✅ Ready |
-| **Slack** | Communication | OAuth | Team conversations, channels, workflows | ✅ Ready |
-| **Airtable** | Data Management | OAuth | Structured business data, CRM records | ✅ Ready |
-| **HubSpot** | CRM | OAuth | Customer data, sales pipeline, interactions | ✅ Ready |
-| **Notion** | Knowledge | OAuth | Documentation, project plans, wikis | ✅ Ready |
-| **Spotify** | Personal | OAuth | Music preferences, listening patterns | ✅ Ready |
-| **Stripe** | Financial | API Key | Payment data, customer behavior | ✅ Ready |
-| **More...** | Various | Various | 5+ additional integrations | ✅ Ready |
+| **GitHub** | Development | OAuth | Code repos, issues, PRs, commit history | Ready |
+| **Slack** | Communication | OAuth | Team conversations, channels, workflows | Ready |
+| **Airtable** | Data Management | OAuth | Structured business data, CRM records | Ready |
+| **HubSpot** | CRM | OAuth | Customer data, sales pipeline, interactions | Ready |
+| **Notion** | Knowledge | OAuth | Documentation, project plans, wikis | Ready |
+| **Spotify** | Personal | OAuth | Music preferences, listening patterns | Ready |
+| **Stripe** | Financial | API Key | Payment data, customer behavior | Ready |
+| **More...** | Various | Various | 5+ additional integrations | Ready |
 
 **✅ 14+ integrations ready to use • More being added weekly**
 
@@ -208,7 +209,7 @@ curl -H "Authorization: Bearer <jwt-token>" \
 
 **Join our [Discord](https://discord.gg/Q74Ta5Xv) to connect with other contributors and get help with your PRs!**
 
-[![Contributors](https://contrib.rocks/image?repo=context-space/context-space)](https://github.com/context-space/context-space/graphs/contributors)
+[![Contributors](https://contrib.rocks/image?repo=context-space/context-space&anon=1)](https://github.com/context-space/context-space/graphs/contributors)
 
 ### Quick Contributing Guide
 
@@ -252,8 +253,9 @@ curl -H "Authorization: Bearer <jwt-token>" \
 
 ### Join Our Growing Community
 
-[![Twitter](https://img.shields.io/twitter/follow/contextspace?style=social)](https://twitter.com/contextspace)
-[![Discord](https://img.shields.io/discord/1234567890?logo=discord&logoColor=white&label=Discord&color=5865F2)](https://discord.gg/Q74Ta5Xv)
+[![Twitter](https://img.shields.io/twitter/follow/hi_contextspace?style=social)](https://twitter.com/hi_contextspace)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Us-5865F2?logo=discord&logoColor=white)](https://discord.gg/Q74Ta5Xv)
+
 
 ### Resources
 
