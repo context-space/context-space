@@ -164,7 +164,11 @@
     "enterCode": "驗證碼",
     "invalidCode": "驗證碼無效",
     "captchaRequired": "請完成驗證碼驗證",
-    "captchaFailed": "驗證碼驗證失敗。請重試。"
+    "captchaFailed": "驗證碼驗證失敗。請重試。",
+    "sendMagicLink": "發送魔法連結",
+    "magicLinkSent": "魔法連結已發送！",
+    "checkEmail": "請檢查您的信箱 {email} 並點擊魔法連結來登入。",
+    "sendAnother": "重新發送連結"
   },
   "oauth": {
     "loggingIn": "正在登入...",
@@ -190,6 +194,31 @@
         "processingAuthentication": "正在處理身份驗證"
       },
       "redirectingAutomatically": "自動跳轉中...",
+      "errorCode": "錯誤代碼",
+      "magicLink": {
+        "verifying": "正在驗證魔法連結...",
+        "verificationFailed": "魔法連結驗證失敗。連結可能無效或已過期。",
+        "expired": "魔法連結已過期",
+        "expiredDetails": "此魔法連結已過期，不再有效。出於安全考慮，魔法連結通常在1小時後過期。",
+        "expiredHint": "請從登入頁面重新請求一個新的魔法連結以繼續。",
+        "disabled": "魔法連結認證已停用",
+        "disabledDetails": "此應用程式目前已停用魔法連結認證。請使用其他登入方式。",
+        "invalidRequest": "無效的魔法連結請求",
+        "invalidRequestDetails": "魔法連結請求格式錯誤或包含無效參數。請嘗試重新請求魔法連結。",
+        "rateLimited": "魔法連結請求過多",
+        "rateLimitedDetails": "您在短時間內請求了太多魔法連結。請等待幾分鐘後再試。",
+        "signupDisabled": "帳戶建立已停用",
+        "signupDisabledDetails": "新帳戶註冊目前已停用。如需存取權限，請聯絡客服。",
+        "emailNotConfirmed": "信箱地址未確認",
+        "emailNotConfirmedDetails": "您需要確認信箱地址後才能登入。請檢查您的信箱以取得確認連結。",
+        "userNotFound": "未找到使用者帳戶",
+        "userNotFoundDetails": "未找到與此魔法連結對應的使用者帳戶。帳戶可能已被刪除或連結無效。",
+        "badCallback": "無效的認證回調",
+        "badCallbackDetails": "來自信件連結的認證回調無效或已損壞。請嘗試重新請求魔法連結。",
+        "genericDetails": "請嘗試重新請求魔法連結，或聯絡客服以取得協助。",
+        "timeout": "認證請求逾時",
+        "timeoutDetails": "認證程序耗時過長已逾時。請使用新的魔法連結重試。"
+      },
       "mcp": {
         "connectingWith": "正在連接 {provider}...",
         "errorOccurred": "OAuth 過程中發生錯誤。",

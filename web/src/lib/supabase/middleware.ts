@@ -9,7 +9,8 @@ export async function updateSession(request: NextRequest, response: NextResponse
     {
       cookies: {
         getAll() {
-          return request.cookies.getAll()
+          const cookies = request.cookies.getAll()
+          return cookies
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
@@ -22,7 +23,10 @@ export async function updateSession(request: NextRequest, response: NextResponse
     },
   )
 
-  const { data: { user } } = await supabase.auth.getUser()
-
-  return { response, user }
+  try {
+    const { data: { user } } = await supabase.auth.getUser()
+    return { response, user }
+  } catch {
+    return { response, user: null }
+  }
 }

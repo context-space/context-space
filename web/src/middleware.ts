@@ -9,28 +9,16 @@ import { updateSession } from "./lib/supabase/middleware"
 
 const middlewareLogger = serverLogger.withTag("middleware")
 
-/**
- * page route 由于需要获取用户信息，尽管部分页面不需要认证，也需要在middleware中处理
- * api route 如果不需要认证，也就不需要通过 middleware 处理
- */
-
 interface RouteConfig {
   protectedRoutes: string[]
   publicAPIRoutes: string[]
 }
 
-// Route configuration
 const routeConfig: RouteConfig = {
-  // Page routes that require authentication
   protectedRoutes: ["/account"],
-  // API routes that do not require authentication
   publicAPIRoutes: ["/api/auth/**", "/api/search", "/api/mcp/**", "/api/og"],
 }
 
-/**
- * 检查路由是否匹配给定的模式
- * 支持通配符 * 和 **
- */
 function isRouteMatch(pathname: string, routes: string[]): boolean {
   return routes.some((route) => {
     if (route === pathname) {
@@ -53,9 +41,6 @@ function isRouteMatch(pathname: string, routes: string[]): boolean {
   })
 }
 
-/**
- * 处理未认证的请求
- */
 function handleUnauthenticated(request: NextRequest, pathname: string): NextResponse {
   if (pathname.startsWith("/api/")) {
     middlewareLogger.warn("Unauthorized API access", { pathname })
@@ -76,9 +61,6 @@ function handleUnauthenticated(request: NextRequest, pathname: string): NextResp
   }
 }
 
-/**
- * 获取不带语言前缀的路径
- */
 function getPathnameWithoutLocale(pathname: string): string {
   // 移除语言前缀 (如 /zh, /en)
   const segments = pathname.split("/").filter(Boolean)
@@ -90,9 +72,6 @@ function getPathnameWithoutLocale(pathname: string): string {
 
 const handleI18nRouting = createMiddleware(routing)
 
-/**
- * 主中间件函数
- */
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
   const pathnameWithoutLocale = getPathnameWithoutLocale(pathname)
@@ -128,6 +107,6 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     // 匹配所有路径，排除静态文件和图片
-    "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|manifest.json|.*\\.(?:png|svg|jpg|jpeg|gif|webp|ico)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|feed.xml|robots.txt|sitemap.xml|manifest.json|.*\\.(?:png|svg|jpg|jpeg|gif|webp|ico)$).*)",
   ],
 }

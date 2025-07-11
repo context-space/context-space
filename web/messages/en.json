@@ -164,7 +164,11 @@
     "enterCode": "Code",
     "invalidCode": "Invalid Code",
     "captchaRequired": "Please complete the CAPTCHA verification",
-    "captchaFailed": "CAPTCHA verification failed. Please try again."
+    "captchaFailed": "CAPTCHA verification failed. Please try again.",
+    "sendMagicLink": "Send Magic Link",
+    "magicLinkSent": "Magic Link Sent!",
+    "checkEmail": "Please check your email {email} and click the magic link to sign in.",
+    "sendAnother": "Send Another Link"
   },
   "oauth": {
     "loggingIn": "Logging you in...",
@@ -190,6 +194,31 @@
         "processingAuthentication": "Processing Authentication"
       },
       "redirectingAutomatically": "Redirecting automatically...",
+      "errorCode": "Error Code",
+      "magicLink": {
+        "verifying": "Verifying magic link...",
+        "verificationFailed": "Magic link verification failed. The link may be invalid or expired.",
+        "expired": "Magic link has expired",
+        "expiredDetails": "This magic link has expired and is no longer valid. Magic links typically expire after 1 hour for security reasons.",
+        "expiredHint": "Request a new magic link from the login page to continue.",
+        "disabled": "Magic link authentication is disabled",
+        "disabledDetails": "Magic link authentication is currently disabled for this application. Please use an alternative login method.",
+        "invalidRequest": "Invalid magic link request",
+        "invalidRequestDetails": "The magic link request is malformed or contains invalid parameters. Please try requesting a new magic link.",
+        "rateLimited": "Too many magic link requests",
+        "rateLimitedDetails": "You have requested too many magic links in a short period. Please wait a few minutes before trying again.",
+        "signupDisabled": "Account creation is disabled",
+        "signupDisabledDetails": "New account registration is currently disabled. Please contact support if you need access.",
+        "emailNotConfirmed": "Email address not confirmed",
+        "emailNotConfirmedDetails": "Your email address needs to be confirmed before you can sign in. Please check your email for a confirmation link.",
+        "userNotFound": "User account not found",
+        "userNotFoundDetails": "No user account was found for this magic link. The account may have been deleted or the link is invalid.",
+        "badCallback": "Invalid authentication callback",
+        "badCallbackDetails": "The authentication callback from the email link is invalid or corrupted. Please try requesting a new magic link.",
+        "genericDetails": "Please try requesting a new magic link or contact support if the problem persists.",
+        "timeout": "Authentication request timeout",
+        "timeoutDetails": "The authentication process took too long and has timed out. Please try again with a fresh magic link."
+      },
       "mcp": {
         "connectingWith": "Connecting with {provider}...",
         "errorOccurred": "An error occurred during the OAuth process.",
@@ -205,7 +234,7 @@
       }
     }
   },
-    "footer": {
+  "footer": {
     "product": "Product",
     "features": "Features",
     "community": "Community",

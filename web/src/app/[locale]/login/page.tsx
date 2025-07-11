@@ -14,7 +14,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   return (
     <FramelessLayout>
       <div className="min-h-[calc(100vh-20rem)] flex items-center justify-center px-4">
-        <Login from={from} className="pt-16" />
+        <Login from={from} className="pt-16 w-[420px] max-w-[90vw]" />
       </div>
     </FramelessLayout>
   )
