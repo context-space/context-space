@@ -64,7 +64,6 @@ export function AuthProvider({ children, initialSession }: AuthProviderProps) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       authProviderLogger.info("Auth state changed", { event, userId: session?.user?.id })
 
-      const previousUser = previousUserRef.current
       const newUser = session?.user ?? null
 
       setSession(session)
@@ -76,24 +75,10 @@ export function AuthProvider({ children, initialSession }: AuthProviderProps) {
 
       // Clear localStorage when user logs out
       if (event === "SIGNED_OUT") {
+        authProviderLogger.info("User signed out, clearing data")
         clearUserChatData()
-      }
-
-      // Refresh the page when authentication state changes to update SSR content
-      // This ensures server-rendered components get updated user data
-      if (event === "SIGNED_IN" || event === "SIGNED_OUT") {
-        // Check if the user state actually changed to avoid unnecessary refreshes
-        const userChanged = (previousUser === null && newUser !== null)
-          || (previousUser !== null && newUser === null)
-          || (previousUser?.id !== newUser?.id)
-
-        if (userChanged) {
-          authProviderLogger.info("Refreshing page due to auth state change", { event })
-          // Add a small delay to ensure the auth state is fully updated
-          setTimeout(() => {
-            router.refresh()
-          }, 100)
-        }
+      } else if (event === "SIGNED_IN") {
+        authProviderLogger.info("User signed in, auth state updated", { event, userId: newUser?.id })
       }
     })
 
@@ -104,15 +89,28 @@ export function AuthProvider({ children, initialSession }: AuthProviderProps) {
 
   const signOut = useCallback(async () => {
     try {
+      authProviderLogger.info("Starting sign out process")
+
       const { error } = await supabase.auth.signOut()
       if (error) {
         authProviderLogger.error("Error signing out", { error })
         throw error
       }
+
+      authProviderLogger.info("Sign out successful")
+
+      // 清理本地状态
+      clearUserChatData()
+
+      // 刷新页面，让 middleware 处理后续的重定向逻辑
+      setTimeout(() => {
+        router.refresh()
+      }, 100)
     } catch (error) {
       authProviderLogger.error("Error signing out", { error })
+      throw error
     }
-  }, [supabase])
+  }, [supabase, router])
 
   const value: AuthContextType = useMemo(() => ({
     user,

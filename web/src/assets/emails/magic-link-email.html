@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Magic Link</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .email-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 10px;
+            border: 1px solid rgba(229, 231, 235, 0.6);
+            padding: 48px 40px;
+            margin: 20px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .email-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            z-index: 1;
+        }
+        .logo {
+            margin-bottom: 32px;
+        }
+        .logo img {
+            border-radius: 10px;
+        }
+        .magic-link-button {
+            display: inline-block;
+            background: linear-gradient(145deg, #9496e4, #8186d4);
+            color: #ffffff;
+            padding: 18px 40px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 32px 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 0.025em;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .magic-link-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        .magic-link-button:hover {
+            transform: translateY(-1px);
+            background: linear-gradient(145deg, #8186d4, #7078c4);
+        }
+        .magic-link-button:hover::before {
+            left: 100%;
+        }
+        .title {
+            color: #111827;
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0 0 24px 0;
+            letter-spacing: -0.025em;
+            line-height: 1.2;
+        }
+        .description {
+            color: #4b5563;
+            font-size: 16px;
+            margin: 0 0 28px 0;
+            line-height: 1.7;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .footer {
+            color: #6b7280;
+            font-size: 14px;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(229, 231, 235, 0.6);
+            line-height: 1.5;
+        }
+        .alternative-link {
+            background: rgba(249, 250, 251, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(229, 231, 235, 0.6);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 32px 0;
+            text-align: left;
+        }
+        .alternative-link p {
+            color: #6b7280;
+            font-size: 14px;
+            margin: 0 0 12px 0;
+            font-weight: 500;
+        }
+        .alternative-link a {
+            color: #9496e4;
+            text-decoration: none;
+            word-break: break-all;
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            background: rgba(148, 150, 228, 0.05);
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: block;
+            border: 1px solid rgba(148, 150, 228, 0.1);
+        }
+        .alternative-link a:hover {
+            background: rgba(148, 150, 228, 0.1);
+            border-color: rgba(148, 150, 228, 0.2);
+        }
+        .security-notice {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.1);
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin: 24px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .security-text {
+            color: #047857;
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Dark mode styles */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            }
+            .email-card {
+                background: rgba(255, 255, 255, 0.02);
+                border-color: rgba(255, 255, 255, 0.08);
+            }
+            .email-card::before {
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            }
+            .magic-link-button {
+                background: linear-gradient(145deg, #b4b6f0, #9496e4);
+            }
+            .magic-link-button:hover {
+                background: linear-gradient(145deg, #9496e4, #8186d4);
+            }
+            .title {
+                color: #f8fafc;
+            }
+            .description {
+                color: #cbd5e1;
+            }
+            .footer {
+                color: #94a3b8;
+                border-top-color: rgba(255, 255, 255, 0.08);
+            }
+            .alternative-link {
+                background: rgba(249, 250, 251, 0.02);
+                border-color: rgba(255, 255, 255, 0.08);
+            }
+            .alternative-link p {
+                color: #94a3b8;
+            }
+            .alternative-link a {
+                color: #b4b6f0;
+                background: rgba(148, 150, 228, 0.1);
+                border-color: rgba(148, 150, 228, 0.2);
+            }
+            .alternative-link a:hover {
+                background: rgba(148, 150, 228, 0.15);
+                border-color: rgba(148, 150, 228, 0.3);
+            }
+            .security-notice {
+                background: rgba(16, 185, 129, 0.05);
+                border-color: rgba(16, 185, 129, 0.1);
+            }
+            .security-text {
+                color: #6ee7b7;
+            }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 16px;
+            }
+            .email-card {
+                padding: 36px 28px;
+                border-radius: 10px;
+            }
+            .magic-link-button {
+                padding: 16px 32px;
+                width: 100%;
+                box-sizing: border-box;
+                font-size: 16px;
+            }
+            .title {
+                font-size: 28px;
+            }
+            .alternative-link {
+                padding: 16px;
+            }
+            .alternative-link a {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="email-card">
+            <h1 class="title">Sign in to your account</h1>
+            <p class="description">
+                Click the button below to securely sign in to your account. This magic link will automatically authenticate you.
+            </p>
+
+            <a href="{{ .SiteURL }}/auth-callback?token_hash={{ .TokenHash }}&type=email" class="magic-link-button">
+                Sign In Securely
+            </a>
+
+            <div class="security-notice">
+                <p class="security-text">
+                    This link will expire in 1 hour and can only be used once for your security.
+                </p>
+            </div>
+
+            <div class="alternative-link">
+                <p>If the button doesn't work, copy and paste this link into your browser:</p>
+                <a href="{{ .SiteURL }}/auth-callback?token_hash={{ .TokenHash }}&type=email">{{ .SiteURL }}/auth-callback?token_hash={{ .TokenHash }}&type=email</a>
+            </div>
+
+            <p class="description">
+                If you didn't request this login link, please ignore this email. Your account remains secure.
+            </p>
+
+            <p class="footer">
+                This is an automated message, please do not reply to this email.<br>
+                Need help? Contact our support team.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

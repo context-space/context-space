@@ -1,5 +1,5 @@
 ---
-id: Beyond-Integrations
+id: context-is-the-new-engine
 title: "Beyond Integrations: How to Build the Future of AI with Context Engineering"
 description: Context engineering is the key to building intelligent, scalable AI. The foundation starts with MCP and service-level integrations, allowing agents to access and manage relevant context reliably across interactions.
 publishedAt: 2025-07-09
@@ -41,7 +41,7 @@ LLMs are certainly very powerful, but they constantly suffer from amnesia. Witho
 - Lose track of user preferences
 - Repeat themselves
 - Fail in longer interactions
-  
+
 These aren't model failures, they’re **context failures**.
 
 As systems grow more complex, context becomes the bottleneck. Reliable AI agents need dynamic access to the *right* information, not just well-crafted prompts.

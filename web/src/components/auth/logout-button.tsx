@@ -3,8 +3,8 @@
 import { LogOut } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { useTransition } from "react"
-import { logout } from "@/app/[locale]/logout/actions"
 import { Button } from "@/components/ui/button"
+import { useAuth } from "@/hooks/use-auth"
 import { clientLogger } from "@/lib/utils"
 
 interface LogoutButtonProps {
@@ -23,12 +23,14 @@ export function LogoutButton({
   children,
 }: LogoutButtonProps) {
   const t = useTranslations()
+  const { signOut } = useAuth()
   const [isPending, startTransition] = useTransition()
 
   const handleLogout = () => {
     startTransition(async () => {
       try {
-        await logout()
+        logoutButtonLogger.info("User initiated logout")
+        await signOut()
       } catch (error) {
         logoutButtonLogger.error("Failed to logout", { error })
       }

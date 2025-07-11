@@ -1,10 +1,12 @@
 import type { FormEvent, RefObject } from "react"
 import type { CaptchaSectionRef } from "@/components/login/captcha-section"
-import { useCallback, useEffect, useState, useTransition } from "react"
+import { useRouter } from "next/navigation"
+import { useCallback, useEffect, useState } from "react"
 import { loginAnonymously, loginWithEmail, loginWithOAuth, sendVerificationCode } from "@/app/[locale]/login/actions"
 import { turnstile } from "@/config"
 
 export function useLoginForm(from: string, captchaRef?: RefObject<CaptchaSectionRef | null>) {
+  const router = useRouter()
   const [email, setEmail] = useState("")
   const [verificationCode, setVerificationCode] = useState("")
   const [codeSent, setCodeSent] = useState(false)
@@ -16,7 +18,6 @@ export function useLoginForm(from: string, captchaRef?: RefObject<CaptchaSection
   const [captchaToken, setCaptchaToken] = useState("")
   const [captchaError, setCaptchaError] = useState(false)
 
-  const [isPending, startTransition] = useTransition()
   const [isSendingCode, setIsSendingCode] = useState(false)
 
   const clearErrors = useCallback(() => {
@@ -53,15 +54,15 @@ export function useLoginForm(from: string, captchaRef?: RefObject<CaptchaSection
 
     setIsSendingCode(true)
 
-    try {
-      const formData = new FormData()
-      formData.append("email", email)
-      if (turnstile.enabled && captchaToken) {
-        formData.append("captchaToken", captchaToken)
-      }
+    const formData = new FormData()
+    formData.append("email", email)
+    if (turnstile.enabled && captchaToken) {
+      formData.append("captchaToken", captchaToken)
+    }
 
-      await sendVerificationCode(formData)
+    const result = await sendVerificationCode(formData)
 
+    if (result.success) {
       setCodeSent(true)
       setCountdown(60)
       clearErrors()
@@ -79,9 +80,9 @@ export function useLoginForm(from: string, captchaRef?: RefObject<CaptchaSection
           return prev - 1
         })
       }, 1000)
-    } catch (error) {
+    } else {
       // Check if error is related to CAPTCHA verification
-      const errorMessage = error instanceof Error ? error.message : String(error)
+      const errorMessage = result.error || ""
       if (errorMessage.includes("captcha verification process failed") || errorMessage.includes("CAPTCHA")) {
         setCaptchaError(true)
         captchaRef?.current?.triggerErrorState()
@@ -91,38 +92,42 @@ export function useLoginForm(from: string, captchaRef?: RefObject<CaptchaSection
       // Reset CAPTCHA on error
       captchaRef?.current?.resetCaptcha()
       setCaptchaToken("")
-    } finally {
-      setIsSendingCode(false)
     }
+
+    setIsSendingCode(false)
   }, [clearErrors, email, termsAccepted, captchaToken, setErrorWithTimeout, captchaRef])
 
   const handleEmailLogin = useCallback(async (e?: FormEvent<HTMLFormElement>) => {
     e?.preventDefault()
 
-    if (!email || !verificationCode) {
-      return
-    }
+    try {
+      if (!email || !verificationCode) {
+        return
+      }
 
-    setVerificationCodeError(false)
+      setVerificationCodeError(false)
 
-    startTransition(async () => {
-      try {
-        const formData = new FormData()
-        formData.append("email", email)
-        formData.append("verificationCode", verificationCode)
-        formData.append("from", from)
+      const formData = new FormData()
+      formData.append("email", email)
+      formData.append("verificationCode", verificationCode)
+      formData.append("from", from)
 
-        await loginWithEmail(formData)
-      } catch (error) {
-        // 忽略 Next.js 重定向错误，这是正常的
-        if (error instanceof Error && error.message === "NEXT_REDIRECT") {
-          throw error
-        }
+      const result = await loginWithEmail(formData)
+
+      if (result.success) {
+      // 登录成功，直接跳转
+        router.push(result.redirectTo || "/")
+      } else {
+      // 登录失败，显示错误信息
         setErrorWithTimeout(setVerificationCodeError)
         setVerificationCode("")
       }
-    })
-  }, [email, from, setErrorWithTimeout, verificationCode])
+    } catch (error) {
+      console.error("Error logging in with email", error)
+      setErrorWithTimeout(setVerificationCodeError)
+      setVerificationCode("")
+    }
+  }, [email, from, setErrorWithTimeout, verificationCode, router])
 
   useEffect(() => {
     if (verificationCode.length === 6 && email && termsAccepted && codeSent) {
@@ -143,22 +148,18 @@ export function useLoginForm(from: string, captchaRef?: RefObject<CaptchaSection
 
     setTermsError(false)
 
-    startTransition(async () => {
-      try {
-        const formData = new FormData()
-        formData.append("provider", provider)
-        formData.append("from", from)
+    const formData = new FormData()
+    formData.append("provider", provider)
+    formData.append("from", from)
 
-        await loginWithOAuth(formData)
-      } catch (error) {
-        // 忽略 Next.js 重定向错误，这是正常的
-        if (error instanceof Error && error.message === "NEXT_REDIRECT") {
-          throw error
-        }
-        // Handle other errors silently
-      }
-    })
-  }, [termsAccepted, from, setErrorWithTimeout])
+    const result = await loginWithOAuth(formData)
+
+    if (result.success) {
+      router.push(result.redirectTo || "/")
+    } else {
+      setErrorWithTimeout(setTermsError)
+    }
+  }, [termsAccepted, from, setErrorWithTimeout, router])
 
   const handleAnonymousLogin = useCallback(async () => {
     if (!termsAccepted) {
@@ -168,21 +169,19 @@ export function useLoginForm(from: string, captchaRef?: RefObject<CaptchaSection
 
     setTermsError(false)
 
-    startTransition(async () => {
-      try {
-        const formData = new FormData()
-        formData.append("from", from)
+    const formData = new FormData()
+    formData.append("from", from)
 
-        await loginAnonymously(formData)
-      } catch (error) {
-        // 忽略 Next.js 重定向错误，这是正常的
-        if (error instanceof Error && error.message === "NEXT_REDIRECT") {
-          throw error
-        }
-        // Handle other errors silently
-      }
-    })
-  }, [from, setErrorWithTimeout, termsAccepted])
+    const result = await loginAnonymously(formData)
+
+    if (result.success) {
+      // 匿名登录成功，直接跳转
+      router.push(result.redirectTo || "/")
+    } else {
+      // 匿名登录失败，显示错误
+      setErrorWithTimeout(setTermsError)
+    }
+  }, [from, router, setErrorWithTimeout, termsAccepted])
 
   const handleEmailChange = useCallback((value: string) => {
     setEmail(value)
@@ -224,7 +223,6 @@ export function useLoginForm(from: string, captchaRef?: RefObject<CaptchaSection
     termsError,
     verificationCodeError,
     captchaError,
-    isPending,
     isSendingCode,
 
     // Actions

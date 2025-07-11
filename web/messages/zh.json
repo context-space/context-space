@@ -164,7 +164,11 @@
     "enterCode": "验证码",
     "invalidCode": "验证码无效",
     "captchaRequired": "请完成验证码验证",
-    "captchaFailed": "验证码验证失败。请重试。"
+    "captchaFailed": "验证码验证失败。请重试。",
+    "sendMagicLink": "发送魔法链接",
+    "magicLinkSent": "魔法链接已发送！",
+    "checkEmail": "请检查您的邮箱 {email} 并点击魔法链接来登录。",
+    "sendAnother": "重新发送链接"
   },
   "oauth": {
     "loggingIn": "正在登录...",
@@ -190,6 +194,31 @@
         "processingAuthentication": "正在处理身份验证"
       },
       "redirectingAutomatically": "自动跳转中...",
+      "errorCode": "错误代码",
+      "magicLink": {
+        "verifying": "正在验证魔法链接...",
+        "verificationFailed": "魔法链接验证失败。链接可能无效或已过期。",
+        "expired": "魔法链接已过期",
+        "expiredDetails": "此魔法链接已过期，不再有效。出于安全考虑，魔法链接通常在1小时后过期。",
+        "expiredHint": "请从登录页面重新请求一个新的魔法链接以继续。",
+        "disabled": "魔法链接认证已禁用",
+        "disabledDetails": "此应用程序当前已禁用魔法链接认证。请使用其他登录方式。",
+        "invalidRequest": "无效的魔法链接请求",
+        "invalidRequestDetails": "魔法链接请求格式错误或包含无效参数。请尝试重新请求魔法链接。",
+        "rateLimited": "魔法链接请求过多",
+        "rateLimitedDetails": "您在短时间内请求了太多魔法链接。请等待几分钟后再试。",
+        "signupDisabled": "账户创建已禁用",
+        "signupDisabledDetails": "新账户注册当前已禁用。如需访问权限，请联系客服。",
+        "emailNotConfirmed": "邮箱地址未确认",
+        "emailNotConfirmedDetails": "您需要确认邮箱地址后才能登录。请检查您的邮箱以获取确认链接。",
+        "userNotFound": "未找到用户账户",
+        "userNotFoundDetails": "未找到与此魔法链接对应的用户账户。账户可能已被删除或链接无效。",
+        "badCallback": "无效的认证回调",
+        "badCallbackDetails": "来自邮件链接的认证回调无效或已损坏。请尝试重新请求魔法链接。",
+        "genericDetails": "请尝试重新请求魔法链接，或联系客服以获取帮助。",
+        "timeout": "认证请求超时",
+        "timeoutDetails": "认证过程耗时过长已超时。请使用新的魔法链接重试。"
+      },
       "mcp": {
         "connectingWith": "正在连接 {provider}...",
         "errorOccurred": "OAuth 过程中发生错误。",
