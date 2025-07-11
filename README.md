@@ -10,6 +10,12 @@
 [![API Docs](https://img.shields.io/badge/API-documented-green.svg)](http://api.context.space/v1/docs)
 [![Contributors](https://img.shields.io/badge/contributors-welcome-orange.svg)]()
 
+---
+
+**🌐 Language** | [中文](docs/README.zh-CN.md) | **English** | 
+
+---
+
 **Context Space is built to be the backbone of context engineering for AI agents.**
 While the industry focuses on prompt engineering, we believe the next frontier lies in Context Engineering that provides AI systems with the right information, at the right time, in the right format.
 Join our [Discord](https://discord.gg/Q74Ta5Xv ) and help us build! Have questions? [Open an issue](https://github.com/context-space/context-space/issues) or join our discussions.
