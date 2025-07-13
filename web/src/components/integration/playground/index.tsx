@@ -227,14 +227,21 @@ export function Playground({ provider, authType, isConnected, providerId }: Play
       }
 
       setInputHistory(loadedInputHistory)
+
+      // 只在没有输入历史时才设置默认输入
+      if (!loadedInputHistory || loadedInputHistory.length === 0) {
+        setInput(t("playground.defaultInput"))
+      } else {
+        setInput("")
+      }
     } else {
       // User is not logged in, reset to default state
       setMessages(DEFAULT_MESSAGES)
       setInputHistory([])
+      setInput(t("playground.defaultInput"))
     }
 
     setHistoryIndex(-1)
-    setInput(t("playground.defaultInput"))
     setSelectedOperation("")
     setTriggerUpdate(0)
   }, [provider, user, setMessages, setInput, setSelectedOperation, setTriggerUpdate, t, DEFAULT_MESSAGES])
@@ -243,8 +250,8 @@ export function Playground({ provider, authType, isConnected, providerId }: Play
   useEffect(() => {
     setSelectedOperation("")
     setTriggerUpdate(0)
-    setInput(t("playground.defaultInput"))
-  }, [provider, setSelectedOperation, setTriggerUpdate, setInput, t])
+    // 不再在这里设置默认输入，让上面的 useEffect 处理输入逻辑
+  }, [provider, setSelectedOperation, setTriggerUpdate])
 
   // Update input when an operation is selected
   useEffect(() => {
@@ -370,32 +377,32 @@ export function Playground({ provider, authType, isConnected, providerId }: Play
           <PromptInputActions className="absolute right-0 top-1/2 transform -translate-y-1/2">
             {isLoading
               ? (
-                  <PromptInputAction tooltip={t("playground.stop")}>
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant="ghost"
-                      onClick={stop}
-                      className="h-8 w-8 p-0"
-                    >
-                      <Square className="h-4 w-4 text-primary" />
-                    </Button>
-                  </PromptInputAction>
-                )
+                <PromptInputAction tooltip={t("playground.stop")}>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="ghost"
+                    onClick={stop}
+                    className="h-8 w-8 p-0"
+                  >
+                    <Square className="h-4 w-4 text-primary" />
+                  </Button>
+                </PromptInputAction>
+              )
               : (
-                  <PromptInputAction tooltip={t("playground.send")}>
-                    <Button
-                      type="submit"
-                      size="sm"
-                      disabled={!input.trim()}
-                      onClick={onSubmit}
-                      variant="ghost"
-                      className="h-8 w-8 p-0"
-                    >
-                      <Triangle className="h-4 w-4 rotate-90 text-primary" />
-                    </Button>
-                  </PromptInputAction>
-                )}
+                <PromptInputAction tooltip={t("playground.send")}>
+                  <Button
+                    type="submit"
+                    size="sm"
+                    disabled={!input.trim()}
+                    onClick={onSubmit}
+                    variant="ghost"
+                    className="h-8 w-8 p-0"
+                  >
+                    <Triangle className="h-4 w-4 rotate-90 text-primary" />
+                  </Button>
+                </PromptInputAction>
+              )}
           </PromptInputActions>
         </PromptInput>
       </div>
