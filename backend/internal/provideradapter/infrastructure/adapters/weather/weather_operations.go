@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"strconv"
-	"strings"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -121,7 +120,7 @@ func (a *OpenWeatherMapAdapter) handleGetCurrentWeather(ctx context.Context, par
 	}
 
 	return map[string]interface{}{
-		"url":          endpointCurrentWeather,
+		"path":         endpointCurrentWeather,
 		"method":       "GET",
 		"query_params": queryParams,
 	}, nil
@@ -146,7 +145,7 @@ func (a *OpenWeatherMapAdapter) handleGetWeatherForecast(ctx context.Context, pa
 	}
 
 	return map[string]interface{}{
-		"url":          endpointWeatherForecast,
+		"path":         endpointWeatherForecast,
 		"method":       "GET",
 		"query_params": queryParams,
 	}, nil
@@ -174,7 +173,7 @@ func (a *OpenWeatherMapAdapter) handleGetOneCallWeather(ctx context.Context, par
 	}
 
 	return map[string]interface{}{
-		"url":          endpointOneCallWeather,
+		"path":         endpointOneCallWeather,
 		"method":       "GET",
 		"query_params": queryParams,
 	}, nil
@@ -193,7 +192,7 @@ func (a *OpenWeatherMapAdapter) handleGetAirPollution(ctx context.Context, param
 	queryParams["lon"] = fmt.Sprintf("%.6f", pollutionParams.Lon)
 
 	return map[string]interface{}{
-		"url":          endpointAirPollution,
+		"path":         endpointAirPollution,
 		"method":       "GET",
 		"query_params": queryParams,
 	}, nil
@@ -214,21 +213,8 @@ func (a *OpenWeatherMapAdapter) handleGetGeocoding(ctx context.Context, params i
 	}
 
 	return map[string]interface{}{
-		"url":          endpointGeocoding,
+		"path":         endpointGeocoding,
 		"method":       "GET",
 		"query_params": queryParams,
 	}, nil
-}
-
-// buildQueryString 构建查询字符串
-func buildQueryString(params map[string]string) string {
-	if len(params) == 0 {
-		return ""
-	}
-
-	var parts []string
-	for key, value := range params {
-		parts = append(parts, fmt.Sprintf("%s=%s", key, value))
-	}
-	return strings.Join(parts, "&")
 }

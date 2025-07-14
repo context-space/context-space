@@ -16,6 +16,8 @@ import (
 	_ "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/spotify"
 	_ "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/stripe"
 	_ "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/zoom"
+
+	_ "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/weather"
 	// Add more provider imports here as they are implemented
 )
 
