@@ -17,7 +17,7 @@ English | [中文](docs/README.zh-CN.md)
 
 **🔗 Zero-Config Integrations** • **🔐 Enterprise-Grade Security** • **🚀 Production Ready** • **🤖 Context Engineering**
 
-[Quick Start](#-quick-start) • [Live Demo](#-live-demo) • [API Documentation](http://api.context.space/v1/docs)
+[Live Demo](#live-demo) • [Roadmap](#roadmap-from-foundation-to-frontier) • [API Documentation](http://api.context.space/v1/docs)
 
 </div>
 
@@ -69,7 +69,7 @@ Today, Context Space delivers a secure integration layer with persistent credent
 ---
 
 
-## 🎯 Roadmap: From Foundation to Frontier
+## Roadmap: From Foundation to Frontier
 
 Our development is structured in clear phases, evolving from the robust production foundation available today to the intelligent context engine of tomorrow.
 
@@ -80,7 +80,7 @@ The initial phase solves the most critical challenges of using context protocols
 | :----- | :----- |
 | Manual, Insecure Credential Handling | **One-Click OAuth & Vault Security:**<br>Connect to 14+ services with secure OAuth flows, backed by HashiCorp Vault for enterprise-grade credential management. |
 | Inconsistent and Complex APIs | **A Single, Unified RESTful API:**<br>Interact with all services through one clean, consistent, and reliable API that you'll actually enjoy using. |
-| Difficult Deployment & Scaling | **Battle-Tested Infrastructure:**<br>Deploy with confidence using our official support for Docker, Kubernetes, and PostgreSQL. |
+| Complex Deployment & Scattered MCP Servers | **Unified Context Plane with Tool Aggregation:**<br>Connect once, and access everything. Manage all capabilities from a single endpoint. |
 
 
 ### 2️⃣ Phase 2: The Intelligent Context Layer ( In Development)
