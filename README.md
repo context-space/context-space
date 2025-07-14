@@ -80,7 +80,7 @@ The initial phase solves the most critical challenges of using context protocols
 | :----- | :----- |
 | Manual, Insecure Credential Handling | **One-Click OAuth & Vault Security:**<br>Connect to 14+ services with secure OAuth flows, backed by HashiCorp Vault for enterprise-grade credential management. |
 | Inconsistent and Complex APIs | **A Single, Unified RESTful API:**<br>Interact with all services through one clean, consistent, and reliable API that you'll actually enjoy using. |
-| Complex Deployment & Scattered MCP Servers | **Unified Context Plane with Tool Aggregation:**<br>Connect once, and access everything. Manage all capabilities from a single endpoint. |
+| Complex Deployment & Scattered MCP Servers | **Unified Context Plane with Tool Aggregation:**<br>Connect once, and access everything. Manage all capabilities from a single mcp server endpoint. |
 
 
 ### 2️⃣ Phase 2: The Intelligent Context Layer ( In Development)
