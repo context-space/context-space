@@ -10,17 +10,12 @@
 [![API Docs](https://img.shields.io/badge/API-documented-green.svg)](http://api.context.space/v1/docs)
 [![Contributors](https://img.shields.io/badge/contributors-welcome-orange.svg)]()
 
----
+English | [中文](docs/README.zh-CN.md)
 
-**🌐 Language** | [中文](docs/README.zh-CN.md) | **English** | 
 
----
+**Context Space is a production-ready infrastructure layer for Context Engineering, making it easy to seamlessly adopt MCP servers and connect AI agents to external data and services.** While the industry focuses on prompt engineering, we believe the next frontier lies in Context Engineering that provides AI systems with the right information, at the right time, in the right format.
 
-**Context Space is built to be the backbone of context engineering for AI agents.**
-While the industry focuses on prompt engineering, we believe the next frontier lies in Context Engineering that provides AI systems with the right information, at the right time, in the right format.
-Join our [Discord](https://discord.gg/Q74Ta5Xv ) and help us build! Have questions? [Open an issue](https://github.com/context-space/context-space/issues) or join our discussions.
-
-**🔗 Integrations** • **🔐 Credential Security** • **🚀 Production Ready** • **🤖 Context Engineering**
+**🔗 Zero-Config Integrations** • **🔐 Enterprise-Grade Security** • **🚀 Production Ready** • **🤖 Context Engineering**
 
 [Quick Start](#-quick-start) • [Live Demo](#-live-demo) • [API Documentation](http://api.context.space/v1/docs)
 
@@ -33,130 +28,72 @@ Join our [Discord](https://discord.gg/Q74Ta5Xv ) and help us build! Have questio
 
 ## What is Context Engineering?
 
-**Context engineering** is the systematic design and management of all information surrounding an AI model during inference. While [prompt engineering](https://blog.langchain.com/context-engineering-for-agents/) optimizes *what* you say to the model, context engineering governs *what the model knows* when it generates a response.
+As Andrej Karpathy recently [noted](https://x.com/karpathy/status/1937902205765607626), context engineering is becoming the foundation for reliable AI systems that can operate in complex, real-world environments.
+
+**Context engineering** is the systematic design and management of all information surrounding an AI model during inference. Context engineering builds upon and extends prompt engineering. While [prompt engineering](https://blog.langchain.com/context-engineering-for-agents/) optimizes *what* you say to the model, context engineering governs what the model knows when it generates a response.
 
 **Key Components:**
-- **System Instructions** - Rules and examples that guide model behavior
-- **Dynamic Memory** - Conversation history and persistent knowledge
-- **Retrieved Information** - Real-time data from documents, APIs, and databases
-- **Available Tools** - Functions the model can use (search, send_email, etc.)
-- **User State** - Preferences, context, and session information
+- System Instructions - Rules and examples that guide model behavior
+- Dynamic Memory - Conversation history and persistent knowledge
+- Retrieved Information - Real-time data from documents, APIs, and databases
+- Available Tools - Functions the model can use (search, send_email, etc.)
+- User State - Preferences, context, and session information
 
----
+## Start Context Engineering with Context Space
 
-## Why Context Engineering Matters
+When [MCP (Model Context Protocol)](https://modelcontextprotocol.io/) appeared in late 2024, the vision was spot-on: a standardized way for AI tools to securely access external data and services. MCP represented a breakthrough in thinking about how AI agents should interact with the world.
 
-### The Evolution from Prompt to Context
+Recognizing MCP as the perfect foundation, we built Context Space to extend its vision into production-ready infrastructure. 
 
-| **Prompt Engineering** | **Context Engineering** |
-|----------------------|-------------------------|
-| Crafting effective instructions | Orchestrating information ecosystems |
-| Optimizing individual interactions | Managing persistent, multi-turn workflows |
-| Immediate, targeted responses | Dynamic knowledge integration & memory |
+Today, Context Space delivers a secure integration layer with persistent credential management. Guided by MCP’s principles, we are expanding this foundation into a complete context engineering platform for the next generation of AI.
 
-Both are essential and complementary skills. Context engineering builds upon and extends prompt engineering.
+### Live Demo
 
-### Critical Problems Context Engineering Solves
-
-- **Hallucinations** → Reduced via grounding in real, external data
-- **Statelessness** → Replaced by memory buffers and user modeling
-- **Stale Knowledge** → Solved via retrieval pipelines and dynamic updates
-- **Weak Personalization** → Addressed by user state tracking
-
-As [Andrej Karpathy recently highlighted](https://x.com/karpathy/status/1937902205765607626), context engineering is becoming the foundation for reliable AI systems that can operate in complex, real-world environments.
-
----
-
-## Our Story: Building on MCP's Vision for Context Engineering
-
-### Why We Love MCP
-
-When [MCP (Model Context Protocol)](https://modelcontextprotocol.io/) appeared in late 2024, we were *geniuinely excited*. The vision was spot-on: a standardized way for AI tools to securely access external data and services. MCP represented a breakthrough in thinking about how AI agents should interact with the world.
-
-**What MCP got right:**
-- **Clear protocol design** for tool-AI communication
-- **Security-first approach** to external integrations
-- **Architecture** that can grow with the ecosystem
-- **Open standard** that brings the community together
-
-### Our Developer Journey with MCP
-
-As we dove deep into building production systems with MCP, we encountered some implementation challenges that many early adopters face:
-
-- **Complex deployment setup** for enterprise environments
-- **OAuth flow gaps** in production-grade security requirements
-- **Stateless nature** that needed persistent context management
-- **Integration overhead** for each service connection
-
-These weren't flaws in MCP's design - they were opportunities to build the missing infrastructure layer that MCP made possible.
-
-### Our Solution: Context Space
-
-We realized MCP had given us the perfect foundation to build something bigger. So we spent months building **Context Space** - production-ready infrastructure that extends MCP's vision toward full context engineering.
-
-**Today**: A Prouction-ready context provider integration layer with secure credential handling and persistent memory.
-**Tomorrow**: Full context engineering infrastructure built on MCP principles.
-
-#### 🎬 Live Demo
-
-##### OAuth Flow in Action
-![OAuth Demo](https://r2.context.space/resources/readme-demo-oauth-flow-github-v2.gif)
+#### 1️⃣ OAuth Flow in Action
 *Simple OAuth setup - no more config file editing*
 
-##### Star a GitHub Repository
-![GitHub Star Demo](https://r2.context.space/resources/readme-demo-github-star-repo.gif)
+![OAuth Demo](https://r2.context.space/resources/readme-demo-oauth-flow-github-v2.gif)
+
+#### 2️⃣ Star a GitHub Repository
 *GitHub integration - Star repositories with natural language*
 
-##### Web Search
+![GitHub Star Demo](https://r2.context.space/resources/readme-demo-github-star-repo.gif)
+
+#### 3️⃣ Web Search
+*Real-time web search - get the latest information instantly*
 
 ![Web Search Demo](https://r2.context.space/resources/readme-demo-web-search.gif)
-*Real-time web search - get the latest information instantly*
 
 **Try Live**: [https://context.space/integrations](https://context.space/integrations)
 
-### Why We Open-Sourced
-
-When Karpathy recently highlighted "Context Engineering" as the next frontier, we knew MCP was the perfect starting point for this evolution. We open-sourced Context Space because:
-
-1. **MCP and integrations are a great starting point** for context engineering
-2. **We're still building toward mature context engineering infrastructure**
-3. **The community can help us build something amazing together**
-
-We see ourselves as MCP evangelists building the infrastructure layer that makes MCP's vision accessible to everyone.
-
 ---
 
-## 🎯 What We Have Today vs. Where We're Going
 
-### Current Reality: Production-Ready Integration Infrastructure
+## 🎯 Roadmap: From Foundation to Frontier
 
-**We've solved the MCP pain points:**
-- **14+ Service Integrations**: GitHub, Slack, Airtable, HubSpot, Notion, Figma, Spotify, Stripe, and more.
-- **Secure OAuth Made Simple**: No more editing MCP config files manually. Built-in OAuth flows handle it properly.
-- **Enterprise-Grade Security**: HashiCorp Vault integration, automatic token rotation, encrypted credential storage.
-- **Production Infrastructure**: Docker, Kubernetes, PostgreSQL, Redis, comprehensive monitoring.
-- **RESTful API**: Clean HTTP endpoints that actually work reliably.
+Our development is structured in clear phases, evolving from the robust production foundation available today to the intelligent context engine of tomorrow.
 
-**How Context Space enhances MCP for production use:**
+### 1️⃣ Phase 1: Production-Ready Foundation (Available Now)
+The initial phase solves the most critical challenges of using context protocols in production environments, delivering a stable, secure, and scalable infrastructure.
 
-| **MCP Foundation** | **Context Space Enhancement** |
-|-------------------|------------------------------|
-| Clean protocol design | ✅ + Enterprise deployment infrastructure |
-| Security-aware architecture | ✅ + OAuth UI flows & Vault integration |
-| Extensible tool interface | ✅ + Persistent credential management |
-| Open ecosystem vision | ✅ + 14+ ready-to-use integrations |
+| Challenge in Production | The Context Space Solution |
+| :----- | :----- |
+| Manual, Insecure Credential Handling | **One-Click OAuth & Vault Security:**<br>Connect to 14+ services with secure OAuth flows, backed by HashiCorp Vault for enterprise-grade credential management. |
+| Inconsistent and Complex APIs | **A Single, Unified RESTful API:**<br>Interact with all services through one clean, consistent, and reliable API that you'll actually enjoy using. |
+| Difficult Deployment & Scaling | **Battle-Tested Infrastructure:**<br>Deploy with confidence using our official support for Docker, Kubernetes, and PostgreSQL. |
 
-### 🔍 The Vision: Full Context Engineering Infrastructure
 
-We believe MCP provides the *perfect foundation* for context engineering infrastructure. Here's how we're extending MCP's vision:
+### 2️⃣ Phase 2: The Intelligent Context Layer ( In Development)
+
+Building on this foundation, our future work focuses on enabling more advanced AI capabilities. 
 
 **Roadmap Timeline:**
 
-| Phase | Timeline | Key Features | MCP Integration |
-|-------|----------|--------------|------------------|
-| **1** | Next 6 months | Native MCP Support, Context Memory, Smart Aggregation | Full MCP protocol compatibility |
-| **2** | 6-12 months | Semantic Retrieval, Context Optimization, Real-time Updates | Enhanced MCP tool capabilities |
-| **3** | 12+ months | Context Synthesis, Predictive Loading, AI Context Reasoning | Advanced MCP ecosystem features |
+|Timeline | Key Features | MCP Integration |
+|----------|--------------|------------------|
+| Next 6 months | Native MCP Support, Context Memory, Smart Aggregation | Full MCP protocol compatibility |
+| 6-12 months | Semantic Retrieval, Context Optimization, Real-time Updates | Enhanced MCP tool capabilities |
+| 12+ months | Context Synthesis, Predictive Loading, AI Context Reasoning | Advanced MCP ecosystem features |
 
 ---
 
@@ -211,9 +148,7 @@ curl -H "Authorization: Bearer <jwt-token>" \
 
 ## Contributing
 
-**We need your help to build the future of context engineering!**
-
-**Join our [Discord](https://discord.gg/Q74Ta5Xv) to connect with other contributors and get help with your PRs!**
+**You are invited to help shape the future of context engineering.** 
 
 [![Contributors](https://contrib.rocks/image?repo=context-space/context-space&anon=1)](https://github.com/context-space/context-space/graphs/contributors)
 
@@ -257,6 +192,8 @@ curl -H "Authorization: Bearer <jwt-token>" \
 
 ## Community & Support
 
+Context Space is a community-driven project. We believe the best infrastructure is built in the open, with developers from all over the world contributing their ideas and expertise. Every contribution, big or small, helps us push the boundaries of what's possible.
+
 ### Join Our Growing Community
 
 [![Twitter](https://img.shields.io/twitter/follow/hi_contextspace?style=social)](https://twitter.com/hi_contextspace)
@@ -274,13 +211,9 @@ curl -H "Authorization: Bearer <jwt-token>" \
 
 <div align="center">
 
-**Built with ❤️ by the Context Space community**
+**🌟 Star & Share the Project**
 
-> ***"Ultimate Context Engineering Infrastructure."***
-
-*We're building the foundation for AI agents that truly understand context. Start with solid MCPs and integrations, evolve toward intelligent context engineering.*
-
-### ⭐ **Star us on GitHub** • 🍴 **Fork and contribute** • 💬 **Join our [Discord](https://discord.gg/Q74Ta5Xv)**
+Starring the repository increases our visibility and helps other developers discover the project. If you like Context Space, don't hesitate to share it on Twitter, Reddit, or with your colleagues.
 
 [![GitHub stars](https://img.shields.io/github/stars/context-space/context-space?style=social)](https://github.com/context-space/context-space)
 [![GitHub forks](https://img.shields.io/github/forks/context-space/context-space?style=social)](https://github.com/context-space/context-space)
