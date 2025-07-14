@@ -1,0 +1,110 @@
+{
+    "name": "OpenWeatherMap",
+    "description": "全球天气数据提供商，提供当前天气、预报和历史数据",
+    "categories": ["天气", "预报", "气候"],
+    "operations": [
+      {
+        "identifier": "get_current_weather",
+        "name": "获取当前天气",
+        "description": "获取指定位置的当前天气数据",
+        "parameters": [
+          {
+            "name": "lat",
+            "description": "位置纬度"
+          },
+          {
+            "name": "lon",
+            "description": "位置经度"
+          },
+          {
+            "name": "units",
+            "description": "温度单位（metric, imperial, standard）"
+          },
+          {
+            "name": "lang",
+            "description": "天气描述的语言代码"
+          }
+        ]
+      },
+      {
+        "identifier": "get_weather_forecast",
+        "name": "获取天气预报",
+        "description": "获取5天天气预报，每3小时间隔",
+        "parameters": [
+          {
+            "name": "lat",
+            "description": "位置纬度"
+          },
+          {
+            "name": "lon",
+            "description": "位置经度"
+          },
+          {
+            "name": "units",
+            "description": "温度单位（metric, imperial, standard）"
+          },
+          {
+            "name": "lang",
+            "description": "天气描述的语言代码"
+          }
+        ]
+      },
+      {
+        "identifier": "get_one_call_weather",
+        "name": "获取综合天气数据",
+        "description": "获取包括当前、预报和历史数据的综合天气信息",
+        "parameters": [
+          {
+            "name": "lat",
+            "description": "位置纬度"
+          },
+          {
+            "name": "lon",
+            "description": "位置经度"
+          },
+          {
+            "name": "exclude",
+            "description": "排除的数据部分（current,minutely,hourly,daily,alerts）"
+          },
+          {
+            "name": "units",
+            "description": "温度单位（metric, imperial, standard）"
+          },
+          {
+            "name": "lang",
+            "description": "天气描述的语言代码"
+          }
+        ]
+      },
+      {
+        "identifier": "get_air_pollution",
+        "name": "获取空气污染数据",
+        "description": "获取当前空气污染数据",
+        "parameters": [
+          {
+            "name": "lat",
+            "description": "位置纬度"
+          },
+          {
+            "name": "lon",
+            "description": "位置经度"
+          }
+        ]
+      },
+      {
+        "identifier": "get_geocoding",
+        "name": "获取地理编码",
+        "description": "根据位置名称获取地理坐标",
+        "parameters": [
+          {
+            "name": "q",
+            "description": "位置名称（城市名、州代码、国家代码）"
+          },
+          {
+            "name": "limit",
+            "description": "返回的最大位置数量（1-5）"
+          }
+        ]
+      }
+    ]
+  } 
