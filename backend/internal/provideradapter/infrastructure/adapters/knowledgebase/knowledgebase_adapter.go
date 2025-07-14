@@ -10,8 +10,6 @@ import (
 
 	openaiclient "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/knowledgebase/openai/client"
 	volcclient "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/knowledgebase/volcengine/client"
-
-	volcenginetypes "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/knowledgebase/volcengine/types"
 )
 
 // KnowledgeBaseAdapter is the user-facing adapter for Volcengine Knowledge Base operations.
@@ -60,22 +58,7 @@ func (a *KnowledgeBaseAdapter) Execute(
 		return nil, domain.NewAdapterError(a.GetProviderAdapterInfo().Identifier, operationID, "OPERATION_NOT_FOUND", fmt.Sprintf("unknown operation ID: %s", operationID), http.StatusNotFound)
 	}
 
-	// 2. Validate and Cast Credential if provided
-	var cred *volcenginetypes.VolcengineCredential
-	if credential != nil {
-		var ok bool
-		cred, ok = credential.(*volcenginetypes.VolcengineCredential)
-		if !ok {
-			return nil, domain.NewAdapterError(a.GetProviderAdapterInfo().Identifier, operationID, "CREDENTIAL_ERROR", "invalid Volcengine credential format", http.StatusUnauthorized)
-		}
-		// If credential is provided, validate it's not empty
-		if cred != nil && (cred.AccessKeyID == "" || cred.SecretAccessKey == "") {
-			return nil, domain.NewAdapterError(a.GetProviderAdapterInfo().Identifier, operationID, "CREDENTIAL_ERROR", "missing access key ID or secret access key", http.StatusUnauthorized)
-		}
-	}
-	// If credential is nil, we'll use the stored credentials in the client
-
-	// 3. Process User Parameters (Validation and Type Conversion)
+	// 2. Process User Parameters (Validation and Type Conversion)
 	// This uses the schema found in opDef from step 1.
 	processedParams, err := a.ProcessParams(operationID, params)
 	if err != nil {
@@ -85,11 +68,11 @@ func (a *KnowledgeBaseAdapter) Execute(
 		return nil, domain.NewAdapterError(a.GetProviderAdapterInfo().Identifier, operationID, "PARAMETER_ERROR", fmt.Sprintf("parameter processing failed: %v", err), http.StatusBadRequest)
 	}
 
-	// 4. Call Handler to get API Request Details or Final Result
-	// The handler takes the user-processed parameters and credential.
+	// 3. Call Handler to get API Request Details or Final Result
+	// The handler takes the user-processed parameters.
 	// It returns either *OperationHandlerOutput for single Volcengine calls
 	// OR the final result for complex operations like RAG.
-	handlerResult, err := opDef.Handler(ctx, processedParams, cred) // Pass credential (can be nil)
+	handlerResult, err := opDef.Handler(ctx, processedParams)
 	if err != nil {
 		// Error from the handler itself (e.g., failed mapping, internal search/LLM call failed)
 		// Try to return an AdapterError if possible
@@ -99,7 +82,7 @@ func (a *KnowledgeBaseAdapter) Execute(
 		return nil, domain.NewAdapterError(a.GetProviderAdapterInfo().Identifier, operationID, "HANDLER_ERROR", fmt.Sprintf("operation handler failed: %v", err), http.StatusInternalServerError) // Or map handler error code if available
 	}
 
-	// 5. Check if Handler returned *OperationHandlerOutput or final result
+	// 4. Check if Handler returned *OperationHandlerOutput or final result
 	handlerOutput, isOutput := handlerResult.(*OperationHandlerOutput)
 	if !isOutput {
 		// Handler returned the final result directly (e.g., RAG Query)
@@ -111,7 +94,7 @@ func (a *KnowledgeBaseAdapter) Execute(
 		return nil, domain.NewAdapterError(a.GetProviderAdapterInfo().Identifier, operationID, "HANDLER_ERROR", "handler returned nil output but indicated an API call was needed", http.StatusInternalServerError)
 	}
 
-	// 6. Execute via Internal Volcengine Client (Only if handler returned Output)
+	// 5. Execute via Internal Volcengine Client (Only if handler returned Output)
 	result, err := a.internalVolcengineClient.Execute(
 		ctx,
 		operationID, // Pass operationID for error context
@@ -119,10 +102,9 @@ func (a *KnowledgeBaseAdapter) Execute(
 		handlerOutput.Path,
 		handlerOutput.Query,
 		handlerOutput.Body, // The internal API request struct from the handler
-		cred,               // Pass the credential (can be nil)
 	)
 
-	// 7. Handle Result/Error from Internal Client
+	// 6. Handle Result/Error from Internal Client
 	if err != nil {
 		// The internal client should ideally return a domain.AdapterError or an error
 		// that can be mapped to one.
