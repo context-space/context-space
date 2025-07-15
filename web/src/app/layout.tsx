@@ -146,10 +146,10 @@ function Layout({ children }: Readonly<{ children: ReactNode }>) {
         </div>
 
         {/* Google Analytics */}
-        {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID && (
+        {process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID && (
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID} />
         )}
-        {process.env.NEXT_PUBLIC_MICROSOFT_CLARITY && (
+        {process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_MICROSOFT_CLARITY && (
           <MicrosoftClarity clarityId={process.env.NEXT_PUBLIC_MICROSOFT_CLARITY} />
         )}
       </body>

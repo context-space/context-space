@@ -62,33 +62,72 @@ export async function getServer(provider: string, authorization: string) {
     },
   )
 
-  const { data: { operations } } = (await serverRemoteFetch(`/providers/${provider}`)) as BaseRemoteAPIResponse<ProviderDetail>
-
-  operations.forEach((operation) => {
-    server.tool(
-      operation.identifier,
-      operation.description,
-      paramsToZodShape(operation.parameters),
-      async (parameters) => {
-        const { data } = (await serverRemoteFetch(`/invocations/${provider}/${operation.identifier}`, {
-          headers: {
-            Authorization: authorization,
-          },
-          body: JSON.stringify({ parameters }),
-          method: "POST",
-        })) as BaseRemoteAPIResponse<Invocation>
-
-        return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify(data.response_data, null, 2),
-            },
-          ],
-        }
-      },
-    )
-  })
+  try {
+    const { data: { operations } } = (await serverRemoteFetch(`/providers/${provider}`)) as BaseRemoteAPIResponse<ProviderDetail>
+    operations.forEach((operation) => {
+      server.tool(
+        operation.identifier,
+        operation.description,
+        paramsToZodShape(operation.parameters),
+        async (parameters) => {
+          try {
+            const res = (await serverRemoteFetch(`/invocations/${provider}/${operation.identifier}`, {
+              headers: {
+                Authorization: authorization,
+              },
+              body: JSON.stringify({ parameters }),
+              method: "POST",
+            })) as BaseRemoteAPIResponse<Invocation>
+            if (res.success) {
+              return {
+                content: [
+                  {
+                    type: "text",
+                    text: JSON.stringify(res.data.response_data),
+                  },
+                ],
+              }
+            } else if (res?.data?.error) {
+              return {
+                content: [
+                  {
+                    type: "text",
+                    text: JSON.stringify({
+                      success: false,
+                      message: res.data.error,
+                    }),
+                  },
+                ],
+              }
+            }
+            return {
+              content: [
+                {
+                  type: "text",
+                  text: JSON.stringify(res),
+                },
+              ],
+            }
+          } catch (error) {
+            mcpLogger.error("MCP server error", { error })
+            return {
+              content: [
+                {
+                  type: "text",
+                  text: JSON.stringify({
+                    success: false,
+                    message: error instanceof Error ? error.message : "Unknown error",
+                  }),
+                },
+              ],
+            }
+          }
+        },
+      )
+    })
+  } catch (error) {
+    mcpLogger.error("MCP server error", { error })
+  }
 
   server.server.onerror = error => mcpLogger.error("MCP server error", { error })
 

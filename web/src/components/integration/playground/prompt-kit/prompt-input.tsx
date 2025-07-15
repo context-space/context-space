@@ -52,6 +52,13 @@ function PromptInput({
 }: PromptInputProps) {
   const [internalValue, setInternalValue] = useState(value || "")
 
+  // Sync internalValue with external value prop changes
+  useEffect(() => {
+    if (value !== undefined) {
+      setInternalValue(value)
+    }
+  }, [value])
+
   const handleChange = useCallback((newValue: string) => {
     setInternalValue(newValue)
     onValueChange?.(newValue)

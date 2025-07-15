@@ -1,7 +1,7 @@
 "use client"
 
 import type { Operation, Permission } from "@/typings"
-import { Connect, Operations, Playground } from "./index"
+import { Connect, McpConfig, Operations, Playground } from "./index"
 
 interface ClientLayoutProps {
   operations: Operation[]
@@ -13,6 +13,7 @@ interface ClientLayoutProps {
   providerId: string
   credentialId: string
   authorizedPermissions: string[]
+  integrationName?: string
 }
 
 export function ClientLayout({
@@ -25,6 +26,7 @@ export function ClientLayout({
   providerId,
   credentialId,
   authorizedPermissions,
+  integrationName,
 }: ClientLayoutProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 min-h-[calc(100vh-14rem)]">
@@ -37,6 +39,12 @@ export function ClientLayout({
           providerId={providerId}
           credentialId={credentialId}
           authorizedPermissions={authorizedPermissions}
+        />
+        <McpConfig
+          authType={authType}
+          isConnected={isConnected}
+          integrationId={providerId}
+          integrationName={integrationName || provider}
         />
         <Operations operations={operations} />
       </div>

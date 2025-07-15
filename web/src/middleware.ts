@@ -15,8 +15,8 @@ interface RouteConfig {
 }
 
 const routeConfig: RouteConfig = {
-  protectedRoutes: ["/account"],
-  publicAPIRoutes: ["/api/auth/**", "/api/search", "/api/mcp/**", "/api/og"],
+  protectedRoutes: [],
+  publicAPIRoutes: ["/api/auth/**", "/api/search", "/api/mcp", "/api/mcp/**", "/api/og"],
 }
 
 function isRouteMatch(pathname: string, routes: string[]): boolean {

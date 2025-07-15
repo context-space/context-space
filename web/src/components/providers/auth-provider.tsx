@@ -1,37 +1,16 @@
 "use client"
 
 import type { Session, User } from "@supabase/supabase-js"
-import type { AuthContextType } from "@/hooks/use-auth"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { AuthContext } from "@/hooks/use-auth"
+import { clearAllPlaygroundData } from "@/lib/playground-storage"
 import { createClient, getClientToken } from "@/lib/supabase/client"
 import { clientLogger } from "@/lib/utils"
 
 const authProviderLogger = clientLogger.withTag("auth-provider")
 
-// Import the clear function from playground
-const clearUserChatData = () => {
-  try {
-    if (typeof window === "undefined") return
-
-    const keysToRemove: string[] = []
-
-    // Find all localStorage keys related to chat history for this user
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i)
-      if (key && (key.startsWith("chat_history_") || key.startsWith("input_history_"))) {
-        keysToRemove.push(key)
-      }
-    }
-
-    // Remove all found keys
-    keysToRemove.forEach(key => localStorage.removeItem(key))
-    authProviderLogger.info("Cleared chat data from localStorage", { keysRemoved: keysToRemove.length })
-  } catch (error) {
-    authProviderLogger.error("Failed to clear chat data", { error })
-  }
-}
+// 使用集中的存储清除函数
 
 interface AuthProviderProps {
   children: React.ReactNode
@@ -48,6 +27,10 @@ export function AuthProvider({ children, initialSession }: AuthProviderProps) {
   const previousUserRef = useRef<User | null>(initialSession?.user ?? null)
 
   const supabase = useMemo(() => createClient(), [])
+
+  // Cache derived states separately
+  const isAuthenticated = useMemo(() => !!user, [user])
+  const isAnonymous = useMemo(() => user?.is_anonymous ?? false, [user?.is_anonymous])
 
   useEffect(() => {
     if (!initialSession) {
@@ -76,7 +59,7 @@ export function AuthProvider({ children, initialSession }: AuthProviderProps) {
       // Clear localStorage when user logs out
       if (event === "SIGNED_OUT") {
         authProviderLogger.info("User signed out, clearing data")
-        clearUserChatData()
+        clearAllPlaygroundData()
       } else if (event === "SIGNED_IN") {
         authProviderLogger.info("User signed in, auth state updated", { event, userId: newUser?.id })
       }
@@ -87,20 +70,12 @@ export function AuthProvider({ children, initialSession }: AuthProviderProps) {
     }
   }, [supabase, initialSession, router])
 
-  const signOut = useCallback(async () => {
+  const signOut = useCallback(async (): Promise<void> => {
     try {
-      authProviderLogger.info("Starting sign out process")
-
-      const { error } = await supabase.auth.signOut()
-      if (error) {
-        authProviderLogger.error("Error signing out", { error })
-        throw error
-      }
-
-      authProviderLogger.info("Sign out successful")
+      authProviderLogger.info("Signing out user", { userId: user?.id })
 
       // 清理本地状态
-      clearUserChatData()
+      clearAllPlaygroundData()
 
       // 刷新页面，让 middleware 处理后续的重定向逻辑
       setTimeout(() => {
@@ -110,21 +85,24 @@ export function AuthProvider({ children, initialSession }: AuthProviderProps) {
       authProviderLogger.error("Error signing out", { error })
       throw error
     }
-  }, [supabase, router])
+  }, [user?.id, router])
 
-  const value: AuthContextType = useMemo(() => ({
-    user,
-    session,
-    loading,
-    signOut,
-    isAuthenticated: !!user,
-    isAnonymous: user?.is_anonymous ?? false,
-    getClientToken,
-  }), [user, session, loading, signOut])
+  const getToken = useCallback(async () => {
+    return await getClientToken()
+  }, [])
 
-  return (
-    <AuthContext value={value}>
-      {children}
-    </AuthContext>
+  const value = useMemo(
+    () => ({
+      user,
+      session,
+      isAuthenticated,
+      isAnonymous,
+      loading,
+      signOut,
+      getClientToken: getToken,
+    }),
+    [user, session, isAuthenticated, isAnonymous, loading, signOut, getToken],
   )
+
+  return <AuthContext value={value}>{children}</AuthContext>
 }

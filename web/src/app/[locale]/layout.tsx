@@ -4,6 +4,7 @@ import { hasLocale, NextIntlClientProvider } from "next-intl"
 import { getMessages } from "next-intl/server"
 import { ThemeProvider } from "next-themes"
 import { notFound } from "next/navigation"
+import { GlobalAccountModal } from "@/components/auth/global-account-modal"
 import { AuthProvider } from "@/components/providers/auth-provider"
 import { QueryProvider } from "@/components/providers/query-provider"
 import { Toaster } from "@/components/ui/sonner"
@@ -33,6 +34,7 @@ export default async function LocaleLayout({
         <QueryProvider>
           <AuthProvider initialSession={session}>
             {children}
+            <GlobalAccountModal />
             <Toaster richColors position="top-center" duration={3000} theme="dark" />
           </AuthProvider>
         </QueryProvider>
