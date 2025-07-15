@@ -17,7 +17,7 @@ import (
 const (
 	identifier  = "cfa_knowledgebase"
 	region      = "cn-north-1"
-	endpoint    = "https://api-knowledgebase.mlp.cn-north-1.volces.com"
+	endpoint    = "https://api-knowledgebase.mlp.cn-beijing.volces.com"
 	serviceName = "air"
 )
 
@@ -135,6 +135,10 @@ func (t *KnowledgeBaseTemplate) ValidateConfig(provider *domain.ProviderAdapterC
 
 	if jsonAttributes.VolcengineCredentials == nil {
 		return fmt.Errorf("volcengine_credentials is required")
+	}
+
+	if jsonAttributes.VolcengineCredentials.AccessKeyID == "" || jsonAttributes.VolcengineCredentials.SecretAccessKey == "" {
+		return fmt.Errorf("volcengine_credentials access_key_id or secret_access_key is required")
 	}
 
 	if jsonAttributes.OpenaiCredentials == nil {

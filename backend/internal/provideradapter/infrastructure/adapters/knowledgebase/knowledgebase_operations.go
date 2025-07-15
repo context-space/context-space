@@ -28,7 +28,7 @@ const (
 )
 
 var opDefaults = OperationDefaults{
-	Project:        "default",
+	Project:        "context-space",
 	CollectionName: "CFA",
 	Search: SearchDefaults{
 		Limit: 10,
@@ -99,7 +99,7 @@ type OperationHandlerOutput struct {
 // It returns an interface{} which could be either:
 // 1. *OperationHandlerOutput: For operations that require KnowledgeBaseAdapter.Execute to make the final API call.
 // 2. The final result directly: For operations (like RAG query) that perform multiple API calls internally.
-type OperationHandler func(ctx context.Context, processedParams interface{}, credential interface{}) (interface{}, error)
+type OperationHandler func(ctx context.Context, processedParams interface{}) (interface{}, error)
 
 // OperationDefinition combines the user-facing parameter schema and the handler function.
 type OperationDefinition struct {
@@ -169,13 +169,6 @@ func (a *KnowledgeBaseAdapter) registerOperations() {
 		handleSearchKnowledge,
 	)
 
-	// Register chat_completions operation
-	a.RegisterOperation(
-		operationIDChatCompletions,
-		&ChatCompletionsParams{},
-		handleChatCompletions,
-	)
-
 	// Register query operation
 	// This handler will now perform the full RAG logic: search -> augment -> generate
 	a.RegisterOperation(
@@ -186,7 +179,7 @@ func (a *KnowledgeBaseAdapter) registerOperations() {
 	// Add registrations for other operations here
 }
 
-func handleSearchKnowledge(ctx context.Context, processedParams interface{}, credential interface{}) (interface{}, error) {
+func handleSearchKnowledge(ctx context.Context, processedParams interface{}) (interface{}, error) {
 	params, ok := processedParams.(*SearchKnowledgeParams)
 	if !ok {
 		return nil, fmt.Errorf("invalid parameters type for %s: expected *SearchKnowledgeParams, got %T", operationIDSearchKnowledge, processedParams)
@@ -211,7 +204,7 @@ func handleSearchKnowledge(ctx context.Context, processedParams interface{}, cre
 	}, nil
 }
 
-func handleChatCompletions(ctx context.Context, processedParams interface{}, credential interface{}) (interface{}, error) {
+func handleChatCompletions(ctx context.Context, processedParams interface{}) (interface{}, error) {
 	params, ok := processedParams.(*ChatCompletionsParams)
 	if !ok {
 		return nil, fmt.Errorf("invalid parameters type for %s: expected *ChatCompletionsParams, got %T", operationIDChatCompletions, processedParams)
@@ -254,24 +247,11 @@ func handleChatCompletions(ctx context.Context, processedParams interface{}, cre
 	}, nil
 }
 
-func (a *KnowledgeBaseAdapter) handleQuery(ctx context.Context, processedParams interface{}, credential interface{}) (interface{}, error) {
+func (a *KnowledgeBaseAdapter) handleQuery(ctx context.Context, processedParams interface{}) (interface{}, error) {
 	params, ok := processedParams.(*QueryParams)
 	if !ok {
 		return nil, fmt.Errorf("invalid parameters type for %s: expected *QueryParams, got %T", operationIDQuery, processedParams)
 	}
-
-	// ** Step 0: Validate Credential for Volcengine Search **
-	// Credential can be nil now, the internal client will use stored credentials
-	var volcCred *volcenginetypes.VolcengineCredential
-	if credential != nil {
-		var ok bool
-		volcCred, ok = credential.(*volcenginetypes.VolcengineCredential)
-		if !ok {
-			// Use domain.AdapterError for consistency
-			return nil, domain.NewAdapterError(identifier, operationIDQuery, domain.ErrCredentialError, "invalid Volcengine credential format for knowledge search", http.StatusUnauthorized)
-		}
-	}
-	// If credential is nil, we'll use the stored credentials in the client
 
 	// ** RAG Steps **
 	// 1. Search Knowledge
@@ -350,7 +330,6 @@ func (a *KnowledgeBaseAdapter) handleQuery(ctx context.Context, processedParams 
 		endpointSearchKnowledge, // Use constant
 		nil,                     // No query params for search
 		searchRequestBody,
-		volcCred, // Pass the validated credential
 	)
 	if err != nil {
 		// Error already wrapped by internal client or needs wrapping

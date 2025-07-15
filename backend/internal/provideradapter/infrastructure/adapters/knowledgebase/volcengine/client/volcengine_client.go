@@ -78,14 +78,9 @@ func (c *VolcengineClient) Execute(
 	path string,
 	query url.Values,
 	body interface{}, // Accepts struct to be marshaled
-	cred *volcenginetypes.VolcengineCredential, // Credentials passed per call (use type from types package)
 ) (interface{}, error) {
-	// Use passed credentials or fallback to stored credentials
-	credToUse := cred
-	if credToUse == nil {
-		credToUse = c.credentials
-	}
 
+	credToUse := c.credentials
 	// Check if we have credentials to use
 	if credToUse == nil {
 		adapterErr := domain.NewAdapterError(
