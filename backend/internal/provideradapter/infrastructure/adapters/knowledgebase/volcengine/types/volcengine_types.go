@@ -5,8 +5,8 @@ import "encoding/json"
 // VolcengineCredential defines the expected credential structure for Volcengine.
 // Moved from knowledgebase package to break import cycle.
 type VolcengineCredential struct {
-	AccessKeyID     string `mapstructure:"access_key_id" validate:"required"`
-	SecretAccessKey string `mapstructure:"secret_access_key" validate:"required"`
+	AccessKeyID     string `json:"access_key_id" validate:"required"`
+	SecretAccessKey string `json:"secret_access_key" validate:"required"`
 }
 
 // ApiResponse represents the standard wrapper for Volcengine API responses.
