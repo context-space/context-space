@@ -99,7 +99,7 @@ type CreateAPIKeyRequest struct {
 // APIKeyResponse represents the API key response
 type APIKeyResponse struct {
 	ID          string `json:"id"`
-	KeyValue    string `json:"key_value,omitempty"` // Only included when creating
+	KeyValue    string `json:"key_value,omitempty"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
 	CreatedAt   string `json:"created_at"`
@@ -147,7 +147,7 @@ func (h *UserHandler) CreateAPIKey(c *gin.Context) {
 
 	httpapi.Created(c, APIKeyResponse{
 		ID:          apiKey.ID,
-		KeyValue:    apiKey.KeyValue, // Include value only in the creation response
+		KeyValue:    apiKey.KeyValue,
 		Name:        apiKey.Name,
 		Description: apiKey.Description,
 		CreatedAt:   apiKey.CreatedAt.Format(http.TimeFormat),
@@ -193,6 +193,7 @@ func (h *UserHandler) ListAPIKeys(c *gin.Context) {
 		apiKeyResponses[i] = APIKeyResponse{
 			ID:          apiKey.ID,
 			Name:        apiKey.Name,
+			KeyValue:    apiKey.KeyValue[3:11],
 			Description: apiKey.Description,
 			CreatedAt:   apiKey.CreatedAt.Format(http.TimeFormat),
 		}
@@ -242,6 +243,7 @@ func (h *UserHandler) GetAPIKey(c *gin.Context) {
 
 	httpapi.OK(c, APIKeyResponse{
 		ID:          apiKey.ID,
+		KeyValue:    apiKey.KeyValue,
 		Name:        apiKey.Name,
 		Description: apiKey.Description,
 		CreatedAt:   apiKey.CreatedAt.Format(http.TimeFormat),

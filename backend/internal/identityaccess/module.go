@@ -102,5 +102,5 @@ func (m *Module) RegisterRoutes(router *gin.RouterGroup, requireAuth gin.Handler
 // GetRequireAuthMiddleware returns a middleware that authenticates requests and extracts domain.User
 // Other modules can use this to secure their routes and get access to the domain.User object
 func (m *Module) GetRequireAuthMiddleware() gin.HandlerFunc {
-	return middleware.RequireAuth(m.authService, m.userRepo, m.obs)
+	return middleware.RequireAuth(m.authService, m.userService, m.obs)
 }
