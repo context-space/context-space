@@ -1,5 +1,6 @@
 export { ClientLayout } from "./client-layout"
 export { Connect } from "./connect"
 export { Header } from "./header"
+export { McpConfig } from "./mcp-config"
 export { Operations } from "./operations"
 export { Playground } from "./playground"

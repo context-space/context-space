@@ -2,6 +2,10 @@
 
 A modern, production-ready Next.js application that serves as the frontend interface for Context Space - the ultimate context engineering infrastructure platform.
 
+## Overview
+
+This web application provides an intuitive UI for managing MCP (Model Context Protocol) integrations, handling OAuth flows, and interfacing with the Context Space backend API. Built with Next.js 15, TypeScript, and Tailwind CSS, it delivers a seamless developer experience for context engineering workflows.
+
 ## Tech Stack
 
 ### Core Framework
@@ -135,3 +139,8 @@ NEXT_PUBLIC_TURNSTILE_ENABLED="true"
 ## License
 
 This project is licensed under the AGPL v3 License - see the [LICENSE](../LICENSE) file for details.
+
+---
+
+**Part of Context Space** - The ultimate context engineering infrastructure platform.
+[Documentation](https://context.space/docs) • [API Reference](https://api.context.space/v1/docs) • [Discord Community](https://discord.gg/Q74Ta5Xv)

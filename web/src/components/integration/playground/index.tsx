@@ -11,6 +11,12 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { useAuth } from "@/hooks/use-auth"
 import { useRouter } from "@/i18n/navigation"
+import {
+  clearAllPlaygroundData,
+  clearPlaygroundData,
+  loadPlaygroundData,
+  savePlaygroundData,
+} from "@/lib/playground-storage"
 import { clientLogger, cn } from "@/lib/utils"
 import { selectedOperationAtom, triggerInputUpdateAtom } from "../store"
 import { MessageItem } from "./message-item"
@@ -34,82 +40,6 @@ interface PlaygroundProps {
 const createId = () => Math.random().toString(36).slice(2) + Date.now()
 
 const playgroundLogger = clientLogger.withTag("playground")
-
-// localStorage utility functions
-const getChatHistoryKey = (provider: string, userId?: string) => {
-  return userId ? `chat_history_${provider}_${userId}` : `chat_history_${provider}_anonymous`
-}
-
-const getInputHistoryKey = (provider: string, userId?: string) => {
-  return userId ? `input_history_${provider}_${userId}` : `input_history_${provider}_anonymous`
-}
-
-const saveChatHistory = (provider: string, messages: Message[], userId?: string) => {
-  try {
-    const key = getChatHistoryKey(provider, userId)
-    localStorage.setItem(key, JSON.stringify(messages))
-  } catch (error) {
-    playgroundLogger.error("Failed to save chat history", { error })
-  }
-}
-
-const loadChatHistory = (provider: string, userId?: string): Message[] | null => {
-  try {
-    const key = getChatHistoryKey(provider, userId)
-    const stored = localStorage.getItem(key)
-    return stored ? JSON.parse(stored) : null
-  } catch (error) {
-    playgroundLogger.error("Failed to load chat history", { error })
-    return null
-  }
-}
-
-const saveInputHistory = (provider: string, inputHistory: string[], userId?: string) => {
-  try {
-    const key = getInputHistoryKey(provider, userId)
-    localStorage.setItem(key, JSON.stringify(inputHistory))
-  } catch (error) {
-    playgroundLogger.error("Failed to save input history", { error })
-  }
-}
-
-const loadInputHistory = (provider: string, userId?: string): string[] => {
-  try {
-    const key = getInputHistoryKey(provider, userId)
-    const stored = localStorage.getItem(key)
-    return stored ? JSON.parse(stored) : []
-  } catch (error) {
-    playgroundLogger.error("Failed to load input history", { error })
-    return []
-  }
-}
-
-const clearUserChatData = (userId?: string) => {
-  try {
-    if (typeof window === "undefined") return
-
-    const keysToRemove: string[] = []
-
-    // Find all localStorage keys related to chat history for this user
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i)
-      if (key && (
-        (userId && (key.includes(`_${userId}`) || key.includes("_anonymous")))
-        || (!userId && key.includes("_anonymous"))
-      )) {
-        if (key.startsWith("chat_history_") || key.startsWith("input_history_")) {
-          keysToRemove.push(key)
-        }
-      }
-    }
-
-    // Remove all found keys
-    keysToRemove.forEach(key => localStorage.removeItem(key))
-    playgroundLogger.info("Cleared chat data from localStorage", { keysRemoved: keysToRemove.length })
-  } catch (error) {
-    playgroundLogger.error("Failed to clear chat data", { error })
-  }
-}
 
 export function Playground({ provider, authType, isConnected, providerId }: PlaygroundProps) {
   const t = useTranslations()
@@ -199,40 +129,39 @@ export function Playground({ provider, authType, isConnected, providerId }: Play
     },
   })
 
-  // Save chat history to localStorage whenever messages change (only if user is authenticated)
+  // Save playground data to localStorage whenever chat or input changes (only if user is authenticated)
   useEffect(() => {
-    if (user && messages.length > DEFAULT_MESSAGES.length) {
-      saveChatHistory(provider, messages, user.id)
+    if (user && (messages.length > DEFAULT_MESSAGES.length || inputHistory.length > 0)) {
+      savePlaygroundData(provider, messages, inputHistory, user.id)
     }
-  }, [messages, provider, user, DEFAULT_MESSAGES.length])
+  }, [messages, inputHistory, provider, user, DEFAULT_MESSAGES.length])
 
-  // Save input history to localStorage whenever it changes (only if user is authenticated)
-  useEffect(() => {
-    if (user && inputHistory.length > 0) {
-      saveInputHistory(provider, inputHistory, user.id)
-    }
-  }, [inputHistory, provider, user])
-
-  // Load chat and input history on mount and when provider/user changes
+  // Load playground data on mount and when provider/user changes
   useEffect(() => {
     if (user) {
-      // User is logged in, load their chat history
-      const loadedChatHistory = loadChatHistory(provider, user.id)
-      const loadedInputHistory = loadInputHistory(provider, user.id)
+      // 加载playground数据
+      const playgroundData = loadPlaygroundData(provider, user.id)
 
-      if (loadedChatHistory && loadedChatHistory.length > DEFAULT_MESSAGES.length) {
-        setMessages(loadedChatHistory)
+      if (playgroundData) {
+        if (playgroundData.chatHistory && playgroundData.chatHistory.length > DEFAULT_MESSAGES.length) {
+          setMessages(playgroundData.chatHistory)
+        } else {
+          setMessages(DEFAULT_MESSAGES)
+        }
+
+        setInputHistory(playgroundData.inputHistory || [])
+
+        // Only set default input when there's no input history
+        if (!playgroundData.inputHistory || playgroundData.inputHistory.length === 0) {
+          setInput(t("playground.defaultInput"))
+        } else {
+          setInput("")
+        }
       } else {
+        // 没有数据，使用默认值
         setMessages(DEFAULT_MESSAGES)
-      }
-
-      setInputHistory(loadedInputHistory)
-
-      // 只在没有输入历史时才设置默认输入
-      if (!loadedInputHistory || loadedInputHistory.length === 0) {
+        setInputHistory([])
         setInput(t("playground.defaultInput"))
-      } else {
-        setInput("")
       }
     } else {
       // User is not logged in, reset to default state
@@ -250,7 +179,7 @@ export function Playground({ provider, authType, isConnected, providerId }: Play
   useEffect(() => {
     setSelectedOperation("")
     setTriggerUpdate(0)
-    // 不再在这里设置默认输入，让上面的 useEffect 处理输入逻辑
+    // Note: Input clearing is handled by the main useEffect above
   }, [provider, setSelectedOperation, setTriggerUpdate])
 
   // Update input when an operation is selected
@@ -273,13 +202,7 @@ export function Playground({ provider, authType, isConnected, providerId }: Play
     setMessages(DEFAULT_MESSAGES)
     // Clear localStorage for this provider (only if user is authenticated)
     if (user) {
-      try {
-        const chatKey = getChatHistoryKey(provider, user.id)
-        localStorage.removeItem(chatKey)
-        playgroundLogger.info("Cleared chat history from localStorage", { provider, userId: user.id })
-      } catch (error) {
-        playgroundLogger.error("Failed to clear chat history from localStorage", { error })
-      }
+      clearPlaygroundData(provider, user.id)
     }
   }
 
@@ -377,32 +300,32 @@ export function Playground({ provider, authType, isConnected, providerId }: Play
           <PromptInputActions className="absolute right-0 top-1/2 transform -translate-y-1/2">
             {isLoading
               ? (
-                <PromptInputAction tooltip={t("playground.stop")}>
-                  <Button
-                    type="button"
-                    size="sm"
-                    variant="ghost"
-                    onClick={stop}
-                    className="h-8 w-8 p-0"
-                  >
-                    <Square className="h-4 w-4 text-primary" />
-                  </Button>
-                </PromptInputAction>
-              )
+                  <PromptInputAction tooltip={t("playground.stop")}>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="ghost"
+                      onClick={stop}
+                      className="h-8 w-8 p-0"
+                    >
+                      <Square className="h-4 w-4 text-primary" />
+                    </Button>
+                  </PromptInputAction>
+                )
               : (
-                <PromptInputAction tooltip={t("playground.send")}>
-                  <Button
-                    type="submit"
-                    size="sm"
-                    disabled={!input.trim()}
-                    onClick={onSubmit}
-                    variant="ghost"
-                    className="h-8 w-8 p-0"
-                  >
-                    <Triangle className="h-4 w-4 rotate-90 text-primary" />
-                  </Button>
-                </PromptInputAction>
-              )}
+                  <PromptInputAction tooltip={t("playground.send")}>
+                    <Button
+                      type="submit"
+                      size="sm"
+                      disabled={!input.trim()}
+                      onClick={onSubmit}
+                      variant="ghost"
+                      className="h-8 w-8 p-0"
+                    >
+                      <Triangle className="h-4 w-4 rotate-90 text-primary" />
+                    </Button>
+                  </PromptInputAction>
+                )}
           </PromptInputActions>
         </PromptInput>
       </div>
@@ -411,4 +334,4 @@ export function Playground({ provider, authType, isConnected, providerId }: Play
 }
 
 // Export the clear function for use in auth provider
-export { clearUserChatData }
+export { clearAllPlaygroundData }

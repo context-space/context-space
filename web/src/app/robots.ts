@@ -18,7 +18,6 @@ export default function robots(): MetadataRoute.Robots {
           "/api/",
           "/logout",
           "/login",
-          "/account",
           "/auth-callback",
           "/mcp-oauth-callback",
         ],
