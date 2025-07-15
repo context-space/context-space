@@ -43,7 +43,7 @@ export default function TermsCheckbox({ checked, onChange, error }: TermsCheckbo
             {t("login.termsOfService")}
           </Link>
           {" "}
-          and
+          {t("login.and")}
           {" "}
           <Link href="/privacy" className="font-medium text-neutral-900 dark:text-white hover:underline">
             {t("login.privacyPolicy")}

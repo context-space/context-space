@@ -24,7 +24,7 @@ interface OperationsSectionProps {
 }
 
 export function Operations({ operations }: OperationsSectionProps) {
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
   const t = useTranslations()
   const setSelectedOperation = useSetAtom(selectedOperationAtom)
   const setTriggerUpdate = useSetAtom(triggerInputUpdateAtom)
@@ -38,7 +38,7 @@ export function Operations({ operations }: OperationsSectionProps) {
   return (
     <Card className="pb-0 bg-white/60 dark:bg-white/[0.02] border-base backdrop-blur-sm shadow-none">
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-        <CardHeader>
+        <CardHeader onClick={() => setIsOpen(!isOpen)}>
           <div className="space-y-1">
             <CardTitle className="text-lg font-semibold flex items-center justify-between">
               <span>

@@ -13,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useAccountModal } from "@/hooks/use-account-modal"
 import { useAuth } from "@/hooks/use-auth"
 import { Link } from "@/i18n/navigation"
 import { clientLogger, cn } from "@/lib/utils"
@@ -23,6 +24,7 @@ export function UserMenu() {
   const t = useTranslations()
   const { user, signOut, isAuthenticated, isAnonymous, loading } = useAuth()
   const [isPending, startTransition] = useTransition()
+  const { isOpen: isAccountModalOpen, activeTab, openModal, closeModal } = useAccountModal()
 
   const handleSignOut = () => {
     startTransition(async () => {
@@ -131,11 +133,9 @@ export function UserMenu() {
 
         {!isAnonymous && (
           <>
-            <DropdownMenuItem asChild>
-              <Link href="/account">
-                <Settings className="mr-2 h-4 w-4" />
-                {t("account.title")}
-              </Link>
+            <DropdownMenuItem onClick={() => openModal("profile")}>
+              <Settings className="mr-2 h-4 w-4" />
+              {t("account.title")}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
           </>
@@ -146,6 +146,7 @@ export function UserMenu() {
           {isPending ? t("common.loggingOut") : t("common.logout")}
         </DropdownMenuItem>
       </DropdownMenuContent>
+
     </DropdownMenu>
   )
 }

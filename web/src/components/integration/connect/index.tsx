@@ -40,20 +40,24 @@ export function Connect({
   credentialId,
   authorizedPermissions,
 }: ConnectSectionProps) {
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(!isConnected && authType !== "none")
   const [connected, setConnected] = useState(isConnected)
   const router = useRouter()
   const t = useTranslations()
 
   useEffect(() => {
     setConnected(isConnected)
-    // setIsOpen(!initialIsConnected && auth_type !== "none")
-  }, [isConnected])
+    // If connected, collapse the section
+    if (isConnected && authType !== "none") {
+      setIsOpen(false)
+    }
+  }, [isConnected, authType])
 
   const handleOAuthConnect = useCallback(async (selectedPermissions: string[]) => {
     try {
       await connectOAuth(providerId, selectedPermissions)
       setConnected(true)
+      setIsOpen(false) // Collapse after successful connection
       // Use router.refresh() instead of window.location.reload() to avoid flash
       router.refresh()
     } catch (error) {
@@ -67,6 +71,7 @@ export function Connect({
       const response = await connectAPIKey(providerId, apiKey)
       if (response.success && response.data.is_valid) {
         setConnected(true)
+        setIsOpen(false) // Collapse after successful connection
         // Use router.refresh() instead of window.location.reload() to avoid flash
         router.refresh()
       } else {
@@ -83,12 +88,14 @@ export function Connect({
       if (credentialId) {
         await disconnectCredential(credentialId)
         setConnected(false)
+        setIsOpen(true) // Expand after disconnection to allow reconnection
         // Use router.refresh() instead of window.location.reload() to avoid flash
         router.refresh()
       }
     } catch (error) {
       integrationConnectLogger.error("Failed to disconnect", { error })
       setConnected(false)
+      setIsOpen(true) // Expand on error to allow retry
     }
   }, [credentialId, router])
 
