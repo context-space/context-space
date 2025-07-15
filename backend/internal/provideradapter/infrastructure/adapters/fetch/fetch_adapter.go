@@ -70,13 +70,7 @@ func (a *FetchAdapter) Execute(
 		return nil, domain.NewAdapterError(a.GetProviderAdapterInfo().Identifier, operationID, "PARAMETER_ERROR", fmt.Sprintf("parameter validation failed: %s", err.Error()), http.StatusBadRequest)
 	}
 
-	// Execute operation handler
-	processedMap, ok := processedParams.(map[string]interface{})
-	if !ok {
-		return nil, domain.NewAdapterError(a.GetProviderAdapterInfo().Identifier, operationID, "PARAMETER_ERROR", "invalid parameter type", http.StatusBadRequest)
-	}
-
-	restParams, err := opDef.Handler(ctx, processedMap)
+	restParams, err := opDef.Handler(ctx, processedParams)
 	if err != nil {
 		return nil, domain.NewAdapterError(a.GetProviderAdapterInfo().Identifier, operationID, "HANDLER_ERROR", fmt.Sprintf("handler execution failed: %s", err.Error()), http.StatusInternalServerError)
 	}
