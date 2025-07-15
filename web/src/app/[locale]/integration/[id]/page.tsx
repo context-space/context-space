@@ -138,6 +138,7 @@ export default async function IntegrationPage({ params }: IntegrationPageProps) 
             providerId={id}
             credentialId={integration.credential?.id ?? ""}
             authorizedPermissions={integration.credential?.permissions ?? []}
+            integrationName={integration.name}
           />
         </div>
       </BaseLayout>

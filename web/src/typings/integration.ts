@@ -82,6 +82,7 @@ export interface OAuthConnectURL {
 }
 
 export interface Invocation {
+  error?: string
   completed_at: string
   created_at: string
   duration_ms: number

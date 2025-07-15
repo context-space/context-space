@@ -12,6 +12,7 @@ const withBundleAnalyzer = initializeBundleAnalyzer({
 
 const nextConfig: NextConfig = {
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
+  reactStrictMode: false,
   images: {
     disableStaticImages: true,
     remotePatterns: [
