@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"time"
 
+	"github.com/context-space/context-space/backend/internal/shared/utils"
 	"github.com/google/uuid"
 )
 
@@ -51,5 +52,5 @@ func generateAPIKeyValue() string {
 	}
 
 	// Encode to hex string
-	return hex.EncodeToString(bytes)
+	return utils.StringsBuilder("cs-", hex.EncodeToString(bytes))
 }

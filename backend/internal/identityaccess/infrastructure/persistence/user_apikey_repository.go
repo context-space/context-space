@@ -67,6 +67,9 @@ func (r *UserAPIKeyRepository) ListByUserID(ctx context.Context, userID string) 
 	var models []UserAPIKeyModel
 	result := r.db.WithContext(ctx).Where("user_id = ?", userID).Find(&models)
 	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
 		return nil, result.Error
 	}
 

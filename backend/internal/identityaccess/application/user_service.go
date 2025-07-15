@@ -29,6 +29,10 @@ const (
 	APIKeyDeletedEvent UserEventType = "apikey.deleted"
 )
 
+const (
+	maxAPIKeysPerUser = 3
+)
+
 // UserService provides user-related application services
 type UserService struct {
 	userRepo          domain.UserRepository
@@ -171,6 +175,16 @@ func (s *UserService) CreateAPIKey(ctx context.Context, userID, name, descriptio
 		return nil, apierrors.NewNotFoundError("", err)
 	}
 
+	apiKeys, err := s.apiKeyRepo.ListByUserID(ctx, userID)
+	if err != nil {
+		return nil, apierrors.NewInternalError("", err)
+	}
+
+	// Check if user has reached the maximum number of API keys
+	if len(apiKeys) >= maxAPIKeysPerUser {
+		return nil, apierrors.NewForbiddenError("Maximum number of API keys reached", nil)
+	}
+
 	// Create API key
 	apiKey := domain.NewAPIKey(userID, name, description)
 
@@ -235,6 +249,10 @@ func (s *UserService) ValidateAPIKey(ctx context.Context, keyValue string) (*dom
 	apiKey, err := s.apiKeyRepo.GetByKeyValue(ctx, keyValue)
 	if err != nil {
 		return nil, nil, apierrors.NewUnauthorizedError("", err)
+	}
+
+	if apiKey == nil {
+		return nil, nil, apierrors.NewUnauthorizedError("api key is invalid", nil)
 	}
 
 	// Get associated user
