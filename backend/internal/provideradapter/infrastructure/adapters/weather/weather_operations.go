@@ -1,5 +1,6 @@
 package openweathermap
 
+//  Operations Implementation
 import (
 	"context"
 	"fmt"

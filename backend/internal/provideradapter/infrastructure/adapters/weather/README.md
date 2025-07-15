@@ -100,13 +100,11 @@ params := map[string]interface{}{
 
 ### Geocoding Example
 
-```go
 params := map[string]interface{}{
     "q":     "Beijing",
     "limit": 1,
 }
 // Get coordinates for Beijing
-```
 
 ### Air Pollution Example
 

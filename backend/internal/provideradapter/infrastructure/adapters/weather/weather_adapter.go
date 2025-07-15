@@ -1,5 +1,6 @@
 package openweathermap
 
+// API Key Authentication Implementation
 import (
 	"context"
 	"fmt"

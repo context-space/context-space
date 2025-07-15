@@ -1,5 +1,6 @@
 package openweathermap
 
+// API key Adapter Template Implementation
 import (
 	"fmt"
 	"time"
