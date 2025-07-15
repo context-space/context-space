@@ -8,7 +8,7 @@ import (
 	"github.com/mitchellh/mapstructure"
 )
 
-// 定义 API 端点常量
+// Define API endpoint constants
 const (
 	endpointCurrentWeather  = "/data/2.5/weather"
 	endpointWeatherForecast = "/data/2.5/forecast"
@@ -17,7 +17,7 @@ const (
 	endpointGeocoding       = "/geo/1.0/direct"
 )
 
-// 定义操作 ID 常量
+// Define operation ID constants
 const (
 	operationIDGetCurrentWeather  = "get_current_weather"
 	operationIDGetWeatherForecast = "get_weather_forecast"
@@ -26,7 +26,7 @@ const (
 	operationIDGetGeocoding       = "get_geocoding"
 )
 
-// 参数结构体定义
+// Parameter struct definitions
 type GetCurrentWeatherParams struct {
 	Lat   float64 `mapstructure:"lat" validate:"required,min=-90,max=90"`
 	Lon   float64 `mapstructure:"lon" validate:"required,min=-180,max=180"`
@@ -59,19 +59,19 @@ type GetGeocodingParams struct {
 	Limit int    `mapstructure:"limit" validate:"omitempty,min=1,max=5"`
 }
 
-// OperationHandler 定义操作处理函数的签名
+// OperationHandler defines the signature of operation handler functions
 type OperationHandler func(ctx context.Context, params interface{}) (map[string]interface{}, error)
 
-// OperationDefinition 定义操作结构（API Key 认证版本）
+// OperationDefinition defines operation structure (API Key authentication version)
 type OperationDefinition struct {
-	Schema  interface{}      // 参数结构体指针
-	Handler OperationHandler // 操作处理函数
+	Schema  interface{}      // Parameter struct pointer
+	Handler OperationHandler // Operation handler function
 }
 
-// Operations 映射操作 ID 到其定义
+// Operations maps operation ID to its definition
 type Operations map[string]OperationDefinition
 
-// RegisterOperation 注册操作（API Key 版本）
+// RegisterOperation registers operation (API Key version)
 func (a *OpenWeatherMapAdapter) RegisterOperation(operationID string, schema interface{}, handler OperationHandler) {
 	a.BaseAdapter.RegisterOperation(operationID, schema)
 	if a.operations == nil {
@@ -83,32 +83,32 @@ func (a *OpenWeatherMapAdapter) RegisterOperation(operationID string, schema int
 	}
 }
 
-// registerOperations 注册所有操作
+// registerOperations registers all operations
 func (a *OpenWeatherMapAdapter) registerOperations() {
-	// 注册当前天气操作
+	// Register current weather operation
 	a.RegisterOperation(operationIDGetCurrentWeather, &GetCurrentWeatherParams{}, a.handleGetCurrentWeather)
 
-	// 注册天气预报操作
+	// Register weather forecast operation
 	a.RegisterOperation(operationIDGetWeatherForecast, &GetWeatherForecastParams{}, a.handleGetWeatherForecast)
 
-	// 注册综合天气数据操作
+	// Register one call weather data operation
 	a.RegisterOperation(operationIDGetOneCallWeather, &GetOneCallWeatherParams{}, a.handleGetOneCallWeather)
 
-	// 注册空气污染数据操作
+	// Register air pollution data operation
 	a.RegisterOperation(operationIDGetAirPollution, &GetAirPollutionParams{}, a.handleGetAirPollution)
 
-	// 注册地理编码操作
+	// Register geocoding operation
 	a.RegisterOperation(operationIDGetGeocoding, &GetGeocodingParams{}, a.handleGetGeocoding)
 }
 
-// handleGetCurrentWeather 处理当前天气查询
+// handleGetCurrentWeather handles current weather query
 func (a *OpenWeatherMapAdapter) handleGetCurrentWeather(ctx context.Context, params interface{}) (map[string]interface{}, error) {
 	var weatherParams GetCurrentWeatherParams
 	if err := mapstructure.Decode(params, &weatherParams); err != nil {
-		return nil, fmt.Errorf("参数解析失败: %v", err)
+		return nil, fmt.Errorf("parameter parsing failed: %v", err)
 	}
 
-	// 构建查询参数
+	// Build query parameters
 	queryParams := make(map[string]string)
 	queryParams["lat"] = fmt.Sprintf("%.6f", weatherParams.Lat)
 	queryParams["lon"] = fmt.Sprintf("%.6f", weatherParams.Lon)
@@ -126,14 +126,14 @@ func (a *OpenWeatherMapAdapter) handleGetCurrentWeather(ctx context.Context, par
 	}, nil
 }
 
-// handleGetWeatherForecast 处理天气预报查询
+// handleGetWeatherForecast handles weather forecast query
 func (a *OpenWeatherMapAdapter) handleGetWeatherForecast(ctx context.Context, params interface{}) (map[string]interface{}, error) {
 	var forecastParams GetWeatherForecastParams
 	if err := mapstructure.Decode(params, &forecastParams); err != nil {
-		return nil, fmt.Errorf("参数解析失败: %v", err)
+		return nil, fmt.Errorf("parameter parsing failed: %v", err)
 	}
 
-	// 构建查询参数
+	// Build query parameters
 	queryParams := make(map[string]string)
 	queryParams["lat"] = fmt.Sprintf("%.6f", forecastParams.Lat)
 	queryParams["lon"] = fmt.Sprintf("%.6f", forecastParams.Lon)
@@ -151,14 +151,14 @@ func (a *OpenWeatherMapAdapter) handleGetWeatherForecast(ctx context.Context, pa
 	}, nil
 }
 
-// handleGetOneCallWeather 处理一次性天气数据查询
+// handleGetOneCallWeather handles one call weather data query
 func (a *OpenWeatherMapAdapter) handleGetOneCallWeather(ctx context.Context, params interface{}) (map[string]interface{}, error) {
 	var oneCallParams GetOneCallWeatherParams
 	if err := mapstructure.Decode(params, &oneCallParams); err != nil {
-		return nil, fmt.Errorf("参数解析失败: %v", err)
+		return nil, fmt.Errorf("parameter parsing failed: %v", err)
 	}
 
-	// 构建查询参数
+	// Build query parameters
 	queryParams := make(map[string]string)
 	queryParams["lat"] = fmt.Sprintf("%.6f", oneCallParams.Lat)
 	queryParams["lon"] = fmt.Sprintf("%.6f", oneCallParams.Lon)
@@ -179,14 +179,14 @@ func (a *OpenWeatherMapAdapter) handleGetOneCallWeather(ctx context.Context, par
 	}, nil
 }
 
-// handleGetAirPollution 处理空气污染数据查询
+// handleGetAirPollution handles air pollution data query
 func (a *OpenWeatherMapAdapter) handleGetAirPollution(ctx context.Context, params interface{}) (map[string]interface{}, error) {
 	var pollutionParams GetAirPollutionParams
 	if err := mapstructure.Decode(params, &pollutionParams); err != nil {
-		return nil, fmt.Errorf("参数解析失败: %v", err)
+		return nil, fmt.Errorf("parameter parsing failed: %v", err)
 	}
 
-	// 构建查询参数
+	// Build query parameters
 	queryParams := make(map[string]string)
 	queryParams["lat"] = fmt.Sprintf("%.6f", pollutionParams.Lat)
 	queryParams["lon"] = fmt.Sprintf("%.6f", pollutionParams.Lon)
@@ -198,14 +198,14 @@ func (a *OpenWeatherMapAdapter) handleGetAirPollution(ctx context.Context, param
 	}, nil
 }
 
-// handleGetGeocoding 处理地理编码查询
+// handleGetGeocoding handles geocoding query
 func (a *OpenWeatherMapAdapter) handleGetGeocoding(ctx context.Context, params interface{}) (map[string]interface{}, error) {
 	var geocodingParams GetGeocodingParams
 	if err := mapstructure.Decode(params, &geocodingParams); err != nil {
-		return nil, fmt.Errorf("参数解析失败: %v", err)
+		return nil, fmt.Errorf("parameter parsing failed: %v", err)
 	}
 
-	// 构建查询参数
+	// Build query parameters
 	queryParams := make(map[string]string)
 	queryParams["q"] = geocodingParams.Q
 	if geocodingParams.Limit > 0 {
