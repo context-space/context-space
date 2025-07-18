@@ -1,7 +1,7 @@
 ---
 id: why-tool-first
-title: Beyond the Black Box: Why We Built Context Space as a Tool-First Infrastructure
-description: Current AI agents operate like a black box. We believe the future is 'Tool-First'—transforming complex capabilities like memory and orchestration into standard, observable tools to build truly robust and controllable AI.
+title: "Beyond the Black Box: Why We Built Context Space as a Tool-First Infrastructure"
+description: "Current AI agents operate like a black box. We believe the future is 'Tool-First'—transforming complex capabilities like memory and orchestration into standard, observable tools to build truly robust and controllable AI."
 publishedAt: 2025-07-18
 category: Context Engineering
 author: Context Space Team
