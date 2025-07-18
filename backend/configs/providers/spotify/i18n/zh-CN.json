@@ -25,7 +25,12 @@
     {
       "identifier": "modify_user_library",
       "name": "修改用户音乐库",
-      "description": "修改和删除用户音乐库内容的权限。"
+      "description": "对用户音乐库的写入/删除权限。"
+    },
+    {
+      "identifier": "modify_playback_state",
+      "name": "控制播放状态",
+      "description": "控制用户设备上的播放"
     }
   ],
   "operations": [
@@ -52,7 +57,17 @@
     {
       "identifier": "get_current_user_playlists",
       "name": "获取当前用户的播放列表",
-      "description": "获取当前Spotify用户拥有或关注的播放列表。"
+      "description": "获取当前 Spotify 用户拥有或关注的播放列表。"
+    },
+    {
+      "identifier": "search",
+      "name": "搜索内容",
+      "description": "搜索曲目、艺术家、专辑、播放列表、节目、剧集或有声书"
+    },
+    {
+      "identifier": "start_playback",
+      "name": "开始/恢复播放",
+      "description": "在用户的活动设备上开始或恢复播放"
     }
   ]
 } 
