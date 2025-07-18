@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"sync"
 
+	observability "github.com/context-space/cloud-observability"
 	"github.com/context-space/context-space/backend/internal/provideradapter/domain"
+	"go.uber.org/zap"
 )
 
 type ProviderLoadMetadata struct {
@@ -16,34 +18,27 @@ type ProviderLoadMetadata struct {
 	Error    string `json:"error,omitempty"`
 }
 
-// ProviderLoaderInterface define the interface for provider loader
-type ProviderLoaderInterface interface {
-	// LoadProvider load a single provider
-	LoadProvider(config *domain.ProviderAdapterConfig) error
-	// GetLoadedProviders get all loaded providers
-	GetLoadedProviders() []domain.ProviderAdapterInfo
-}
-
 // ProviderLoaderService coordinate provider loading operations across domains
 type ProviderLoaderService struct {
-	coreDataProvider     domain.ProviderCoreDataProvider
-	configRepository     domain.ProviderAdapterConfigRepository
-	loader               ProviderLoaderInterface
-	providersLoadRecords map[string]*ProviderLoadMetadata
-	mu                   sync.RWMutex
+	coreDataProvider domain.ProviderCoreDataProvider
+	configRepository domain.ProviderAdapterConfigRepository
+	loader           domain.ProviderAdapterLoader
+	obs              *observability.ObservabilityProvider
+	mu               sync.RWMutex
 }
 
 // NewProviderLoaderService create a new provider loader service
 func NewProviderLoaderService(
 	coreDataProvider domain.ProviderCoreDataProvider,
 	configRepository domain.ProviderAdapterConfigRepository,
-	loader ProviderLoaderInterface,
+	loader domain.ProviderAdapterLoader,
+	obs *observability.ObservabilityProvider,
 ) *ProviderLoaderService {
 	return &ProviderLoaderService{
-		coreDataProvider:     coreDataProvider,
-		configRepository:     configRepository,
-		loader:               loader,
-		providersLoadRecords: make(map[string]*ProviderLoadMetadata),
+		coreDataProvider: coreDataProvider,
+		configRepository: configRepository,
+		loader:           loader,
+		obs:              obs,
 	}
 }
 
@@ -72,18 +67,8 @@ func (s *ProviderLoaderService) LoadAllProviders(ctx context.Context) error {
 
 	// 4. load each provider
 	for _, providerInfo := range providerInfos {
-		// Record the provider load status
-		s.providersLoadRecords[providerInfo.Identifier] = &ProviderLoadMetadata{
-			ID:       providerInfo.Identifier,
-			Name:     providerInfo.Name,
-			AuthType: string(providerInfo.AuthType),
-			Loaded:   true,
-			Error:    "",
-		}
 		config, exists := configMap[providerInfo.Identifier]
 		if !exists {
-			s.providersLoadRecords[providerInfo.Identifier].Loaded = false
-			s.providersLoadRecords[providerInfo.Identifier].Error = fmt.Sprintf("no adapter config found for provider %s", providerInfo.Identifier)
 			continue
 		}
 
@@ -96,25 +81,29 @@ func (s *ProviderLoaderService) LoadAllProviders(ctx context.Context) error {
 		config.Operations = providerInfo.Operations
 		err = s.loader.LoadProvider(&config)
 		if err != nil {
-			s.providersLoadRecords[providerInfo.Identifier].Loaded = false
-			s.providersLoadRecords[providerInfo.Identifier].Error = err.Error()
+			s.obs.Logger.Error(ctx, "failed to load provider", zap.Error(err))
+			continue
 		}
 	}
 
 	return nil
 }
 
-// GetLoadedProviders get all loaded providers
-func (s *ProviderLoaderService) GetProvidersLoadRecords() []ProviderLoadMetadata {
+func (s *ProviderLoaderService) GetLoadedProviders() []domain.ProviderAdapterInfo {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 
-	result := make([]ProviderLoadMetadata, 0, len(s.providersLoadRecords))
+	return s.loader.GetLoadedProviders()
+}
 
-	for _, metadata := range s.providersLoadRecords {
-		result = append(result, *metadata)
+func (s *ProviderLoaderService) ReloadAllProviders(ctx context.Context) error {
+	for _, provider := range s.loader.GetLoadedProviders() {
+		if err := s.ReloadProvider(ctx, provider.Identifier); err != nil {
+			return fmt.Errorf("failed to reload provider %s: %w", provider.Identifier, err)
+		}
 	}
-	return result
+
+	return nil
 }
 
 // ReloadProvider reload a specific provider
@@ -122,8 +111,9 @@ func (s *ProviderLoaderService) ReloadProvider(ctx context.Context, identifier s
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	// clear previous loading status
-	delete(s.providersLoadRecords, identifier)
+	if err := s.loader.UnloadProvider(identifier); err != nil {
+		return fmt.Errorf("failed to unload provider %s: %w", identifier, err)
+	}
 
 	// 1. get provider info from ProviderCore
 	providerInfo, err := s.coreDataProvider.GetProviderCoreData(ctx, identifier)
@@ -145,5 +135,9 @@ func (s *ProviderLoaderService) ReloadProvider(ctx context.Context, identifier s
 	config.Operations = providerInfo.Operations
 
 	// 3. execute loading
-	return s.loader.LoadProvider(config)
+	if err := s.loader.LoadProvider(config); err != nil {
+		return fmt.Errorf("failed to reload provider %s: %w", identifier, err)
+	}
+
+	return nil
 }
