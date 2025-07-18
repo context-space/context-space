@@ -2,6 +2,7 @@ package application
 
 import (
 	"context"
+	"sort"
 
 	observability "github.com/context-space/cloud-observability"
 	"github.com/context-space/context-space/backend/internal/providercore/domain"
@@ -372,5 +373,179 @@ func (s *ProviderService) emitOperationEvent(ctx context.Context, eventType Prov
 			zap.String("event_type", string(eventType)),
 			zap.String("operation_id", operation.ID),
 		)
+	}
+}
+
+// ProviderFilterParams represents the parameters for filtering providers
+type ProviderFilterParams struct {
+	Tag          string
+	AuthType     domain.ProviderAuthType
+	ProviderName string
+	Page         int
+	PageSize     int
+	SortField    string
+	SortOrder    string
+}
+
+// ProviderFilterResult represents the result of filtering providers
+type ProviderFilterResult struct {
+	Providers   []*domain.Provider
+	TotalCount  int
+	CurrentPage int
+	PageSize    int
+	TotalPages  int
+	HasNext     bool
+	HasPrev     bool
+}
+
+// FilterProviders filters providers based on various criteria with pagination and sorting
+func (s *ProviderService) FilterProviders(ctx context.Context, params ProviderFilterParams) (*ProviderFilterResult, error) {
+	ctx, span := s.obs.Tracer.Start(ctx, "ProviderService.FilterProviders")
+	defer span.End()
+
+	// Get all providers first
+	allProviders, err := s.providerRepo.List(ctx)
+	if err != nil {
+		return nil, apierrors.NewInternalError("", err)
+	}
+
+	// Apply filters
+	var filteredProviders []*domain.Provider
+
+	// Filter by tag if specified
+	if params.Tag != "" {
+		// This will be implemented in step 7
+		filteredProviders = s.filterByTag(allProviders, params.Tag)
+	} else {
+		filteredProviders = allProviders
+	}
+
+	// Filter by auth_type and provider_identifier in memory
+	filteredProviders = s.applyInMemoryFilters(filteredProviders, params)
+
+	// Calculate total count before pagination
+	totalCount := len(filteredProviders)
+
+	// Apply sorting
+	s.applySorting(filteredProviders, params.SortField, params.SortOrder)
+
+	// Apply pagination
+	offset := (params.Page - 1) * params.PageSize
+	if offset < 0 {
+		offset = 0
+	}
+
+	end := offset + params.PageSize
+	if end > len(filteredProviders) {
+		end = len(filteredProviders)
+	}
+
+	var paginatedProviders []*domain.Provider
+	if offset < len(filteredProviders) {
+		paginatedProviders = filteredProviders[offset:end]
+	} else {
+		paginatedProviders = []*domain.Provider{}
+	}
+
+	// Calculate pagination metadata
+	totalPages := (totalCount + params.PageSize - 1) / params.PageSize
+	if totalPages == 0 {
+		totalPages = 1
+	}
+
+	hasNext := params.Page < totalPages
+	hasPrev := params.Page > 1
+
+	return &ProviderFilterResult{
+		Providers:   paginatedProviders,
+		TotalCount:  totalCount,
+		CurrentPage: params.Page,
+		PageSize:    params.PageSize,
+		TotalPages:  totalPages,
+		HasNext:     hasNext,
+		HasPrev:     hasPrev,
+	}, nil
+}
+
+// filterByTag filters providers by tag using TagService
+func (s *ProviderService) filterByTag(providers []*domain.Provider, tagName string) []*domain.Provider {
+	var filtered []*domain.Provider
+	for _, provider := range providers {
+		if provider.HasTag(tagName) {
+			filtered = append(filtered, provider)
+		}
+	}
+	return filtered
+}
+
+// applyInMemoryFilters applies auth_type and provider_identifier filters in memory
+func (s *ProviderService) applyInMemoryFilters(providers []*domain.Provider, params ProviderFilterParams) []*domain.Provider {
+	var filtered []*domain.Provider
+
+	for _, provider := range providers {
+		// Skip deprecated providers
+		if provider.Status == domain.ProviderStatusDeprecated {
+			continue
+		}
+
+		// Filter by auth_type if specified
+		if params.AuthType != "" && provider.AuthType != params.AuthType {
+			continue
+		}
+
+		// Filter by provider_identifier if specified
+		if params.ProviderName != "" && provider.Name != params.ProviderName {
+			continue
+		}
+
+		filtered = append(filtered, provider)
+	}
+
+	return filtered
+}
+
+// applySorting applies sorting to the providers slice
+func (s *ProviderService) applySorting(providers []*domain.Provider, sortField, sortOrder string) {
+	switch sortField {
+	case "created_at":
+		if sortOrder == "asc" {
+			sort.Slice(providers, func(i, j int) bool {
+				return providers[i].CreatedAt.Before(providers[j].CreatedAt)
+			})
+		} else {
+			sort.Slice(providers, func(i, j int) bool {
+				return providers[i].CreatedAt.After(providers[j].CreatedAt)
+			})
+		}
+	case "updated_at":
+		if sortOrder == "asc" {
+			sort.Slice(providers, func(i, j int) bool {
+				return providers[i].UpdatedAt.Before(providers[j].UpdatedAt)
+			})
+		} else {
+			sort.Slice(providers, func(i, j int) bool {
+				return providers[i].UpdatedAt.After(providers[j].UpdatedAt)
+			})
+		}
+	case "name":
+		if sortOrder == "asc" {
+			sort.Slice(providers, func(i, j int) bool {
+				return providers[i].Name < providers[j].Name
+			})
+		} else {
+			sort.Slice(providers, func(i, j int) bool {
+				return providers[i].Name > providers[j].Name
+			})
+		}
+	case "identifier":
+		if sortOrder == "asc" {
+			sort.Slice(providers, func(i, j int) bool {
+				return providers[i].Identifier < providers[j].Identifier
+			})
+		} else {
+			sort.Slice(providers, func(i, j int) bool {
+				return providers[i].Identifier > providers[j].Identifier
+			})
+		}
 	}
 }

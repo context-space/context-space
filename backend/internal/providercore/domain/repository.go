@@ -23,6 +23,9 @@ type ProviderRepository interface {
 
 	// Delete deletes a provider
 	Delete(ctx context.Context, id string) error
+
+	// SyncTagsToProvider syncs tags to provider's json_attributes
+	SyncTagsToProvider(ctx context.Context, providerIdentifier string, tags []string) error
 }
 
 // OperationRepository defines the interface for operation persistence

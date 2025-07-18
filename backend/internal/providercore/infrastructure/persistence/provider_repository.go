@@ -47,7 +47,7 @@ type parameter struct {
 const (
 	cachePrefixID         = "provider-id:"
 	cachePrefixIdentifier = "provider-identifier:"
-	defaultCacheSize      = 200
+	defaultCacheSize      = 10
 )
 
 // ProviderRepository implements the domain.ProviderRepository interface
@@ -351,6 +351,7 @@ func (r *ProviderRepository) mapToDomain(model *ProviderModel) (*domain.Provider
 	var jsonAttributes struct {
 		Categories  []string            `json:"categories"`
 		Permissions []domain.Permission `json:"permissions"`
+		Tags        []string            `json:"tags"`
 	}
 
 	if err := sonic.Unmarshal(model.JSONAttributes, &jsonAttributes); err != nil {
@@ -370,6 +371,7 @@ func (r *ProviderRepository) mapToDomain(model *ProviderModel) (*domain.Provider
 		IconURL:     model.IconURL,
 		Categories:  jsonAttributes.Categories,
 		Permissions: jsonAttributes.Permissions,
+		Tags:        jsonAttributes.Tags,
 		CreatedAt:   model.CreatedAt,
 		UpdatedAt:   model.UpdatedAt,
 		DeletedAt:   parseGormDeletedAt(model.DeletedAt),
@@ -515,6 +517,7 @@ func (r *ProviderRepository) loadTranslations(ctx context.Context, provider *dom
 			Status:      provider.Status,
 			IconURL:     provider.IconURL,
 			Categories:  tj.Categories,
+			Tags:        provider.Tags,
 			Permissions: translatedPerms,
 			Operations:  translatedOps,
 			CreatedAt:   provider.CreatedAt,
@@ -526,6 +529,51 @@ func (r *ProviderRepository) loadTranslations(ctx context.Context, provider *dom
 		// The keyTag is now guaranteed to be one of language.English, language.SimplifiedChinese, or language.TraditionalChinese
 		provider.SetTranslation(keyTag, translatedProvider)
 	}
+
+	return nil
+}
+
+// SyncTagsToProvider syncs tags to provider's json_attributes
+func (r *ProviderRepository) SyncTagsToProvider(ctx context.Context, providerIdentifier string, tags []string) error {
+	ctx, span := r.obs.Tracer.Start(ctx, "ProviderRepository.SyncTagsToProvider")
+	defer span.End()
+
+	// Get existing provider
+	var model ProviderModel
+	result := r.db.WithContext(ctx).First(&model, "identifier = ?", providerIdentifier)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	// Parse existing json_attributes
+	var jsonAttributes struct {
+		Categories  []string            `json:"categories"`
+		Permissions []domain.Permission `json:"permissions"`
+		Tags        []string            `json:"tags"`
+	}
+
+	if err := sonic.Unmarshal(model.JSONAttributes, &jsonAttributes); err != nil {
+		return fmt.Errorf("failed to unmarshal provider json_attributes: %w", err)
+	}
+
+	// Update tags field
+	jsonAttributes.Tags = tags
+
+	// Re-serialize
+	updatedJSON, err := sonic.Marshal(jsonAttributes)
+	if err != nil {
+		return fmt.Errorf("failed to marshal provider json_attributes: %w", err)
+	}
+
+	// Update database
+	result = r.db.WithContext(ctx).Model(&model).Where("identifier = ?", providerIdentifier).Update("json_attributes", updatedJSON)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	// Clear cache
+	r.cache.Remove(r.getCacheKeyByIdentifier(providerIdentifier))
+	r.cache.Remove(r.getCacheKeyByID(model.ID))
 
 	return nil
 }
