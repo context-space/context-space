@@ -26,6 +26,11 @@
       "identifier": "modify_user_library",
       "name": "Modify User Library",
       "description": "Write/delete access to a user's library."
+    },
+    {
+      "identifier": "modify_playback_state",
+      "name": "Modify Playback State",
+      "description": "Control playback on user's devices"
     }
   ],
   "operations": [
@@ -53,6 +58,16 @@
       "identifier": "get_current_user_playlists",
       "name": "Get Current User's Playlists",
       "description": "Get a list of the playlists owned or followed by the current Spotify user."
+    },
+    {
+      "identifier": "search",
+      "name": "Search for Item",
+      "description": "Search for tracks, artists, albums, playlists, shows, episodes, or audiobooks"
+    },
+    {
+      "identifier": "start_playback",
+      "name": "Start/Resume Playback",
+      "description": "Start or resume playback on the user's active device"
     }
   ]
 } 
