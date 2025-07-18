@@ -37,6 +37,7 @@ type TranslatedProvider struct {
 	IconURL     string           `json:"icon_url"`
 	ApiDocURL   string           `json:"api_doc_url"`
 	Categories  []string         `json:"categories"`
+	Tags        []string         `json:"tags"`
 	Permissions []Permission     `json:"permissions"`
 	Operations  []Operation      `json:"operations"`
 	CreatedAt   time.Time        `json:"created_at"`
@@ -55,6 +56,7 @@ type Provider struct {
 	Status       ProviderStatus   `json:"status"`
 	IconURL      string           `json:"icon_url"`
 	Categories   []string         `json:"categories"`
+	Tags         []string         `json:"tags"`
 	Permissions  []Permission     `json:"permissions"`
 	Operations   []Operation      `json:"operations"`
 	CreatedAt    time.Time        `json:"created_at"`
@@ -108,6 +110,7 @@ func (p *Provider) GetTranslation(lang language.Tag) TranslatedProvider {
 		IconURL:     p.IconURL,
 		ApiDocURL:   GetProviderAPIDocURL(p.Identifier),
 		Categories:  p.Categories,
+		Tags:        p.Tags,
 		Permissions: p.Permissions,
 		Operations:  p.Operations,
 		CreatedAt:   p.CreatedAt,
@@ -125,6 +128,15 @@ func (p *Provider) SetTranslation(lang language.Tag, translation TranslatedProvi
 	}
 	translation.language = lang
 	p.translations[lang] = translation
+}
+
+func (p *Provider) HasTag(tagName string) bool {
+	for _, tag := range p.Tags {
+		if tag == tagName {
+			return true
+		}
+	}
+	return false
 }
 
 // NewProvider creates a new provider
