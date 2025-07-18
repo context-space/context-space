@@ -64,8 +64,8 @@ func (l *ProviderLoader) GetLoadedProviders() []domain.ProviderAdapterInfo {
 	defer l.mu.RUnlock()
 
 	providers := make([]domain.ProviderAdapterInfo, 0, len(l.loadedProviders))
-	for _, metadata := range l.loadedProviders {
-		providers = append(providers, metadata)
+	for _, provider := range l.loadedProviders {
+		providers = append(providers, provider)
 	}
 
 	return providers
