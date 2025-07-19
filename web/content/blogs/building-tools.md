@@ -5,7 +5,7 @@ description: "Context engineering is the new frontier, but the developer tools a
 publishedAt: 2025-07-19
 category: Developer Tools
 author: Context Space Team
-image: https://cdn-bucket.tos-cn-hongkong.volces.com/resources/20250718210214755_1752843735381.png
+image: https://cdn-bucket.tos-cn-hongkong.volces.com/resources/20250718210342126_1752843822727.png
 ---
 
 # Building Developer Tools for Context Engineering: What Manus Taught Us and What We're Building
