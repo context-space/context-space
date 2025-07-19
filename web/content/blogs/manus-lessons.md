@@ -5,7 +5,7 @@ description: "Manus recently published an in-depth article on their official web
 publishedAt: 2025-07-19
 category: Context Engineering
 author: Context Space Team
-image: https://cdn-bucket.tos-cn-hongkong.volces.com/resources/20250719152040725_1752992440725.png
+image: https://cdn-bucket.tos-cn-hongkong.volces.com/resources/20250719133743291_1752903463719.png
 ---
 
 # Context Engineering for AI Agents: Key Lessons from Manus
