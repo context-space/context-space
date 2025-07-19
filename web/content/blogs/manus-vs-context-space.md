@@ -5,7 +5,7 @@ description: "An in-depth comparison of how Manus and Context Space tackle conte
 publishedAt: 2025-07-19
 category: Context Engineering
 author: Context Space Team
-image: https://cdn-bucket.tos-cn-hongkong.volces.com/resources/20250720120644392_1753003604392.png
+image: https://cdn-bucket.tos-cn-hongkong.volces.com/resources/20250719132947510_1752902987791.png
 ---
 
 # Two Approaches to Context Engineering: Manus vs Context Space
