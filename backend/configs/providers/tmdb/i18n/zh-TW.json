@@ -1,0 +1,370 @@
+{
+  "name": "電影資料庫API",
+  "description": "電影資料庫（TMDB）是一個社群建立的電影和電視資料庫。存取數百萬部電影、電視節目、演員、劇組和類型資訊。",
+  "categories": ["電影", "電視", "搜尋", "趨勢"],
+  "operations": [
+    {
+      "identifier": "genre_movie_list",
+      "name": "取得電影分類",
+      "description": "取得官方電影分類清單",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 語言代碼（預設：en-US）"
+        }
+      ]
+    },
+    {
+      "identifier": "genre_tv_list",
+      "name": "取得電視節目分類",
+      "description": "取得官方電視節目分類清單",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 語言代碼（預設：en-US）"
+        }
+      ]
+    },
+    {
+      "identifier": "movie_popular",
+      "name": "熱門電影",
+      "description": "取得按人氣排序的電影清單",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 語言代碼（預設：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "頁碼（1-1000，預設：1）"
+        },
+        {
+          "name": "region",
+          "description": "ISO 3166-1 國家代碼"
+        }
+      ]
+    },
+    {
+      "identifier": "movie_now_playing",
+      "name": "正在上映的電影",
+      "description": "取得當前在電影院上映的電影清單",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 語言代碼（預設：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "頁碼（1-1000，預設：1）"
+        },
+        {
+          "name": "region",
+          "description": "ISO 3166-1 國家代碼"
+        }
+      ]
+    },
+    {
+      "identifier": "movie_top_rated",
+      "name": "高評分電影",
+      "description": "取得TMDB上評分最高的電影",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 語言代碼（預設：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "頁碼（1-1000，預設：1）"
+        },
+        {
+          "name": "region",
+          "description": "ISO 3166-1 國家代碼"
+        }
+      ]
+    },
+    {
+      "identifier": "movie_upcoming",
+      "name": "即將上映的電影",
+      "description": "取得即將上映的電影清單",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 語言代碼（預設：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "頁碼（1-1000，預設：1）"
+        },
+        {
+          "name": "region",
+          "description": "ISO 3166-1 國家代碼"
+        }
+      ]
+    },
+    {
+      "identifier": "tv_popular",
+      "name": "熱門電視節目",
+      "description": "取得按人氣排序的電視節目清單",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 語言代碼（預設：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "頁碼（1-1000，預設：1）"
+        }
+      ]
+    },
+    {
+      "identifier": "tv_on_the_air",
+      "name": "正在播出的電視節目",
+      "description": "取得未來7天內播出的電視節目清單",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 語言代碼（預設：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "頁碼（1-1000，預設：1）"
+        },
+        {
+          "name": "timezone",
+          "description": "時區（例如 America/New_York）"
+        }
+      ]
+    },
+    {
+      "identifier": "tv_top_rated",
+      "name": "高評分電視節目",
+      "description": "取得TMDB上評分最高的電視節目",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 語言代碼（預設：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "頁碼（1-1000，預設：1）"
+        }
+      ]
+    },
+    {
+      "identifier": "tv_airing_today",
+      "name": "今日播出的電視節目",
+      "description": "取得今日播出的電視節目清單",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 語言代碼（預設：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "頁碼（1-1000，預設：1）"
+        },
+        {
+          "name": "timezone",
+          "description": "時區（例如 America/New_York）"
+        }
+      ]
+    },
+    {
+      "identifier": "discover_movie",
+      "name": "發現電影",
+      "description": "透過不同類型的資料發現電影",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 語言代碼（預設：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "頁碼（1-1000，預設：1）"
+        },
+        {
+          "name": "sort_by",
+          "description": "排序方式（例如 popularity.desc, release_date.desc）"
+        },
+        {
+          "name": "with_genres",
+          "description": "類型ID（逗號分隔）"
+        },
+        {
+          "name": "primary_release_year",
+          "description": "按主要發行年份篩選"
+        },
+        {
+          "name": "vote_average.gte",
+          "description": "按最低評分篩選"
+        },
+        {
+          "name": "vote_average.lte",
+          "description": "按最高評分篩選"
+        },
+        {
+          "name": "region",
+          "description": "ISO 3166-1 國家代碼"
+        }
+      ]
+    },
+    {
+      "identifier": "discover_tv",
+      "name": "發現電視節目",
+      "description": "透過不同類型的資料發現電視節目",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 語言代碼（預設：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "頁碼（1-1000，預設：1）"
+        },
+        {
+          "name": "sort_by",
+          "description": "排序方式（例如 popularity.desc, first_air_date.desc）"
+        },
+        {
+          "name": "with_genres",
+          "description": "類型ID（逗號分隔）"
+        },
+        {
+          "name": "first_air_date_year",
+          "description": "按首播年份篩選"
+        },
+        {
+          "name": "vote_average.gte",
+          "description": "按最低評分篩選"
+        },
+        {
+          "name": "vote_average.lte",
+          "description": "按最高評分篩選"
+        }
+      ]
+    },
+    {
+      "identifier": "trending",
+      "name": "全部趨勢",
+      "description": "取得趨勢電影、電視節目和人物",
+      "parameters": [
+        {
+          "name": "time_window",
+          "description": "時間窗口（day 或 week）"
+        },
+        {
+          "name": "language",
+          "description": "ISO 639-1 語言代碼（預設：en-US）"
+        }
+      ]
+    },
+    {
+      "identifier": "search_movie",
+      "name": "搜尋電影",
+      "description": "透過原始標題、翻譯標題和別名搜尋電影",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "搜尋文字"
+        },
+        {
+          "name": "language",
+          "description": "ISO 639-1 語言代碼（預設：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "頁碼（1-1000，預設：1）"
+        },
+        {
+          "name": "include_adult",
+          "description": "包含成人內容（預設：false）"
+        },
+        {
+          "name": "region",
+          "description": "ISO 3166-1 國家代碼"
+        },
+        {
+          "name": "year",
+          "description": "按年份篩選"
+        },
+        {
+          "name": "primary_release_year",
+          "description": "按主要發行年份篩選"
+        }
+      ]
+    },
+    {
+      "identifier": "search_tv",
+      "name": "搜尋電視節目",
+      "description": "透過原始名稱、翻譯名稱和別名搜尋電視節目",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "搜尋文字"
+        },
+        {
+          "name": "language",
+          "description": "ISO 639-1 語言代碼（預設：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "頁碼（1-1000，預設：1）"
+        },
+        {
+          "name": "include_adult",
+          "description": "包含成人內容（預設：false）"
+        },
+        {
+          "name": "first_air_date_year",
+          "description": "按首播年份篩選"
+        }
+      ]
+    },
+    {
+      "identifier": "search_person",
+      "name": "搜尋人物",
+      "description": "透過姓名和別名搜尋人物",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "搜尋文字"
+        },
+        {
+          "name": "language",
+          "description": "ISO 639-1 語言代碼（預設：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "頁碼（1-1000，預設：1）"
+        },
+        {
+          "name": "include_adult",
+          "description": "包含成人內容（預設：false）"
+        }
+      ]
+    },
+    {
+      "identifier": "search_multi",
+      "name": "多重搜尋",
+      "description": "同時搜尋多種模型（電影、電視節目、人物）",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "搜尋文字"
+        },
+        {
+          "name": "language",
+          "description": "ISO 639-1 語言代碼（預設：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "頁碼（1-1000，預設：1）"
+        },
+        {
+          "name": "include_adult",
+          "description": "包含成人內容（預設：false）"
+        }
+      ]
+    }
+  ]
+} 

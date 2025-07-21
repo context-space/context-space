@@ -16,7 +16,11 @@ import (
 	_ "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/spotify"
 	_ "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/stripe"
 	_ "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/zoom"
+
 	// Add more provider imports here as they are implemented
+	_ "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/amap"
+	_ "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/openweathermap"
+	_ "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/tmdb"
 )
 
 // Init function explicitly ensures this package is imported
