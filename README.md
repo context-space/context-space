@@ -197,13 +197,13 @@ Context Space is a community-driven project. We believe the best infrastructure 
 ### Join Our Growing Community
 
 [![Twitter](https://img.shields.io/twitter/follow/hi_contextspace?style=social)](https://twitter.com/hi_contextspace)
-[![Discord](https://img.shields.io/badge/Discord-Join%20Us-5865F2?logo=discord&logoColor=white)](https://discord.gg/Q74Ta5Xv)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Us-5865F2?logo=discord&logoColor=white)](https://discord.gg/BsNjUyxQYF)
 
 
 ### Resources
 
 - **[API Documentation](https://api.context.space/v1/docs)** - Complete API reference
-- **[Discord Community](https://discord.gg/Q74Ta5Xv)** - Real-time chat and collaboration
+- **[Discord Community](https://discord.gg/BsNjUyxQYF)** - Real-time chat and collaboration
 - **[GitHub Discussions](https://github.com/context-space/context-space/discussions)** - Community Q&A
 - **[Issues](https://github.com/context-space/context-space/issues)** - Bug reports & feature requests
 
