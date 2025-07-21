@@ -1,0 +1,370 @@
+{
+  "name": "The Movie Database API",
+  "description": "The Movie Database (TMDB) is a community built movie and TV database. Access millions of movies, TV shows, cast, crew, and genre information.",
+  "categories": ["movies", "tv", "search", "trending"],
+  "operations": [
+    {
+      "identifier": "genre_movie_list",
+      "name": "Get Movie Genres",
+      "description": "Get the list of official movie genres",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 language code (default: en-US)"
+        }
+      ]
+    },
+    {
+      "identifier": "genre_tv_list",
+      "name": "Get TV Genres",
+      "description": "Get the list of official TV genres",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 language code (default: en-US)"
+        }
+      ]
+    },
+    {
+      "identifier": "movie_popular",
+      "name": "Popular Movies",
+      "description": "Get a list of movies ordered by popularity",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "region",
+          "description": "ISO 3166-1 country code"
+        }
+      ]
+    },
+    {
+      "identifier": "movie_now_playing",
+      "name": "Now Playing Movies",
+      "description": "Get a list of movies that are currently in theaters",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "region",
+          "description": "ISO 3166-1 country code"
+        }
+      ]
+    },
+    {
+      "identifier": "movie_top_rated",
+      "name": "Top Rated Movies",
+      "description": "Get the top rated movies on TMDB",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "region",
+          "description": "ISO 3166-1 country code"
+        }
+      ]
+    },
+    {
+      "identifier": "movie_upcoming",
+      "name": "Upcoming Movies",
+      "description": "Get a list of movies that are being released soon",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "region",
+          "description": "ISO 3166-1 country code"
+        }
+      ]
+    },
+    {
+      "identifier": "tv_popular",
+      "name": "Popular TV Shows",
+      "description": "Get a list of TV shows ordered by popularity",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "description": "Page number (1-1000, default: 1)"
+        }
+      ]
+    },
+    {
+      "identifier": "tv_on_the_air",
+      "name": "TV Shows On The Air",
+      "description": "Get a list of TV shows that air in the next 7 days",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "timezone",
+          "description": "A timezone (e.g. America/New_York)"
+        }
+      ]
+    },
+    {
+      "identifier": "tv_top_rated",
+      "name": "Top Rated TV Shows",
+      "description": "Get the top rated TV shows on TMDB",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "description": "Page number (1-1000, default: 1)"
+        }
+      ]
+    },
+    {
+      "identifier": "tv_airing_today",
+      "name": "TV Shows Airing Today",
+      "description": "Get a list of TV shows airing today",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "timezone",
+          "description": "A timezone (e.g. America/New_York)"
+        }
+      ]
+    },
+    {
+      "identifier": "discover_movie",
+      "name": "Discover Movies",
+      "description": "Discover movies by different types of data",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "sort_by",
+          "description": "Sort results by (e.g. popularity.desc, release_date.desc)"
+        },
+        {
+          "name": "with_genres",
+          "description": "Comma separated genre IDs"
+        },
+        {
+          "name": "primary_release_year",
+          "description": "Filter by primary release year"
+        },
+        {
+          "name": "vote_average.gte",
+          "description": "Filter by minimum vote average"
+        },
+        {
+          "name": "vote_average.lte",
+          "description": "Filter by maximum vote average"
+        },
+        {
+          "name": "region",
+          "description": "ISO 3166-1 country code"
+        }
+      ]
+    },
+    {
+      "identifier": "discover_tv",
+      "name": "Discover TV Shows",
+      "description": "Discover TV shows by different types of data",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "sort_by",
+          "description": "Sort results by (e.g. popularity.desc, first_air_date.desc)"
+        },
+        {
+          "name": "with_genres",
+          "description": "Comma separated genre IDs"
+        },
+        {
+          "name": "first_air_date_year",
+          "description": "Filter by first air date year"
+        },
+        {
+          "name": "vote_average.gte",
+          "description": "Filter by minimum vote average"
+        },
+        {
+          "name": "vote_average.lte",
+          "description": "Filter by maximum vote average"
+        }
+      ]
+    },
+    {
+      "identifier": "trending",
+      "name": "Trending All",
+      "description": "Get the trending movies, TV shows and people",
+      "parameters": [
+        {
+          "name": "time_window",
+          "description": "Time window (day or week)"
+        },
+        {
+          "name": "language",
+          "description": "ISO 639-1 language code (default: en-US)"
+        }
+      ]
+    },
+    {
+      "identifier": "search_movie",
+      "name": "Search Movies",
+      "description": "Search for movies by their original, translated and alternative titles",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "Text to search for"
+        },
+        {
+          "name": "language",
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "include_adult",
+          "description": "Include adult content (default: false)"
+        },
+        {
+          "name": "region",
+          "description": "ISO 3166-1 country code"
+        },
+        {
+          "name": "year",
+          "description": "Filter by year"
+        },
+        {
+          "name": "primary_release_year",
+          "description": "Filter by primary release year"
+        }
+      ]
+    },
+    {
+      "identifier": "search_tv",
+      "name": "Search TV Shows",
+      "description": "Search for TV shows by their original, translated and alternative names",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "Text to search for"
+        },
+        {
+          "name": "language",
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "include_adult",
+          "description": "Include adult content (default: false)"
+        },
+        {
+          "name": "first_air_date_year",
+          "description": "Filter by first air date year"
+        }
+      ]
+    },
+    {
+      "identifier": "search_person",
+      "name": "Search People",
+      "description": "Search for people by their name and also known as names",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "Text to search for"
+        },
+        {
+          "name": "language",
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "include_adult",
+          "description": "Include adult content (default: false)"
+        }
+      ]
+    },
+    {
+      "identifier": "search_multi",
+      "name": "Multi Search",
+      "description": "Search multiple models at once (movies, TV shows, people)",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "Text to search for"
+        },
+        {
+          "name": "language",
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "include_adult",
+          "description": "Include adult content (default: false)"
+        }
+      ]
+    }
+  ]
+} 

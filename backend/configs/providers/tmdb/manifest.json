@@ -1,0 +1,523 @@
+{
+  "identifier": "tmdb",
+  "name": "The Movie Database API Platform",
+  "description": "The Movie Database (TMDB) is a community built movie and TV database. Access millions of movies, TV shows, cast, crew, and genre information.",
+  "auth_type": "apikey",
+  "status": "active",
+  "icon_url": "",
+  "categories": ["movies", "tv", "search", "trending"],
+  "operations": [
+    {
+      "identifier": "genre_movie_list",
+      "name": "Get Movie Genres",
+      "description": "Get the list of official genres for movies",
+      "category": "movies",
+      "http_method": "GET",
+      "endpoint_path": "/genre/movie/list",
+      "parameters": [
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "description": "ISO 639-1 language code (default: en)"
+        }
+      ]
+    },
+    {
+      "identifier": "genre_tv_list",
+      "name": "Get TV Genres",
+      "description": "Get the list of official TV genres",
+      "category": "tv",
+      "http_method": "GET",
+      "endpoint_path": "/genre/tv/list",
+      "parameters": [
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "description": "ISO 639-1 language code (default: en)"
+        }
+      ]
+    },
+    {
+      "identifier": "movie_popular",
+      "name": "Popular Movies",
+      "description": "Get a list of movies ordered by popularity",
+      "category": "movies",
+      "http_method": "GET",
+      "endpoint_path": "/movie/popular",
+      "parameters": [
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "type": "integer",
+          "required": false,
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "region",
+          "type": "string",
+          "required": false,
+          "description": "ISO 3166-1 country code, e.g. US"
+        }
+      ]
+    },
+    {
+      "identifier": "movie_now_playing",
+      "name": "Now Playing Movies",
+      "description": "Get a list of movies that are currently in theaters",
+      "category": "movies",
+      "http_method": "GET",
+      "endpoint_path": "/movie/now_playing",
+      "parameters": [
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "type": "integer",
+          "required": false,
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "region",
+          "type": "string",
+          "required": false,
+          "description": "ISO 3166-1 country code, e.g. US"
+        }
+      ]
+    },
+    {
+      "identifier": "movie_top_rated",
+      "name": "Top Rated Movies",
+      "description": "Get a list of movies ordered by rating",
+      "category": "movies",
+      "http_method": "GET",
+      "endpoint_path": "/movie/top_rated",
+      "parameters": [
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "type": "integer",
+          "required": false,
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "region",
+          "type": "string",
+          "required": false,
+          "description": "ISO 3166-1 country code"
+        }
+      ]
+    },
+    {
+      "identifier": "movie_upcoming",
+      "name": "Upcoming Movies",
+      "description": "Get a list of movies that are being released soon",
+      "category": "movies",
+      "http_method": "GET",
+      "endpoint_path": "/movie/upcoming",
+      "parameters": [
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "type": "integer",
+          "required": false,
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "region",
+          "type": "string",
+          "required": false,
+          "description": "ISO 3166-1 country code"
+        }
+      ]
+    },
+    {
+      "identifier": "tv_popular",
+      "name": "Popular TV Shows",
+      "description": "Get a list of TV shows ordered by popularity",
+      "category": "tv",
+      "http_method": "GET",
+      "endpoint_path": "/tv/popular",
+      "parameters": [
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "type": "integer",
+          "required": false,
+          "description": "Page number (1-1000, default: 1)"
+        }
+      ]
+    },
+    {
+      "identifier": "tv_on_the_air",
+      "name": "TV Shows On The Air",
+      "description": "Get a list of TV shows that air in the next 7 days",
+      "category": "trending",
+      "http_method": "GET",
+      "endpoint_path": "/tv/on_the_air",
+      "parameters": [
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "type": "integer",
+          "required": false,
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "timezone",
+          "type": "string",
+          "required": false,
+          "description": "A timezone (string, e.g. America/New_York)"
+        }
+      ]
+    },
+    {
+      "identifier": "tv_top_rated",
+      "name": "Top Rated TV Shows",
+      "description": "Get a list of TV shows ordered by rating",
+      "category": "tv",
+      "http_method": "GET",
+      "endpoint_path": "/tv/top_rated",
+      "parameters": [
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "type": "integer",
+          "required": false,
+          "description": "Page number (1-1000, default: 1)"
+        }
+      ]
+    },
+    {
+      "identifier": "tv_airing_today",
+      "name": "TV Shows Airing Today",
+      "description": "Get a list of TV shows airing today",
+      "category": "trending",
+      "http_method": "GET",
+      "endpoint_path": "/tv/airing_today",
+      "parameters": [
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "type": "integer",
+          "required": false,
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "timezone",
+          "type": "string",
+          "required": false,
+          "description": "A timezone (string, e.g. America/New_York)"
+        }
+      ]
+    },
+    {
+      "identifier": "discover_movie",
+      "name": "Discover Movies",
+      "description": "Find movies using over 30 filters and sort options",
+      "category": "movies",
+      "http_method": "GET",
+      "endpoint_path": "/discover/movie",
+      "parameters": [
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "type": "integer",
+          "required": false,
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "sort_by",
+          "type": "string",
+          "required": false,
+          "description": "Sort results by (e.g. popularity.desc, release_date.desc)"
+        },
+        {
+          "name": "with_genres",
+          "type": "string",
+          "required": false,
+          "description": "Comma separated genre IDs"
+        },
+        {
+          "name": "primary_release_year",
+          "type": "string",
+          "required": false,
+          "description": "Filter by primary release year, e.g. 2025"
+        },
+        {
+          "name": "region",
+          "type": "string",
+          "required": false,
+          "description": "ISO 3166-1 country code"
+        }
+      ]
+    },
+    {
+      "identifier": "discover_tv",
+      "name": "Discover TV Shows",
+      "description": "Find TV shows using over 30 filters and sort options",
+      "category": "tv",
+      "http_method": "GET",
+      "endpoint_path": "/discover/tv",
+      "parameters": [
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "type": "integer",
+          "required": false,
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "sort_by",
+          "type": "string",
+          "required": false,
+          "description": "Sort results by (e.g. popularity.desc, first_air_date.desc)"
+        },
+        {
+          "name": "with_genres",
+          "type": "string",
+          "required": false,
+          "description": "Comma separated genre IDs"
+        },
+        {
+          "name": "first_air_date_year",
+          "type": "string",
+          "required": false,
+          "description": "Filter by first air date year"
+        }
+      ]
+    },
+    {
+      "identifier": "trending",
+      "name": "Trending All",
+      "description": "Get the trending movies, TV shows and people",
+      "category": "trending",
+      "http_method": "GET",
+      "endpoint_path": "/trending/all/{time_window}",
+      "parameters": [
+        {
+          "name": "time_window",
+          "type": "string",
+          "required": true,
+          "description": "Time window (day or week)"
+        },
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "description": "ISO 639-1 language code (default: en-US)"
+        }
+      ]
+    },
+    {
+      "identifier": "search_movie",
+      "name": "Search Movies",
+      "description": "Search for movies by their original, translated and alternative titles",
+      "category": "search",
+      "http_method": "GET",
+      "endpoint_path": "/search/movie",
+      "parameters": [
+        {
+          "name": "query",
+          "type": "string",
+          "required": true,
+          "description": "Text to search for, e.g. GET /search/movie?query=肖申克的救赎"
+        },
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "type": "integer",
+          "required": false,
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "include_adult",
+          "type": "boolean",
+          "required": false,
+          "description": "Include adult content (default: false)"
+        },
+        {
+          "name": "region",
+          "type": "string",
+          "required": false,
+          "description": "ISO 3166-1 country code"
+        },
+        {
+          "name": "year",
+          "type": "integer",
+          "required": false,
+          "description": "Filter by year"
+        },
+        {
+          "name": "primary_release_year",
+          "type": "integer",
+          "required": false,
+          "description": "Filter by primary release year"
+        }
+      ]
+    },
+    {
+      "identifier": "search_tv",
+      "name": "Search TV Shows",
+      "description": "Search for TV shows by their original, translated and alternative names",
+      "category": "search",
+      "http_method": "GET",
+      "endpoint_path": "/search/tv",
+      "parameters": [
+        {
+          "name": "query",
+          "type": "string",
+          "required": true,
+          "description": "Text to search for"
+        },
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "type": "integer",
+          "required": false,
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "include_adult",
+          "type": "boolean",
+          "required": false,
+          "description": "Include adult content (default: false)"
+        },
+        {
+          "name": "first_air_date_year",
+          "type": "integer",
+          "required": false,
+          "description": "Filter by first air date year"
+        }
+      ]
+    },
+    {
+      "identifier": "search_person",
+      "name": "Search People",
+      "description": "Search for people by their name and also known as names",
+      "category": "search",
+      "http_method": "GET",
+      "endpoint_path": "/search/person",
+      "parameters": [
+        {
+          "name": "query",
+          "type": "string",
+          "required": true,
+          "description": "Text to search for"
+        },
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "type": "integer",
+          "required": false,
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "include_adult",
+          "type": "boolean",
+          "required": false,
+          "description": "Include adult content (default: false)"
+        }
+      ]
+    },
+    {
+      "identifier": "search_multi",
+      "name": "Multi Search",
+      "description": "Use multi search when you want to search for movies, TV shows and people in a single request",
+      "category": "search",
+      "http_method": "GET",
+      "endpoint_path": "/search/multi",
+      "parameters": [
+        {
+          "name": "query",
+          "type": "string",
+          "required": true,
+          "description": "Text to search for"
+        },
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "description": "ISO 639-1 language code (default: en-US)"
+        },
+        {
+          "name": "page",
+          "type": "integer",
+          "required": false,
+          "description": "Page number (1-1000, default: 1)"
+        },
+        {
+          "name": "include_adult",
+          "type": "boolean",
+          "required": false,
+          "description": "Include adult content (default: false)"
+        }
+      ]
+    }
+  ]
+} 

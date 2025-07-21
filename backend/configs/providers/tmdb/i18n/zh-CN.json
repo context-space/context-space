@@ -1,0 +1,370 @@
+{
+  "name": "电影数据库API",
+  "description": "电影数据库（TMDB）是一个社区构建的电影和电视数据库。访问数百万部电影、电视节目、演员、剧组和类型信息。",
+  "categories": ["电影", "电视", "搜索", "趋势"],
+  "operations": [
+    {
+      "identifier": "genre_movie_list",
+      "name": "获取电影分类",
+      "description": "获取官方电影分类列表",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 语言代码（默认：en-US）"
+        }
+      ]
+    },
+    {
+      "identifier": "genre_tv_list",
+      "name": "获取电视节目分类",
+      "description": "获取官方电视节目分类列表",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 语言代码（默认：en-US）"
+        }
+      ]
+    },
+    {
+      "identifier": "movie_popular",
+      "name": "热门电影",
+      "description": "获取按人气排序的电影列表",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 语言代码（默认：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "页码（1-1000，默认：1）"
+        },
+        {
+          "name": "region",
+          "description": "ISO 3166-1 国家代码"
+        }
+      ]
+    },
+    {
+      "identifier": "movie_now_playing",
+      "name": "正在上映的电影",
+      "description": "获取当前在影院上映的电影列表",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 语言代码（默认：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "页码（1-1000，默认：1）"
+        },
+        {
+          "name": "region",
+          "description": "ISO 3166-1 国家代码"
+        }
+      ]
+    },
+    {
+      "identifier": "movie_top_rated",
+      "name": "高评分电影",
+      "description": "获取TMDB上评分最高的电影",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 语言代码（默认：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "页码（1-1000，默认：1）"
+        },
+        {
+          "name": "region",
+          "description": "ISO 3166-1 国家代码"
+        }
+      ]
+    },
+    {
+      "identifier": "movie_upcoming",
+      "name": "即将上映的电影",
+      "description": "获取即将上映的电影列表",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 语言代码（默认：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "页码（1-1000，默认：1）"
+        },
+        {
+          "name": "region",
+          "description": "ISO 3166-1 国家代码"
+        }
+      ]
+    },
+    {
+      "identifier": "tv_popular",
+      "name": "热门电视节目",
+      "description": "获取按人气排序的电视节目列表",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 语言代码（默认：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "页码（1-1000，默认：1）"
+        }
+      ]
+    },
+    {
+      "identifier": "tv_on_the_air",
+      "name": "正在播出的电视节目",
+      "description": "获取未来7天内播出的电视节目列表",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 语言代码（默认：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "页码（1-1000，默认：1）"
+        },
+        {
+          "name": "timezone",
+          "description": "时区（例如 America/New_York）"
+        }
+      ]
+    },
+    {
+      "identifier": "tv_top_rated",
+      "name": "高评分电视节目",
+      "description": "获取TMDB上评分最高的电视节目",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 语言代码（默认：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "页码（1-1000，默认：1）"
+        }
+      ]
+    },
+    {
+      "identifier": "tv_airing_today",
+      "name": "今日播出的电视节目",
+      "description": "获取今日播出的电视节目列表",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 语言代码（默认：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "页码（1-1000，默认：1）"
+        },
+        {
+          "name": "timezone",
+          "description": "时区（例如 America/New_York）"
+        }
+      ]
+    },
+    {
+      "identifier": "discover_movie",
+      "name": "发现电影",
+      "description": "通过不同类型的数据发现电影",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 语言代码（默认：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "页码（1-1000，默认：1）"
+        },
+        {
+          "name": "sort_by",
+          "description": "排序方式（例如 popularity.desc, release_date.desc）"
+        },
+        {
+          "name": "with_genres",
+          "description": "类型ID（逗号分隔）"
+        },
+        {
+          "name": "primary_release_year",
+          "description": "按主要发行年份筛选"
+        },
+        {
+          "name": "vote_average.gte",
+          "description": "按最低评分筛选"
+        },
+        {
+          "name": "vote_average.lte",
+          "description": "按最高评分筛选"
+        },
+        {
+          "name": "region",
+          "description": "ISO 3166-1 国家代码"
+        }
+      ]
+    },
+    {
+      "identifier": "discover_tv",
+      "name": "发现电视节目",
+      "description": "通过不同类型的数据发现电视节目",
+      "parameters": [
+        {
+          "name": "language",
+          "description": "ISO 639-1 语言代码（默认：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "页码（1-1000，默认：1）"
+        },
+        {
+          "name": "sort_by",
+          "description": "排序方式（例如 popularity.desc, first_air_date.desc）"
+        },
+        {
+          "name": "with_genres",
+          "description": "类型ID（逗号分隔）"
+        },
+        {
+          "name": "first_air_date_year",
+          "description": "按首播年份筛选"
+        },
+        {
+          "name": "vote_average.gte",
+          "description": "按最低评分筛选"
+        },
+        {
+          "name": "vote_average.lte",
+          "description": "按最高评分筛选"
+        }
+      ]
+    },
+    {
+      "identifier": "trending",
+      "name": "全部趋势",
+      "description": "获取趋势电影、电视节目和人物",
+      "parameters": [
+        {
+          "name": "time_window",
+          "description": "时间窗口（day 或 week）"
+        },
+        {
+          "name": "language",
+          "description": "ISO 639-1 语言代码（默认：en-US）"
+        }
+      ]
+    },
+    {
+      "identifier": "search_movie",
+      "name": "搜索电影",
+      "description": "通过原始标题、翻译标题和别名搜索电影",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "搜索文本"
+        },
+        {
+          "name": "language",
+          "description": "ISO 639-1 语言代码（默认：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "页码（1-1000，默认：1）"
+        },
+        {
+          "name": "include_adult",
+          "description": "包含成人内容（默认：false）"
+        },
+        {
+          "name": "region",
+          "description": "ISO 3166-1 国家代码"
+        },
+        {
+          "name": "year",
+          "description": "按年份筛选"
+        },
+        {
+          "name": "primary_release_year",
+          "description": "按主要发行年份筛选"
+        }
+      ]
+    },
+    {
+      "identifier": "search_tv",
+      "name": "搜索电视节目",
+      "description": "通过原始名称、翻译名称和别名搜索电视节目",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "搜索文本"
+        },
+        {
+          "name": "language",
+          "description": "ISO 639-1 语言代码（默认：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "页码（1-1000，默认：1）"
+        },
+        {
+          "name": "include_adult",
+          "description": "包含成人内容（默认：false）"
+        },
+        {
+          "name": "first_air_date_year",
+          "description": "按首播年份筛选"
+        }
+      ]
+    },
+    {
+      "identifier": "search_person",
+      "name": "搜索人物",
+      "description": "通过姓名和别名搜索人物",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "搜索文本"
+        },
+        {
+          "name": "language",
+          "description": "ISO 639-1 语言代码（默认：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "页码（1-1000，默认：1）"
+        },
+        {
+          "name": "include_adult",
+          "description": "包含成人内容（默认：false）"
+        }
+      ]
+    },
+    {
+      "identifier": "search_multi",
+      "name": "多重搜索",
+      "description": "同时搜索多种模型（电影、电视节目、人物）",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "搜索文本"
+        },
+        {
+          "name": "language",
+          "description": "ISO 639-1 语言代码（默认：en-US）"
+        },
+        {
+          "name": "page",
+          "description": "页码（1-1000，默认：1）"
+        },
+        {
+          "name": "include_adult",
+          "description": "包含成人内容（默认：false）"
+        }
+      ]
+    }
+  ]
+} 
