@@ -100,7 +100,7 @@ Context Space is built around the four core stages of context lifecycle:
 * Secure sandboxing for safe experimentation
 
 
-## : What We've Built So Far
+## What We've Built So Far
 
 Building context-aware agents isn't just a prompt problem — it's a software architecture problem. That’s why Context Space includes:
 

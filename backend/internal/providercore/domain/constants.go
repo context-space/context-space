@@ -25,6 +25,9 @@ var ProviderAPIDocURLs = map[string]string{
 	"figma":             "https://www.figma.com/developers/api",
 	"hubspot":           "https://developers.hubspot.com/docs/api/overview",
 	"cfa_knowledgebase": "",
+	"openweathermap":    "https://openweathermap.org/api",
+	"amap":              "https://restapi.amap.com",
+	"tmdb":              "https://developers.themoviedb.org/3/getting-started/introduction",
 }
 
 // GetProviderAPIDocURL returns the API documentation URL for a given provider identifier

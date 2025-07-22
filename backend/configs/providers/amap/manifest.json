@@ -1,0 +1,319 @@
+{
+  "identifier": "amap",
+  "name": "Amap API",
+  "description": "China's leading map service provider, offering comprehensive LBS services including geocoding, route planning, POI search, and weather data",
+  "auth_type": "apikey",
+  "status": "active",
+  "icon_url": "",
+  "categories": ["maps", "navigation", "geocoding", "search", "weather"],
+  "operations": [
+    {
+      "identifier": "geocoding",
+      "name": "Geocoding",
+      "description": "Convert address to geographic coordinates (Basic API)",
+      "category": "geocoding",
+      "http_method": "GET",
+      "endpoint_path": "geocoding",
+      "parameters": [
+        {
+          "name": "address",
+          "type": "string",
+          "required": true,
+          "description": "Structured address information: province + city + district + street + number"
+        },
+        {
+          "name": "city",
+          "type": "string",
+          "required": false,
+          "description": "City name to limit search scope"
+        }
+      ]
+    },
+    {
+      "identifier": "regeo",
+      "name": "Reverse Geocoding",
+      "description": "Convert geographic coordinates to address (Basic API)",
+      "category": "geocoding",
+      "http_method": "GET",
+      "endpoint_path": "regeo",
+      "parameters": [
+        {
+          "name": "location",
+          "type": "string",
+          "required": true,
+          "description": "Longitude and latitude coordinates (format: lon,lat)"
+        },
+        {
+          "name": "radius",
+          "type": "integer",
+          "required": false,
+          "description": "Search radius in meters (1-3000)"
+        },
+        {
+          "name": "extensions",
+          "type": "string",
+          "required": false,
+          "description": "Return result control (base/all)"
+        },
+        {
+          "name": "poitype",
+          "type": "string",
+          "required": false,
+          "description": "POI type codes, separated by |"
+        },
+        {
+          "name": "roadlevel",
+          "type": "integer",
+          "required": false,
+          "description": "Road level filter (0: all roads, 1: main roads only)"
+        }
+      ]
+    },
+    {
+      "identifier": "direction_walking",
+      "name": "Walking Route Planning",
+      "description": "Calculate walking route between two points (Basic API)",
+      "category": "navigation",
+      "http_method": "GET",
+      "endpoint_path": "direction_walking",
+      "parameters": [
+        {
+          "name": "origin",
+          "type": "string",
+          "required": true,
+          "description": "Starting point coordinates (format: lon,lat)"
+        },
+        {
+          "name": "destination",
+          "type": "string",
+          "required": true,
+          "description": "Destination coordinates (format: lon,lat)"
+        }
+      ]
+    },
+    {
+      "identifier": "direction_driving",
+      "name": "Driving Route Planning",
+      "description": "Calculate driving route between two points (Basic API)",
+      "category": "navigation",
+      "http_method": "GET",
+      "endpoint_path": "direction_driving",
+      "parameters": [
+        {
+          "name": "origin",
+          "type": "string",
+          "required": true,
+          "description": "Starting point coordinates (format: lon,lat)"
+        },
+        {
+          "name": "destination",
+          "type": "string",
+          "required": true,
+          "description": "Destination coordinates (format: lon,lat)"
+        },
+        {
+          "name": "strategy",
+          "type": "integer",
+          "required": false,
+          "description": "Route calculation strategy (0-10)"
+        },
+        {
+          "name": "waypoints",
+          "type": "string",
+          "required": false,
+          "description": "Waypoints coordinates (format: lon1,lat1;lon2,lat2)"
+        },
+        {
+          "name": "extensions",
+          "type": "string",
+          "required": false,
+          "description": "Return result control (base/all)"
+        }
+      ]
+    },
+    {
+      "identifier": "direction_transit_integrated",
+      "name": "Transit Route Planning",
+      "description": "Calculate public transit route between two points (Basic API)",
+      "category": "navigation",
+      "http_method": "GET",
+      "endpoint_path": "direction_transit",
+      "parameters": [
+        {
+          "name": "origin",
+          "type": "string",
+          "required": true,
+          "description": "Starting point coordinates (format: lon,lat)"
+        },
+        {
+          "name": "destination",
+          "type": "string",
+          "required": true,
+          "description": "Destination coordinates (format: lon,lat)"
+        },
+        {
+          "name": "city",
+          "type": "string",
+          "required": true,
+          "description": "City name or adcode for origin"
+        },
+        {
+          "name": "cityd",
+          "type": "string",
+          "required": false,
+          "description": "City name or adcode for destination"
+        },
+        {
+          "name": "extensions",
+          "type": "string",
+          "required": false,
+          "description": "Return result control (base/all)"
+        },
+        {
+          "name": "strategy",
+          "type": "integer",
+          "required": false,
+          "description": "Transit strategy (0-5)"
+        }
+      ]
+    },
+    {
+      "identifier": "direction_bicycling",
+      "name": "Bicycling Route Planning",
+      "description": "Calculate bicycling route between two points (Basic API)",
+      "category": "navigation",
+      "http_method": "GET",
+      "endpoint_path": "direction_bicycling",
+      "parameters": [
+        {
+          "name": "origin",
+          "type": "string",
+          "required": true,
+          "description": "Starting point coordinates (format: lon,lat)"
+        },
+        {
+          "name": "destination",
+          "type": "string",
+          "required": true,
+          "description": "Destination coordinates (format: lon,lat)"
+        }
+      ]
+    },
+    {
+      "identifier": "distance",
+      "name": "Distance Measurement",
+      "description": "Calculate distance between multiple points (Basic API)",
+      "category": "navigation",
+      "http_method": "GET",
+      "endpoint_path": "distance",
+      "parameters": [
+        {
+          "name": "origins",
+          "type": "string",
+          "required": true,
+          "description": "Origin coordinates, support multiple points separated by | (format: lon1,lat1|lon2,lat2)"
+        },
+        {
+          "name": "destination",
+          "type": "string",
+          "required": true,
+          "description": "Destination coordinates (format: lon,lat)"
+        },
+        {
+          "name": "type",
+          "type": "integer",
+          "required": false,
+          "description": "Route calculation type (0: straight line, 1: driving distance, 3: walking distance)"
+        }
+      ]
+    },
+    {
+      "identifier": "district",
+      "name": "Administrative District Query",
+      "description": "Query administrative district information (Basic API)",
+      "category": "search",
+      "http_method": "GET",
+      "endpoint_path": "district",
+      "parameters": [
+        {
+          "name": "keywords",
+          "type": "string",
+          "required": false,
+          "description": "Administrative district name, citycode, or adcode"
+        },
+        {
+          "name": "subdistrict",
+          "type": "integer",
+          "required": false,
+          "description": "Show sub-district levels (0-3)"
+        },
+        {
+          "name": "extensions",
+          "type": "string",
+          "required": false,
+          "description": "Return district boundary coordinates (base/all)"
+        }
+      ]
+    },
+    {
+      "identifier": "ip_location",
+      "name": "IP Location",
+      "description": "Get location information based on IP address (Basic API)",
+      "category": "search",
+      "http_method": "GET",
+      "endpoint_path": "ip_location",
+      "parameters": [
+        {
+          "name": "ip",
+          "type": "string",
+          "required": false,
+          "description": "IP address to query (auto-detect if not provided)"
+        }
+      ]
+    },
+    {
+      "identifier": "coordinate_convert",
+      "name": "Coordinate Conversion",
+      "description": "Convert coordinates between different systems (Basic API)",
+      "category": "maps",
+      "http_method": "GET",
+      "endpoint_path": "coordinate_convert",
+      "parameters": [
+        {
+          "name": "locations",
+          "type": "string",
+          "required": true,
+          "description": "Coordinate points separated by | (max 40 points)"
+        },
+        {
+          "name": "coordsys",
+          "type": "string",
+          "required": false,
+          "description": "Source coordinate system (gps/mapbar/baidu/autonavi)"
+        }
+      ]
+    },
+    {
+      "identifier": "weather_info",
+      "name": "Current Weather",
+      "description": "Get current weather information for a city (Advanced API)",
+      "category": "weather",
+      "http_method": "GET",
+      "endpoint_path": "weather_info",
+      "parameters": [
+        {
+          "name": "city",
+          "type": "string",
+          "required": true,
+          "description": "City adcode or name"
+        },
+        {
+          "name": "extensions",
+          "type": "string",
+          "required": false,
+          "description": "Return result control (base: current weather, all: weather forecast)"
+        }
+      ]
+    }
+  ]
+} 

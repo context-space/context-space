@@ -12,8 +12,7 @@
 
 English | [中文](docs/README.zh-CN.md)
 
-
-**Context Space is a production-ready infrastructure layer for Context Engineering, making it easy to seamlessly adopt MCP servers and connect AI agents to external data and services.** While the industry focuses on prompt engineering, we believe the next frontier lies in Context Engineering that provides AI systems with the right information, at the right time, in the right format.
+**Context Space is a tool-first context engineering infrastructure built for AI agents.** It packages core capabilities such as task orchestration and memory into standardized, callable tools. With advanced tool discovery and recommendation, it gives agents a clear, controllable, and interpretable path for invoking context. 
 
 **🔗 Zero-Config Integrations** • **🔐 Enterprise-Grade Security** • **🚀 Production Ready** • **🤖 Context Engineering**
 
@@ -26,20 +25,9 @@ English | [中文](docs/README.zh-CN.md)
 
 ---
 
-## What is Context Engineering?
-
-As Andrej Karpathy recently [noted](https://x.com/karpathy/status/1937902205765607626), context engineering is becoming the foundation for reliable AI systems that can operate in complex, real-world environments.
-
-**Context engineering** is the systematic design and management of all information surrounding an AI model during inference. Context engineering builds upon and extends prompt engineering. While [prompt engineering](https://blog.langchain.com/context-engineering-for-agents/) optimizes *what* you say to the model, context engineering governs what the model knows when it generates a response.
-
-**Key Components:**
-- System Instructions - Rules and examples that guide model behavior
-- Dynamic Memory - Conversation history and persistent knowledge
-- Retrieved Information - Real-time data from documents, APIs, and databases
-- Available Tools - Functions the model can use (search, send_email, etc.)
-- User State - Preferences, context, and session information
-
 ## Start Context Engineering with Context Space
+
+Context engineering is the foundation for building reliable AI agents. It goes beyond prompt engineering by managing not only what users say to the model, but also the broader context that shapes its behavior, such as tools, memory, and data. 
 
 When [MCP (Model Context Protocol)](https://modelcontextprotocol.io/) appeared in late 2024, the vision was spot-on: a standardized way for AI tools to securely access external data and services. MCP represented a breakthrough in thinking about how AI agents should interact with the world.
 
@@ -197,13 +185,13 @@ Context Space is a community-driven project. We believe the best infrastructure 
 ### Join Our Growing Community
 
 [![Twitter](https://img.shields.io/twitter/follow/hi_contextspace?style=social)](https://twitter.com/hi_contextspace)
-[![Discord](https://img.shields.io/badge/Discord-Join%20Us-5865F2?logo=discord&logoColor=white)](https://discord.gg/Q74Ta5Xv)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Us-5865F2?logo=discord&logoColor=white)](https://discord.gg/BsNjUyxQYF)
 
 
 ### Resources
 
 - **[API Documentation](https://api.context.space/v1/docs)** - Complete API reference
-- **[Discord Community](https://discord.gg/Q74Ta5Xv)** - Real-time chat and collaboration
+- **[Discord Community](https://discord.gg/BsNjUyxQYF)** - Real-time chat and collaboration
 - **[GitHub Discussions](https://github.com/context-space/context-space/discussions)** - Community Q&A
 - **[Issues](https://github.com/context-space/context-space/issues)** - Bug reports & feature requests
 

@@ -1,0 +1,216 @@
+{
+  "name": "高德地图API",
+  "description": "中国领先的地图服务提供商，提供包括地理编码、路径规划、POI搜索和天气数据在内的全面LBS服务",
+  "categories": ["地图", "导航", "地理编码", "搜索", "天气"],
+  "operations": [
+    {
+      "identifier": "geocoding",
+      "name": "地理编码",
+      "description": "将地址转换为地理坐标（基础API）",
+      "parameters": [
+        {
+          "name": "address",
+          "description": "结构化地址信息：省+市+区+街道+门牌号"
+        },
+        {
+          "name": "city",
+          "description": "限制搜索范围的城市名称"
+        }
+      ]
+    },
+    {
+      "identifier": "regeo",
+      "name": "逆地理编码",
+      "description": "将地理坐标转换为地址（基础API）",
+      "parameters": [
+        {
+          "name": "location",
+          "description": "经纬度坐标（格式：经度,纬度）"
+        },
+        {
+          "name": "radius",
+          "description": "搜索半径，单位米（1-3000）"
+        },
+        {
+          "name": "extensions",
+          "description": "返回结果控制（base/all）"
+        },
+        {
+          "name": "poitype",
+          "description": "POI类型代码，用|分隔"
+        },
+        {
+          "name": "roadlevel",
+          "description": "道路等级过滤（0：所有道路，1：仅主干道）"
+        }
+      ]
+    },
+    {
+      "identifier": "direction_walking",
+      "name": "步行路径规划",
+      "description": "计算两点间步行路径（基础API）",
+      "parameters": [
+        {
+          "name": "origin",
+          "description": "起点坐标（格式：经度,纬度）"
+        },
+        {
+          "name": "destination",
+          "description": "终点坐标（格式：经度,纬度）"
+        }
+      ]
+    },
+    {
+      "identifier": "direction_driving",
+      "name": "驾车路径规划",
+      "description": "计算两点间驾车路径（基础API）",
+      "parameters": [
+        {
+          "name": "origin",
+          "description": "起点坐标（格式：经度,纬度）"
+        },
+        {
+          "name": "destination",
+          "description": "终点坐标（格式：经度,纬度）"
+        },
+        {
+          "name": "strategy",
+          "description": "路径计算策略（0-10）"
+        },
+        {
+          "name": "waypoints",
+          "description": "途经点坐标（格式：经度1,纬度1;经度2,纬度2）"
+        },
+        {
+          "name": "extensions",
+          "description": "返回结果控制（base/all）"
+        }
+      ]
+    },
+    {
+      "identifier": "direction_transit_integrated",
+      "name": "公交路径规划",
+      "description": "计算两点间公交路径（基础API）",
+      "parameters": [
+        {
+          "name": "origin",
+          "description": "起点坐标（格式：经度,纬度）"
+        },
+        {
+          "name": "destination",
+          "description": "终点坐标（格式：经度,纬度）"
+        },
+        {
+          "name": "city",
+          "description": "起点城市名称或adcode"
+        },
+        {
+          "name": "cityd",
+          "description": "终点城市名称或adcode"
+        },
+        {
+          "name": "extensions",
+          "description": "返回结果控制（base/all）"
+        },
+        {
+          "name": "strategy",
+          "description": "公交策略（0-5）"
+        }
+      ]
+    },
+    {
+      "identifier": "direction_bicycling",
+      "name": "骑行路径规划",
+      "description": "计算两点间骑行路径（基础API）",
+      "parameters": [
+        {
+          "name": "origin",
+          "description": "起点坐标（格式：经度,纬度）"
+        },
+        {
+          "name": "destination",
+          "description": "终点坐标（格式：经度,纬度）"
+        }
+      ]
+    },
+    {
+      "identifier": "distance",
+      "name": "距离测量",
+      "description": "计算多点间距离（基础API）",
+      "parameters": [
+        {
+          "name": "origins",
+          "description": "起点坐标，支持多个点用|分隔（格式：经度1,纬度1|经度2,纬度2）"
+        },
+        {
+          "name": "destination",
+          "description": "终点坐标（格式：经度,纬度）"
+        },
+        {
+          "name": "type",
+          "description": "路径计算类型（0：直线距离，1：驾车距离，3：步行距离）"
+        }
+      ]
+    },
+    {
+      "identifier": "district",
+      "name": "行政区域查询",
+      "description": "查询行政区域信息（基础API）",
+      "parameters": [
+        {
+          "name": "keywords",
+          "description": "行政区域名称、citycode或adcode"
+        },
+        {
+          "name": "subdistrict",
+          "description": "显示下级行政区级数（0-3）"
+        },
+        {
+          "name": "extensions",
+          "description": "返回行政区域边界坐标（base/all）"
+        }
+      ]
+    },
+    {
+      "identifier": "ip_location",
+      "name": "IP定位",
+      "description": "根据IP地址获取位置信息（基础API）",
+      "parameters": [
+        {
+          "name": "ip",
+          "description": "要查询的IP地址（未提供则自动检测）"
+        }
+      ]
+    },
+    {
+      "identifier": "coordinate_convert",
+      "name": "坐标转换",
+      "description": "不同坐标系之间的坐标转换（基础API）",
+      "parameters": [
+        {
+          "name": "locations",
+          "description": "坐标点，用|分隔（最多40个点）"
+        },
+        {
+          "name": "coordsys",
+          "description": "源坐标系（gps/mapbar/baidu/autonavi）"
+        }
+      ]
+    },
+    {
+      "identifier": "weather_info",
+      "name": "实时天气",
+      "description": "获取城市实时天气信息（高级API）",
+      "parameters": [
+        {
+          "name": "city",
+          "description": "城市adcode或名称"
+        },
+        {
+          "name": "extensions",
+          "description": "返回结果控制（base：实时天气，all：天气预报）"
+        }
+      ]
+    }
+  ]
+} 

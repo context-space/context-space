@@ -1,0 +1,110 @@
+{
+    "name": "OpenWeatherMap",
+    "description": "Global weather data provider with current weather, forecasts, and historical data",
+    "categories": ["Weather", "Forecast", "Climate", "Geocoding"],
+    "operations": [
+      {
+        "identifier": "get_current_weather",
+        "name": "Get Current Weather",
+        "description": "Get current weather data for a specific location",
+        "parameters": [
+          {
+            "name": "lat",
+            "description": "Latitude of the location"
+          },
+          {
+            "name": "lon",
+            "description": "Longitude of the location"
+          },
+          {
+            "name": "units",
+            "description": "Temperature units (metric, imperial, standard)"
+          },
+          {
+            "name": "lang",
+            "description": "Language code for weather descriptions"
+          }
+        ]
+      },
+      {
+        "identifier": "get_weather_forecast",
+        "name": "Get Weather Forecast",
+        "description": "Get 5-day weather forecast with 3-hour intervals",
+        "parameters": [
+          {
+            "name": "lat",
+            "description": "Latitude of the location"
+          },
+          {
+            "name": "lon",
+            "description": "Longitude of the location"
+          },
+          {
+            "name": "units",
+            "description": "Temperature units (metric, imperial, standard)"
+          },
+          {
+            "name": "lang",
+            "description": "Language code for weather descriptions"
+          }
+        ]
+      },
+      {
+        "identifier": "get_one_call_weather",
+        "name": "Get One Call Weather",
+        "description": "Get comprehensive weather data including current, forecast, and historical data",
+        "parameters": [
+          {
+            "name": "lat",
+            "description": "Latitude of the location"
+          },
+          {
+            "name": "lon",
+            "description": "Longitude of the location"
+          },
+          {
+            "name": "exclude",
+            "description": "Exclude data parts (current,minutely,hourly,daily,alerts)"
+          },
+          {
+            "name": "units",
+            "description": "Temperature units (metric, imperial, standard)"
+          },
+          {
+            "name": "lang",
+            "description": "Language code for weather descriptions"
+          }
+        ]
+      },
+      {
+        "identifier": "get_air_pollution",
+        "name": "Get Air Pollution",
+        "description": "Get current air pollution data",
+        "parameters": [
+          {
+            "name": "lat",
+            "description": "Latitude of the location"
+          },
+          {
+            "name": "lon",
+            "description": "Longitude of the location"
+          }
+        ]
+      },
+      {
+        "identifier": "get_geocoding",
+        "name": "Get Geocoding",
+        "description": "Get geographical coordinates by location name",
+        "parameters": [
+          {
+            "name": "q",
+            "description": "Location name (city name, state code, country code)"
+          },
+          {
+            "name": "limit",
+            "description": "Number of the locations in the API response (1-5)"
+          }
+        ]
+      }
+    ]
+} 
