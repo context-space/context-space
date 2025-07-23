@@ -2,7 +2,9 @@ package middleware
 
 import (
 	"bytes"
+	"io"
 	"net/http"
+	"strings"
 	"time"
 
 	observability "github.com/context-space/cloud-observability"
@@ -17,6 +19,20 @@ import (
 )
 
 var skipPaths = []string{"/health"}
+
+const (
+	// maxRequestBodySize is the maximum size of the request body to be logged
+	maxRequestBodySize = 64 * 1024
+)
+
+// List of supported Content-Types for logging
+var loggableContentTypes = []string{
+	"application/json",
+	"application/xml",
+	"text/xml",
+	"text/plain",
+	"application/x-www-form-urlencoded",
+}
 
 // RequestLoggingMiddleware logs all HTTP requests
 func RequestLoggingMiddleware(obs *observability.ObservabilityProvider) gin.HandlerFunc {
@@ -39,6 +55,9 @@ func RequestLoggingMiddleware(obs *observability.ObservabilityProvider) gin.Hand
 		c.Set("request_id", requestID)
 		c.Header("X-Request-ID", requestID)
 
+		// Read request body for logging
+		requestBody := readRequestBody(c)
+
 		// Process request
 		c.Next()
 
@@ -57,6 +76,7 @@ func RequestLoggingMiddleware(obs *observability.ObservabilityProvider) gin.Hand
 			zap.String("query", c.Request.URL.RawQuery),
 			zap.String("user_agent", c.Request.UserAgent()),
 			zap.Int("size", c.Writer.Size()),
+			zap.String("request_body", requestBody),
 			zap.String("response_body", responseBody),
 		}
 
@@ -72,6 +92,41 @@ func RequestLoggingMiddleware(obs *observability.ObservabilityProvider) gin.Hand
 			obs.Logger.Info(c.Request.Context(), "HTTP Request", fields...)
 		}
 	}
+}
+
+// isLoggableContentType checks if the Content-Type is loggable
+func isLoggableContentType(contentType string) bool {
+	for _, loggableType := range loggableContentTypes {
+		if strings.Contains(strings.ToLower(contentType), loggableType) {
+			return true
+		}
+	}
+	return false
+}
+
+// readRequestBody safely reads and reconstructs the request body
+func readRequestBody(c *gin.Context) string {
+	// Check if Content-Type is loggable
+	contentType := c.GetHeader("Content-Type")
+	if !isLoggableContentType(contentType) {
+		return ""
+	}
+
+	// Read request body
+	body, err := io.ReadAll(c.Request.Body)
+	if err != nil {
+		return ""
+	}
+
+	// Reconstruct request body for subsequent handlers
+	c.Request.Body = io.NopCloser(strings.NewReader(string(body)))
+
+	// Limit the size of the logged body
+	if len(body) > maxRequestBodySize {
+		return string(body[:maxRequestBodySize]) + "...truncated"
+	}
+
+	return string(body)
 }
 
 // TracingMiddleware adds distributed tracing to all requests
