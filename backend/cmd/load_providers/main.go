@@ -31,6 +31,7 @@ type ProviderJSON struct {
 	ApiKeyConfig          *ApiKeyConfig               `json:"api_key_config,omitempty"`
 	VolcengineCredentials *VolcengineCredentials      `json:"volcengine_credentials,omitempty"`
 	OpenaiCredentials     *OpenaiCredentials          `json:"openai_credentials,omitempty"`
+	KnowledgebaseConfig   *KnowledgebaseConfig        `json:"knowledgebase_config,omitempty"`
 }
 
 // PermissionJSON represents the structure of a permission in the JSON file
@@ -73,6 +74,34 @@ type VolcengineCredentials struct {
 type OpenaiCredentials struct {
 	APIKey  string `json:"api_key"`
 	BaseURL string `json:"base_url"`
+}
+
+type KnowledgebaseConfig struct {
+	Project        string        `json:"project"`
+	CollectionName string        `json:"collection_name"`
+	Search         *SearchConfig `json:"search,omitempty"`
+	Chat           *ChatConfig   `json:"chat,omitempty"`
+	Query          *QueryConfig  `json:"query,omitempty"`
+}
+
+type SearchConfig struct {
+	Limit int `json:"limit"`
+}
+
+type ChatConfig struct {
+	Model       string  `json:"model"`
+	Stream      bool    `json:"stream"`
+	Temperature float64 `json:"temperature"`
+}
+
+type QueryConfig struct {
+	SearchLimit         int     `json:"search_limit"`
+	RewriteQuery        bool    `json:"rewrite_query"`
+	Rerank              bool    `json:"rerank"`
+	RerankRetrieveCount int     `json:"rerank_retrieve_count"`
+	RerankModel         string  `json:"rerank_model"`
+	LLMModel            string  `json:"llm_model"`
+	LLMTemperature      float64 `json:"llm_temperature"`
 }
 
 // TranslationData represents the structure of translation data
@@ -127,8 +156,11 @@ func shouldSkipFile(fileName string) bool {
 func main() {
 	// Define command-line flags
 	providersPath := flag.String("path", "configs/providers", "Path to the directory containing provider JSON files")
-	generateSQL := flag.Bool("sql", false, "Generate SQL insert files for the four tables")
 	sqlOutputDir := flag.String("sql-output", "generated_sql", "Directory to save generated SQL files")
+	update := flag.Bool("update", false, "Generate update provider SQL files")
+	providerId := flag.String("provider-id", "", "Provider ID to update")
+	loadAll := flag.Bool("all", false, "Load all providers from the providers directory")
+	providerNames := flag.String("providers", "", "Specific providers to load (only used when --all is not set)")
 	flag.Parse()
 
 	// Initialize logger
@@ -138,11 +170,45 @@ func main() {
 	}
 	defer logger.Sync()
 
-	// Load providers from JSON files (supporting both old and new structure)
-	providersWithTranslations, err := loadProvidersFromJSON(*providersPath)
-	if err != nil {
-		fmt.Printf("Failed to load providers from JSON: %v\n", err)
-		return
+	var providersWithTranslations []*ProviderWithTranslations
+
+	if *loadAll {
+		// Load all providers from the providers directory
+		fmt.Println("Loading all providers...")
+		providersWithTranslations, err = loadProvidersFromJSON(*providersPath)
+		if err != nil {
+			fmt.Printf("Failed to load providers from JSON: %v\n", err)
+			return
+		}
+	} else {
+		// Load only the specified provider
+		if *providerNames == "" {
+			fmt.Printf("Error: When --all is not specified, you must provide --provider parameter\n")
+			fmt.Printf("Usage examples:\n")
+			fmt.Printf("  %s --all                         # Generate SQL for all providers\n", os.Args[0])
+			fmt.Printf("  %s --provider notion             # Generate SQL for notion provider only\n", os.Args[0])
+			return
+		}
+
+		fmt.Printf("Loading assigned provider: %s\n", *providerNames)
+		providerNames := strings.Split(*providerNames, ",")
+		for _, providerName := range providerNames {
+			providerDir := filepath.Join(*providersPath, providerName)
+
+			// Check if provider directory exists
+			if _, err := os.Stat(providerDir); os.IsNotExist(err) {
+				fmt.Printf("Error: Provider directory '%s' does not exist\n", providerDir)
+				return
+			}
+
+			// Load single provider
+			pwt, err := loadProviderFromNewStructure(providerDir)
+			if err != nil {
+				fmt.Printf("Failed to load provider %s: %v\n", providerName, err)
+				return
+			}
+			providersWithTranslations = append(providersWithTranslations, pwt)
+		}
 	}
 
 	// Print loaded providers
@@ -156,32 +222,28 @@ func main() {
 		fmt.Printf("  Permissions: %d\n", len(provider.Permissions))
 		fmt.Printf("  Translations: %d\n", len(pwt.Translations))
 
-		// Print operations and their parameters
-		for i, op := range provider.Operations {
-			fmt.Printf("  Operation %d: %s (%s)\n", i+1, op.Name, op.Identifier)
-			fmt.Printf("    Parameters: %d\n", len(op.Parameters))
-			for j, param := range op.Parameters {
-				fmt.Printf("      Param %d: %s (Type: %s, Required: %v)\n",
-					j+1, param.Name, param.Type, param.Required)
-			}
-		}
-
-		// Print translations
-		for _, translation := range pwt.Translations {
-			fmt.Printf("  Translation: %s\n", translation.LanguageCode)
-		}
-
 		fmt.Println()
 	}
 
-	// Generate SQL files if requested
-	if *generateSQL {
-		fmt.Println("Generating SQL insert files...")
-		if err := generateSQLFiles(providersWithTranslations, *sqlOutputDir); err != nil {
-			fmt.Printf("SQL file generation failed: %v\n", err)
+	if *update {
+		if *providerId == "" {
+			fmt.Printf("Error: When --update is specified, you must provide --provider-id parameter\n")
+			fmt.Printf("Usage examples:\n")
+			fmt.Printf("  %s --update --provider-id 123                           # Generate SQL for notion provider only\n", os.Args[0])
 			return
-		} else {
-			fmt.Printf("Successfully generated SQL files in directory: %s\n", *sqlOutputDir)
+		}
+		if len(providersWithTranslations) != 1 {
+			fmt.Printf("Error: When --update is specified, you must provide only one provider\n")
+			return
+		}
+		// Generate Update SQL files
+		if err := generateUpdateSQLFiles(*providerId, providersWithTranslations, *sqlOutputDir); err != nil {
+			fmt.Printf("SQL file generation failed: %v\n", err)
+		}
+	} else {
+		// Generate Insert SQL files
+		if err := generateInsertSQLFiles(providersWithTranslations, *sqlOutputDir); err != nil {
+			fmt.Printf("SQL file generation failed: %v\n", err)
 		}
 	}
 }
@@ -387,68 +449,136 @@ func loadProviderFromFile(filePath string) (*domain.Provider, *adapter_domain.Pr
 	if providerJSON.OAuthConfig != nil {
 		adapter.OAuthConfig = providerJSON.OAuthConfig
 	}
+	adapter.CustomConfig = map[string]interface{}{}
 	if providerJSON.ApiKeyConfig != nil {
-		adapter.CustomConfig = map[string]interface{}{
-			"api_key": providerJSON.ApiKeyConfig.Value,
-		}
+		adapter.CustomConfig["api_key"] = providerJSON.ApiKeyConfig.Value
 	}
 	if providerJSON.VolcengineCredentials != nil {
-		adapter.CustomConfig = map[string]interface{}{
-			"volcengine_credentials": providerJSON.VolcengineCredentials,
-		}
+		adapter.CustomConfig["volcengine_credentials"] = providerJSON.VolcengineCredentials
 	}
 	if providerJSON.OpenaiCredentials != nil {
-		adapter.CustomConfig = map[string]interface{}{
-			"openai_credentials": providerJSON.OpenaiCredentials,
-		}
+		adapter.CustomConfig["openai_credentials"] = providerJSON.OpenaiCredentials
+	}
+	if providerJSON.KnowledgebaseConfig != nil {
+		adapter.CustomConfig["knowledgebase_config"] = providerJSON.KnowledgebaseConfig
+	}
+	if len(adapter.CustomConfig) == 0 {
+		adapter.CustomConfig = nil
 	}
 	return provider, adapter, nil
 }
 
-// generateSQLFiles generates SQL insert files for the four tables
-func generateSQLFiles(providersWithTranslations []*ProviderWithTranslations, outputDir string) error {
+// generateInsertSQLFiles generates SQL insert files for the four tables
+func generateInsertSQLFiles(providersWithTranslations []*ProviderWithTranslations, outputDir string) error {
 	// Create output directory if it doesn't exist
 	if err := os.MkdirAll(outputDir, 0755); err != nil {
 		return fmt.Errorf("failed to create output directory: %w", err)
 	}
 
 	// Generate SQL for each table
-	if err := generateProvidersSQL(providersWithTranslations, outputDir); err != nil {
+	if err := generateProvidersInsertSQL(providersWithTranslations, nil, outputDir); err != nil {
 		return fmt.Errorf("failed to generate providers SQL: %w", err)
 	}
 
-	if err := generateOperationsSQL(providersWithTranslations, outputDir); err != nil {
+	if err := generateOperationsInsertSQL(providersWithTranslations, nil, outputDir); err != nil {
 		return fmt.Errorf("failed to generate operations SQL: %w", err)
 	}
 
-	if err := generateProviderAdaptersSQL(providersWithTranslations, outputDir); err != nil {
+	if err := generateProviderAdaptersInsertSQL(providersWithTranslations, nil, outputDir); err != nil {
 		return fmt.Errorf("failed to generate provider_adapters SQL: %w", err)
 	}
 
-	if err := generateProviderTranslationsSQL(providersWithTranslations, outputDir); err != nil {
+	if err := generateProviderTranslationsInsertSQL(providersWithTranslations, nil, outputDir); err != nil {
 		return fmt.Errorf("failed to generate provider_translations SQL: %w", err)
 	}
 
 	return nil
 }
 
-// generateProvidersSQL generates INSERT statements for the providers table
-func generateProvidersSQL(providersWithTranslations []*ProviderWithTranslations, outputDir string) error {
-	fileName := filepath.Join(outputDir, "providers_inserts.sql")
-	file, err := os.Create(fileName)
+// generateUpdateSQLFiles generates SQL update files for the four tables
+func generateUpdateSQLFiles(oldProviderId string, providersWithTranslations []*ProviderWithTranslations, outputDir string) error {
+	// Create output directory if it doesn't exist
+	if err := os.MkdirAll(outputDir, 0755); err != nil {
+		return fmt.Errorf("failed to create output directory: %w", err)
+	}
+
+	file, err := os.Create(filepath.Join(outputDir, "update_providers.sql"))
 	if err != nil {
-		return fmt.Errorf("failed to create providers SQL file: %w", err)
+		return fmt.Errorf("failed to create update providers SQL file: %w", err)
 	}
 	defer file.Close()
 
 	// Write header
-	_, err = file.WriteString("-- Generated SQL insert statements for providers table\n")
+	_, err = file.WriteString("-- Generated SQL update statements with transaction\n")
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to write header: %w", err)
 	}
 	_, err = file.WriteString("-- Generated at: " + time.Now().Format(time.RFC3339) + "\n\n")
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to write timestamp: %w", err)
+	}
+
+	// Start transaction
+	_, err = file.WriteString("BEGIN;\n\n")
+	if err != nil {
+		return fmt.Errorf("failed to write transaction start: %w", err)
+	}
+
+	// Delete old provider
+	if err := generateProvidersDeleteSQL(oldProviderId, file); err != nil {
+		return fmt.Errorf("failed to generate providers delete SQL: %w", err)
+	}
+	// Delete old provider operations
+	if err := generateOperationsDeleteSQL(oldProviderId, file); err != nil {
+		return fmt.Errorf("failed to generate operations delete SQL: %w", err)
+	}
+
+	// Insert new provider
+	if err := generateProvidersInsertSQL(providersWithTranslations, file, outputDir); err != nil {
+		return fmt.Errorf("failed to generate providers insert SQL: %w", err)
+	}
+	// Insert new provider operations
+	if err := generateOperationsInsertSQL(providersWithTranslations, file, outputDir); err != nil {
+		return fmt.Errorf("failed to generate operations insert SQL: %w", err)
+	}
+
+	// Update provider_adapters
+	if err := generateProviderAdaptersUpdateSQL(providersWithTranslations[0], file); err != nil {
+		return fmt.Errorf("failed to generate provider_adapters update SQL: %w", err)
+	}
+	// Update provider_translations
+	if err := generateProviderTranslationsUpdateSQL(providersWithTranslations[0], file); err != nil {
+		return fmt.Errorf("failed to generate provider_translations update SQL: %w", err)
+	}
+
+	// Commit transaction
+	_, err = file.WriteString("\nCOMMIT;\n")
+	if err != nil {
+		return fmt.Errorf("failed to write transaction commit: %w", err)
+	}
+
+	return nil
+}
+
+// generateProvidersSQL generates INSERT statements for the providers table
+func generateProvidersInsertSQL(providersWithTranslations []*ProviderWithTranslations, file *os.File, outputDir string) error {
+	if file == nil {
+		fileName := filepath.Join(outputDir, "providers_inserts.sql")
+		var err error
+		file, err = os.Create(fileName)
+		if err != nil {
+			return fmt.Errorf("failed to create providers SQL file: %w", err)
+		}
+		defer file.Close()
+		// Write header
+		_, err = file.WriteString("-- Generated SQL insert statements for providers table\n")
+		if err != nil {
+			return err
+		}
+		_, err = file.WriteString("-- Generated at: " + time.Now().Format(time.RFC3339) + "\n\n")
+		if err != nil {
+			return err
+		}
 	}
 
 	for _, pwt := range providersWithTranslations {
@@ -456,9 +586,8 @@ func generateProvidersSQL(providersWithTranslations []*ProviderWithTranslations,
 
 		// Create JSON attributes with categories and permissions count
 		jsonAttributes := map[string]interface{}{
-			"categories":       provider.Categories,
-			"permissions":      provider.Permissions,
-			"operations_count": len(provider.Operations),
+			"categories":  provider.Categories,
+			"permissions": provider.Permissions,
 		}
 		jsonAttributesData, err := json.Marshal(jsonAttributes)
 		if err != nil {
@@ -489,22 +618,24 @@ VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');
 }
 
 // generateOperationsSQL generates INSERT statements for the operations table
-func generateOperationsSQL(providersWithTranslations []*ProviderWithTranslations, outputDir string) error {
-	fileName := filepath.Join(outputDir, "operations_inserts.sql")
-	file, err := os.Create(fileName)
-	if err != nil {
-		return fmt.Errorf("failed to create operations SQL file: %w", err)
-	}
-	defer file.Close()
-
-	// Write header
-	_, err = file.WriteString("-- Generated SQL insert statements for operations table\n")
-	if err != nil {
-		return err
-	}
-	_, err = file.WriteString("-- Generated at: " + time.Now().Format(time.RFC3339) + "\n\n")
-	if err != nil {
-		return err
+func generateOperationsInsertSQL(providersWithTranslations []*ProviderWithTranslations, file *os.File, outputDir string) error {
+	if file == nil {
+		fileName := filepath.Join(outputDir, "operations_inserts.sql")
+		var err error
+		file, err = os.Create(fileName)
+		if err != nil {
+			return fmt.Errorf("failed to create operations SQL file: %w", err)
+		}
+		defer file.Close()
+		// Write header
+		_, err = file.WriteString("-- Generated SQL insert statements for operations table\n")
+		if err != nil {
+			return err
+		}
+		_, err = file.WriteString("-- Generated at: " + time.Now().Format(time.RFC3339) + "\n\n")
+		if err != nil {
+			return err
+		}
 	}
 
 	for _, pwt := range providersWithTranslations {
@@ -545,22 +676,25 @@ VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s');
 }
 
 // generateProviderAdaptersSQL generates INSERT statements for the provider_adapters table
-func generateProviderAdaptersSQL(providersWithTranslations []*ProviderWithTranslations, outputDir string) error {
-	fileName := filepath.Join(outputDir, "provider_adapters_inserts.sql")
-	file, err := os.Create(fileName)
-	if err != nil {
-		return fmt.Errorf("failed to create provider_adapters SQL file: %w", err)
-	}
-	defer file.Close()
+func generateProviderAdaptersInsertSQL(providersWithTranslations []*ProviderWithTranslations, file *os.File, outputDir string) error {
+	if file == nil {
+		fileName := filepath.Join(outputDir, "provider_adapters_inserts.sql")
+		var err error
+		file, err = os.Create(fileName)
+		if err != nil {
+			return fmt.Errorf("failed to create provider_adapters SQL file: %w", err)
+		}
+		defer file.Close()
 
-	// Write header
-	_, err = file.WriteString("-- Generated SQL insert statements for provider_adapters table\n")
-	if err != nil {
-		return err
-	}
-	_, err = file.WriteString("-- Generated at: " + time.Now().Format(time.RFC3339) + "\n\n")
-	if err != nil {
-		return err
+		// Write header
+		_, err = file.WriteString("-- Generated SQL insert statements for provider_adapters table\n")
+		if err != nil {
+			return err
+		}
+		_, err = file.WriteString("-- Generated at: " + time.Now().Format(time.RFC3339) + "\n\n")
+		if err != nil {
+			return err
+		}
 	}
 
 	for _, pwt := range providersWithTranslations {
@@ -599,26 +733,29 @@ VALUES ('%s', '%s', '%s');
 }
 
 // generateProviderTranslationsSQL generates INSERT statements for the provider_translations table
-func generateProviderTranslationsSQL(providersWithTranslations []*ProviderWithTranslations, outputDir string) error {
-	fileName := filepath.Join(outputDir, "provider_translations_inserts.sql")
-	file, err := os.Create(fileName)
-	if err != nil {
-		return fmt.Errorf("failed to create provider_translations SQL file: %w", err)
-	}
-	defer file.Close()
+func generateProviderTranslationsInsertSQL(providersWithTranslations []*ProviderWithTranslations, file *os.File, outputDir string) error {
+	if file == nil {
+		fileName := filepath.Join(outputDir, "provider_translations_inserts.sql")
+		var err error
+		file, err = os.Create(fileName)
+		if err != nil {
+			return fmt.Errorf("failed to create provider_translations SQL file: %w", err)
+		}
+		defer file.Close()
 
-	// Write header
-	_, err = file.WriteString("-- Generated SQL insert statements for provider_translations table\n")
-	if err != nil {
-		return err
-	}
-	_, err = file.WriteString("-- Generated at: " + time.Now().Format(time.RFC3339) + "\n")
-	if err != nil {
-		return err
-	}
-	_, err = file.WriteString("-- Note: translations field contains compact JSON string (no whitespace/indentation)\n\n")
-	if err != nil {
-		return err
+		// Write header
+		_, err = file.WriteString("-- Generated SQL insert statements for provider_translations table\n")
+		if err != nil {
+			return err
+		}
+		_, err = file.WriteString("-- Generated at: " + time.Now().Format(time.RFC3339) + "\n")
+		if err != nil {
+			return err
+		}
+		_, err = file.WriteString("-- Note: translations field contains compact JSON string (no whitespace/indentation)\n\n")
+		if err != nil {
+			return err
+		}
 	}
 
 	for _, pwt := range providersWithTranslations {
@@ -640,6 +777,74 @@ VALUES ('%s', '%s', '%s', '%s');
 		}
 	}
 
+	return nil
+}
+
+func generateProvidersDeleteSQL(oldProviderId string, file *os.File) error {
+	sql := fmt.Sprintf(`UPDATE providers SET deleted_at = NOW() WHERE id = '%s' LIMIT 1;
+
+`,
+		escapeSQL(oldProviderId),
+	)
+	if _, err := file.WriteString(sql); err != nil {
+		return fmt.Errorf("failed to write providers delete SQL statement: %w", err)
+	}
+	return nil
+}
+
+func generateOperationsDeleteSQL(oldProviderId string, file *os.File) error {
+	sql := fmt.Sprintf(`UPDATE operations SET deleted_at = NOW() WHERE provider_id = '%s';
+
+`,
+		escapeSQL(oldProviderId),
+	)
+	if _, err := file.WriteString(sql); err != nil {
+		return fmt.Errorf("failed to write operations delete SQL statement: %w", err)
+	}
+	return nil
+}
+
+func generateProviderAdaptersUpdateSQL(providersWithTranslations *ProviderWithTranslations, file *os.File) error {
+	adapter := providersWithTranslations.Adapter
+	configs := map[string]interface{}{}
+	if adapter.OAuthConfig != nil {
+		configs["oauth_config"] = adapter.OAuthConfig
+	}
+	if adapter.CustomConfig != nil {
+		configs["custom_config"] = adapter.CustomConfig
+	}
+
+	configsData, err := json.Marshal(configs)
+	if err != nil {
+		return fmt.Errorf("failed to marshal adapter configs: %w", err)
+	}
+
+	sql := fmt.Sprintf(`UPDATE provider_adapters SET configs = '%s' WHERE identifier = '%s';
+
+`,
+		escapeSQL(string(configsData)),
+		escapeSQL(adapter.Identifier),
+	)
+	if _, err := file.WriteString(sql); err != nil {
+		return fmt.Errorf("failed to write provider_adapters update SQL statement: %w", err)
+	}
+
+	return nil
+}
+
+func generateProviderTranslationsUpdateSQL(providersWithTranslations *ProviderWithTranslations, file *os.File) error {
+	for _, translation := range providersWithTranslations.Translations {
+		sql := fmt.Sprintf(`UPDATE provider_translations SET translations = '%s' WHERE provider_identifier = '%s' AND language_code = '%s';
+
+`,
+			escapeSQL(translation.Translations),
+			escapeSQL(translation.ProviderIdentifier),
+			escapeSQL(translation.LanguageCode),
+		)
+		if _, err := file.WriteString(sql); err != nil {
+			return fmt.Errorf("failed to write provider_translations update SQL statement: %w", err)
+		}
+	}
 	return nil
 }
 
