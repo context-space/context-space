@@ -1,7 +1,6 @@
+![Context Space](https://r2.context.space/resources/20250724-235344_1753372441182.jpg)
+
 <div align="center">
-<a href="https://context.space">
-<h1 align="center"> Context Space </h1>
-</a>
 
 [![License](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
 [![Go Version](https://img.shields.io/badge/go-1.24-blue.svg)](https://golang.org/dl/)
@@ -10,20 +9,20 @@
 [![API Docs](https://img.shields.io/badge/API-documented-green.svg)](http://api.context.space/v1/docs)
 [![Contributors](https://img.shields.io/badge/contributors-welcome-orange.svg)]()
 
-English | [中文](docs/README.zh-CN.md)
-
-**Context Space is a tool-first context engineering infrastructure built for AI agents.** It packages core capabilities such as task orchestration and memory into standardized, callable tools. With advanced tool discovery and recommendation, it gives agents a clear, controllable, and interpretable path for invoking context. 
-
-**🔗 Zero-Config Integrations** • **🔐 Enterprise-Grade Security** • **🚀 Production Ready** • **🤖 Context Engineering**
-
-[Live Demo](#live-demo) • [Roadmap](#roadmap-from-foundation-to-frontier) • [API Documentation](http://api.context.space/v1/docs)
-
 </div>
 
-![Homepage Screenshot](https://r2.context.space/resources/readme-homepage-screenshot.jpg)
+## Our Vision
+Today's Al agents excel at reasoning but struggle to act in the real world. They are isolated from our digital ecosystem, unable to navigate
+the chaos of scattered APIs, inconsistent data sources, and complex authentication.
 
+Context Space bridges this gap by packaging core capabilities such as task orchestration and memory into standardized, callable
+tools. With advanced tool discovery and recommendation, it gives agents a clear, controllable, and interpretable path for invoking context.
 
----
+Our vision is a future where every Al agent can seamlessly and securely interact with any service or data source through a unified context
+engineering infrastructure.
+
+By combining **enterprise-grade security** with **zero-config simplicity**, we are building a tool-first context engineering infrastructure that
+will enable the next generation of Al agents to move from brillliant conversation to meaningful action in the real world.
 
 ## Start Context Engineering with Context Space
 
