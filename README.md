@@ -11,6 +11,18 @@
 
 </div>
 
+## Our Vision
+Today's Al agents excel at reasoning but struggle to act in the real world. They are isolated from our digital ecosystem, unable to navigate
+the chaos of scattered APIs, inconsistent data sources, and complex authentication.
+
+Context Space bridges this gap by packaging core capabilities such as task orchestration and memory into standardized, callable
+tools. With advanced tool discovery and recommendation, it gives agents a clear, controllable, and interpretable path for invoking context.
+
+Our vision is a future where every Al agent can seamlessly and securely interact with any service or data source through a unified context
+engineering infrastructure.
+
+By combining **enterprise-grade security** with **zero-config simplicity**, we are building a tool-first context engineering infrastructure that
+will enable the next generation of Al agents to move from brillliant conversation to meaningful action in the real world.
 
 ## Start Context Engineering with Context Space
 
