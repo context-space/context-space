@@ -1,7 +1,6 @@
+![Context Space](https://r2.context.space/resources/20250724-235344_1753372441182.jpg)
+
 <div align="center">
-<a href="https://context.space">
-<h1 align="center"> Context Space </h1>
-</a>
 
 [![License](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
 [![Go Version](https://img.shields.io/badge/go-1.24-blue.svg)](https://golang.org/dl/)
@@ -10,36 +9,21 @@
 [![API Docs](https://img.shields.io/badge/API-documented-green.svg)](http://api.context.space/v1/docs)
 [![Contributors](https://img.shields.io/badge/contributors-welcome-orange.svg)]()
 
-English | [中文](docs/README.zh-CN.md)
-
-
-**Context Space is a production-ready infrastructure layer for Context Engineering, making it easy to seamlessly adopt MCP servers and connect AI agents to external data and services.** While the industry focuses on prompt engineering, we believe the next frontier lies in Context Engineering that provides AI systems with the right information, at the right time, in the right format.
-
-**🔗 Zero-Config Integrations** • **🔐 Enterprise-Grade Security** • **🚀 Production Ready** • **🤖 Context Engineering**
-
-[Live Demo](#live-demo) • [Roadmap](#roadmap-from-foundation-to-frontier) • [API Documentation](http://api.context.space/v1/docs)
-
 </div>
 
-![Homepage Screenshot](https://r2.context.space/resources/readme-homepage-screenshot.jpg)
+## Our Vision
 
+Today's Al agents excel at reasoning but struggle to act in the real world. They are isolated from our digital ecosystem, unable to navigate the chaos of scattered APIs, inconsistent data sources, and complex authentication.
 
----
+Context Space bridges this gap by packaging core capabilities such as task orchestration and memory into standardized, callable tools. With advanced tool discovery and recommendation, it gives agents a clear, controllable, and interpretable path for invoking context.
 
-## What is Context Engineering?
+Our vision is a future where every Al agent can seamlessly and securely interact with any service or data source through a unified context engineering infrastructure.
 
-As Andrej Karpathy recently [noted](https://x.com/karpathy/status/1937902205765607626), context engineering is becoming the foundation for reliable AI systems that can operate in complex, real-world environments.
-
-**Context engineering** is the systematic design and management of all information surrounding an AI model during inference. Context engineering builds upon and extends prompt engineering. While [prompt engineering](https://blog.langchain.com/context-engineering-for-agents/) optimizes *what* you say to the model, context engineering governs what the model knows when it generates a response.
-
-**Key Components:**
-- System Instructions - Rules and examples that guide model behavior
-- Dynamic Memory - Conversation history and persistent knowledge
-- Retrieved Information - Real-time data from documents, APIs, and databases
-- Available Tools - Functions the model can use (search, send_email, etc.)
-- User State - Preferences, context, and session information
+By combining enterprise-grade security with zero-config simplicity, we are building tool-first context engineering infrastructure that will enable the next generation of Al agents to move from just interesting conversation to meaningful action in the real world.
 
 ## Start Context Engineering with Context Space
+
+Context engineering is the foundation for building reliable AI agents. It goes beyond prompt engineering by managing not only what users say to the model, but also the broader context that shapes its behavior, such as tools, memory, and data. 
 
 When [MCP (Model Context Protocol)](https://modelcontextprotocol.io/) appeared in late 2024, the vision was spot-on: a standardized way for AI tools to securely access external data and services. MCP represented a breakthrough in thinking about how AI agents should interact with the world.
 
