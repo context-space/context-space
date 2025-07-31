@@ -11,6 +11,19 @@
 
 </div>
 
+<div align="center">
+<a href="https://context.space">
+<h1 align="center"> Context Space </h1>
+</a>
+
+**🔒Verified MCP Tools
+🏃Context Engineering in Practice
+🤝Connect Your Agents to the World**
+
+</div>
+
+Provides Unified MCP tools, **Secure & Verified integrations**, and a 5‑minute setup—perfect for AI agents, Automation workflows, and developer tools—to help you 10× improve your productivity. **The first context engineering infrastructure** that turns theory into practice, providing your agents with better context and enabling them to connect more effectively with the real world.
+
 ## Our Vision
 
 Today's Al agents excel at reasoning but struggle to act in the real world. They are isolated from our digital ecosystem, unable to navigate the chaos of scattered APIs, inconsistent data sources, and complex authentication.
@@ -23,11 +36,11 @@ By combining enterprise-grade security with zero-config simplicity, we are build
 
 ## Start Context Engineering with Context Space
 
-Context engineering is the foundation for building reliable AI agents. It goes beyond prompt engineering by managing not only what users say to the model, but also the broader context that shapes its behavior, such as tools, memory, and data. 
+Context engineering is the foundation for building reliable AI agents. It goes beyond prompt engineering by managing not only what users say to the model, but also the broader context that shapes its behavior, such as tools, memory, and data.
 
 When [MCP (Model Context Protocol)](https://modelcontextprotocol.io/) appeared in late 2024, the vision was spot-on: a standardized way for AI tools to securely access external data and services. MCP represented a breakthrough in thinking about how AI agents should interact with the world.
 
-Recognizing MCP as the perfect foundation, we built Context Space to extend its vision into production-ready infrastructure. 
+Recognizing MCP as the perfect foundation, we built Context Space to extend its vision into production-ready infrastructure.
 
 Today, Context Space delivers a secure integration layer with persistent credential management. Guided by MCP’s principles, we are expanding this foundation into a complete context engineering platform for the next generation of AI.
 
@@ -69,7 +82,7 @@ The initial phase solves the most critical challenges of using context protocols
 
 ### 2️⃣ Phase 2: The Intelligent Context Layer ( In Development)
 
-Building on this foundation, our future work focuses on enabling more advanced AI capabilities. 
+Building on this foundation, our future work focuses on enabling more advanced AI capabilities.
 
 **Roadmap Timeline:**
 
@@ -132,7 +145,7 @@ curl -H "Authorization: Bearer <jwt-token>" \
 
 ## Contributing
 
-**You are invited to help shape the future of context engineering.** 
+**You are invited to help shape the future of context engineering.**
 
 [![Contributors](https://contrib.rocks/image?repo=context-space/context-space&anon=1)](https://github.com/context-space/context-space/graphs/contributors)
 
