@@ -11,19 +11,6 @@
 
 </div>
 
-<div align="center">
-<a href="https://context.space">
-<h1 align="center"> Context Space </h1>
-</a>
-
-**🔒Verified MCP Tools
-🏃Context Engineering in Practice
-🤝Connect Your Agents to the World**
-
-</div>
-
-Provides Unified MCP tools, **Secure & Verified integrations**, and a 5‑minute setup—perfect for AI agents, Automation workflows, and developer tools—to help you 10× improve your productivity. **The first context engineering infrastructure** that turns theory into practice, providing your agents with better context and enabling them to connect more effectively with the real world.
-
 ## Our Vision
 
 Today's Al agents excel at reasoning but struggle to act in the real world. They are isolated from our digital ecosystem, unable to navigate the chaos of scattered APIs, inconsistent data sources, and complex authentication.
