@@ -2,6 +2,9 @@
 
 
 <div align="center">
+
+### Context Space: The World‘s First Context Engineering Infrastructure to 10× Your Productivity
+
      
 [![License](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
 [![Go Version](https://img.shields.io/badge/go-1.24-blue.svg)](https://golang.org/dl/)
@@ -10,14 +13,12 @@
 [![API Docs](https://img.shields.io/badge/API-documented-green.svg)](http://api.context.space/v1/docs)
 [![Contributors](https://img.shields.io/badge/contributors-welcome-orange.svg)]()
 
+English | [中文](docs/README.zh-CN.md)
 
-*🔒Verified MCP Tools
- · 🏃Context Engineering in Practice
- · 🤝Connect Your Agents to the World*
 
 </div>
 
-**Context Space** is designed to 10× your **productivity**. It offers unified MCP tools, secure & verified integrations, and a 5-minute setup — perfect for AI agents, automation workflows, and developer tools. As the **first context engineering infrastructure**, it turns theory into practice by delivering better context and enabling agents to interact effectively with the real world.
+**Context Space** offers unified MCP tools, secure & verified integrations, and a 5-minute setup — perfect for AI agents, automation workflows, and developer tools. As the **first context engineering infrastructure**, it turns theory into practice by delivering better context and enabling agents to interact effectively with the real world.
 
 ## Our Vision
 
