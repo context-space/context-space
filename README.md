@@ -3,7 +3,7 @@
 
 <div align="center">
 
-### Context Space: The World‘s First Context Engineering Infrastructure to 10× Your Productivity
+### Context Space: The First Context Engineering Infrastructure to 10× Your Productivity
 
      
 [![License](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
