@@ -1,0 +1,141 @@
+{
+  "name": "HuggingFace",
+  "description": "無縫訪問 Hugging Face 的模型、數據集和研究論文。與各種資源和工具互動，以增強您的 LLM 能力。",
+  "categories": [
+    "資料集",
+    "LLM",
+    "資訊"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具訪問",
+      "description": "訪問 MCP 伺服器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "search-models",
+      "name": "搜尋模型",
+      "description": "在 Hugging Face Hub 上搜尋模型",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "搜尋詞（例如：'bert'，'gpt'）"
+        },
+        {
+          "name": "author",
+          "description": "按作者/組織篩選（例如：'huggingface'，'google'）"
+        },
+        {
+          "name": "tags",
+          "description": "按標籤篩選（例如：'text-classification'，'translation'）"
+        },
+        {
+          "name": "limit",
+          "description": "返回的最大結果數"
+        }
+      ]
+    },
+    {
+      "identifier": "get-model-info",
+      "name": "獲取模型信息",
+      "description": "獲取特定模型的詳細信息",
+      "parameters": [
+        {
+          "name": "model_id",
+          "description": "模型的 ID（例如：'google/bert-base-uncased'）"
+        }
+      ]
+    },
+    {
+      "identifier": "search-datasets",
+      "name": "搜尋數據集",
+      "description": "在 Hugging Face Hub 上搜尋數據集",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "搜尋詞"
+        },
+        {
+          "name": "author",
+          "description": "按作者/組織篩選"
+        },
+        {
+          "name": "tags",
+          "description": "按標籤篩選"
+        },
+        {
+          "name": "limit",
+          "description": "返回的最大結果數"
+        }
+      ]
+    },
+    {
+      "identifier": "get-dataset-info",
+      "name": "獲取數據集信息",
+      "description": "獲取特定數據集的詳細信息",
+      "parameters": [
+        {
+          "name": "dataset_id",
+          "description": "數據集的 ID（例如：'squad'）"
+        }
+      ]
+    },
+    {
+      "identifier": "search-spaces",
+      "name": "搜尋空間",
+      "description": "在 Hugging Face Hub 上搜尋空間",
+      "parameters": [
+        {
+          "name": "limit",
+          "description": "返回的最大結果數"
+        },
+        {
+          "name": "query",
+          "description": "搜尋詞"
+        },
+        {
+          "name": "author",
+          "description": "按作者/組織篩選"
+        },
+        {
+          "name": "tags",
+          "description": "按標籤篩選"
+        },
+        {
+          "name": "sdk",
+          "description": "按 SDK 篩選（例如：'streamlit'，'gradio'，'docker'）"
+        }
+      ]
+    },
+    {
+      "identifier": "get-space-info",
+      "name": "獲取空間信息",
+      "description": "獲取特定空間的詳細信息",
+      "parameters": [
+        {
+          "name": "space_id",
+          "description": "空間的 ID（例如：'huggingface/diffusers-demo'）"
+        }
+      ]
+    },
+    {
+      "identifier": "get-paper-info",
+      "name": "獲取論文信息",
+      "description": "獲取 Hugging Face 上特定論文的信息",
+      "parameters": [
+        {
+          "name": "arxiv_id",
+          "description": "論文的 arXiv ID（例如：'1810.04805'）"
+        }
+      ]
+    },
+    {
+      "identifier": "get-daily-papers",
+      "name": "獲取每日論文",
+      "description": "獲取 Hugging Face 精選的每日論文列表",
+      "parameters": []
+    }
+  ]
+}

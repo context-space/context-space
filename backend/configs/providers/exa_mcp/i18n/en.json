@@ -1,0 +1,107 @@
+{
+  "name": "Exa",
+  "description": "Combines web search, linkedin search, company research, deep researcher and content crawling.",
+  "categories": [
+    "deep researcher",
+    "content extract"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "web_search_exa",
+      "name": "Web Search Exa",
+      "description": "Search the web using Exa AI - performs real-time web searches and can scrape content from specific URLs. Supports configurable result counts and returns the content from the most relevant websites.",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "Search query"
+        },
+        {
+          "name": "numResults",
+          "description": "Number of search results to return (default: 5)"
+        }
+      ]
+    },
+    {
+      "identifier": "company_research_exa",
+      "name": "Company Research Exa",
+      "description": "Research companies using Exa AI - finds comprehensive information about businesses, organizations, and corporations. Provides insights into company operations, news, financial information, and industry analysis.",
+      "parameters": [
+        {
+          "name": "numResults",
+          "description": "Number of search results to return (default: 5)"
+        },
+        {
+          "name": "companyName",
+          "description": "Name of the company to research"
+        }
+      ]
+    },
+    {
+      "identifier": "crawling_exa",
+      "name": "Crawling Exa",
+      "description": "Extract and crawl content from specific URLs using Exa AI - retrieves full text content, metadata, and structured information from web pages. Ideal for extracting detailed content from known URLs.",
+      "parameters": [
+        {
+          "name": "maxCharacters",
+          "description": "Maximum characters to extract (default: 3000)"
+        },
+        {
+          "name": "url",
+          "description": "URL to crawl and extract content from"
+        }
+      ]
+    },
+    {
+      "identifier": "linkedin_search_exa",
+      "name": "Linkedin Search Exa",
+      "description": "Search LinkedIn profiles and companies using Exa AI - finds professional profiles, company pages, and business-related content on LinkedIn. Useful for networking, recruitment, and business research.",
+      "parameters": [
+        {
+          "name": "searchType",
+          "description": "Type of LinkedIn content to search (default: all)"
+        },
+        {
+          "name": "numResults",
+          "description": "Number of LinkedIn results to return (default: 5)"
+        },
+        {
+          "name": "query",
+          "description": "LinkedIn search query (e.g., person name, company, job title)"
+        }
+      ]
+    },
+    {
+      "identifier": "deep_researcher_start",
+      "name": "Deep Researcher Start",
+      "description": "Start a comprehensive AI-powered deep research task for complex queries. This tool initiates an intelligent agent that performs extensive web searches, crawls relevant pages, analyzes information, and synthesizes findings into a detailed research report. The agent thinks critically about the research topic and provides thorough, well-sourced answers. Use this for complex research questions that require in-depth analysis rather than simple searches. After starting a research task, IMMEDIATELY use deep_researcher_check with the returned task ID to monitor progress and retrieve results.",
+      "parameters": [
+        {
+          "name": "instructions",
+          "description": "Complex research question or detailed instructions for the AI researcher. Be specific about what you want to research and any particular aspects you want covered."
+        },
+        {
+          "name": "model",
+          "description": "Research model: 'exa-research' (faster, 15-45s, good for most queries) or 'exa-research-pro' (more comprehensive, 45s-2min, for complex topics). Default: exa-research"
+        }
+      ]
+    },
+    {
+      "identifier": "deep_researcher_check",
+      "name": "Deep Researcher Check",
+      "description": "Check the status and retrieve results of a deep research task. This tool monitors the progress of an AI agent that performs comprehensive web searches, analyzes multiple sources, and synthesizes findings into detailed research reports. The tool includes a built-in 5-second delay before checking to allow processing time. IMPORTANT: You must call this tool repeatedly (poll) until the status becomes 'completed' to get the final research results. When status is 'running', wait a few seconds and call this tool again with the same task ID.",
+      "parameters": [
+        {
+          "name": "taskId",
+          "description": "The task ID returned from deep_researcher_start tool"
+        }
+      ]
+    }
+  ]
+}

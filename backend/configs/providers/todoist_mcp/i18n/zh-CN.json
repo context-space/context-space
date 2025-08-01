@@ -1,0 +1,112 @@
+{
+  "name": "Todoist",
+  "description": "与 Todoist 集成，通过模型上下文协议实现自然语言任务管理。",
+  "categories": [
+    "任务管理",
+    "过滤器"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具访问",
+      "description": "访问 MCP 服务器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "todoist_create_task",
+      "name": "Todoist 创建任务",
+      "description": "在 Todoist 中创建一个新任务，带有可选的描述、截止日期和优先级",
+      "parameters": [
+        {
+          "name": "priority",
+          "description": "任务优先级从 1（普通）到 4（紧急）（可选）"
+        },
+        {
+          "name": "content",
+          "description": "任务的内容/标题"
+        },
+        {
+          "name": "description",
+          "description": "任务的详细描述（可选）"
+        },
+        {
+          "name": "due_string",
+          "description": "自然语言截止日期，如 '明天'、'下周一'、'1 月 23 日'（可选）"
+        }
+      ]
+    },
+    {
+      "identifier": "todoist_get_tasks",
+      "name": "Todoist 获取任务",
+      "description": "从 Todoist 获取任务列表，带有各种过滤器",
+      "parameters": [
+        {
+          "name": "filter",
+          "description": "自然语言过滤器，如 '今天'、'明天'、'下周'、'优先级 1'、'逾期'（可选）"
+        },
+        {
+          "name": "priority",
+          "description": "按优先级级别过滤（1-4）（可选）"
+        },
+        {
+          "name": "limit",
+          "description": "返回的最大任务数量（可选）"
+        },
+        {
+          "name": "project_id",
+          "description": "按项目 ID 过滤任务（可选）"
+        }
+      ]
+    },
+    {
+      "identifier": "todoist_update_task",
+      "name": "Todoist 更新任务",
+      "description": "通过名称搜索并更新 Todoist 中的现有任务",
+      "parameters": [
+        {
+          "name": "task_name",
+          "description": "要搜索和更新的任务名称/内容"
+        },
+        {
+          "name": "content",
+          "description": "任务的新内容/标题（可选）"
+        },
+        {
+          "name": "description",
+          "description": "任务的新描述（可选）"
+        },
+        {
+          "name": "due_string",
+          "description": "新的截止日期，以自然语言表示，如 '明天'、'下周一'（可选）"
+        },
+        {
+          "name": "priority",
+          "description": "新的优先级级别，从 1（普通）到 4（紧急）（可选）"
+        }
+      ]
+    },
+    {
+      "identifier": "todoist_delete_task",
+      "name": "Todoist 删除任务",
+      "description": "通过名称搜索从 Todoist 删除任务",
+      "parameters": [
+        {
+          "name": "task_name",
+          "description": "要搜索和删除的任务名称/内容"
+        }
+      ]
+    },
+    {
+      "identifier": "todoist_complete_task",
+      "name": "Todoist 完成任务",
+      "description": "通过名称搜索将任务标记为完成",
+      "parameters": [
+        {
+          "name": "task_name",
+          "description": "要搜索和完成的任务名称/内容"
+        }
+      ]
+    }
+  ]
+}

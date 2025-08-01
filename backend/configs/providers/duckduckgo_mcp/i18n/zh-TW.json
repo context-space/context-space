@@ -1,0 +1,43 @@
+{
+  "name": "DuckDuckGo",
+  "description": "通過 DuckDuckGo 提供網頁搜尋功能，並具備額外的內容擷取和解析功能。",
+  "categories": [
+    "搜尋",
+    "擷取"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具訪問",
+      "description": "訪問 MCP 伺服器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "search",
+      "name": "搜尋",
+      "description": "\n    搜尋 DuckDuckGo 並返回格式化的結果。\n\n    參數：\n        query: 搜尋查詢字串\n        max_results: 最大返回結果數量（預設：10）\n        ctx: 用於日誌記錄的 MCP 上下文\n    ",
+      "parameters": [
+        {
+          "name": "query",
+          "description": ""
+        },
+        {
+          "name": "max_results",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "fetch_content",
+      "name": "擷取內容",
+      "description": "\n    從網頁 URL 擷取和解析內容。\n\n    參數：\n        url: 要擷取內容的網頁 URL\n        ctx: 用於日誌記錄的 MCP 上下文\n    ",
+      "parameters": [
+        {
+          "name": "url",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

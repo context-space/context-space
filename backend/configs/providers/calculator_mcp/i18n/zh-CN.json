@@ -1,0 +1,28 @@
+{
+  "name": "计算器",
+  "description": "使用计算器进行精确的数值计算。",
+  "categories": [
+    "数学",
+    "计算"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具访问",
+      "description": "访问 MCP 服务器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "calculate",
+      "name": "计算",
+      "description": "计算/评估给定的表达式。",
+      "parameters": [
+        {
+          "name": "expression",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

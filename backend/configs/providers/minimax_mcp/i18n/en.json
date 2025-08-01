@@ -1,0 +1,264 @@
+{
+  "name": "MiniMax",
+  "description": "Enables interaction with powerful Text to Speech and video/image generation APIs.",
+  "categories": [
+    "text to speech",
+    "image/video generation"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "text_to_audio",
+      "name": "Text To Audio",
+      "description": "Convert text to audio with a given voice and save the output audio file to a given directory.\n    Directory is optional, if not provided, the output file will be saved to $HOME/Desktop.\n    Voice id is optional, if not provided, the default voice will be used.\n\n    COST WARNING: This tool makes an API call to Minimax which may incur costs. Only use when explicitly requested by the user.\n\n    Args:\n        text (str): The text to convert to speech.\n        voice_id (str, optional): The id of the voice to use. For example, \"male-qn-qingse\"/\"audiobook_female_1\"/\"cute_boy\"/\"Charming_Lady\"...\n        model (string, optional): The model to use.\n        speed (float, optional): Speed of the generated audio. Controls the speed of the generated speech. Values range from 0.5 to 2.0, with 1.0 being the default speed. \n        vol (float, optional): Volume of the generated audio. Controls the volume of the generated speech. Values range from 0 to 10, with 1 being the default volume.\n        pitch (int, optional): Pitch of the generated audio. Controls the speed of the generated speech. Values range from -12 to 12, with 0 being the default speed.\n        emotion (str, optional): Emotion of the generated audio. Controls the emotion of the generated speech. Values range [\"happy\", \"sad\", \"angry\", \"fearful\", \"disgusted\", \"surprised\", \"neutral\"], with \"happy\" being the default emotion.\n        sample_rate (int, optional): Sample rate of the generated audio. Controls the sample rate of the generated speech. Values range [8000,16000,22050,24000,32000,44100] with 32000 being the default sample rate.\n        bitrate (int, optional): Bitrate of the generated audio. Controls the bitrate of the generated speech. Values range [32000,64000,128000,256000] with 128000 being the default bitrate.\n        channel (int, optional): Channel of the generated audio. Controls the channel of the generated speech. Values range [1, 2] with 1 being the default channel.\n        format (str, optional): Format of the generated audio. Controls the format of the generated speech. Values range [\"pcm\", \"mp3\",\"flac\"] with \"mp3\" being the default format.\n        language_boost (str, optional): Language boost of the generated audio. Controls the language boost of the generated speech. Values range ['Chinese', 'Chinese,Yue', 'English', 'Arabic', 'Russian', 'Spanish', 'French', 'Portuguese', 'German', 'Turkish', 'Dutch', 'Ukrainian', 'Vietnamese', 'Indonesian', 'Japanese', 'Italian', 'Korean', 'Thai', 'Polish', 'Romanian', 'Greek', 'Czech', 'Finnish', 'Hindi', 'auto'] with \"auto\" being the default language boost.\n        output_directory (str): The directory to save the audio to.\n\n    Returns:\n        Text content with the path to the output file and name of the voice used.\n    ",
+      "parameters": [
+        {
+          "name": "format",
+          "description": ""
+        },
+        {
+          "name": "pitch",
+          "description": ""
+        },
+        {
+          "name": "bitrate",
+          "description": ""
+        },
+        {
+          "name": "output_directory",
+          "description": ""
+        },
+        {
+          "name": "vol",
+          "description": ""
+        },
+        {
+          "name": "channel",
+          "description": ""
+        },
+        {
+          "name": "model",
+          "description": ""
+        },
+        {
+          "name": "sample_rate",
+          "description": ""
+        },
+        {
+          "name": "language_boost",
+          "description": ""
+        },
+        {
+          "name": "text",
+          "description": ""
+        },
+        {
+          "name": "voice_id",
+          "description": ""
+        },
+        {
+          "name": "speed",
+          "description": ""
+        },
+        {
+          "name": "emotion",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "list_voices",
+      "name": "List Voices",
+      "description": "List all voices available.\n\n    Args:\n        voice_type (str, optional): The type of voices to list. Values range [\"all\", \"system\", \"voice_cloning\"], with \"all\" being the default.\n    Returns:\n        Text content with the list of voices.\n    ",
+      "parameters": [
+        {
+          "name": "voice_type",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "voice_clone",
+      "name": "Voice Clone",
+      "description": "Clone a voice using provided audio files. The new voice will be charged upon first use.\n\n    COST WARNING: This tool makes an API call to Minimax which may incur costs. Only use when explicitly requested by the user.\n\n     Args:\n        voice_id (str): The id of the voice to use.\n        file (str): The path to the audio file to clone or a URL to the audio file.\n        text (str, optional): The text to use for the demo audio.\n        is_url (bool, optional): Whether the file is a URL. Defaults to False.\n        output_directory (str): The directory to save the demo audio to.\n    Returns:\n        Text content with the voice id of the cloned voice.\n    ",
+      "parameters": [
+        {
+          "name": "voice_id",
+          "description": ""
+        },
+        {
+          "name": "file",
+          "description": ""
+        },
+        {
+          "name": "text",
+          "description": ""
+        },
+        {
+          "name": "output_directory",
+          "description": ""
+        },
+        {
+          "name": "is_url",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "play_audio",
+      "name": "Play Audio",
+      "description": "Play an audio file. Supports WAV and MP3 formats. Not supports video.\n\n     Args:\n        input_file_path (str): The path to the audio file to play.\n        is_url (bool, optional): Whether the audio file is a URL.\n    Returns:\n        Text content with the path to the audio file.\n    ",
+      "parameters": [
+        {
+          "name": "input_file_path",
+          "description": ""
+        },
+        {
+          "name": "is_url",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "generate_video",
+      "name": "Generate Video",
+      "description": "Generate a video from a prompt.\n\n    COST WARNING: This tool makes an API call to Minimax which may incur costs. Only use when explicitly requested by the user.\n\n     Args:\n        model (str, optional): The model to use. Values range [\"T2V-01\", \"T2V-01-Director\", \"I2V-01\", \"I2V-01-Director\", \"I2V-01-live\", \"MiniMax-Hailuo-02\"]. \"Director\" supports inserting instructions for camera movement control. \"I2V\" for image to video. \"T2V\" for text to video. \"MiniMax-Hailuo-02\" is the latest model with best effect, ultra-clear quality and precise response.\n        prompt (str): The prompt to generate the video from. When use Director model, the prompt supports 15 Camera Movement Instructions (Enumerated Values)\n            -Truck: [Truck left], [Truck right]\n            -Pan: [Pan left], [Pan right]\n            -Push: [Push in], [Pull out]\n            -Pedestal: [Pedestal up], [Pedestal down]\n            -Tilt: [Tilt up], [Tilt down]\n            -Zoom: [Zoom in], [Zoom out]\n            -Shake: [Shake]\n            -Follow: [Tracking shot]\n            -Static: [Static shot]\n        first_frame_image (str): The first frame image. The model must be \"I2V\" Series.\n        duration (int, optional): The duration of the video. The model must be \"MiniMax-Hailuo-02\". Values can be 6 and 10.\n        resolution (str, optional): The resolution of the video. The model must be \"MiniMax-Hailuo-02\". Values range [\"768P\", \"1080P\"]\n        output_directory (str): The directory to save the video to.\n        async_mode (bool, optional): Whether to use async mode. Defaults to False. If True, the video generation task will be submitted asynchronously and the response will return a task_id. Should use `query_video_generation` tool to check the status of the task and get the result.\n    Returns:\n        Text content with the path to the output video file.\n    ",
+      "parameters": [
+        {
+          "name": "output_directory",
+          "description": ""
+        },
+        {
+          "name": "async_mode",
+          "description": ""
+        },
+        {
+          "name": "model",
+          "description": ""
+        },
+        {
+          "name": "prompt",
+          "description": ""
+        },
+        {
+          "name": "first_frame_image",
+          "description": ""
+        },
+        {
+          "name": "duration",
+          "description": ""
+        },
+        {
+          "name": "resolution",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "query_video_generation",
+      "name": "Query Video Generation",
+      "description": "Query the status of a video generation task.\n\n    Args:\n        task_id (str): The task ID to query. Should be the task_id returned by `generate_video` tool if `async_mode` is True.\n        output_directory (str): The directory to save the video to.\n    Returns:\n        Text content with the status of the task.\n    ",
+      "parameters": [
+        {
+          "name": "output_directory",
+          "description": ""
+        },
+        {
+          "name": "task_id",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "text_to_image",
+      "name": "Text To Image",
+      "description": "Generate a image from a prompt.\n\n    COST WARNING: This tool makes an API call to Minimax which may incur costs. Only use when explicitly requested by the user.\n\n     Args:\n        model (str, optional): The model to use. Values range [\"image-01\"], with \"image-01\" being the default.\n        prompt (str): The prompt to generate the image from.\n        aspect_ratio (str, optional): The aspect ratio of the image. Values range [\"1:1\", \"16:9\",\"4:3\", \"3:2\", \"2:3\", \"3:4\", \"9:16\", \"21:9\"], with \"1:1\" being the default.\n        n (int, optional): The number of images to generate. Values range [1, 9], with 1 being the default.\n        prompt_optimizer (bool, optional): Whether to optimize the prompt. Values range [True, False], with True being the default.\n        output_directory (str): The directory to save the image to.\n    Returns:\n        Text content with the path to the output image file.\n    ",
+      "parameters": [
+        {
+          "name": "n",
+          "description": ""
+        },
+        {
+          "name": "prompt_optimizer",
+          "description": ""
+        },
+        {
+          "name": "output_directory",
+          "description": ""
+        },
+        {
+          "name": "model",
+          "description": ""
+        },
+        {
+          "name": "prompt",
+          "description": ""
+        },
+        {
+          "name": "aspect_ratio",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "music_generation",
+      "name": "Music Generation",
+      "description": "Create a music generation task using AI models. Generate music from prompt and lyrics.\n\n    COST WARNING: This tool makes an API call to Minimax which may incur costs. Only use when explicitly requested by the user.\n\n    Args:\n        prompt (str): Music creation inspiration describing style, mood, scene, etc.\n            Example: \"Pop music, sad, suitable for rainy nights\". Character range: [10, 300]\n        lyrics (str): Song lyrics for music generation.\n            Use newline (\\n) to separate each line of lyrics. Supports lyric structure tags [Intro][Verse][Chorus][Bridge][Outro] \n            to enhance musicality. Character range: [10, 600] (each Chinese character, punctuation, and letter counts as 1 character)\n        stream (bool, optional): Whether to enable streaming mode. Defaults to False\n        sample_rate (int, optional): Sample rate of generated music. Values: [16000, 24000, 32000, 44100]\n        bitrate (int, optional): Bitrate of generated music. Values: [32000, 64000, 128000, 256000]\n        format (str, optional): Format of generated music. Values: [\"mp3\", \"wav\", \"pcm\"]. Defaults to \"mp3\"\n        output_directory (str, optional): Directory to save the generated music file\n        \n    Note: Currently supports generating music up to 1 minute in length.\n\n    Returns:\n        Text content with the path to the generated music file or generation status.\n    ",
+      "parameters": [
+        {
+          "name": "prompt",
+          "description": ""
+        },
+        {
+          "name": "lyrics",
+          "description": ""
+        },
+        {
+          "name": "sample_rate",
+          "description": ""
+        },
+        {
+          "name": "bitrate",
+          "description": ""
+        },
+        {
+          "name": "format",
+          "description": ""
+        },
+        {
+          "name": "output_directory",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "voice_design",
+      "name": "Voice Design",
+      "description": "Generate a voice based on description prompts.\n\n    COST WARNING: This tool makes an API call to Minimax which may incur costs. Only use when explicitly requested by the user.\n\n     Args:\n        prompt (str): The prompt to generate the voice from.\n        preview_text (str): The text to preview the voice.\n        voice_id (str, optional): The id of the voice to use. For example, \"male-qn-qingse\"/\"audiobook_female_1\"/\"cute_boy\"/\"Charming_Lady\"...\n        output_directory (str, optional): The directory to save the voice to.\n    Returns:\n        Text content with the path to the output voice file.\n    ",
+      "parameters": [
+        {
+          "name": "output_directory",
+          "description": ""
+        },
+        {
+          "name": "prompt",
+          "description": ""
+        },
+        {
+          "name": "preview_text",
+          "description": ""
+        },
+        {
+          "name": "voice_id",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

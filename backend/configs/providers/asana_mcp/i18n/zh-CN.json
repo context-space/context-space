@@ -1,0 +1,687 @@
+{
+  "name": "Asana",
+  "description": "各种 AI 平台和工具与您的 Asana 工作区进行交互",
+  "categories": [
+    "项目",
+    "团队"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具访问",
+      "description": "访问 MCP 服务器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "asana_list_workspaces",
+      "name": "Asana 列出工作区",
+      "description": "列出 Asana 中所有可用的工作区",
+      "parameters": [
+        {
+          "name": "opt_fields",
+          "description": "要包含的可选字段的逗号分隔列表"
+        }
+      ]
+    },
+    {
+      "identifier": "asana_search_projects",
+      "name": "Asana 搜索项目",
+      "description": "使用名称模式匹配在 Asana 中搜索项目",
+      "parameters": [
+        {
+          "name": "archived",
+          "description": "仅返回已归档的项目"
+        },
+        {
+          "name": "opt_fields",
+          "description": "要包含的可选字段的逗号分隔列表"
+        },
+        {
+          "name": "workspace",
+          "description": "要搜索的工作区"
+        },
+        {
+          "name": "name_pattern",
+          "description": "用于匹配项目名称的正则表达式模式"
+        }
+      ]
+    },
+    {
+      "identifier": "asana_search_tasks",
+      "name": "Asana 搜索任务",
+      "description": "使用高级筛选选项在工作区中搜索任务",
+      "parameters": [
+        {
+          "name": "due_at_after",
+          "description": "ISO 8601 日期时间字符串"
+        },
+        {
+          "name": "start_on",
+          "description": "ISO 8601 日期字符串或 null"
+        },
+        {
+          "name": "created_by_not",
+          "description": "要排除的用户 ID 的逗号分隔列表"
+        },
+        {
+          "name": "teams_any",
+          "description": "逗号分隔的团队 ID 列表"
+        },
+        {
+          "name": "created_by_any",
+          "description": "逗号分隔的用户 ID 列表"
+        },
+        {
+          "name": "assigned_by_any",
+          "description": "逗号分隔的用户 ID 列表"
+        },
+        {
+          "name": "sort_by",
+          "description": "排序依据：due_date、created_at、completed_at、likes、modified_at"
+        },
+        {
+          "name": "opt_fields",
+          "description": "要包含的可选字段的逗号分隔列表"
+        },
+        {
+          "name": "projects_any",
+          "description": "逗号分隔的项目 ID 列表"
+        },
+        {
+          "name": "projects_not",
+          "description": "要排除的项目 ID 的逗号分隔列表"
+        },
+        {
+          "name": "created_on",
+          "description": "ISO 8601 日期字符串或 null"
+        },
+        {
+          "name": "modified_on",
+          "description": "ISO 8601 日期字符串或 null"
+        },
+        {
+          "name": "due_on_after",
+          "description": "ISO 8601 日期字符串"
+        },
+        {
+          "name": "due_on",
+          "description": "ISO 8601 日期字符串或 null"
+        },
+        {
+          "name": "modified_at_before",
+          "description": "ISO 8601 日期时间字符串"
+        },
+        {
+          "name": "start_on_before",
+          "description": "ISO 8601 日期字符串"
+        },
+        {
+          "name": "created_on_before",
+          "description": "ISO 8601 日期字符串"
+        },
+        {
+          "name": "has_attachment",
+          "description": "筛选带有附件的任务"
+        },
+        {
+          "name": "tags_any",
+          "description": "逗号分隔的标签 ID 列表"
+        },
+        {
+          "name": "completed_at_after",
+          "description": "ISO 8601 日期时间字符串"
+        },
+        {
+          "name": "is_blocking",
+          "description": "筛选未完成的任务及其依赖项"
+        },
+        {
+          "name": "completed_on_before",
+          "description": "ISO 8601 日期字符串"
+        },
+        {
+          "name": "is_subtask",
+          "description": "筛选子任务"
+        },
+        {
+          "name": "custom_fields",
+          "description": "包含自定义字段过滤器的对象。键应采用格式 \"{gid}.{operation}\"，其中操作可以是：\n- {gid}.is_set: 布尔值 - 对于所有自定义字段类型，检查值是否已设置\n- {gid}.value: 字符串|数字|字符串(enum_option_gid) - 文本、数字或枚举字段的直接值匹配\n- {gid}.starts_with: 字符串 - 仅适用于文本字段，检查值是否以字符串开头\n- {gid}.ends_with: 字符串 - 仅适用于文本字段，检查值是否以字符串结尾\n- {gid}.contains: 字符串 - 仅适用于文本字段，检查值是否包含字符串\n- {gid}.less_than: 数字 - 仅适用于数字字段，检查值是否小于数字\n- {gid}.greater_than: 数字 - 仅适用于数字字段，检查值是否大于数字\n\n示例: { \"12345.value\": \"high\", \"67890.contains\": \"urgent\" }"
+        },
+        {
+          "name": "completed_at_before",
+          "description": "ISO 8601 日期时间字符串"
+        },
+        {
+          "name": "resource_subtype",
+          "description": "按任务子类型筛选（例如里程碑）"
+        },
+        {
+          "name": "tags_all",
+          "description": "逗号分隔的标签 ID 列表，必须全部匹配"
+        },
+        {
+          "name": "workspace",
+          "description": "要搜索的工作区"
+        },
+        {
+          "name": "commented_on_by_not",
+          "description": "要排除的用户 ID 的逗号分隔列表"
+        },
+        {
+          "name": "portfolios_any",
+          "description": "逗号分隔的投资组合 ID 列表"
+        },
+        {
+          "name": "completed_on",
+          "description": "ISO 8601 日期字符串或 null"
+        },
+        {
+          "name": "created_at_after",
+          "description": "ISO 8601 日期时间字符串"
+        },
+        {
+          "name": "liked_by_not",
+          "description": "要排除的用户 ID 的逗号分隔列表"
+        },
+        {
+          "name": "text",
+          "description": "在任务名称和描述中搜索的文本"
+        },
+        {
+          "name": "is_blocked",
+          "description": "筛选具有未完成依赖项的任务"
+        },
+        {
+          "name": "followers_not",
+          "description": "要排除的用户 ID 的逗号分隔列表"
+        },
+        {
+          "name": "assigned_by_not",
+          "description": "要排除的用户 ID 的逗号分隔列表"
+        },
+        {
+          "name": "modified_at_after",
+          "description": "ISO 8601 日期时间字符串"
+        },
+        {
+          "name": "sections_all",
+          "description": "逗号分隔的部分 ID 列表，必须全部匹配"
+        },
+        {
+          "name": "start_on_after",
+          "description": "ISO 8601 日期字符串"
+        },
+        {
+          "name": "projects_all",
+          "description": "逗号分隔的项目 ID 列表，必须全部匹配"
+        },
+        {
+          "name": "sections_any",
+          "description": "逗号分隔的部分 ID 列表"
+        },
+        {
+          "name": "modified_on_before",
+          "description": "ISO 8601 日期字符串"
+        },
+        {
+          "name": "due_at_before",
+          "description": "ISO 8601 日期时间字符串"
+        },
+        {
+          "name": "tags_not",
+          "description": "要排除的标签 ID 的逗号分隔列表"
+        },
+        {
+          "name": "completed_on_after",
+          "description": "ISO 8601 日期字符串"
+        },
+        {
+          "name": "created_at_before",
+          "description": "ISO 8601 日期时间字符串"
+        },
+        {
+          "name": "assignee_any",
+          "description": "逗号分隔的用户 ID 列表"
+        },
+        {
+          "name": "created_on_after",
+          "description": "ISO 8601 日期字符串"
+        },
+        {
+          "name": "due_on_before",
+          "description": "ISO 8601 日期字符串"
+        },
+        {
+          "name": "sort_ascending",
+          "description": "按升序排序"
+        },
+        {
+          "name": "assignee_not",
+          "description": "要排除的用户 ID 的逗号分隔列表"
+        },
+        {
+          "name": "sections_not",
+          "description": "要排除的部分 ID 的逗号分隔列表"
+        },
+        {
+          "name": "completed",
+          "description": "筛选已完成的任务"
+        },
+        {
+          "name": "modified_on_after",
+          "description": "ISO 8601 日期字符串"
+        }
+      ]
+    },
+    {
+      "identifier": "asana_get_task",
+      "name": "Asana 获取任务",
+      "description": "获取特定任务的详细信息",
+      "parameters": [
+        {
+          "name": "opt_fields",
+          "description": "要包含的可选字段的逗号分隔列表"
+        },
+        {
+          "name": "task_id",
+          "description": "要检索的任务 ID"
+        }
+      ]
+    },
+    {
+      "identifier": "asana_create_task",
+      "name": "Asana 创建任务",
+      "description": "在项目中创建新任务",
+      "parameters": [
+        {
+          "name": "assignee",
+          "description": "被分配者（可以是 'me' 或用户 ID）"
+        },
+        {
+          "name": "followers",
+          "description": "要添加为关注者的用户 ID 数组"
+        },
+        {
+          "name": "due_on",
+          "description": "YYYY-MM-DD 格式的截止日期"
+        },
+        {
+          "name": "project_id",
+          "description": "要创建任务的项目 ID"
+        },
+        {
+          "name": "name",
+          "description": "任务名称"
+        },
+        {
+          "name": "html_notes",
+          "description": "任务的 HTML 类似格式的描述。并不支持所有 HTML 标签，仅支持子集。HTML 中唯一允许的标签有：\f\u003cbody\u003e\f\u003ch1\u003e\f\u003ch2\u003e\f\u003col\u003e\f\u003cul\u003e\f\u003cli\u003e\f\u003cstrong\u003e\f\u003cem\u003e\f\u003cu\u003e\f\u003cs\u003e\f\u003ccode\u003e\f\u003cpre\u003e\f\u003cblockquote\u003e\f\u003ca data-asana-type=\"\" data-asana-gid=\"\"\u003e\f\u003chr\u003e\f\u003cimg\u003e\f\u003ctable\u003e\f\u003ctr\u003e\f\u003ctd\u003e\f。其他标签不被允许。使用 \\n 创建换行。不要在 \u003cbody\u003e 后使用 \\n。示例：\u003cbody\u003e\u003ch1\u003eMotivation\u003c/h1\u003e\nA customer called in to complain\n\u003ch1\u003eGoal\u003c/h1\u003e\nFix the problem\u003c/body\u003e"
+        },
+        {
+          "name": "projects",
+          "description": "要将此任务添加到的项目 ID 数组"
+        },
+        {
+          "name": "notes",
+          "description": "任务描述"
+        },
+        {
+          "name": "parent",
+          "description": "要设置此任务的父任务 ID"
+        },
+        {
+          "name": "resource_subtype",
+          "description": "任务的类型。可以是 'default_task' 或 'milestone' 之一"
+        },
+        {
+          "name": "custom_fields",
+          "description": "将自定义字段 GID 字符串映射到其值的对象。对于枚举字段，使用枚举选项 GID 作为值。"
+        }
+      ]
+    },
+    {
+      "identifier": "asana_get_task_stories",
+      "name": "Asana 获取任务故事",
+      "description": "获取特定任务的评论和故事",
+      "parameters": [
+        {
+          "name": "task_id",
+          "description": "要获取故事的任务 ID"
+        },
+        {
+          "name": "opt_fields",
+          "description": "要包含的可选字段的逗号分隔列表"
+        }
+      ]
+    },
+    {
+      "identifier": "asana_update_task",
+      "name": "Asana 更新任务",
+      "description": "更新现有任务的详细信息",
+      "parameters": [
+        {
+          "name": "due_on",
+          "description": "YYYY-MM-DD 格式的新截止日期"
+        },
+        {
+          "name": "assignee",
+          "description": "新被分配者（可以是 'me' 或用户 ID）"
+        },
+        {
+          "name": "completed",
+          "description": "将任务标记为已完成或未完成"
+        },
+        {
+          "name": "resource_subtype",
+          "description": "任务的类型。可以是 'default_task' 或 'milestone' 之一"
+        },
+        {
+          "name": "custom_fields",
+          "description": "将自定义字段 GID 字符串映射到其值的对象。对于枚举字段，使用枚举选项 GID 作为值。"
+        },
+        {
+          "name": "task_id",
+          "description": "要更新的任务 ID"
+        },
+        {
+          "name": "name",
+          "description": "任务的新名称"
+        },
+        {
+          "name": "notes",
+          "description": "任务的新描述"
+        }
+      ]
+    },
+    {
+      "identifier": "asana_get_project",
+      "name": "Asana 获取项目",
+      "description": "获取特定项目的详细信息",
+      "parameters": [
+        {
+          "name": "project_id",
+          "description": "要检索的项目 ID"
+        },
+        {
+          "name": "opt_fields",
+          "description": "要包含的可选字段的逗号分隔列表"
+        }
+      ]
+    },
+    {
+      "identifier": "asana_get_project_task_counts",
+      "name": "Asana 获取项目任务数量",
+      "description": "获取项目中的任务数量",
+      "parameters": [
+        {
+          "name": "project_id",
+          "description": "要获取任务数量的项目 ID"
+        },
+        {
+          "name": "opt_fields",
+          "description": "要包含的可选字段的逗号分隔列表"
+        }
+      ]
+    },
+    {
+      "identifier": "asana_get_project_sections",
+      "name": "Asana 获取项目部分",
+      "description": "获取项目中的部分",
+      "parameters": [
+        {
+          "name": "project_id",
+          "description": "要获取部分的项目 ID"
+        },
+        {
+          "name": "opt_fields",
+          "description": "要包含的可选字段的逗号分隔列表"
+        }
+      ]
+    },
+    {
+      "identifier": "asana_create_task_story",
+      "name": "Asana 创建任务故事",
+      "description": "在任务上创建评论或故事",
+      "parameters": [
+        {
+          "name": "text",
+          "description": "故事/评论的文本内容"
+        },
+        {
+          "name": "opt_fields",
+          "description": "要包含的可选字段的逗号分隔列表"
+        },
+        {
+          "name": "task_id",
+          "description": "要添加故事的任务 ID"
+        }
+      ]
+    },
+    {
+      "identifier": "asana_add_task_dependencies",
+      "name": "Asana 添加任务依赖项",
+      "description": "为任务设置依赖项",
+      "parameters": [
+        {
+          "name": "task_id",
+          "description": "要添加依赖项的任务 ID"
+        },
+        {
+          "name": "dependencies",
+          "description": "此任务依赖的任务 ID 数组"
+        }
+      ]
+    },
+    {
+      "identifier": "asana_add_task_dependents",
+      "name": "Asana 添加任务依赖任务",
+      "description": "为任务设置依赖任务（依赖于此任务的任务）",
+      "parameters": [
+        {
+          "name": "task_id",
+          "description": "要添加依赖任务的任务 ID"
+        },
+        {
+          "name": "dependents",
+          "description": "依赖于此任务的任务 ID 数组"
+        }
+      ]
+    },
+    {
+      "identifier": "asana_create_subtask",
+      "name": "Asana 创建子任务",
+      "description": "为现有任务创建新子任务",
+      "parameters": [
+        {
+          "name": "notes",
+          "description": "子任务的描述"
+        },
+        {
+          "name": "due_on",
+          "description": "YYYY-MM-DD 格式的截止日期"
+        },
+        {
+          "name": "assignee",
+          "description": "被分配者（可以是 'me' 或用户 ID）"
+        },
+        {
+          "name": "opt_fields",
+          "description": "要包含的可选字段的逗号分隔列表"
+        },
+        {
+          "name": "parent_task_id",
+          "description": "要在其下创建子任务的父任务 ID"
+        },
+        {
+          "name": "name",
+          "description": "子任务名称"
+        }
+      ]
+    },
+    {
+      "identifier": "asana_get_multiple_tasks_by_gid",
+      "name": "Asana 通过 Gid 获取多个任务",
+      "description": "通过其 GID 获取多个任务的详细信息（最多 25 个任务）",
+      "parameters": [
+        {
+          "name": "task_ids",
+          "description": "要检索的任务 GID 的数组或逗号分隔字符串（最多 25 个）"
+        },
+        {
+          "name": "opt_fields",
+          "description": "要包含的可选字段的逗号分隔列表"
+        }
+      ]
+    },
+    {
+      "identifier": "asana_get_project_status",
+      "name": "Asana 获取项目状态",
+      "description": "获取项目状态更新",
+      "parameters": [
+        {
+          "name": "project_status_gid",
+          "description": "要检索的项目状态 GID"
+        },
+        {
+          "name": "opt_fields",
+          "description": "要包含的可选字段的逗号分隔列表"
+        }
+      ]
+    },
+    {
+      "identifier": "asana_get_project_statuses",
+      "name": "Asana 获取项目状态",
+      "description": "获取项目的所有状态更新",
+      "parameters": [
+        {
+          "name": "opt_fields",
+          "description": "要包含的可选字段的逗号分隔列表"
+        },
+        {
+          "name": "project_gid",
+          "description": "要获取状态的项目 GID"
+        },
+        {
+          "name": "limit",
+          "description": "每页的结果数量（1-100）"
+        },
+        {
+          "name": "offset",
+          "description": "分页偏移令牌"
+        }
+      ]
+    },
+    {
+      "identifier": "asana_create_project_status",
+      "name": "Asana 创建项目状态",
+      "description": "为项目创建新的状态更新",
+      "parameters": [
+        {
+          "name": "html_text",
+          "description": "状态更新的 HTML 格式文本"
+        },
+        {
+          "name": "opt_fields",
+          "description": "要包含的可选字段的逗号分隔列表"
+        },
+        {
+          "name": "project_gid",
+          "description": "要为其创建状态的项目 GID"
+        },
+        {
+          "name": "text",
+          "description": "状态更新的文本内容"
+        },
+        {
+          "name": "color",
+          "description": "状态的颜色（绿色、黄色、红色）"
+        },
+        {
+          "name": "title",
+          "description": "状态更新的标题"
+        }
+      ]
+    },
+    {
+      "identifier": "asana_delete_project_status",
+      "name": "Asana 删除项目状态",
+      "description": "删除项目状态更新",
+      "parameters": [
+        {
+          "name": "project_status_gid",
+          "description": "要删除的项目状态 GID"
+        }
+      ]
+    },
+    {
+      "identifier": "asana_set_parent_for_task",
+      "name": "Asana 设置任务的父级",
+      "description": "设置任务的父级，并在该父级的其他子任务中定位子任务",
+      "parameters": [
+        {
+          "name": "data",
+          "description": ""
+        },
+        {
+          "name": "task_id",
+          "description": "要操作的任务 ID"
+        },
+        {
+          "name": "opts",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "asana_get_tasks_for_tag",
+      "name": "Asana 获取特定标签的任务",
+      "description": "获取特定标签的任务",
+      "parameters": [
+        {
+          "name": "tag_gid",
+          "description": "要检索任务的标签 GID"
+        },
+        {
+          "name": "opt_fields",
+          "description": "要包含的可选字段的逗号分隔列表"
+        },
+        {
+          "name": "opt_pretty",
+          "description": "以“美观”格式提供响应"
+        },
+        {
+          "name": "limit",
+          "description": "每页返回的对象数量。值必须在 1 到 100 之间。"
+        },
+        {
+          "name": "offset",
+          "description": "API 返回的下一页的偏移量。"
+        }
+      ]
+    },
+    {
+      "identifier": "asana_get_tags_for_workspace",
+      "name": "Asana 获取工作区的标签",
+      "description": "获取工作区中的标签",
+      "parameters": [
+        {
+          "name": "opt_fields",
+          "description": "要包含的可选字段的逗号分隔列表"
+        },
+        {
+          "name": "workspace_gid",
+          "description": "工作区或组织的全局唯一标识符"
+        },
+        {
+          "name": "limit",
+          "description": "每页的结果数量。返回每页的对象数量。值必须在 1 到 100 之间。"
+        },
+        {
+          "name": "offset",
+          "description": "偏移令牌。API 返回的下一页的偏移量。"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "name": "DuckDuckGo",
+  "description": "Provides web search capabilities through DuckDuckGo, with additional features for content fetching and parsing.",
+  "categories": [
+    "search",
+    "fetch"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "search",
+      "name": "Search",
+      "description": "\n    Search DuckDuckGo and return formatted results.\n\n    Args:\n        query: The search query string\n        max_results: Maximum number of results to return (default: 10)\n        ctx: MCP context for logging\n    ",
+      "parameters": [
+        {
+          "name": "query",
+          "description": ""
+        },
+        {
+          "name": "max_results",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "fetch_content",
+      "name": "Fetch Content",
+      "description": "\n    Fetch and parse content from a webpage URL.\n\n    Args:\n        url: The webpage URL to fetch content from\n        ctx: MCP context for logging\n    ",
+      "parameters": [
+        {
+          "name": "url",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

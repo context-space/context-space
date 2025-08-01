@@ -1,0 +1,122 @@
+{
+  "name": "Google Maps",
+  "description": "提供方向、地點詳情和地理數據，以增強應用程式的地圖功能。",
+  "categories": [
+    "地圖",
+    "位置"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具訪問",
+      "description": "訪問 MCP 伺服器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "maps_geocode",
+      "name": "地圖地理編碼",
+      "description": "將地址轉換為地理坐標",
+      "parameters": [
+        {
+          "name": "address",
+          "description": "要進行地理編碼的地址"
+        }
+      ]
+    },
+    {
+      "identifier": "maps_reverse_geocode",
+      "name": "地圖反向地理編碼",
+      "description": "將坐標轉換為地址",
+      "parameters": [
+        {
+          "name": "latitude",
+          "description": "緯度坐標"
+        },
+        {
+          "name": "longitude",
+          "description": "經度坐標"
+        }
+      ]
+    },
+    {
+      "identifier": "maps_search_places",
+      "name": "地圖搜尋地點",
+      "description": "使用 Google Places API 搜尋地點",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "搜尋查詢"
+        },
+        {
+          "name": "location",
+          "description": "可選的搜尋中心點"
+        },
+        {
+          "name": "radius",
+          "description": "搜尋半徑（以米為單位，最大 50000）"
+        }
+      ]
+    },
+    {
+      "identifier": "maps_place_details",
+      "name": "地圖地點詳情",
+      "description": "獲取特定地點的詳細資訊",
+      "parameters": [
+        {
+          "name": "place_id",
+          "description": "要獲取詳情的地點 ID"
+        }
+      ]
+    },
+    {
+      "identifier": "maps_distance_matrix",
+      "name": "地圖距離矩陣",
+      "description": "計算多個起點和終點的旅行距離和時間",
+      "parameters": [
+        {
+          "name": "mode",
+          "description": "旅行模式（駕駛、步行、騎自行車、公共交通）"
+        },
+        {
+          "name": "origins",
+          "description": "起點地址或坐標的陣列"
+        },
+        {
+          "name": "destinations",
+          "description": "終點地址或坐標的陣列"
+        }
+      ]
+    },
+    {
+      "identifier": "maps_elevation",
+      "name": "地圖海拔",
+      "description": "獲取地球上位置的海拔數據",
+      "parameters": [
+        {
+          "name": "locations",
+          "description": "要獲取海拔的地點陣列"
+        }
+      ]
+    },
+    {
+      "identifier": "maps_directions",
+      "name": "地圖方向",
+      "description": "獲取兩個點之間的方向",
+      "parameters": [
+        {
+          "name": "mode",
+          "description": "旅行模式（駕駛、步行、騎自行車、公共交通）"
+        },
+        {
+          "name": "origin",
+          "description": "起點地址或坐標"
+        },
+        {
+          "name": "destination",
+          "description": "終點地址或坐標"
+        }
+      ]
+    }
+  ]
+}

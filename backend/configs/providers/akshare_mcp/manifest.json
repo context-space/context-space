@@ -1,0 +1,254 @@
+{
+  "identifier": "akshare_mcp",
+  "name": "Akshare",
+  "description": "Provides access to Chinese stock market data including historical prices, real-time data, news, and financial statements. Retrieves comprehensive financial information for stocks with flexible parameters.",
+  "auth_type": "none",
+  "icon_url": "",
+  "categories": [
+    "stock",
+    "news"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools",
+      "oauth_scopes": []
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "get_hist_data",
+      "name": "Get Hist Data",
+      "description": "Get historical stock market data. 'eastmoney_direct' support all A,B,H shares",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "symbol",
+          "type": "string",
+          "description": "Stock symbol/ticker (e.g. '000001')",
+          "required": true
+        },
+        {
+          "name": "start_date",
+          "type": "string",
+          "description": "Start date in YYYY-MM-DD format",
+          "required": false,
+          "default": "1970-01-01"
+        },
+        {
+          "name": "source",
+          "type": "string",
+          "description": "Data source",
+          "required": false,
+          "enum": [
+            "eastmoney",
+            "eastmoney_direct",
+            "sina"
+          ],
+          "default": "eastmoney"
+        },
+        {
+          "name": "indicators_list",
+          "type": "string",
+          "description": "Technical indicators to add",
+          "required": false
+        },
+        {
+          "name": "interval",
+          "type": "string",
+          "description": "Time interval",
+          "required": false,
+          "enum": [
+            "minute",
+            "hour",
+            "day",
+            "week",
+            "month",
+            "year"
+          ],
+          "default": "day"
+        },
+        {
+          "name": "end_date",
+          "type": "string",
+          "description": "End date in YYYY-MM-DD format",
+          "required": false,
+          "default": "2030-12-31"
+        },
+        {
+          "name": "adjust",
+          "type": "string",
+          "description": "Adjustment type",
+          "required": false,
+          "enum": [
+            "none",
+            "qfq",
+            "hfq"
+          ],
+          "default": "none"
+        },
+        {
+          "name": "recent_n",
+          "type": "integer",
+          "description": "Number of most recent records to return",
+          "required": false,
+          "default": 100
+        },
+        {
+          "name": "interval_multiplier",
+          "type": "integer",
+          "description": "Interval multiplier",
+          "required": false,
+          "default": 1
+        }
+      ]
+    },
+    {
+      "identifier": "get_realtime_data",
+      "name": "Get Realtime Data",
+      "description": "Get real-time stock market data. 'eastmoney_direct' support all A,B,H shares",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "symbol",
+          "type": "string",
+          "description": "Stock symbol/ticker (e.g. '000001')",
+          "required": false
+        },
+        {
+          "name": "source",
+          "type": "string",
+          "description": "Data source",
+          "required": false,
+          "enum": [
+            "xueqiu",
+            "eastmoney",
+            "eastmoney_direct"
+          ],
+          "default": "eastmoney_direct"
+        }
+      ]
+    },
+    {
+      "identifier": "get_news_data",
+      "name": "Get News Data",
+      "description": "Get stock-related news data.",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "symbol",
+          "type": "string",
+          "description": "Stock symbol/ticker (e.g. '000001')",
+          "required": true
+        },
+        {
+          "name": "recent_n",
+          "type": "integer",
+          "description": "Number of most recent records to return",
+          "required": false,
+          "default": 10
+        }
+      ]
+    },
+    {
+      "identifier": "get_balance_sheet",
+      "name": "Get Balance Sheet",
+      "description": "Get company balance sheet data.",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "symbol",
+          "type": "string",
+          "description": "Stock symbol/ticker (e.g. '000001')",
+          "required": true
+        },
+        {
+          "name": "recent_n",
+          "type": "integer",
+          "description": "Number of most recent records to return",
+          "required": false,
+          "default": 10
+        }
+      ]
+    },
+    {
+      "identifier": "get_income_statement",
+      "name": "Get Income Statement",
+      "description": "Get company income statement data.",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "symbol",
+          "type": "string",
+          "description": "Stock symbol/ticker (e.g. '000001')",
+          "required": true
+        },
+        {
+          "name": "recent_n",
+          "type": "integer",
+          "description": "Number of most recent records to return",
+          "required": false,
+          "default": 10
+        }
+      ]
+    },
+    {
+      "identifier": "get_cash_flow",
+      "name": "Get Cash Flow",
+      "description": "Get company cash flow statement data.",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "symbol",
+          "type": "string",
+          "description": "Stock symbol/ticker (e.g. '000001')",
+          "required": true
+        },
+        {
+          "name": "source",
+          "type": "string",
+          "description": "Data source",
+          "required": false,
+          "default": "sina"
+        },
+        {
+          "name": "recent_n",
+          "type": "integer",
+          "description": "Number of most recent records to return",
+          "required": false,
+          "default": 10
+        }
+      ]
+    },
+    {
+      "identifier": "get_inner_trade_data",
+      "name": "Get Inner Trade Data",
+      "description": "Get company insider trading data.",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "symbol",
+          "type": "string",
+          "description": "Stock symbol/ticker (e.g. '000001')",
+          "required": true
+        }
+      ]
+    },
+    {
+      "identifier": "get_time_info",
+      "name": "Get Time Info",
+      "description": "Get current time with ISO format, timestamp, and the last trading day.",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": null
+    }
+  ]
+}

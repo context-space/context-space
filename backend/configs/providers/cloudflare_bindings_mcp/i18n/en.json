@@ -1,0 +1,365 @@
+{
+  "name": "CloudFlare Bindings",
+  "description": "Builds Workers applications with storage, AI, and computes primitives.",
+  "categories": [
+    "worker",
+    "hyperdrive"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "accounts_list",
+      "name": "Accounts List",
+      "description": "List all accounts in your Cloudflare account",
+      "parameters": null
+    },
+    {
+      "identifier": "set_active_account",
+      "name": "Set Active Account",
+      "description": "Set active account to be used for tool calls that require accountId",
+      "parameters": [
+        {
+          "name": "activeAccountIdParam",
+          "description": "The accountId present in the users Cloudflare account, that should be the active accountId."
+        }
+      ]
+    },
+    {
+      "identifier": "kv_namespaces_list",
+      "name": "Kv Namespaces List",
+      "description": "\n\t\t\tList all of the kv namespaces in your Cloudflare account.\n\t\t\tUse this tool when you need to list all of the kv namespaces in your Cloudflare account.\n\t\t\tReturns a list of kv namespaces with the following properties:\n\t\t\t- id: The id of the kv namespace.\n\t\t\t- title: The title of the kv namespace.\n\t\t\t",
+      "parameters": [
+        {
+          "name": "params",
+          "description": "Optional parameters for listing KV namespaces"
+        }
+      ]
+    },
+    {
+      "identifier": "kv_namespace_create",
+      "name": "Kv Namespace Create",
+      "description": "Create a new kv namespace in your Cloudflare account",
+      "parameters": [
+        {
+          "name": "title",
+          "description": "The human-readable name/title of the KV namespace"
+        }
+      ]
+    },
+    {
+      "identifier": "kv_namespace_delete",
+      "name": "Kv Namespace Delete",
+      "description": "Delete a kv namespace in your Cloudflare account",
+      "parameters": [
+        {
+          "name": "namespace_id",
+          "description": "The ID of the KV namespace"
+        }
+      ]
+    },
+    {
+      "identifier": "kv_namespace_get",
+      "name": "Kv Namespace Get",
+      "description": "Get details of a kv namespace in your Cloudflare account.\n\t\tUse this tool when you need to get details of a specific kv namespace in your Cloudflare account.\n\t\tReturns a kv namespace with the following properties:\n\t\t\t- id: The id of the kv namespace.\n\t\t\t- title: The title of the kv namespace.\n\t\t\t- supports_url_encoding: Whether the kv namespace supports url encoding.\n\t\t\t- beta: Whether the kv namespace is in beta.\n\t\t",
+      "parameters": [
+        {
+          "name": "namespace_id",
+          "description": "The ID of the KV namespace"
+        }
+      ]
+    },
+    {
+      "identifier": "kv_namespace_update",
+      "name": "Kv Namespace Update",
+      "description": "Update the title of a kv namespace in your Cloudflare account",
+      "parameters": [
+        {
+          "name": "title",
+          "description": "The human-readable name/title of the KV namespace"
+        },
+        {
+          "name": "namespace_id",
+          "description": "The ID of the KV namespace"
+        }
+      ]
+    },
+    {
+      "identifier": "workers_list",
+      "name": "Workers List",
+      "description": "List all Workers in your Cloudflare account.\n\nIf you only need details of a single Worker, use workers_get_worker.",
+      "parameters": null
+    },
+    {
+      "identifier": "workers_get_worker",
+      "name": "Workers Get Worker",
+      "description": "Get the details of the Cloudflare Worker.",
+      "parameters": [
+        {
+          "name": "scriptName",
+          "description": "The name of the worker script to retrieve"
+        }
+      ]
+    },
+    {
+      "identifier": "workers_get_worker_code",
+      "name": "Workers Get Worker Code",
+      "description": "Get the source code of a Cloudflare Worker. Note: This may be a bundled version of the worker.",
+      "parameters": [
+        {
+          "name": "scriptName",
+          "description": "The name of the worker script to retrieve"
+        }
+      ]
+    },
+    {
+      "identifier": "r2_buckets_list",
+      "name": "R2 Buckets List",
+      "description": "List r2 buckets in your Cloudflare account",
+      "parameters": [
+        {
+          "name": "direction",
+          "description": "Direction to order buckets"
+        },
+        {
+          "name": "name_contains",
+          "description": "Bucket names to filter by. Only buckets with this phrase in their name will be returned."
+        },
+        {
+          "name": "per_page",
+          "description": ""
+        },
+        {
+          "name": "start_after",
+          "description": "Bucket name to start searching after. Buckets are ordered lexicographically."
+        },
+        {
+          "name": "cursor",
+          "description": "Query param: Pagination cursor received during the last List Buckets call. R2 buckets are paginated using cursors instead of page numbers."
+        }
+      ]
+    },
+    {
+      "identifier": "r2_bucket_create",
+      "name": "R2 Bucket Create",
+      "description": "Create a new r2 bucket in your Cloudflare account",
+      "parameters": [
+        {
+          "name": "name",
+          "description": "The name of the r2 bucket"
+        }
+      ]
+    },
+    {
+      "identifier": "r2_bucket_get",
+      "name": "R2 Bucket Get",
+      "description": "Get details about a specific R2 bucket",
+      "parameters": [
+        {
+          "name": "name",
+          "description": "The name of the r2 bucket"
+        }
+      ]
+    },
+    {
+      "identifier": "r2_bucket_delete",
+      "name": "R2 Bucket Delete",
+      "description": "Delete an R2 bucket",
+      "parameters": [
+        {
+          "name": "name",
+          "description": "The name of the r2 bucket"
+        }
+      ]
+    },
+    {
+      "identifier": "d1_databases_list",
+      "name": "D1 Databases List",
+      "description": "List all of the D1 databases in your Cloudflare account",
+      "parameters": [
+        {
+          "name": "name",
+          "description": ""
+        },
+        {
+          "name": "page",
+          "description": ""
+        },
+        {
+          "name": "per_page",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "d1_database_create",
+      "name": "D1 Database Create",
+      "description": "Create a new D1 database in your Cloudflare account",
+      "parameters": [
+        {
+          "name": "primary_location_hint",
+          "description": ""
+        },
+        {
+          "name": "name",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "d1_database_delete",
+      "name": "D1 Database Delete",
+      "description": "Delete a d1 database in your Cloudflare account",
+      "parameters": [
+        {
+          "name": "database_id",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "d1_database_get",
+      "name": "D1 Database Get",
+      "description": "Get a D1 database in your Cloudflare account",
+      "parameters": [
+        {
+          "name": "database_id",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "d1_database_query",
+      "name": "D1 Database Query",
+      "description": "Query a D1 database in your Cloudflare account",
+      "parameters": [
+        {
+          "name": "database_id",
+          "description": ""
+        },
+        {
+          "name": "sql",
+          "description": ""
+        },
+        {
+          "name": "params",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "hyperdrive_configs_list",
+      "name": "Hyperdrive Configs List",
+      "description": "List Hyperdrive configurations in your Cloudflare account",
+      "parameters": [
+        {
+          "name": "per_page",
+          "description": "Number of results per page"
+        },
+        {
+          "name": "order",
+          "description": "Field to order by"
+        },
+        {
+          "name": "direction",
+          "description": "Direction to order"
+        },
+        {
+          "name": "page",
+          "description": "Page number of results"
+        }
+      ]
+    },
+    {
+      "identifier": "hyperdrive_config_delete",
+      "name": "Hyperdrive Config Delete",
+      "description": "Delete a Hyperdrive configuration in your Cloudflare account",
+      "parameters": [
+        {
+          "name": "hyperdrive_id",
+          "description": "The ID of the Hyperdrive configuration"
+        }
+      ]
+    },
+    {
+      "identifier": "hyperdrive_config_get",
+      "name": "Hyperdrive Config Get",
+      "description": "Get details of a specific Hyperdrive configuration in your Cloudflare account",
+      "parameters": [
+        {
+          "name": "hyperdrive_id",
+          "description": "The ID of the Hyperdrive configuration"
+        }
+      ]
+    },
+    {
+      "identifier": "hyperdrive_config_edit",
+      "name": "Hyperdrive Config Edit",
+      "description": "Edit (patch) a Hyperdrive configuration in your Cloudflare account",
+      "parameters": [
+        {
+          "name": "scheme",
+          "description": "The database protocol"
+        },
+        {
+          "name": "caching_disabled",
+          "description": "Whether caching is disabled"
+        },
+        {
+          "name": "user",
+          "description": "The database user"
+        },
+        {
+          "name": "hyperdrive_id",
+          "description": "The ID of the Hyperdrive configuration"
+        },
+        {
+          "name": "database",
+          "description": "The database name"
+        },
+        {
+          "name": "host",
+          "description": "The database host address"
+        },
+        {
+          "name": "caching_stale_while_revalidate",
+          "description": "Stale while revalidate duration in seconds"
+        },
+        {
+          "name": "name",
+          "description": "The name of the Hyperdrive configuration (alphanumeric, underscore, hyphen)"
+        },
+        {
+          "name": "port",
+          "description": "The database port"
+        },
+        {
+          "name": "caching_max_age",
+          "description": "Maximum cache age in seconds"
+        }
+      ]
+    },
+    {
+      "identifier": "search_cloudflare_documentation",
+      "name": "Search Cloudflare Documentation",
+      "description": "Search the Cloudflare documentation.\n\n\t\tThis tool should be used to answer any question about Cloudflare products or features, including:\n\t\t- Workers, Pages, R2, Images, Stream, D1, Durable Objects, KV, Workflows, Hyperdrive, Queues\n\t\t- AutoRAG, Workers AI, Vectorize, AI Gateway, Browser Rendering\n\t\t- Zero Trust, Access, Tunnel, Gateway, Browser Isolation, WARP, DDOS, Magic Transit, Magic WAN\n\t\t- CDN, Cache, DNS, Zaraz, Argo, Rulesets, Terraform, Account and Billing\n\n\t\tResults are returned as semantically similar chunks to the query.\n\t\t",
+      "parameters": [
+        {
+          "name": "query",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "migrate_pages_to_workers_guide",
+      "name": "Migrate Pages To Workers Guide",
+      "description": "ALWAYS read this guide before migrating Pages projects to Workers.",
+      "parameters": null
+    }
+  ]
+}

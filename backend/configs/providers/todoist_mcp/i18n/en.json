@@ -1,0 +1,112 @@
+{
+  "name": "Todoist",
+  "description": "Enables natural language task management through Model Context Protocol.",
+  "categories": [
+    "task management",
+    "filter"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "todoist_create_task",
+      "name": "Todoist Create Task",
+      "description": "Create a new task in Todoist with optional description, due date, and priority",
+      "parameters": [
+        {
+          "name": "priority",
+          "description": "Task priority from 1 (normal) to 4 (urgent) (optional)"
+        },
+        {
+          "name": "content",
+          "description": "The content/title of the task"
+        },
+        {
+          "name": "description",
+          "description": "Detailed description of the task (optional)"
+        },
+        {
+          "name": "due_string",
+          "description": "Natural language due date like 'tomorrow', 'next Monday', 'Jan 23' (optional)"
+        }
+      ]
+    },
+    {
+      "identifier": "todoist_get_tasks",
+      "name": "Todoist Get Tasks",
+      "description": "Get a list of tasks from Todoist with various filters",
+      "parameters": [
+        {
+          "name": "filter",
+          "description": "Natural language filter like 'today', 'tomorrow', 'next week', 'priority 1', 'overdue' (optional)"
+        },
+        {
+          "name": "priority",
+          "description": "Filter by priority level (1-4) (optional)"
+        },
+        {
+          "name": "limit",
+          "description": "Maximum number of tasks to return (optional)"
+        },
+        {
+          "name": "project_id",
+          "description": "Filter tasks by project ID (optional)"
+        }
+      ]
+    },
+    {
+      "identifier": "todoist_update_task",
+      "name": "Todoist Update Task",
+      "description": "Update an existing task in Todoist by searching for it by name and then updating it",
+      "parameters": [
+        {
+          "name": "task_name",
+          "description": "Name/content of the task to search for and update"
+        },
+        {
+          "name": "content",
+          "description": "New content/title for the task (optional)"
+        },
+        {
+          "name": "description",
+          "description": "New description for the task (optional)"
+        },
+        {
+          "name": "due_string",
+          "description": "New due date in natural language like 'tomorrow', 'next Monday' (optional)"
+        },
+        {
+          "name": "priority",
+          "description": "New priority level from 1 (normal) to 4 (urgent) (optional)"
+        }
+      ]
+    },
+    {
+      "identifier": "todoist_delete_task",
+      "name": "Todoist Delete Task",
+      "description": "Delete a task from Todoist by searching for it by name",
+      "parameters": [
+        {
+          "name": "task_name",
+          "description": "Name/content of the task to search for and delete"
+        }
+      ]
+    },
+    {
+      "identifier": "todoist_complete_task",
+      "name": "Todoist Complete Task",
+      "description": "Mark a task as complete by searching for it by name",
+      "parameters": [
+        {
+          "name": "task_name",
+          "description": "Name/content of the task to search for and complete"
+        }
+      ]
+    }
+  ]
+}

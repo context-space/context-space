@@ -1,0 +1,112 @@
+{
+  "name": "Todoist",
+  "description": "與 Todoist 整合的 MCP 伺服器實作，通過模型上下文協議實現自然語言任務管理。",
+  "categories": [
+    "任務管理",
+    "篩選"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具訪問",
+      "description": "訪問 MCP 伺服器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "todoist_create_task",
+      "name": "Todoist 創建任務",
+      "description": "在 Todoist 中創建一個新任務，並可選擇性地添加描述、截止日期和優先級",
+      "parameters": [
+        {
+          "name": "priority",
+          "description": "任務優先級，範圍從 1（普通）到 4（緊急）（可選）"
+        },
+        {
+          "name": "content",
+          "description": "任務的內容/標題"
+        },
+        {
+          "name": "description",
+          "description": "任務的詳細描述（可選）"
+        },
+        {
+          "name": "due_string",
+          "description": "自然語言的截止日期，例如 '明天'、'下週一'、'1 月 23 日'（可選）"
+        }
+      ]
+    },
+    {
+      "identifier": "todoist_get_tasks",
+      "name": "Todoist 獲取任務",
+      "description": "從 Todoist 獲取任務列表，並可使用各種篩選條件",
+      "parameters": [
+        {
+          "name": "filter",
+          "description": "自然語言篩選條件，例如 '今天'、'明天'、'下週'、'優先級 1'、'逾期'（可選）"
+        },
+        {
+          "name": "priority",
+          "description": "按優先級篩選（1-4）（可選）"
+        },
+        {
+          "name": "limit",
+          "description": "返回的最大任務數量（可選）"
+        },
+        {
+          "name": "project_id",
+          "description": "按專案 ID 篩選任務（可選）"
+        }
+      ]
+    },
+    {
+      "identifier": "todoist_update_task",
+      "name": "Todoist 更新任務",
+      "description": "通過名稱搜索並更新 Todoist 中的現有任務",
+      "parameters": [
+        {
+          "name": "task_name",
+          "description": "要搜索和更新的任務名稱/內容"
+        },
+        {
+          "name": "content",
+          "description": "任務的新內容/標題（可選）"
+        },
+        {
+          "name": "description",
+          "description": "任務的新描述（可選）"
+        },
+        {
+          "name": "due_string",
+          "description": "自然語言的新截止日期，例如 '明天'、'下週一'（可選）"
+        },
+        {
+          "name": "priority",
+          "description": "新的優先級範圍從 1（普通）到 4（緊急）（可選）"
+        }
+      ]
+    },
+    {
+      "identifier": "todoist_delete_task",
+      "name": "Todoist 刪除任務",
+      "description": "通過名稱搜索並刪除 Todoist 中的任務",
+      "parameters": [
+        {
+          "name": "task_name",
+          "description": "要搜索和刪除的任務名稱/內容"
+        }
+      ]
+    },
+    {
+      "identifier": "todoist_complete_task",
+      "name": "Todoist 完成任務",
+      "description": "通過名稱搜索並將任務標記為完成",
+      "parameters": [
+        {
+          "name": "task_name",
+          "description": "要搜索和完成的任務名稱/內容"
+        }
+      ]
+    }
+  ]
+}

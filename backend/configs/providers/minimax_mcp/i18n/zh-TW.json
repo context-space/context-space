@@ -1,0 +1,264 @@
+{
+  "name": "MiniMax",
+  "description": "支援與強大的文字轉語音和視頻/影像生成 API 進行互動。",
+  "categories": [
+    "文字轉語音",
+    "影像/視頻生成"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具存取",
+      "description": "存取 MCP 伺服器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "text_to_audio",
+      "name": "文字轉音頻",
+      "description": "將文字轉換為音頻，使用指定的聲音並將輸出音頻檔案儲存到指定目錄。\n    目錄是可選的，如果未提供，輸出檔案將儲存到 $HOME/Desktop。\n    聲音 ID 是可選的，如果未提供，將使用預設聲音。\n\n    成本警告：此工具會呼叫 Minimax 的 API，可能會產生費用。僅在使用者明確要求時使用。\n\n    參數：\n        text (str): 要轉換為語音的文字。\n        voice_id (str, optional): 要使用的聲音 ID。例如，\"male-qn-qingse\"/\"audiobook_female_1\"/\"cute_boy\"/\"Charming_Lady\"...\n        model (string, optional): 要使用的模型。\n        speed (float, optional): 產生音頻的速度。控制產生語音的速度。值範圍從 0.5 到 2.0，1.0 為預設速度。\n        vol (float, optional): 產生音頻的音量。控制產生語音的音量。值範圍從 0 到 10，1 為預設音量。\n        pitch (int, optional): 產生音頻的音調。控制產生語音的音調。值範圍從 -12 到 12，0 為預設音調。\n        emotion (str, optional): 產生音頻的情感。控制產生語音的情感。值範圍 [\"happy\", \"sad\", \"angry\", \"fearful\", \"disgusted\", \"surprised\", \"neutral\"]，\"happy\" 為預設情感。\n        sample_rate (int, optional): 產生音頻的取樣率。控制產生語音的取樣率。值範圍 [8000,16000,22050,24000,32000,44100]，32000 為預設取樣率。\n        bitrate (int, optional): 產生音頻的位元率。控制產生語音的位元率。值範圍 [32000,64000,128000,256000]，128000 為預設位元率。\n        channel (int, optional): 產生音頻的聲道。控制產生語音的聲道。值範圍 [1, 2]，1 為預設聲道。\n        format (str, optional): 產生音頻的格式。控制產生語音的格式。值範圍 [\"pcm\", \"mp3\",\"flac\"]，\"mp3\" 為預設格式。\n        language_boost (str, optional): 產生音頻的語言增強。控制產生語音的語言增強。值範圍 ['Chinese', 'Chinese,Yue', 'English', 'Arabic', 'Russian', 'Spanish', 'French', 'Portuguese', 'German', 'Turkish', 'Dutch', 'Ukrainian', 'Vietnamese', 'Indonesian', 'Japanese', 'Italian', 'Korean', 'Thai', 'Polish', 'Romanian', 'Greek', 'Czech', 'Finnish', 'Hindi', 'auto']，\"auto\" 為預設語言增強。\n        output_directory (str): 儲存音頻的目錄。\n\n    返回：\n        包含輸出檔案路徑和使用的聲音名稱的文字內容。",
+      "parameters": [
+        {
+          "name": "format",
+          "description": ""
+        },
+        {
+          "name": "pitch",
+          "description": ""
+        },
+        {
+          "name": "bitrate",
+          "description": ""
+        },
+        {
+          "name": "output_directory",
+          "description": ""
+        },
+        {
+          "name": "vol",
+          "description": ""
+        },
+        {
+          "name": "channel",
+          "description": ""
+        },
+        {
+          "name": "model",
+          "description": ""
+        },
+        {
+          "name": "sample_rate",
+          "description": ""
+        },
+        {
+          "name": "language_boost",
+          "description": ""
+        },
+        {
+          "name": "text",
+          "description": ""
+        },
+        {
+          "name": "voice_id",
+          "description": ""
+        },
+        {
+          "name": "speed",
+          "description": ""
+        },
+        {
+          "name": "emotion",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "list_voices",
+      "name": "列出聲音",
+      "description": "列出所有可用的聲音。\n\n    參數：\n        voice_type (str, optional): 要列出的聲音類型。值範圍 [\"all\", \"system\", \"voice_cloning\"]，\"all\" 為預設。\n    返回：\n        包含聲音清單的文字內容。",
+      "parameters": [
+        {
+          "name": "voice_type",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "voice_clone",
+      "name": "聲音複製",
+      "description": "使用提供的音頻檔案複製聲音。新聲音將在首次使用時收費。\n\n    成本警告：此工具會呼叫 Minimax 的 API，可能會產生費用。僅在使用者明確要求時使用。\n\n     參數：\n        voice_id (str): 要使用的聲音 ID。\n        file (str): 要複製的音頻檔案的路徑或音頻檔案的 URL。\n        text (str, optional): 用於示範音頻的文字。\n        is_url (bool, optional): 檔案是否為 URL。預設為 False。\n        output_directory (str): 儲存示範音頻的目錄。\n    返回：\n        包含複製聲音的聲音 ID 的文字內容。",
+      "parameters": [
+        {
+          "name": "voice_id",
+          "description": ""
+        },
+        {
+          "name": "file",
+          "description": ""
+        },
+        {
+          "name": "text",
+          "description": ""
+        },
+        {
+          "name": "output_directory",
+          "description": ""
+        },
+        {
+          "name": "is_url",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "play_audio",
+      "name": "播放音頻",
+      "description": "播放音頻檔案。支援 WAV 和 MP3 格式。不支援視頻。\n\n     參數：\n        input_file_path (str): 要播放的音頻檔案的路徑。\n        is_url (bool, optional): 音頻檔案是否為 URL。\n    返回：\n        包含音頻檔案路徑的文字內容。",
+      "parameters": [
+        {
+          "name": "input_file_path",
+          "description": ""
+        },
+        {
+          "name": "is_url",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "generate_video",
+      "name": "生成視頻",
+      "description": "根據提示生成視頻。\n\n    成本警告：此工具會呼叫 Minimax 的 API，可能會產生費用。僅在使用者明確要求時使用。\n\n     參數：\n        model (str, optional): 要使用的模型。值範圍 [\"T2V-01\", \"T2V-01-Director\", \"I2V-01\", \"I2V-01-Director\", \"I2V-01-live\", \"MiniMax-Hailuo-02\"]。\"Director\" 支援插入攝影機移動控制的指令。\"I2V\" 用於影像到視頻。\"T2V\" 用於文字到視頻。\"MiniMax-Hailuo-02\" 是最新模型，效果最佳，超清晰品質和精確回應。\n        prompt (str): 用於生成視頻的提示。當使用 Director 模型時，提示支援 15 種攝影機移動指令（列舉值）\n            -Truck: [Truck left], [Truck right]\n            -Pan: [Pan left], [Pan right]\n            -Push: [Push in], [Pull out]\n            -Pedestal: [Pedestal up], [Pedestal down]\n            -Tilt: [Tilt up], [Tilt down]\n            -Zoom: [Zoom in], [Zoom out]\n            -Shake: [Shake]\n            -Follow: [Tracking shot]\n            -Static: [Static shot]\n        first_frame_image (str): 第一幀影像。模型必須是 \"I2V\" 系列。\n        duration (int, optional): 視頻的持續時間。模型必須是 \"MiniMax-Hailuo-02\"。值可以是 6 和 10。\n        resolution (str, optional): 視頻的解析度。模型必須是 \"MiniMax-Hailuo-02\"。值範圍 [\"768P\", \"1080P\"]\n        output_directory (str): 儲存視頻的目錄。\n        async_mode (bool, optional): 是否使用異步模式。預設為 False。如果為 True，視頻生成任務將異步提交，回應將返回 task_id。應使用 `query_video_generation` 工具檢查任務狀態並獲取結果。\n    返回：\n        包含輸出視頻檔案路徑的文字內容。",
+      "parameters": [
+        {
+          "name": "output_directory",
+          "description": ""
+        },
+        {
+          "name": "async_mode",
+          "description": ""
+        },
+        {
+          "name": "model",
+          "description": ""
+        },
+        {
+          "name": "prompt",
+          "description": ""
+        },
+        {
+          "name": "first_frame_image",
+          "description": ""
+        },
+        {
+          "name": "duration",
+          "description": ""
+        },
+        {
+          "name": "resolution",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "query_video_generation",
+      "name": "查詢視頻生成",
+      "description": "查詢視頻生成任務的狀態。\n\n    參數：\n        task_id (str): 要查詢的任務 ID。如果 `async_mode` 為 True，應為 `generate_video` 工具返回的 task_id。\n        output_directory (str): 儲存視頻的目錄。\n    返回：\n        包含任務狀態的文字內容。",
+      "parameters": [
+        {
+          "name": "output_directory",
+          "description": ""
+        },
+        {
+          "name": "task_id",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "text_to_image",
+      "name": "文字轉影像",
+      "description": "根據提示生成影像。\n\n    成本警告：此工具會呼叫 Minimax 的 API，可能會產生費用。僅在使用者明確要求時使用。\n\n     參數：\n        model (str, optional): 要使用的模型。值範圍 [\"image-01\"]，\"image-01\" 為預設。\n        prompt (str): 用於生成影像的提示。\n        aspect_ratio (str, optional): 影像的縱橫比。值範圍 [\"1:1\", \"16:9\",\"4:3\", \"3:2\", \"2:3\", \"3:4\", \"9:16\", \"21:9\"]，\"1:1\" 為預設。\n        n (int, optional): 要生成的影像數量。值範圍 [1, 9]，1 為預設。\n        prompt_optimizer (bool, optional): 是否最佳化提示。值範圍 [True, False]，True 為預設。\n        output_directory (str): 儲存影像的目錄。\n    返回：\n        包含輸出影像檔案路徑的文字內容。",
+      "parameters": [
+        {
+          "name": "n",
+          "description": ""
+        },
+        {
+          "name": "prompt_optimizer",
+          "description": ""
+        },
+        {
+          "name": "output_directory",
+          "description": ""
+        },
+        {
+          "name": "model",
+          "description": ""
+        },
+        {
+          "name": "prompt",
+          "description": ""
+        },
+        {
+          "name": "aspect_ratio",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "music_generation",
+      "name": "音樂生成",
+      "description": "使用 AI 模型建立音樂生成任務。根據提示和歌詞生成音樂。\n\n    成本警告：此工具會呼叫 Minimax 的 API，可能會產生費用。僅在使用者明確要求時使用。\n\n    參數：\n        prompt (str): 描述風格、情緒、場景等的音樂創作靈感。\n            範例：\"流行音樂，悲傷，適合雨夜\"。字元範圍：[10, 300]\n        lyrics (str): 用於音樂生成的歌詞。\n            使用換行符 (\\n) 分隔每行歌詞。支援歌詞結構標籤 [Intro][Verse][Chorus][Bridge][Outro] \n            以增強音樂性。字元範圍：[10, 600]（每個漢字、標點符號和字母計為 1 個字元）\n        stream (bool, optional): 是否啟用串流模式。預設為 False\n        sample_rate (int, optional): 生成音樂的取樣率。值：[16000, 24000, 32000, 44100]\n        bitrate (int, optional): 生成音樂的位元率。值：[32000, 64000, 128000, 256000]\n        format (str, optional): 生成音樂的格式。值：[\"mp3\", \"wav\", \"pcm\"]。預設為 \"mp3\"\n        output_directory (str, optional): 儲存生成音樂檔案的目錄\n        \n    注意：目前支援生成最長 1 分鐘的音樂。\n\n    返回：\n        包含生成音樂檔案路徑或生成狀態的文字內容。",
+      "parameters": [
+        {
+          "name": "prompt",
+          "description": ""
+        },
+        {
+          "name": "lyrics",
+          "description": ""
+        },
+        {
+          "name": "sample_rate",
+          "description": ""
+        },
+        {
+          "name": "bitrate",
+          "description": ""
+        },
+        {
+          "name": "format",
+          "description": ""
+        },
+        {
+          "name": "output_directory",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "voice_design",
+      "name": "聲音設計",
+      "description": "根據描述提示生成聲音。\n\n    成本警告：此工具會呼叫 Minimax 的 API，可能會產生費用。僅在使用者明確要求時使用。\n\n     參數：\n        prompt (str): 用於生成聲音的提示。\n        preview_text (str): 用於預覽聲音的文字。\n        voice_id (str, optional): 要使用的聲音 ID。例如，\"male-qn-qingse\"/\"audiobook_female_1\"/\"cute_boy\"/\"Charming_Lady\"...\n        output_directory (str, optional): 儲存聲音的目錄。\n    返回：\n        包含輸出聲音檔案路徑的文字內容。",
+      "parameters": [
+        {
+          "name": "output_directory",
+          "description": ""
+        },
+        {
+          "name": "prompt",
+          "description": ""
+        },
+        {
+          "name": "preview_text",
+          "description": ""
+        },
+        {
+          "name": "voice_id",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

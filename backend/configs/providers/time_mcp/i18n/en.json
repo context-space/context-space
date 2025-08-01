@@ -1,0 +1,47 @@
+{
+  "name": "Time",
+  "description": "Provides time and timezone conversion capabilities.",
+  "categories": [
+    "convert_time",
+    "timezone"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "get_current_time",
+      "name": "Get Current Time",
+      "description": "Get current time in a specific timezones",
+      "parameters": [
+        {
+          "name": "timezone",
+          "description": "IANA timezone name (e.g., 'America/New_York', 'Europe/London'). Use 'Asia/Hong_Kong' as local timezone if no timezone provided by the user."
+        }
+      ]
+    },
+    {
+      "identifier": "convert_time",
+      "name": "Convert Time",
+      "description": "Convert time between timezones",
+      "parameters": [
+        {
+          "name": "source_timezone",
+          "description": "Source IANA timezone name (e.g., 'America/New_York', 'Europe/London'). Use 'Asia/Hong_Kong' as local timezone if no source timezone provided by the user."
+        },
+        {
+          "name": "time",
+          "description": "Time to convert in 24-hour format (HH:MM)"
+        },
+        {
+          "name": "target_timezone",
+          "description": "Target IANA timezone name (e.g., 'Asia/Tokyo', 'America/San_Francisco'). Use 'Asia/Hong_Kong' as local timezone if no target timezone provided by the user."
+        }
+      ]
+    }
+  ]
+}

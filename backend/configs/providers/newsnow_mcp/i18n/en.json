@@ -1,0 +1,32 @@
+{
+  "name": "NewsNow",
+  "description": "Provides real-time and hottest news from various sources.",
+  "categories": [
+    "news",
+    "latest"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "get_hotest_latest_news",
+      "name": "Get Hotest Latest News",
+      "description": "get hotest or latest news from source by {id}, return {count: 10} news.",
+      "parameters": [
+        {
+          "name": "id",
+          "description": "source id. e.g. V2EX-最新分享 id is v2ex-share;知乎 id is zhihu;微博-实时热搜 id is weibo;联合早报 id is zaobao;酷安-今日最热 id is coolapk;华尔街见闻-实时快讯 id is wallstreetcn-quick;华尔街见闻-最新资讯 id is wallstreetcn-news;华尔街见闻-最热文章 id is wallstreetcn-hot;36氪-快讯 id is 36kr-quick;抖音 id is douyin;虎扑-主干道热帖 id is hupu;百度贴吧-热议 id is tieba;今日头条 id is toutiao;IT之家 id is ithome;澎湃新闻-热榜 id is thepaper;卫星通讯社 id is sputniknewscn;参考消息 id is cankaoxiaoxi;远景论坛-Windows 11 id is pcbeta-windows11;远景论坛-Windows 资源 id is pcbeta-windows;财联社-电报 id is cls-telegraph;财联社-深度 id is cls-depth;财联社-热门 id is cls-hot;雪球-热门股票 id is xueqiu-hotstock;格隆汇-事件 id is gelonghui;法布财经-快讯 id is fastbull-express;法布财经-头条 id is fastbull-news;Solidot id is solidot;Hacker News id is hackernews;Product Hunt id is producthunt;Github-Today id is github-trending-today;哔哩哔哩-热搜 id is bilibili-hot-search;哔哩哔哩-热门视频 id is bilibili-hot-video;哔哩哔哩-排行榜 id is bilibili-ranking;快手 id is kuaishou;靠谱新闻 id is kaopu;金十数据 id is jin10;百度热搜 id is baidu;LINUX DO-最新 id is linuxdo-latest;LINUX DO-今日最热 id is linuxdo-hot;果核剥壳 id is ghxi;什么值得买 id is smzdm;牛客 id is nowcoder;少数派 id is sspai;稀土掘金 id is juejin;凤凰网-热点资讯 id is ifeng;虫部落-最新 id is chongbuluo-latest;虫部落-最热 id is chongbuluo-hot"
+        },
+        {
+          "name": "count",
+          "description": "count of news to return."
+        }
+      ]
+    }
+  ]
+}

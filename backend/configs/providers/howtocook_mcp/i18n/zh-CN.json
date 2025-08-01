@@ -1,0 +1,80 @@
+{
+  "name": "如何烹饪",
+  "description": "推荐食谱、计划餐点，并解决“今天吃什么”的世纪难题。",
+  "categories": [
+    "烹饪",
+    "食品"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具访问",
+      "description": "访问 MCP 服务器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "mcp_howtocook_getAllRecipes",
+      "name": "Mcp Howtocook Getallrecipes",
+      "description": "获取所有菜谱",
+      "parameters": [
+        {
+          "name": "no_param",
+          "description": "无参数"
+        }
+      ]
+    },
+    {
+      "identifier": "mcp_howtocook_getRecipesByCategory",
+      "name": "Mcp Howtocook Getrecipesbycategory",
+      "description": "根据分类查询菜谱，可选分类有: 水产, 早餐, 调料, 甜品, 饮品, 荤菜, 半成品加工, 汤, 主食, 素菜",
+      "parameters": [
+        {
+          "name": "category",
+          "description": "菜谱分类名称，如水产、早餐、荤菜、主食等"
+        }
+      ]
+    },
+    {
+      "identifier": "mcp_howtocook_recommendMeals",
+      "name": "Mcp Howtocook Recommendmeals",
+      "description": "根据用户的忌口、过敏原、人数智能推荐菜谱，创建一周的膳食计划以及大致的购物清单",
+      "parameters": [
+        {
+          "name": "avoidItems",
+          "description": "忌口食材列表，如[\"葱\", \"姜\"]"
+        },
+        {
+          "name": "peopleCount",
+          "description": "用餐人数，1-10之间的整数"
+        },
+        {
+          "name": "allergies",
+          "description": "过敏原列表，如[\"大蒜\", \"虾\"]"
+        }
+      ]
+    },
+    {
+      "identifier": "mcp_howtocook_whatToEat",
+      "name": "Mcp Howtocook Whattoeat",
+      "description": "不知道吃什么？根据人数直接推荐适合的菜品组合",
+      "parameters": [
+        {
+          "name": "peopleCount",
+          "description": "用餐人数，1-10之间的整数，会根据人数推荐合适数量的菜品"
+        }
+      ]
+    },
+    {
+      "identifier": "mcp_howtocook_getRecipeById",
+      "name": "Mcp Howtocook Getrecipebyid",
+      "description": "根据菜谱名称或ID查询指定菜谱的完整详情，包括食材、步骤等",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "菜谱名称或ID，支持模糊匹配菜谱名称"
+        }
+      ]
+    }
+  ]
+}

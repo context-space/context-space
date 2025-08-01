@@ -1,0 +1,32 @@
+{
+  "name": "NewsNow",
+  "description": "提供來自各種來源的即時和熱門新聞。",
+  "categories": [
+    "新聞",
+    "最新"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP工具訪問",
+      "description": "訪問MCP伺服器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "get_hotest_latest_news",
+      "name": "獲取最新熱門新聞",
+      "description": "從來源獲取最新或最熱門的新聞，通過 {id}，返回 {count: 10} 條新聞。",
+      "parameters": [
+        {
+          "name": "id",
+          "description": "來源ID。例如：V2EX-最新分享的ID是v2ex-share；知乎的ID是zhihu；微博-實時熱搜的ID是weibo；聯合早報的ID是zaobao；酷安-今日最熱的ID是coolapk；華爾街見聞-實時快訊的ID是wallstreetcn-quick；華爾街見聞-最新資訊的ID是wallstreetcn-news；華爾街見聞-最熱文章的ID是wallstreetcn-hot；36氪-快訊的ID是36kr-quick；抖音的ID是douyin；虎撲-主幹道熱帖的ID是hupu；百度貼吧-熱議的ID是tieba；今日頭條的ID是toutiao；IT之家的ID是ithome；澎湃新聞-熱榜的ID是thepaper；衛星通訊社的ID是sputniknewscn；參考消息的ID是cankaoxiaoxi；遠景論壇-Windows 11的ID是pcbeta-windows11；遠景論壇-Windows資源的ID是pcbeta-windows；財聯社-電報的ID是cls-telegraph；財聯社-深度的ID是cls-depth；財聯社-熱門的ID是cls-hot；雪球-熱門股票的ID是xueqiu-hotstock；格隆匯-事件的ID是gelonghui；法布財經-快訊的ID是fastbull-express；法布財經-頭條的ID是fastbull-news；Solidot的ID是solidot；Hacker News的ID是hackernews；Product Hunt的ID是producthunt；Github-Today的ID是github-trending-today；哔哩哔哩-熱搜的ID是bilibili-hot-search；哔哩哔哩-熱門視頻的ID是bilibili-hot-video；哔哩哔哩-排行榜的ID是bilibili-ranking；快手的ID是kuaishou；靠譜新聞的ID是kaopu；金十數據的ID是jin10；百度熱搜的ID是baidu；LINUX DO-最新的ID是linuxdo-latest；LINUX DO-今日最熱的ID是linuxdo-hot；果核剝殼的ID是ghxi；什麼值得買的ID是smzdm；牛客的ID是nowcoder；少數派的ID是sspai；稀土掘金的ID是juejin；鳳凰網-熱點資訊的ID是ifeng；蟲部落-最新的ID是chongbuluo-latest；蟲部落-最熱的ID是chongbuluo-hot。"
+        },
+        {
+          "name": "count",
+          "description": "要返回的新聞數量。"
+        }
+      ]
+    }
+  ]
+}

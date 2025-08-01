@@ -1,0 +1,36 @@
+{
+  "identifier": "calculator_mcp",
+  "name": "Calculator",
+  "description": "Uses calculator for precise numerical calculations.",
+  "auth_type": "none",
+  "icon_url": "",
+  "categories": [
+    "math",
+    "calculation"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools",
+      "oauth_scopes": []
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "calculate",
+      "name": "Calculate",
+      "description": "Calculates/evaluates the given expression.",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "expression",
+          "type": "string",
+          "description": "",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

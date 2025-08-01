@@ -1,0 +1,138 @@
+{
+  "name": "AWS 定價",
+  "description": "訪問實時 AWS 定價信息並提供成本分析功能",
+  "categories": [
+    "定價",
+    "成本分析"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具訪問",
+      "description": "訪問 MCP 伺服器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "analyze_cdk_project",
+      "name": "分析 Cdk 專案",
+      "description": "分析 CDK 專案以識別使用的 AWS 服務。此工具動態提取 CDK 結構中的服務信息，而不依賴於硬編碼的服務映射。",
+      "parameters": [
+        {
+          "name": "project_path",
+          "description": "專案目錄的路徑"
+        }
+      ]
+    },
+    {
+      "identifier": "analyze_terraform_project",
+      "name": "分析 Terraform 專案",
+      "description": "分析 Terraform 專案以識別使用的 AWS 服務。此工具動態提取 Terraform 資源聲明中的服務信息。",
+      "parameters": [
+        {
+          "name": "project_path",
+          "description": "專案目錄的路徑"
+        }
+      ]
+    },
+    {
+      "identifier": "get_pricing",
+      "name": "獲取定價",
+      "description": "從 AWS 價格清單 API 獲取詳細的定價信息，並可選擇性地使用過濾器。",
+      "parameters": [
+        {
+          "name": "next_token",
+          "description": "從上一個響應中獲取的分頁令牌，以獲取下一頁的結果"
+        },
+        {
+          "name": "service_code",
+          "description": "AWS 服務代碼（例如，\"AmazonEC2\"、\"AmazonS3\"、\"AmazonES\"）"
+        },
+        {
+          "name": "region",
+          "description": "AWS 區域 - 單個區域字符串（例如，\"us-east-1\"）或用於多區域比較的列表（例如，[\"us-east-1\", \"us-west-2\", \"eu-west-1\"]）"
+        },
+        {
+          "name": "filters",
+          "description": "可選的定價查詢過濾器"
+        },
+        {
+          "name": "max_allowed_characters",
+          "description": "最大響應長度（以字符為單位）（默認：100,000，使用 -1 表示無限制）"
+        },
+        {
+          "name": "output_options",
+          "description": "可選的輸出過濾選項，以減少響應大小。使用 {\"pricing_terms\": [\"OnDemand\"]} 以顯著減少大型服務（如 EC2）的響應大小。"
+        },
+        {
+          "name": "max_results",
+          "description": "每頁返回的最大結果數（默認：100，最大：100）"
+        }
+      ]
+    },
+    {
+      "identifier": "get_bedrock_patterns",
+      "name": "獲取 Bedrock 模式",
+      "description": "獲取 Amazon Bedrock 應用程序的架構模式，包括組件關係和成本考量",
+      "parameters": [
+        {
+          "name": "ctx",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "generate_cost_report",
+      "name": "生成成本報告",
+      "description": "根據一個或多個 AWS 服務的定價數據生成詳細的成本分析報告。\n\n此工具需要 AWS 定價數據，並提供添加詳細成本信息的選項。\n\n重要要求：\n- 始終包含詳細的單位定價信息（例如，\"每 1K 輸入令牌 $0.0008\"）\n- 始終顯示計算細節（單位價格 × 使用量 = 總成本）\n- 始終指定定價模型（例如，\"按需\"）\n- 始終明確列出所有假設和排除項\n\n輸出格式選項：\n- 'markdown'（默認）：生成格式良好的 markdown 報告\n- 'csv'：生成帶有服務信息、單位定價、成本計算等部分的 CSV 格式報告\n\n示例用法：\n\n```json\n{\n  // 必需的參數\n  \"pricing_data\": {\n    // 這應包含從 get_pricing 獲取的定價數據\n    \"status\": \"success\",\n    \"service_name\": \"bedrock\",\n    \"data\": \"... 定價信息 ...\",\n    \"message\": \"從 AWS 定價 URL 獲取 bedrock 的定價\"\n  },\n  \"service_name\": \"Amazon Bedrock\",\n\n  // 核心參數（常用）\n  \"related_services\": [\"Lambda\", \"S3\"],\n  \"pricing_model\": \"按需\",\n  \"assumptions\": [\n    \"標準按需定價模型\",\n    \"未應用緩存或優化\",\n    \"平均請求大小為 4KB\"\n  ],\n  \"exclusions\": [\n    \"區域間的數據傳輸成本\",\n    \"自定義模型訓練成本\",\n    \"開發和維護成本\"\n  ],\n  \"output_file\": \"cost_analysis_report.md\",  // 或 \"cost_analysis_report.csv\" 用於 CSV 格式\n  \"format\": \"markdown\",  // 或 \"csv\" 用於 CSV 格式\n\n  // 用於複雜場景的高級參數\n  \"detailed_cost_data\": {\n    \"services\": {\n      \"Amazon Bedrock 基礎模型\": {\n        \"usage\": \"處理 1M 輸入令牌和 500K 輸出令牌，使用 Claude 3.5 Haiku\",\n        \"estimated_cost\": \"$80.00\",\n        \"free_tier_info\": \"Bedrock 基礎模型無免費層\",\n        \"unit_pricing\": {\n          \"input_tokens\": \"$0.0008 每 1K 令牌\",\n          \"output_tokens\": \"$0.0016 每 1K 令牌\"\n        },\n        \"usage_quantities\": {\n          \"input_tokens\": \"1,000,000 令牌\",\n          \"output_tokens\": \"500,000 令牌\"\n        },\n        \"calculation_details\": \"$0.0008/1K × 1,000K 輸入令牌 + $0.0016/1K × 500K 輸出令牌 = $80.00\"\n      },\n      \"AWS Lambda\": {\n        \"usage\": \"每月 6,000 次請求，內存為 512 MB\",\n        \"estimated_cost\": \"$0.38\",\n        \"free_tier_info\": \"前 12 個月：每月 1M 請求免費\",\n        \"unit_pricing\": {\n          \"requests\": \"$0.20 每 1M 請求\",\n          \"compute\": \"$0.0000166667 每 GB-秒\"\n        },\n        \"usage_quantities\": {\n          \"requests\": \"6,000 請求\",\n          \"compute\": \"6,000 請求 × 1s × 0.5GB = 3,000 GB-秒\"\n        },\n        \"calculation_details\": \"$0.20/1M × 0.006M 請求 + $0.0000166667 × 3,000 GB-秒 = $0.38\"\n      }\n    }\n  },\n\n  // 建議參數 - 可以直接提供或生成\n  \"recommendations\": {\n    \"immediate\": [\n      \"優化提示工程以減少 Claude 3.5 Haiku 的令牌使用量\",\n      \"根據實際查詢模式配置知識庫 OCU\",\n      \"對常見查詢實施響應緩存以減少令牌使用量\"\n    ],\n    \"best_practices\": [\n      \"監控 OCU 利用率指標並根據需要調整容量\",\n      \"對 API 調用中的重複上下文使用提示緩存\",\n      \"考慮為可預測的工作負載提供預配置吞吐量\"\n    ]\n  }\n}\n```\n",
+      "parameters": [
+        {
+          "name": "exclusions",
+          "description": "排除在成本分析之外的項目列表"
+        },
+        {
+          "name": "format",
+          "description": "輸出格式（\"markdown\" 或 \"csv\"）"
+        },
+        {
+          "name": "detailed_cost_data",
+          "description": "複雜場景的詳細成本信息"
+        },
+        {
+          "name": "output_file",
+          "description": "保存報告文件的路徑"
+        },
+        {
+          "name": "recommendations",
+          "description": "生成的直接建議或指導"
+        },
+        {
+          "name": "related_services",
+          "description": "相關 AWS 服務的列表"
+        },
+        {
+          "name": "assumptions",
+          "description": "成本分析的假設列表"
+        },
+        {
+          "name": "pricing_data",
+          "description": "來自 AWS 定價工具的原始定價數據"
+        },
+        {
+          "name": "service_name",
+          "description": "AWS 服務的名稱"
+        },
+        {
+          "name": "pricing_model",
+          "description": "定價模型（例如，\"按需\"、\"預留\"）"
+        }
+      ]
+    },
+    {
+      "identifier": "get_pricing_service_codes",
+      "name": "獲取定價服務代碼",
+      "description": "獲取在價格清單 API 中可用的 AWS 服務代碼。\n\n    **目的：** 發現哪些 AWS 服務在 AWS 價格清單 API 中有定價信息可用。\n\n    **工作流程：** 這是任何定價查詢的起點。首先使用此功能查找正確的服務代碼。\n\n    **返回：** 服務代碼列表（例如，'AmazonEC2'、'AmazonS3'、'AWSLambda'），可用於其他定價工具。\n\n    **後續步驟：**\n    - 使用 get_pricing_service_attributes() 查看可用於服務的過濾器\n    - 使用 get_pricing() 獲取服務的實際定價數據\n\n    **注意：** 服務代碼可能與 AWS 控制台名稱不同（例如，'AmazonES' 代表 OpenSearch，'AWSLambda' 代表 Lambda）。",
+      "parameters": []
+    }
+  ]
+}

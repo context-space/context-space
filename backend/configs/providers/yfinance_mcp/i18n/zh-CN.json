@@ -1,0 +1,159 @@
+{
+  "name": "Yahoo Finance",
+  "description": "提供获取定价、公司信息等工具。",
+  "categories": [
+    "股票",
+    "新闻"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具访问",
+      "description": "访问 MCP 服务器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "get_current_stock_price",
+      "name": "获取当前股票价格",
+      "description": "根据股票符号获取当前股票价格。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Yahoo Finance 格式的股票符号。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_stock_price_by_date",
+      "name": "按日期获取股票价格",
+      "description": "获取特定日期给定股票符号的股票价格。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Yahoo Finance 格式的股票符号。"
+        },
+        {
+          "name": "date",
+          "description": "YYYY-MM-DD 格式的日期。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_stock_price_date_range",
+      "name": "获取股票价格日期范围",
+      "description": "获取给定股票符号在给定日期范围内的股票价格。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Yahoo Finance 格式的股票符号。"
+        },
+        {
+          "name": "start_date",
+          "description": "YYYY-MM-DD 格式的开始日期。"
+        },
+        {
+          "name": "end_date",
+          "description": "YYYY-MM-DD 格式的结束日期。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_historical_stock_prices",
+      "name": "获取历史股票价格",
+      "description": "获取给定股票符号的历史股票价格。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Yahoo Finance 格式的股票符号。"
+        },
+        {
+          "name": "period",
+          "description": "历史数据的周期。默认为 \"1mo\"。有效周期：\"1d\", \"5d\", \"1mo\", \"3mo\", \"6mo\", \"1y\", \"2y\", \"5y\", \"10y\", \"ytd\", \"max\""
+        },
+        {
+          "name": "interval",
+          "description": "数据点之间的间隔。默认为 \"1d\"。有效间隔：\"1d\", \"5d\", \"1wk\", \"1mo\", \"3mo\""
+        }
+      ]
+    },
+    {
+      "identifier": "get_dividends",
+      "name": "获取股息",
+      "description": "获取给定股票符号的股息。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Yahoo Finance 格式的股票符号。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_income_statement",
+      "name": "获取收入报表",
+      "description": "获取给定股票符号的收入报表。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Yahoo Finance 格式的股票符号。"
+        },
+        {
+          "name": "freq",
+          "description": "获取现金流报表的频率。默认为 \"yearly\"。有效频率：\"yearly\", \"quarterly\", \"trainling\""
+        }
+      ]
+    },
+    {
+      "identifier": "get_cashflow",
+      "name": "获取现金流",
+      "description": "获取给定股票符号的现金流。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Yahoo Finance 格式的股票符号。"
+        },
+        {
+          "name": "freq",
+          "description": "获取现金流报表的频率。默认为 \"yearly\"。有效频率：\"yearly\", \"quarterly\", \"trainling\""
+        }
+      ]
+    },
+    {
+      "identifier": "get_earning_dates",
+      "name": "获取收益日期",
+      "description": "获取收益日期。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Yahoo Finance 格式的股票符号。"
+        },
+        {
+          "name": "limit",
+          "description": "返回的即将到来和最近收益日期的最大数量。默认值 12 应返回下一个 4 个季度和最后 8 个季度。如果需要更多历史记录，请增加。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_news",
+      "name": "获取新闻",
+      "description": "获取给定股票符号的新闻。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Yahoo Finance 格式的股票符号。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_recommendations",
+      "name": "获取推荐",
+      "description": "获取给定符号的分析师推荐。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Yahoo Finance 格式的股票符号。"
+        }
+      ]
+    }
+  ]
+}

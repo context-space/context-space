@@ -1,0 +1,47 @@
+{
+  "name": "时间",
+  "description": "提供时间和时区转换功能。",
+  "categories": [
+    "转换时间",
+    "时区"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具访问",
+      "description": "访问 MCP 服务器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "get_current_time",
+      "name": "获取当前时间",
+      "description": "获取特定时区的当前时间",
+      "parameters": [
+        {
+          "name": "timezone",
+          "description": "IANA 时区名称（例如，'America/New_York'，'Europe/London'）。如果用户未提供时区，则使用 'Asia/Hong_Kong' 作为本地时区。"
+        }
+      ]
+    },
+    {
+      "identifier": "convert_time",
+      "name": "转换时间",
+      "description": "在时区之间转换时间",
+      "parameters": [
+        {
+          "name": "source_timezone",
+          "description": "源 IANA 时区名称（例如，'America/New_York'，'Europe/London'）。如果用户未提供源时区，则使用 'Asia/Hong_Kong' 作为本地时区。"
+        },
+        {
+          "name": "time",
+          "description": "以 24 小时格式（HH:MM）表示要转换的时间"
+        },
+        {
+          "name": "target_timezone",
+          "description": "目标 IANA 时区名称（例如，'Asia/Tokyo'，'America/San_Francisco'）。如果用户未提供目标时区，则使用 'Asia/Hong_Kong' 作为本地时区。"
+        }
+      ]
+    }
+  ]
+}

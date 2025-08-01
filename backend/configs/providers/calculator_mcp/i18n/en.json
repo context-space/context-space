@@ -1,0 +1,28 @@
+{
+  "name": "Calculator",
+  "description": "Uses calculator for precise numerical calculations.",
+  "categories": [
+    "math",
+    "calculation"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "calculate",
+      "name": "Calculate",
+      "description": "Calculates/evaluates the given expression.",
+      "parameters": [
+        {
+          "name": "expression",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

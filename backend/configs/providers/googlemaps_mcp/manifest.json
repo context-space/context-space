@@ -1,0 +1,180 @@
+{
+  "identifier": "googlemaps_mcp",
+  "name": "Google Maps",
+  "description": "Provides directions, place details, and geographic data to enhance applications with mapping functionalities.",
+  "auth_type": "apikey",
+  "icon_url": "",
+  "categories": [
+    "map",
+    "location"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools",
+      "oauth_scopes": []
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "maps_geocode",
+      "name": "Maps Geocode",
+      "description": "Convert an address into geographic coordinates",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "address",
+          "type": "string",
+          "description": "The address to geocode",
+          "required": true
+        }
+      ]
+    },
+    {
+      "identifier": "maps_reverse_geocode",
+      "name": "Maps Reverse Geocode",
+      "description": "Convert coordinates into an address",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "latitude",
+          "type": "number",
+          "description": "Latitude coordinate",
+          "required": true
+        },
+        {
+          "name": "longitude",
+          "type": "number",
+          "description": "Longitude coordinate",
+          "required": true
+        }
+      ]
+    },
+    {
+      "identifier": "maps_search_places",
+      "name": "Maps Search Places",
+      "description": "Search for places using Google Places API",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "query",
+          "type": "string",
+          "description": "Search query",
+          "required": true
+        },
+        {
+          "name": "location",
+          "type": "object",
+          "description": "Optional center point for the search",
+          "required": false
+        },
+        {
+          "name": "radius",
+          "type": "number",
+          "description": "Search radius in meters (max 50000)",
+          "required": false
+        }
+      ]
+    },
+    {
+      "identifier": "maps_place_details",
+      "name": "Maps Place Details",
+      "description": "Get detailed information about a specific place",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "place_id",
+          "type": "string",
+          "description": "The place ID to get details for",
+          "required": true
+        }
+      ]
+    },
+    {
+      "identifier": "maps_distance_matrix",
+      "name": "Maps Distance Matrix",
+      "description": "Calculate travel distance and time for multiple origins and destinations",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "mode",
+          "type": "string",
+          "description": "Travel mode (driving, walking, bicycling, transit)",
+          "required": false,
+          "enum": [
+            "driving",
+            "walking",
+            "bicycling",
+            "transit"
+          ]
+        },
+        {
+          "name": "origins",
+          "type": "array",
+          "description": "Array of origin addresses or coordinates",
+          "required": true
+        },
+        {
+          "name": "destinations",
+          "type": "array",
+          "description": "Array of destination addresses or coordinates",
+          "required": true
+        }
+      ]
+    },
+    {
+      "identifier": "maps_elevation",
+      "name": "Maps Elevation",
+      "description": "Get elevation data for locations on the earth",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "locations",
+          "type": "array",
+          "description": "Array of locations to get elevation for",
+          "required": true
+        }
+      ]
+    },
+    {
+      "identifier": "maps_directions",
+      "name": "Maps Directions",
+      "description": "Get directions between two points",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "mode",
+          "type": "string",
+          "description": "Travel mode (driving, walking, bicycling, transit)",
+          "required": false,
+          "enum": [
+            "driving",
+            "walking",
+            "bicycling",
+            "transit"
+          ]
+        },
+        {
+          "name": "origin",
+          "type": "string",
+          "description": "Starting point address or coordinates",
+          "required": true
+        },
+        {
+          "name": "destination",
+          "type": "string",
+          "description": "Ending point address or coordinates",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

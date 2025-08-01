@@ -1,0 +1,183 @@
+{
+  "name": "AWS Pricing",
+  "description": "Accesses real-time AWS pricing information and provides cost analysis capabilities.",
+  "categories": [
+    "pricing",
+    "cost analysis"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "analyze_cdk_project",
+      "name": "Analyze Cdk Project",
+      "description": "Analyze a CDK project to identify AWS services used. This tool dynamically extracts service information from CDK constructs without relying on hardcoded service mappings.",
+      "parameters": [
+        {
+          "name": "project_path",
+          "description": "Path to the project directory"
+        }
+      ]
+    },
+    {
+      "identifier": "analyze_terraform_project",
+      "name": "Analyze Terraform Project",
+      "description": "Analyze a Terraform project to identify AWS services used. This tool dynamically extracts service information from Terraform resource declarations.",
+      "parameters": [
+        {
+          "name": "project_path",
+          "description": "Path to the project directory"
+        }
+      ]
+    },
+    {
+      "identifier": "get_pricing",
+      "name": "Get Pricing",
+      "description": "\n    Get detailed pricing information from AWS Price List API with optional filters.\n\n    **PARAMETERS:**\n    - service_code (required): AWS service code (e.g., 'AmazonEC2', 'AmazonS3', 'AmazonES')\n    - region (required): AWS region string (e.g., 'us-east-1') OR list for multi-region comparison (e.g., ['us-east-1', 'eu-west-1'])\n    - filters (optional): PricingFilters object with list of filter dictionaries\n    - max_allowed_characters (optional): Response size limit in characters (default: 100,000, use -1 for unlimited)\n    - output_options (optional): OutputOptions object for response transformation and size reduction\n    - max_results (optional): Maximum number of results to return per page (default: 100, min: 1, max: 100)\n    - next_token (optional): Pagination token from previous response to get next page of results\n\n    **MANDATORY WORKFLOW - ALWAYS FOLLOW:**\n\n    **Step 1: Discover Available Options**\n    ```python\n    service_codes = get_pricing_service_codes()                              # Find correct service (skip if known)\n    attributes = get_pricing_service_attributes('AmazonEC2')                 # Discover filterable dimensions\n    attribute_values = get_pricing_attribute_values('AmazonEC2', 'memory')   # Get valid values for filtering\n    ```\n\n    **Step 2: Build Precise Filters**\n    ```python\n    # Use ONLY values discovered in Step 1\n    filters = {\n       \"filters\": [\n           {\"Field\": \"memory\", \"Value\": [\"8 GiB\", \"16 GiB\", \"32 GiB\"], \"Type\": \"ANY_OF\"},     # Multiple options\n           {\"Field\": \"instanceType\", \"Value\": \"m5\", \"Type\": \"CONTAINS\"},                      # Pattern matching\n           {\"Field\": \"instanceType\", \"Value\": [\"t2\", \"m4\"], \"Type\": \"NONE_OF\"}                # Exclude older\n       ]\n    }\n    ```\n\n    **Step 3: Execute Query**\n    ```python\n    pricing = get_pricing('AmazonEC2', 'us-east-1', filters)\n    ```\n\n    **FILTER TYPES:**\n    - **EQUALS**: Exact match (default) - `{\"Field\": \"instanceType\", \"Value\": \"m5.large\"}`\n    - **ANY_OF**: Multiple options - `{\"Field\": \"memory\", \"Value\": [\"8 GiB\", \"16 GiB\"], \"Type\": \"ANY_OF\"}`\n    - **CONTAINS**: Pattern match - `{\"Field\": \"instanceType\", \"Value\": \"m5\", \"Type\": \"CONTAINS\"}`\n    - **NONE_OF**: Exclusion - `{\"Field\": \"instanceType\", \"Value\": [\"t2\", \"m4\"], \"Type\": \"NONE_OF\"}`\n\n    **CRITICAL: ANY_OF FILTER VALUE LIMITS:**\n    - **1024 CHARACTER LIMIT**: Total length of all values in ANY_OF arrays cannot exceed 1024 characters\n    - **PROGRESSIVE FILTERING**: Start with minimal qualifying options, expand if needed\n    - **EXAMPLE VIOLATION**: `[\"8 GiB\", \"16 GiB\", \"32 GiB\", \"64 GiB\", \"96 GiB\", \"128 GiB\", ...]` (TOO LONG)\n    - **CORRECT APPROACH**: `[\"8 GiB\", \"16 GiB\", \"32 GiB\", \"36 GiB\", \"48 GiB\"]` (TARGETED LIST)\n\n    **COMMON USE CASES:**\n\n    **COST OPTIMIZATION - EXHAUSTIVE MINIMUM-FIRST APPROACH:** When users ask for \"lowest price\", \"cheapest\", or cost optimization\n    - **LOWER = CHEAPER ASSUMPTION**: For cost optimization, assume lower capabilities cost less than higher ones\n      * 32 GB storage is cheaper than 300 GB storage\n      * 8 GiB RAM is cheaper than 64 GiB RAM\n    - **CRITICAL FOR COST QUERIES**: Start IMMEDIATELY above minimum requirement and test ALL options incrementally\n    - **EXHAUSTIVE ENUMERATION REQUIRED**: Each storage/memory tier is MUTUALLY EXCLUSIVE - must list each one explicitly\n    - **STOP AT REASONABLE UPPER BOUND**: For cost optimization, limit upper bound to 2-3x minimum requirement to avoid expensive options\n    - **exclude_free_products**: ESSENTIAL for cost analysis - removes $0.00 reservation placeholders, SQL licensing variants, and special pricing entries that obscure actual billable instances when finding cheapest options\n    - Use ANY_OF for efficient multi-option comparison in single API call\n    - Multi-attribute capability filtering for minimum requirements\n    - Combine CONTAINS + NONE_OF for refined discovery\n\n    **OUTPUT OPTIONS (Response Size \u0026 Performance Control):**\n    - **PURPOSE**: Transform and optimize API responses for ALL services, especially critical for large services (EC2, RDS)\n    - **IMMEDIATE COMBINED APPROACH**: `{\"pricing_terms\": [\"OnDemand\"], \"product_attributes\": [\"instanceType\", \"location\", \"memory\"]}`\n    - **ATTRIBUTE DISCOVERY**: Use get_pricing_service_attributes() - same names for filters and output_options\n    - **SIZE REDUCTION**: 80%+ reduction with combined pricing_terms + product_attributes\n    - **exclude_free_products**: Remove products with $0.00 OnDemand pricing (useful when you know service has paid tiers)\n    - **WHEN TO USE**: Always for large services, recommended for all services to improve performance\n\n    **CRITICAL REQUIREMENTS:**\n    - **NEVER GUESS VALUES**: Always use get_pricing_attribute_values() to discover valid options\n    - **EXHAUSTIVE ENUMERATION**: For cost optimization, list ALL qualifying tiers individually - they are mutually exclusive\n    - **USE SPECIFIC FILTERS**: Large services (EC2, RDS) require 2-3 filters minimum\n    - **NEVER USE MULTIPLE CALLS**: When ANY_OF can handle it in one call\n    - **VERIFY EXISTENCE**: Ensure all filter values exist in the service before querying\n    - **FOR \"CHEAPEST\" QUERIES**: Focus on lower-end options that meet minimum requirements, test incrementally\n\n    **CONSTRAINTS:**\n    - **CURRENT PRICING ONLY**: Use get_price_list_urls for historical data\n    - **NO SPOT/SAVINGS PLANS**: Only OnDemand and Reserved Instance pricing available\n    - **CHARACTER LIMIT**: 100,000 characters default response limit (use output_options to reduce)\n    - **REGION AUTO-FILTER**: Region parameter automatically creates regionCode filter\n\n    **ANTI-PATTERNS:**\n    - DO NOT make multiple API calls that could be combined with ANY_OF\n    - DO NOT build cross-products manually when API can handle combinations\n    - DO NOT call get_pricing_service_codes() when service code is already known (e.g., \"AmazonEC2\")\n    - DO NOT use EQUALS without first checking get_pricing_attribute_values()\n    - DO NOT skip discovery workflow for any use case\n    - DO NOT use broad queries without specific filters on large services\n    - DO NOT assume attribute values exist across different services/regions\n    - DO NOT skip intermediate tiers: Missing 50GB, 59GB options when testing 32GB → 75GB jump\n    - DO NOT set upper bounds too high: Including 500GB+ storage when user needs ≥30GB (wastes character limit)\n\n    **EXAMPLE USE CASES:**\n\n    **1. Cost-Optimized Multi-Attribute Filtering (CORRECT APPROACH):**\n    ```python\n    # Find cheapest EC2 instances meeting minimum requirements (\u003e= 8 GiB memory, \u003e= 30 GB storage)\n    # EXHAUSTIVE ENUMERATION of qualifying tiers - each is mutually exclusive\n    filters = {\"filters\": [\n       {\"Field\": \"memory\", \"Value\": [\"8 GiB\", \"16 GiB\", \"32 GiB\"], \"Type\": \"ANY_OF\"},  # All tiers ≥8GB up to reasonable limit\n       {\"Field\": \"storage\", \"Value\": [\"1 x 32 SSD\", \"1 x 60 SSD\", \"1 x 75 NVMe SSD\"], \"Type\": \"ANY_OF\"},  # All tiers ≥30GB up to reasonable limit\n       {\"Field\": \"instanceType\", \"Value\": [\"t2\", \"m4\"], \"Type\": \"NONE_OF\"},  # Exclude older generations\n       {\"Field\": \"tenancy\", \"Value\": \"Shared\", \"Type\": \"EQUALS\"}  # Exclude more expensive dedicated\n    ]}\n    pricing = get_pricing('AmazonEC2', 'us-east-1', filters)\n    ```\n\n    **2. Efficient Multi-Region Comparison:**\n    ```python\n    # Compare same configuration across regions - use region parameter for multi-region\n    filters = {\"filters\": [{\"Field\": \"instanceType\", \"Value\": \"m5.large\", \"Type\": \"EQUALS\"}]}\n    pricing = get_pricing('AmazonEC2', ['us-east-1', 'us-west-2', 'eu-west-1'], filters)\n    ```\n\n    **3. Large service with output optimization (recommended approach):**\n    ```python\n    output_options = {\"pricing_terms\": [\"OnDemand\"], \"product_attributes\": [\"instanceType\", \"location\"], \"exclude_free_products\": true}\n    pricing = get_pricing('AmazonEC2', 'us-east-1', filters, output_options=output_options)\n    ```\n\n    **4. Pattern-Based Discovery with Refinement:**\n    ```python\n    # Find all Standard storage tiers except expensive ones\n    filters = {\"filters\": [\n        {\"Field\": \"storageClass\", \"Value\": \"Standard\", \"Type\": \"CONTAINS\"},\n        {\"Field\": \"storageClass\", \"Value\": [\"Standard-IA\"], \"Type\": \"NONE_OF\"}\n    ]}\n    ```\n\n    **FILTERING STRATEGY:**\n    - **Large Services (EC2, RDS)**: ALWAYS use 2-3 specific filters to prevent 200+ record responses\n    - **Small Services**: May work with single filter or no filters\n    - **Multi-Option Analysis**: Use ANY_OF instead of multiple API calls\n    - **Pattern Discovery**: Use CONTAINS for finding families or tiers\n    - **Smart Exclusion**: Use NONE_OF for compliance or cost filtering\n\n    **SUCCESS CRITERIA:**\n    - Used discovery workflow (skip get_pricing_service_codes() if service known)\n    - Applied appropriate filters for the service size\n    - Used exact values from get_pricing_attribute_values()\n    - Used ANY_OF for multi-option scenarios instead of multiple calls\n    - For cost optimization: tested ALL qualifying tiers exhaustively (in a reasonable range)\n    ",
+      "parameters": [
+        {
+          "name": "next_token",
+          "description": "Pagination token from previous response to get next page of results"
+        },
+        {
+          "name": "service_code",
+          "description": "AWS service code (e.g., \"AmazonEC2\", \"AmazonS3\", \"AmazonES\")"
+        },
+        {
+          "name": "region",
+          "description": "AWS region(s) - single region string (e.g., \"us-east-1\") or list for multi-region comparison (e.g., [\"us-east-1\", \"us-west-2\", \"eu-west-1\"])"
+        },
+        {
+          "name": "filters",
+          "description": "Optional filters for pricing queries"
+        },
+        {
+          "name": "max_allowed_characters",
+          "description": "Maximum response length in characters (default: 100,000, use -1 for unlimited)"
+        },
+        {
+          "name": "output_options",
+          "description": "Optional output filtering options to reduce response size. Use {\"pricing_terms\": [\"OnDemand\"]} to significantly reduce response size for large services like EC2."
+        },
+        {
+          "name": "max_results",
+          "description": "Maximum number of results to return per page (default: 100, max: 100)"
+        }
+      ]
+    },
+    {
+      "identifier": "get_bedrock_patterns",
+      "name": "Get Bedrock Patterns",
+      "description": "Get architecture patterns for Amazon Bedrock applications, including component relationships and cost considerations",
+      "parameters": [
+        {
+          "name": "ctx",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "generate_cost_report",
+      "name": "Generate Cost Report",
+      "description": "Generate a detailed cost analysis report based on pricing data for one or more AWS services.\n\nThis tool requires AWS pricing data and provides options for adding detailed cost information.\n\nIMPORTANT REQUIREMENTS:\n- ALWAYS include detailed unit pricing information (e.g., \"$0.0008 per 1K input tokens\")\n- ALWAYS show calculation breakdowns (unit price × usage = total cost)\n- ALWAYS specify the pricing model (e.g., \"ON DEMAND\")\n- ALWAYS list all assumptions and exclusions explicitly\n\nOutput Format Options:\n- 'markdown' (default): Generates a well-formatted markdown report\n- 'csv': Generates a CSV format report with sections for service information, unit pricing, cost calculations, etc.\n\nExample usage:\n\n```json\n{\n  // Required parameters\n  \"pricing_data\": {\n    // This should contain pricing data retrieved from get_pricing\n    \"status\": \"success\",\n    \"service_name\": \"bedrock\",\n    \"data\": \"... pricing information ...\",\n    \"message\": \"Retrieved pricing for bedrock from AWS Pricing url\"\n  },\n  \"service_name\": \"Amazon Bedrock\",\n\n  // Core parameters (commonly used)\n  \"related_services\": [\"Lambda\", \"S3\"],\n  \"pricing_model\": \"ON DEMAND\",\n  \"assumptions\": [\n    \"Standard ON DEMAND pricing model\",\n    \"No caching or optimization applied\",\n    \"Average request size of 4KB\"\n  ],\n  \"exclusions\": [\n    \"Data transfer costs between regions\",\n    \"Custom model training costs\",\n    \"Development and maintenance costs\"\n  ],\n  \"output_file\": \"cost_analysis_report.md\",  // or \"cost_analysis_report.csv\" for CSV format\n  \"format\": \"markdown\",  // or \"csv\" for CSV format\n\n  // Advanced parameter for complex scenarios\n  \"detailed_cost_data\": {\n    \"services\": {\n      \"Amazon Bedrock Foundation Models\": {\n        \"usage\": \"Processing 1M input tokens and 500K output tokens with Claude 3.5 Haiku\",\n        \"estimated_cost\": \"$80.00\",\n        \"free_tier_info\": \"No free tier for Bedrock foundation models\",\n        \"unit_pricing\": {\n          \"input_tokens\": \"$0.0008 per 1K tokens\",\n          \"output_tokens\": \"$0.0016 per 1K tokens\"\n        },\n        \"usage_quantities\": {\n          \"input_tokens\": \"1,000,000 tokens\",\n          \"output_tokens\": \"500,000 tokens\"\n        },\n        \"calculation_details\": \"$0.0008/1K × 1,000K input tokens + $0.0016/1K × 500K output tokens = $80.00\"\n      },\n      \"AWS Lambda\": {\n        \"usage\": \"6,000 requests per month with 512 MB memory\",\n        \"estimated_cost\": \"$0.38\",\n        \"free_tier_info\": \"First 12 months: 1M requests/month free\",\n        \"unit_pricing\": {\n          \"requests\": \"$0.20 per 1M requests\",\n          \"compute\": \"$0.0000166667 per GB-second\"\n        },\n        \"usage_quantities\": {\n          \"requests\": \"6,000 requests\",\n          \"compute\": \"6,000 requests × 1s × 0.5GB = 3,000 GB-seconds\"\n        },\n        \"calculation_details\": \"$0.20/1M × 0.006M requests + $0.0000166667 × 3,000 GB-seconds = $0.38\"\n      }\n    }\n  },\n\n  // Recommendations parameter - can be provided directly or generated\n  \"recommendations\": {\n    \"immediate\": [\n      \"Optimize prompt engineering to reduce token usage for Claude 3.5 Haiku\",\n      \"Configure Knowledge Base OCUs based on actual query patterns\",\n      \"Implement response caching for common queries to reduce token usage\"\n    ],\n    \"best_practices\": [\n      \"Monitor OCU utilization metrics and adjust capacity as needed\",\n      \"Use prompt caching for repeated context across API calls\",\n      \"Consider provisioned throughput for predictable workloads\"\n    ]\n  }\n}\n```\n",
+      "parameters": [
+        {
+          "name": "exclusions",
+          "description": "List of items excluded from cost analysis"
+        },
+        {
+          "name": "format",
+          "description": "Output format (\"markdown\" or \"csv\")"
+        },
+        {
+          "name": "detailed_cost_data",
+          "description": "Detailed cost information for complex scenarios"
+        },
+        {
+          "name": "output_file",
+          "description": "Path to save the report file"
+        },
+        {
+          "name": "recommendations",
+          "description": "Direct recommendations or guidance for generation"
+        },
+        {
+          "name": "related_services",
+          "description": "List of related AWS services"
+        },
+        {
+          "name": "assumptions",
+          "description": "List of assumptions for cost analysis"
+        },
+        {
+          "name": "pricing_data",
+          "description": "Raw pricing data from AWS pricing tools"
+        },
+        {
+          "name": "service_name",
+          "description": "Name of the AWS service"
+        },
+        {
+          "name": "pricing_model",
+          "description": "Pricing model (e.g., \"ON DEMAND\", \"Reserved\")"
+        }
+      ]
+    },
+    {
+      "identifier": "get_pricing_service_codes",
+      "name": "Get Pricing Service Codes",
+      "description": "Get AWS service codes available in the Price List API.\n\n    **PURPOSE:** Discover which AWS services have pricing information available in the AWS Price List API.\n\n    **WORKFLOW:** This is the starting point for any pricing query. Use this first to find the correct service code.\n\n    **RETURNS:** List of service codes (e.g., 'AmazonEC2', 'AmazonS3', 'AWSLambda') that can be used with other pricing tools.\n\n    **NEXT STEPS:**\n    - Use get_pricing_service_attributes() to see what filters are available for a service\n    - Use get_pricing() to get actual pricing data for a service\n\n    **NOTE:** Service codes may differ from AWS console names (e.g., 'AmazonES' for OpenSearch, 'AWSLambda' for Lambda).\n    ",
+      "parameters": null
+    },
+    {
+      "identifier": "get_pricing_service_attributes",
+      "name": "Get Pricing Service Attributes",
+      "description": "Get filterable attributes available for an AWS service in the Pricing API.\n\n    **PURPOSE:** Discover what pricing dimensions (filters) are available for a specific AWS service.\n\n    **WORKFLOW:** Use this after get_pricing_service_codes() to see what filters you can apply to narrow down pricing queries.\n\n    **REQUIRES:** Service code from get_pricing_service_codes() (e.g., 'AmazonEC2', 'AmazonRDS').\n\n    **RETURNS:** List of attribute names (e.g., 'instanceType', 'location', 'storageClass') that can be used as filters.\n\n    **NEXT STEPS:**\n    - Use get_pricing_attribute_values() to see valid values for each attribute\n    - Use these attributes in get_pricing() filters to get specific pricing data\n\n    **EXAMPLE:** For 'AmazonRDS' you might get ['engineCode', 'instanceType', 'deploymentOption', 'location'].\n    ",
+      "parameters": [
+        {
+          "name": "service_code",
+          "description": "AWS service code (e.g., \"AmazonEC2\", \"AmazonS3\", \"AmazonES\")"
+        }
+      ]
+    },
+    {
+      "identifier": "get_pricing_attribute_values",
+      "name": "Get Pricing Attribute Values",
+      "description": "Get valid values for pricing filter attributes.\n\n    **PURPOSE:** Discover what values are available for specific pricing filter attributes of an AWS service.\n\n    **WORKFLOW:** Use this after get_pricing_service_attributes() to see valid values for each filter attribute.\n\n    **REQUIRES:**\n    - Service code from get_pricing_service_codes() (e.g., 'AmazonEC2', 'AmazonRDS')\n    - List of attribute names from get_pricing_service_attributes() (e.g., ['instanceType', 'location'])\n\n    **RETURNS:** Dictionary mapping attribute names to their valid values.\n\n    **EXAMPLE RETURN:**\n    ```\n    {\n        'instanceType': ['t2.micro', 't3.medium', 'm5.large', ...],\n        'location': ['US East (N. Virginia)', 'EU (London)', ...]\n    }\n    ```\n\n    **NEXT STEPS:** Use these values in get_pricing() filters to get specific pricing data.\n\n    **ERROR HANDLING:** Uses \"all-or-nothing\" approach - if any attribute fails, the entire operation fails.\n\n    **EXAMPLES:**\n    - Single attribute: ['instanceType'] returns {'instanceType': ['t2.micro', 't3.medium', ...]}\n    - Multiple attributes: ['instanceType', 'location'] returns both mappings\n    ",
+      "parameters": [
+        {
+          "name": "attribute_names",
+          "description": "List of attribute names (e.g., [\"instanceType\", \"location\", \"storageClass\"])"
+        },
+        {
+          "name": "service_code",
+          "description": "AWS service code (e.g., \"AmazonEC2\", \"AmazonS3\", \"AmazonES\")"
+        }
+      ]
+    },
+    {
+      "identifier": "get_price_list_urls",
+      "name": "Get Price List Urls",
+      "description": "Get download URLs for bulk pricing data files.\n\n    **PURPOSE:** Access complete AWS pricing datasets as downloadable files for historical analysis and bulk processing.\n\n    **WORKFLOW:** Use this for historical pricing analysis or bulk data processing when current pricing from get_pricing() isn't sufficient.\n\n    **REQUIRES:**\n    - Service code from get_pricing_service_codes() (e.g., 'AmazonEC2', 'AmazonS3')\n    - AWS region (e.g., 'us-east-1', 'eu-west-1')\n    - Optional: effective_date for historical pricing (default: current date)\n\n    **RETURNS:** Dictionary with download URLs for different formats:\n    - 'csv': Direct download URL for CSV format\n    - 'json': Direct download URL for JSON format\n\n    **USE CASES:**\n    - Historical pricing analysis (get_pricing() only provides current pricing)\n    - Bulk data processing without repeated API calls\n    - Offline analysis of complete pricing datasets\n    - Savings Plans analysis across services\n\n    **FILE PROCESSING:**\n    - CSV files: Lines 1-5 are metadata, Line 6 contains headers, Line 7+ contains pricing data\n    - Use `tail -n +7 pricing.csv | grep \"t3.medium\"` to filter data\n    ",
+      "parameters": [
+        {
+          "name": "region",
+          "description": "AWS region(s) - single region string (e.g., \"us-east-1\") or list for multi-region comparison (e.g., [\"us-east-1\", \"us-west-2\", \"eu-west-1\"])"
+        },
+        {
+          "name": "effective_date",
+          "description": "Effective date for pricing in format \"YYYY-MM-DD HH:MM\" (default: current timestamp)"
+        },
+        {
+          "name": "service_code",
+          "description": "AWS service code (e.g., \"AmazonEC2\", \"AmazonS3\", \"AmazonES\")"
+        }
+      ]
+    }
+  ]
+}

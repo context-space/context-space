@@ -1,0 +1,156 @@
+{
+  "name": "Akshare",
+  "description": "提供对中国股市数据的访问，包括历史价格、实时数据、新闻和财务报表。检索具有灵活参数的股票综合财务信息。",
+  "categories": [
+    "股票",
+    "新闻"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具访问",
+      "description": "访问 MCP 服务器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "get_hist_data",
+      "name": "获取历史数据",
+      "description": "获取历史股市数据。'eastmoney_direct' 支持所有 A、B、H 股",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "股票代码/标识符（例如：'000001'）"
+        },
+        {
+          "name": "start_date",
+          "description": "开始日期，格式为 YYYY-MM-DD"
+        },
+        {
+          "name": "source",
+          "description": "数据来源"
+        },
+        {
+          "name": "indicators_list",
+          "description": "要添加的技术指标"
+        },
+        {
+          "name": "interval",
+          "description": "时间间隔"
+        },
+        {
+          "name": "end_date",
+          "description": "结束日期，格式为 YYYY-MM-DD"
+        },
+        {
+          "name": "adjust",
+          "description": "调整类型"
+        },
+        {
+          "name": "recent_n",
+          "description": "返回的最新记录数量"
+        },
+        {
+          "name": "interval_multiplier",
+          "description": "间隔倍数"
+        }
+      ]
+    },
+    {
+      "identifier": "get_realtime_data",
+      "name": "获取实时数据",
+      "description": "获取实时股市数据。'eastmoney_direct' 支持所有 A、B、H 股",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "股票代码/标识符（例如：'000001'）"
+        },
+        {
+          "name": "source",
+          "description": "数据来源"
+        }
+      ]
+    },
+    {
+      "identifier": "get_news_data",
+      "name": "获取新闻数据",
+      "description": "获取与股票相关的新闻数据。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "股票代码/标识符（例如：'000001'）"
+        },
+        {
+          "name": "recent_n",
+          "description": "返回的最新记录数量"
+        }
+      ]
+    },
+    {
+      "identifier": "get_balance_sheet",
+      "name": "获取资产负债表",
+      "description": "获取公司资产负债表数据。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "股票代码/标识符（例如：'000001'）"
+        },
+        {
+          "name": "recent_n",
+          "description": "返回的最新记录数量"
+        }
+      ]
+    },
+    {
+      "identifier": "get_income_statement",
+      "name": "获取损益表",
+      "description": "获取公司损益表数据。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "股票代码/标识符（例如：'000001'）"
+        },
+        {
+          "name": "recent_n",
+          "description": "返回的最新记录数量"
+        }
+      ]
+    },
+    {
+      "identifier": "get_cash_flow",
+      "name": "获取现金流量表",
+      "description": "获取公司现金流量表数据。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "股票代码/标识符（例如：'000001'）"
+        },
+        {
+          "name": "source",
+          "description": "数据来源"
+        },
+        {
+          "name": "recent_n",
+          "description": "返回的最新记录数量"
+        }
+      ]
+    },
+    {
+      "identifier": "get_inner_trade_data",
+      "name": "获取内部交易数据",
+      "description": "获取公司内部交易数据。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "股票代码/标识符（例如：'000001'）"
+        }
+      ]
+    },
+    {
+      "identifier": "get_time_info",
+      "name": "获取时间信息",
+      "description": "获取当前时间，包含 ISO 格式、时间戳和最后交易日。",
+      "parameters": []
+    }
+  ]
+}

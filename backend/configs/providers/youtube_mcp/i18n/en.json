@@ -1,0 +1,140 @@
+{
+  "name": "Youtube",
+  "description": "Interacts with YouTube content through a standardized interface utilizing the YouTube Data API.",
+  "categories": [
+    "video",
+    "transcript"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "getVideoDetails",
+      "name": "Getvideodetails",
+      "description": "Get detailed information about multiple YouTube videos. Returns comprehensive data including video metadata, statistics, and content details. Use this when you need complete information about specific videos.",
+      "parameters": [
+        {
+          "name": "videoIds",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "searchVideos",
+      "name": "Searchvideos",
+      "description": "Searches for videos based on a query string. Returns a list of videos matching the search criteria, including titles, descriptions, and metadata. Use this when you need to find videos related to specific topics or keywords.",
+      "parameters": [
+        {
+          "name": "query",
+          "description": ""
+        },
+        {
+          "name": "maxResults",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "getTranscripts",
+      "name": "Gettranscripts",
+      "description": "Retrieves transcripts for multiple videos. Returns the text content of videos' captions, useful for accessibility and content analysis. Use this when you need the spoken content of multiple videos.",
+      "parameters": [
+        {
+          "name": "lang",
+          "description": ""
+        },
+        {
+          "name": "videoIds",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "getRelatedVideos",
+      "name": "Getrelatedvideos",
+      "description": "Retrieves related videos for a specific video. Returns a list of videos that are similar or related to the specified video, based on YouTube's recommendation algorithm. Use this when you want to discover content similar to a particular video.",
+      "parameters": [
+        {
+          "name": "videoId",
+          "description": ""
+        },
+        {
+          "name": "maxResults",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "getChannelStatistics",
+      "name": "Getchannelstatistics",
+      "description": "Retrieves statistics for multiple channels. Returns detailed metrics including subscriber count, view count, and video count for each channel. Use this when you need to analyze the performance and reach of multiple YouTube channels.",
+      "parameters": [
+        {
+          "name": "channelIds",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "getChannelTopVideos",
+      "name": "Getchanneltopvideos",
+      "description": "Retrieves the top videos from a specific channel. Returns a list of the most viewed or popular videos from the channel, based on view count. Use this when you want to identify the most successful content from a channel.",
+      "parameters": [
+        {
+          "name": "channelId",
+          "description": ""
+        },
+        {
+          "name": "maxResults",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "getVideoEngagementRatio",
+      "name": "Getvideoengagementratio",
+      "description": "Calculates the engagement ratio for multiple videos. Returns metrics such as view count, like count, comment count, and the calculated engagement ratio for each video. Use this when you want to measure the audience interaction with videos.",
+      "parameters": [
+        {
+          "name": "videoIds",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "getTrendingVideos",
+      "name": "Gettrendingvideos",
+      "description": "Retrieves trending videos based on region and category. Returns a list of videos that are currently popular in the specified region and category. Use this when you want to discover what's trending in specific areas or categories. Available category IDs: 1 (Film \u0026 Animation), 2 (Autos \u0026 Vehicles), 10 (Music), 15 (Pets \u0026 Animals), 17 (Sports), 18 (Short Movies), 19 (Travel \u0026 Events), 20 (Gaming), 21 (Videoblogging), 22 (People \u0026 Blogs), 23 (Comedy), 24 (Entertainment), 25 (News \u0026 Politics), 26 (Howto \u0026 Style), 27 (Education), 28 (Science \u0026 Technology), 29 (Nonprofits \u0026 Activism), 30 (Movies), 31 (Anime/Animation), 32 (Action/Adventure), 33 (Classics), 34 (Comedy), 35 (Documentary), 36 (Drama), 37 (Family), 38 (Foreign), 39 (Horror), 40 (Sci-Fi/Fantasy), 41 (Thriller), 42 (Shorts), 43 (Shows), 44 (Trailers).",
+      "parameters": [
+        {
+          "name": "regionCode",
+          "description": ""
+        },
+        {
+          "name": "categoryId",
+          "description": ""
+        },
+        {
+          "name": "maxResults",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "compareVideos",
+      "name": "Comparevideos",
+      "description": "Compares multiple videos based on their statistics. Returns a comparison of view counts, like counts, comment counts, and other metrics for the specified videos. Use this when you want to analyze the performance of multiple videos side by side.",
+      "parameters": [
+        {
+          "name": "videoIds",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

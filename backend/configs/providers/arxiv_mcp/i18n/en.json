@@ -1,0 +1,73 @@
+{
+  "name": "ArXiv",
+  "description": "Enables efficient search, exploration, and comparison of arXiv.org research papers. Accesses detailed paper metadata, performs keyword and author-based searches, and generates prompts for summarization and comparison.",
+  "categories": [
+    "paper",
+    "analyze"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "scrape_recent_category_papers",
+      "name": "Scrape Recent Category Papers",
+      "description": "[Crawling] Scrape the ‘recent’ page of a specified category to retrieve a list of the latest papers.",
+      "parameters": [
+        {
+          "name": "category",
+          "description": ""
+        },
+        {
+          "name": "max_results",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "search_papers",
+      "name": "Search Papers",
+      "description": "Search arXiv papers by keyword.",
+      "parameters": [
+        {
+          "name": "keyword",
+          "description": ""
+        },
+        {
+          "name": "max_results",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "get_paper_info",
+      "name": "Get Paper Info",
+      "description": "Retrieve detailed information given a paper ID.",
+      "parameters": [
+        {
+          "name": "paper_id",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "analyze_trends",
+      "name": "Analyze Trends",
+      "description": "Analyze the latest trends in a specified category.",
+      "parameters": [
+        {
+          "name": "category",
+          "description": ""
+        },
+        {
+          "name": "days",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

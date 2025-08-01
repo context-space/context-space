@@ -1,0 +1,60 @@
+{
+  "name": "顺序思考",
+  "description": "提供一个通过思考进行动态和反思性问题解决的工具。",
+  "categories": [
+    "逻辑",
+    "思考"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具访问",
+      "description": "访问 MCP 服务器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "sequentialthinking",
+      "name": "顺序思考",
+      "description": "一个详细的工具，通过思考进行动态和反思性问题解决。\n该工具帮助通过灵活的思维过程分析问题，该过程可以适应和演变。\n每个思考可以在理解加深的过程中建立、质疑或修订先前的见解。\n\n何时使用此工具：\n- 将复杂问题分解为步骤\n- 规划和设计时留有修订的余地\n- 可能需要调整方向的分析\n- 初始时可能不清楚全貌的问题\n- 需要多步骤解决方案的问题\n- 需要在多个步骤中保持上下文的任务\n- 需要过滤掉无关信息的情况\n\n主要功能：\n- 您可以根据进展调整 total_thoughts 的数量\n- 您可以质疑或修订先前的思考\n- 即使在看似结束时，您也可以添加更多思考\n- 您可以表达不确定性并探索替代方法\n- 不是每个思考都需要线性构建 - 您可以分支或回溯\n- 生成解决方案假设\n- 根据思维链步骤验证假设\n- 重复该过程直到满意\n- 提供正确答案\n\n参数说明：\n- thought: 您当前的思考步骤，可以包括：\n* 常规分析步骤\n* 对先前思考的修订\n* 对先前决策的质疑\n* 需要更多分析的认识\n* 方法的变化\n* 假设生成\n* 假设验证\n- next_thought_needed: 如果您需要更多思考，即使在看似结束时为真\n- thought_number: 当前序列中的数字（如有需要可以超出初始总数）\n- total_thoughts: 当前估计所需的思考总数（可以上下调整）\n- is_revision: 一个布尔值，指示此思考是否修订了先前的思考\n- revises_thought: 如果 is_revision 为真，正在重新考虑的思考编号\n- branch_from_thought: 如果分支，分支点的思考编号\n- branch_id: 当前分支的标识符（如果有）\n- needs_more_thoughts: 如果到达结束但意识到需要更多思考\n\n您应该：\n1. 从所需思考的初始估计开始，但准备好进行调整\n2. 随时质疑或修订先前的思考\n3. 如果需要，即使在“结束”时也不要犹豫添加更多思考\n4. 在存在时表达不确定性\n5. 标记修订先前思考或分支到新路径的思考\n6. 忽略与当前步骤无关的信息\n7. 在适当时生成解决方案假设\n8. 根据思维链步骤验证假设\n9. 重复该过程直到对解决方案满意\n10. 提供一个单一的、理想的正确答案作为最终输出\n11. 仅在真正完成并达到满意答案时将 next_thought_needed 设置为 false",
+      "parameters": [
+        {
+          "name": "thoughtNumber",
+          "description": "当前思考编号"
+        },
+        {
+          "name": "totalThoughts",
+          "description": "估计所需的总思考数"
+        },
+        {
+          "name": "revisesThought",
+          "description": "正在重新考虑的思考"
+        },
+        {
+          "name": "branchFromThought",
+          "description": "分支点思考编号"
+        },
+        {
+          "name": "nextThoughtNeeded",
+          "description": "是否需要另一个思考步骤"
+        },
+        {
+          "name": "branchId",
+          "description": "分支标识符"
+        },
+        {
+          "name": "needsMoreThoughts",
+          "description": "是否需要更多思考"
+        },
+        {
+          "name": "isRevision",
+          "description": "是否修订了先前的思考"
+        },
+        {
+          "name": "thought",
+          "description": "您当前的思考步骤"
+        }
+      ]
+    }
+  ]
+}
