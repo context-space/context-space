@@ -1,8 +1,8 @@
-<div align="center">
-<a href="https://context.space">
-<h1 align="center"> Context Space </h1>
-</a>
+![Context Space](https://r2.context.space/resources/20250724-235344_1753372441182.jpg)
 
+
+<div align="center">
+     
 [![License](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
 [![Go Version](https://img.shields.io/badge/go-1.24-blue.svg)](https://golang.org/dl/)
 [![Docker](https://img.shields.io/badge/docker-supported-blue.svg)](https://docker.com)
@@ -10,42 +10,42 @@
 [![API Docs](https://img.shields.io/badge/API-documented-green.svg)](http://api.context.space/v1/docs)
 [![Contributors](https://img.shields.io/badge/contributors-welcome-orange.svg)]()
 
-English | [中文](docs/README.zh-CN.md)
 
-
-**Context Space is a production-ready infrastructure layer for Context Engineering, making it easy to seamlessly adopt MCP servers and connect AI agents to external data and services.** While the industry focuses on prompt engineering, we believe the next frontier lies in Context Engineering that provides AI systems with the right information, at the right time, in the right format.
-
-**🔗 Zero-Config Integrations** • **🔐 Enterprise-Grade Security** • **🚀 Production Ready** • **🤖 Context Engineering**
-
-[Live Demo](#live-demo) • [Roadmap](#roadmap-from-foundation-to-frontier) • [API Documentation](http://api.context.space/v1/docs)
+*🔒Verified MCP Tools
+ · 🏃Context Engineering in Practice
+ · 🤝Connect Your Agents to the World*
 
 </div>
 
-![Homepage Screenshot](https://r2.context.space/resources/readme-homepage-screenshot.jpg)
+**Context Space** is designed to 10× your **productivity**. It offers unified MCP tools, secure & verified integrations, and a 5-minute setup — perfect for AI agents, automation workflows, and developer tools. As the **first context engineering infrastructure**, it turns theory into practice by delivering better context and enabling agents to interact effectively with the real world.
 
+## Our Vision
 
----
+Today's Al agents excel at reasoning but terrible at acting in the real world. They’re cut off from live data and tools, trapped behind scattered APIs, inconsistent sources, and complex authentication..
 
-## What is Context Engineering?
+Context Space changes this. It packages core agent capabilities like task orchestration and memory into standardized, callable tools. With built-in tool discovery and recommendation, it gives agents a clear, controllable, and interpretable path to invoke real-world context.
 
-As Andrej Karpathy recently [noted](https://x.com/karpathy/status/1937902205765607626), context engineering is becoming the foundation for reliable AI systems that can operate in complex, real-world environments.
-
-**Context engineering** is the systematic design and management of all information surrounding an AI model during inference. Context engineering builds upon and extends prompt engineering. While [prompt engineering](https://blog.langchain.com/context-engineering-for-agents/) optimizes *what* you say to the model, context engineering governs what the model knows when it generates a response.
-
-**Key Components:**
-- System Instructions - Rules and examples that guide model behavior
-- Dynamic Memory - Conversation history and persistent knowledge
-- Retrieved Information - Real-time data from documents, APIs, and databases
-- Available Tools - Functions the model can use (search, send_email, etc.)
-- User State - Preferences, context, and session information
+Context Space makes AI agents truly usable. By combining enterprise-grade security with zero-config simplicity, we are building tool-first context engineering infrastructure that enable agents to seamlessly and securely interact with any service or data source.
 
 ## Start Context Engineering with Context Space
 
-When [MCP (Model Context Protocol)](https://modelcontextprotocol.io/) appeared in late 2024, the vision was spot-on: a standardized way for AI tools to securely access external data and services. MCP represented a breakthrough in thinking about how AI agents should interact with the world.
+Context engineering is the foundation for building reliable AI agents. It goes beyond prompt engineering by managing not only what users say to the model, but also the broader context that shapes its behavior, such as tools, memory, and data.
 
-Recognizing MCP as the perfect foundation, we built Context Space to extend its vision into production-ready infrastructure. 
+MCP defines a standard path for agents to securely access real-world services. Context Space brings that vision to life by turning MCP into production-ready infrastructure.
 
-Today, Context Space delivers a secure integration layer with persistent credential management. Guided by MCP’s principles, we are expanding this foundation into a complete context engineering platform for the next generation of AI.
+Today, Context Space delivers a secure integration layer with persistent credential management. Guided by MCP principles, it’s evolving into a complete context engineering platform for the next generation of AI.
+
+## 🚀 One-Click AI Integration
+
+Transform your AI assistant into a powerful agent **in seconds**.
+
+**Cursor IDE** - One-click install via `cursor://` deep links. Click "Add to Cursor" and instantly give Claude access to GitHub, Slack, Notion, and 38+ services without editing any JSON files.
+
+**Claude Code** - Simple CLI integration:
+```bash
+claude mcp add "context-space" https://api.context.space/api/mcp --header "Authorization: Bearer YOUR_API_KEY"
+```
+
 
 ### Live Demo
 
@@ -85,7 +85,7 @@ The initial phase solves the most critical challenges of using context protocols
 
 ### 2️⃣ Phase 2: The Intelligent Context Layer ( In Development)
 
-Building on this foundation, our future work focuses on enabling more advanced AI capabilities. 
+Building on this foundation, our future work focuses on enabling more advanced AI capabilities.
 
 **Roadmap Timeline:**
 
@@ -148,7 +148,7 @@ curl -H "Authorization: Bearer <jwt-token>" \
 
 ## Contributing
 
-**You are invited to help shape the future of context engineering.** 
+**You are invited to help shape the future of context engineering.**
 
 [![Contributors](https://contrib.rocks/image?repo=context-space/context-space&anon=1)](https://github.com/context-space/context-space/graphs/contributors)
 
@@ -197,13 +197,13 @@ Context Space is a community-driven project. We believe the best infrastructure 
 ### Join Our Growing Community
 
 [![Twitter](https://img.shields.io/twitter/follow/hi_contextspace?style=social)](https://twitter.com/hi_contextspace)
-[![Discord](https://img.shields.io/badge/Discord-Join%20Us-5865F2?logo=discord&logoColor=white)](https://discord.gg/Q74Ta5Xv)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Us-5865F2?logo=discord&logoColor=white)](https://discord.gg/BsNjUyxQYF)
 
 
 ### Resources
 
 - **[API Documentation](https://api.context.space/v1/docs)** - Complete API reference
-- **[Discord Community](https://discord.gg/Q74Ta5Xv)** - Real-time chat and collaboration
+- **[Discord Community](https://discord.gg/BsNjUyxQYF)** - Real-time chat and collaboration
 - **[GitHub Discussions](https://github.com/context-space/context-space/discussions)** - Community Q&A
 - **[Issues](https://github.com/context-space/context-space/issues)** - Bug reports & feature requests
 

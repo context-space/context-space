@@ -49,6 +49,7 @@ func NewModule(
 		providerCoreACL,
 		providerRepo,
 		providerLoader,
+		observabilityProvider,
 	)
 
 	// Initialize all provider templates
@@ -59,7 +60,7 @@ func NewModule(
 	// Initialize HTTP handlers
 	adapterHandler := http.NewAdapterHandler(
 		adapterFactory,
-		providerLoader,
+		providerLoaderService,
 	)
 
 	return &Module{
@@ -89,17 +90,10 @@ func (m *Module) Initialize(ctx context.Context) error {
 		return fmt.Errorf("failed to initialize provider adapters: %w", err)
 	}
 
-	loadRecords := m.providerLoaderService.GetProvidersLoadRecords()
-	successCount := 0
-	for _, record := range loadRecords {
-		if record.Loaded {
-			successCount++
-		}
-	}
+	loadedProviders := m.providerLoaderService.GetLoadedProviders()
 
 	m.obs.Logger.Info(ctx, "Provider Adapter module initialized successfully",
-		zap.Int("total_providers", len(loadRecords)),
-		zap.Int("loaded_successfully", successCount))
+		zap.Int("total_providers", len(loadedProviders)))
 
 	return nil
 }
@@ -116,9 +110,4 @@ func (m *Module) GetAdapterFactory() *application.AdapterFactory {
 
 func (m *Module) GetProviderLoaderService() *application.ProviderLoaderService {
 	return m.providerLoaderService
-}
-
-// ReloadProviders reload all providers
-func (m *Module) ReloadProviders(ctx context.Context) error {
-	return m.providerLoaderService.LoadAllProviders(ctx)
 }

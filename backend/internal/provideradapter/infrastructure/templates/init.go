@@ -9,6 +9,7 @@ import (
 	_ "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/github"
 	_ "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/hubspot"
 	_ "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/knowledgebase"
+	_ "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/mcp"
 	_ "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/notion"
 	_ "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/search"
 	_ "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/serper"

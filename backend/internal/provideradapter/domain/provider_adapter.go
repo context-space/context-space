@@ -58,3 +58,13 @@ type Adapter interface {
 	// GetProviderAdapterInfo returns information about this provider
 	GetProviderAdapterInfo() *ProviderAdapterInfo
 }
+
+// ProviderAdapterLoader define the interface for provider adapter loader
+type ProviderAdapterLoader interface {
+	// LoadProvider load a single provider
+	LoadProvider(config *ProviderAdapterConfig) error
+	// GetLoadedProviders get all loaded providers
+	GetLoadedProviders() []ProviderAdapterInfo
+	// UnloadProvider unload a single provider
+	UnloadProvider(identifier string) error
+}

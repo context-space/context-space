@@ -1,0 +1,8 @@
+# MCP (Model Context Protocol) Required Python Packages
+# This file lists all python packages that need to be pre-installed for MCP adapters
+# to avoid downloading them each time via uvx
+
+# Usage: Install all packages globally using uv in Dockerfile second stage
+# RUN uv tool install $(cat mcp-python-packages.txt | grep -v '^#' | grep -v '^$' | tr '\n' ' ')
+
+mcp-server-time@2025.7.1

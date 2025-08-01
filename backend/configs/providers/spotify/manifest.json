@@ -42,6 +42,12 @@
       "name": "Modify User Library",
       "description": "Write/delete access to a user's library.",
       "oauth_scopes": ["user-library-modify"]
+    },
+    {
+      "identifier": "modify_playback_state",
+      "name": "Modify Playback State",
+      "description": "Control playback on user's devices",
+      "oauth_scopes": ["user-modify-playback-state"]
     }
   ],
   "operations": [
@@ -235,6 +241,101 @@
           "description": "The index of the first playlist to return. Default: 0 (the first object). Maximum offset: 100,000.",
           "required": false,
           "location": "query"
+        }
+      ]
+    },
+    {
+      "identifier": "search",
+      "name": "Search for Item",
+      "description": "Search for tracks, artists, albums, playlists, shows, episodes, or audiobooks",
+      "category": "search",
+      "required_permissions": [],
+      "http_method": "GET",
+      "endpoint_path": "/search",
+      "parameters": [
+        {
+          "name": "q",
+          "type": "string",
+          "description": "Search query keywords and optional field filters",
+          "required": true,
+          "location": "query"
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "description": "Types to search across (comma-separated: track,artist,album,playlist)",
+          "required": true,
+          "location": "query"
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "description": "Maximum number of results to return (1-50, default 20)",
+          "required": false,
+          "location": "query"
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "description": "The index of the first result to return",
+          "required": false,
+          "location": "query"
+        },
+        {
+          "name": "market",
+          "type": "string",
+          "description": "ISO 3166-1 alpha-2 country code",
+          "required": false,
+          "location": "query"
+        }
+      ]
+    },
+    {
+      "identifier": "start_playback",
+      "name": "Start/Resume Playback",
+      "description": "Start or resume playback on the user's active device",
+      "category": "player",
+      "required_permissions": ["modify_playback_state"],
+      "http_method": "PUT",
+      "endpoint_path": "/me/player/play",
+      "parameters": [
+        {
+          "name": "device_id",
+          "type": "string",
+          "description": "The id of the device this command is targeting",
+          "required": false,
+          "location": "query"
+        },
+        {
+          "name": "context_uri",
+          "type": "string",
+          "description": "Spotify URI of the context to play (album, artist, playlist)",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "uris",
+          "type": "array",
+          "description": "Array of Spotify track URIs to play",
+          "required": false,
+          "location": "body",
+          "items": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "offset",
+          "type": "object",
+          "description": "Indicates from where in the context playback should start",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "position_ms",
+          "type": "integer",
+          "description": "The position in milliseconds to start playback",
+          "required": false,
+          "location": "body"
         }
       ]
     }

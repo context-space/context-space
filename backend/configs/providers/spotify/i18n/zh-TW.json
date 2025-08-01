@@ -25,7 +25,12 @@
     {
       "identifier": "modify_user_library",
       "name": "修改使用者音樂庫",
-      "description": "修改和刪除使用者音樂庫內容的權限。"
+      "description": "對使用者音樂庫的寫入/刪除權限。"
+    },
+    {
+      "identifier": "modify_playback_state",
+      "name": "控制播放狀態",
+      "description": "控制使用者裝置上的播放"
     }
   ],
   "operations": [
@@ -52,7 +57,17 @@
     {
       "identifier": "get_current_user_playlists",
       "name": "取得目前使用者的播放清單",
-      "description": "取得目前Spotify使用者擁有或追蹤的播放清單。"
+      "description": "取得目前 Spotify 使用者擁有或關注的播放清單。"
+    },
+    {
+      "identifier": "search",
+      "name": "搜尋內容",
+      "description": "搜尋曲目、藝術家、專輯、播放清單、節目、劇集或有聲書"
+    },
+    {
+      "identifier": "start_playback",
+      "name": "開始/恢復播放",
+      "description": "在使用者的使用中裝置上開始或恢復播放"
     }
   ]
 } 

@@ -14,6 +14,8 @@ const (
 	endpointGetPlaylistTracks       = "/playlists/{playlist_id}/tracks"
 	endpointRemovePlaylistTracks    = "/playlists/{playlist_id}/tracks"
 	endpointGetCurrentUserPlaylists = "/me/playlists"
+	endpointSearch                  = "/search"
+	endpointStartPlayback           = "/me/player/play"
 )
 
 // Define constants for operation IDs used by handlers.
@@ -23,6 +25,8 @@ const (
 	operationIDGetPlaylistTracks       = "get_playlist_tracks"
 	operationIDRemovePlaylistTracks    = "remove_playlist_tracks"
 	operationIDGetCurrentUserPlaylists = "get_current_user_playlists"
+	operationIDSearch                  = "search"
+	operationIDStartPlayback           = "start_playback"
 )
 
 // Define a struct for each operation's parameters based on config.
@@ -89,6 +93,24 @@ type GetCurrentUserPlaylistsParams struct {
 	Offset int `mapstructure:"offset" validate:"omitempty,min=0,max=100000"` // The index of the first playlist to return (Default: 0, Min: 0, Max: 100,000)
 }
 
+// SearchParams defines parameters for the Search operation.
+type SearchParams struct {
+	Q      string `mapstructure:"q" validate:"required"`              // Search query keywords
+	Type   string `mapstructure:"type" validate:"required"`           // Types to search (comma-separated: track,artist,album,playlist)
+	Limit  int    `mapstructure:"limit" validate:"omitempty,min=1,max=50"` // Maximum number of results (1-50, default 20)
+	Offset int    `mapstructure:"offset" validate:"omitempty,min=0"`       // The index of the first result to return
+	Market string `mapstructure:"market" validate:"omitempty"`        // ISO 3166-1 alpha-2 country code
+}
+
+// StartPlaybackParams defines parameters for the Start/Resume Playback operation.
+type StartPlaybackParams struct {
+	DeviceId   string      `mapstructure:"device_id" validate:"omitempty"`   // The id of the device this command is targeting
+	ContextUri string      `mapstructure:"context_uri" validate:"omitempty"` // Spotify URI of the context to play
+	Uris       []string    `mapstructure:"uris" validate:"omitempty"`        // Array of Spotify track URIs to play
+	Offset     interface{} `mapstructure:"offset" validate:"omitempty"`      // Indicates from where in the context playback should start
+	PositionMs int         `mapstructure:"position_ms" validate:"omitempty"` // The position in milliseconds to start playback
+}
+
 // OperationHandler defines the function signature for handling a specific API operation.
 type OperationHandler func(ctx context.Context, params interface{}) (map[string]interface{}, error)
 
@@ -150,6 +172,20 @@ func (a *SpotifyAdapter) registerOperations() {
 		&GetCurrentUserPlaylistsParams{},
 		handleGetCurrentUserPlaylists,
 		[]string{"read_private_playlists"},
+	)
+
+	a.RegisterOperation(
+		operationIDSearch,
+		&SearchParams{},
+		handleSearch,
+		[]string{}, // No special permissions needed for search
+	)
+
+	a.RegisterOperation(
+		operationIDStartPlayback,
+		&StartPlaybackParams{},
+		handleStartPlayback,
+		[]string{"modify_playback_state"},
 	)
 
 }
@@ -379,6 +415,86 @@ func handleGetCurrentUserPlaylists(ctx context.Context, params interface{}) (map
 
 	if len(queryParams) > 0 {
 		restParams["query_params"] = queryParams
+	}
+
+	return restParams, nil
+}
+
+// handleSearch constructs parameters for the REST adapter for the Search operation.
+func handleSearch(ctx context.Context, params interface{}) (map[string]interface{}, error) {
+	p, ok := params.(*SearchParams)
+	if !ok || p == nil {
+		return nil, fmt.Errorf("invalid or missing parameters for search")
+	}
+
+	queryParams := make(map[string]string)
+
+	// Required parameters
+	queryParams["q"] = p.Q
+	queryParams["type"] = p.Type
+
+	// Optional parameters
+	if p.Limit > 0 {
+		queryParams["limit"] = strconv.Itoa(p.Limit)
+	}
+	if p.Offset > 0 {
+		queryParams["offset"] = strconv.Itoa(p.Offset)
+	}
+	if p.Market != "" {
+		queryParams["market"] = p.Market
+	}
+
+	restParams := map[string]interface{}{
+		"method": http.MethodGet,
+		"path":   endpointSearch,
+	}
+
+	if len(queryParams) > 0 {
+		restParams["query_params"] = queryParams
+	}
+
+	return restParams, nil
+}
+
+// handleStartPlayback constructs parameters for the REST adapter for the Start/Resume Playback operation.
+func handleStartPlayback(ctx context.Context, params interface{}) (map[string]interface{}, error) {
+	p, ok := params.(*StartPlaybackParams)
+	if !ok || p == nil {
+		return nil, fmt.Errorf("invalid or missing parameters for start_playback")
+	}
+
+	restParams := map[string]interface{}{
+		"method": http.MethodPut,
+		"path":   endpointStartPlayback,
+	}
+
+	// Add device_id as query parameter if provided
+	if p.DeviceId != "" {
+		restParams["query_params"] = map[string]string{
+			"device_id": p.DeviceId,
+		}
+	}
+
+	// Build request body
+	requestBody := make(map[string]interface{})
+
+	// At least one of context_uri or uris should be provided
+	if p.ContextUri != "" {
+		requestBody["context_uri"] = p.ContextUri
+	}
+	if len(p.Uris) > 0 {
+		requestBody["uris"] = p.Uris
+	}
+	if p.Offset != nil {
+		requestBody["offset"] = p.Offset
+	}
+	if p.PositionMs > 0 {
+		requestBody["position_ms"] = p.PositionMs
+	}
+
+	// Only add body if there's content
+	if len(requestBody) > 0 {
+		restParams["body"] = requestBody
 	}
 
 	return restParams, nil
