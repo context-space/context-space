@@ -4,27 +4,27 @@ import type { CaptchaSectionRef } from "./captcha-section"
 import { useTranslations } from "next-intl"
 import { useTheme } from "next-themes"
 import Form from "next/form"
-import { useActionState, useRef, useState } from "react"
+import { useActionState, useCallback, useRef, useState } from "react"
 import { sendMagicLinkAction } from "@/app/[locale]/login/actions"
-import Logo from "@/components/common/logo"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
-import { turnstile } from "@/config"
+import { siteName, turnstile } from "@/config"
 import { Link } from "@/i18n/navigation"
 import { cn } from "@/lib/utils"
+import { LogoAvatar } from "../common/avatar"
 import CaptchaSection from "./captcha-section"
 import OAuthSection from "./oauth-section"
 import TermsCheckbox from "./terms-checkbox"
 
 interface LoginFormProps {
-  from: string
   className?: string
+  callbackURL: string
 }
 
-export function Login({ from, className }: LoginFormProps) {
+export function Login({ callbackURL, className }: LoginFormProps) {
   const t = useTranslations()
   const captchaRef = useRef<CaptchaSectionRef>(null)
   const { theme } = useTheme()
@@ -40,8 +40,7 @@ export function Login({ from, className }: LoginFormProps) {
     { success: false, sent: false, errors: {} },
   )
 
-  // 处理OAuth登录前的条款检查
-  const handleOAuthLogin = (provider: string) => {
+  const handleOAuthLogin = useCallback (() => {
     if (!termsAccepted) {
       setOauthTermsError(true)
       // 3秒后清除错误状态
@@ -50,13 +49,13 @@ export function Login({ from, className }: LoginFormProps) {
     }
     setOauthTermsError(false)
     return true
-  }
+  }, [termsAccepted])
 
   return (
     <Card className={cn("flex flex-col rounded-xl p-6 bg-white/50 dark:bg-white/5 border border-neutral-200 dark:border-white/10", className)}>
       <CardContent className="p-0">
         <Link href="/" className="flex flex-col items-center mb-4">
-          <Logo size={72} />
+          <LogoAvatar alt={siteName} className="size-24" />
         </Link>
 
         {/* Magic Link 发送成功提示 */}
@@ -85,7 +84,7 @@ export function Login({ from, className }: LoginFormProps) {
           : (
         /* Magic Link 发送表单 */
               <Form action={magicLinkAction} className="flex flex-col gap-4">
-                <input type="hidden" name="from" value={from} />
+                <input type="hidden" name="callbackURL" value={callbackURL} />
                 <input type="hidden" name="captchaToken" value={captchaToken} />
                 <input type="hidden" name="termsAccepted" value={termsAccepted ? "true" : ""} />
 
@@ -159,7 +158,7 @@ export function Login({ from, className }: LoginFormProps) {
 
         <OAuthSection
           isPending={magicLinkPending}
-          from={from}
+          callbackURL={callbackURL}
           onOAuthLogin={handleOAuthLogin}
         />
       </CardContent>

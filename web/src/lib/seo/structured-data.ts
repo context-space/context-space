@@ -70,10 +70,10 @@ export function generateOrganizationStructuredData(): Organization {
     "@type": "Organization",
     "name": siteName,
     "url": baseURL,
-    "logo": `${baseURL}/logo.svg`,
+    "logo": `${baseURL}/logo-color.svg`,
     "sameAs": [
-      "https://github.com/contextspace",
-      "https://twitter.com/contextspace",
+      "https://github.com/context-space",
+      "https://x.com/hi_contextspace",
     ],
   }
 }

@@ -15,7 +15,7 @@ export function BlogCard({ blog }: BlogCardProps) {
       href={blog.url}
       className="block h-full transition-transform hover:scale-[1.01] duration-300"
     >
-      <article className={cn(
+      <div className={cn(
         "group relative flex flex-col h-full overflow-hidden rounded-xl bg-white/[0.02]",
         "border border-primary/15 dark:border-white/10 hover:border-primary/30 dark:hover:border-primary/40",
         "transition-all duration-300",
@@ -27,6 +27,8 @@ export function BlogCard({ blog }: BlogCardProps) {
             src={blog.image}
             alt={blog.title}
             fill
+            loading="lazy"
+            quality={70}
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
         </div>
@@ -42,7 +44,7 @@ export function BlogCard({ blog }: BlogCardProps) {
           </p>
 
           <div className="flex items-center justify-between text-xs text-neutral-500 dark:text-gray-500 mt-auto pt-4 border-t border-primary/10 dark:border-white/5">
-            <div className="flex items-center gap-3 justify-between">
+            <div className="flex items-center gap-3 justify-between w-full">
               <div className="flex items-center gap-1">
                 <CalendarIcon className="w-3 h-3" />
                 <span>{formatDate(blog.publishedAt)}</span>
@@ -54,7 +56,7 @@ export function BlogCard({ blog }: BlogCardProps) {
             </div>
           </div>
         </div>
-      </article>
+      </div>
     </Link>
   )
 }

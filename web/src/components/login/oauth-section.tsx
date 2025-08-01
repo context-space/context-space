@@ -5,49 +5,40 @@ import { cn } from "@/lib/utils"
 
 interface OAuthSectionProps {
   isPending: boolean
-  from?: string
+  callbackURL: string
   onOAuthLogin?: (provider: string) => boolean
   onAnonymousLogin?: () => void
 }
 
-export default function OAuthSection({ isPending, from = "/", onOAuthLogin }: OAuthSectionProps) {
+export default function OAuthSection({ isPending, callbackURL, onOAuthLogin }: OAuthSectionProps) {
   const t = useTranslations()
 
   const oAuthButtonClass = cn("tracking-wide hover:bg-primary/20 dark:hover:bg-primary/10 border-neutral-200 dark:border-white/5")
 
-  // 由于OAuth需要重定向到外部服务，我们继续使用客户端处理
-  // 但可以通过服务器操作来生成URL
   const handleOAuthLogin = async (provider: string) => {
-    // 检查条款是否已同意
     if (onOAuthLogin && !onOAuthLogin(provider)) {
       return
     }
-
-    const formData = new FormData()
-    formData.append("provider", provider)
-    formData.append("from", from)
-
-    // 调用服务器操作
     const { loginWithOAuth } = await import("@/app/[locale]/login/actions")
-    const result = await loginWithOAuth(formData)
+    const result = await loginWithOAuth(provider, callbackURL)
 
     if (result.success && result.redirectTo) {
       window.location.href = result.redirectTo
     }
   }
 
-  const handleAnonymousLogin = async () => {
-    const formData = new FormData()
-    formData.append("from", from)
+  // const handleAnonymousLogin = async () => {
+  //   const formData = new FormData()
+  //   formData.append("from", from)
 
-    // 调用服务器操作
-    const { loginAnonymously } = await import("@/app/[locale]/login/actions")
-    const result = await loginAnonymously(formData)
+  //   // 调用服务器操作
+  //   const { loginAnonymously } = await import("@/app/[locale]/login/actions")
+  //   const result = await loginAnonymously(formData)
 
-    if (result.success) {
-      window.location.href = result.redirectTo || "/"
-    }
-  }
+  //   if (result.success) {
+  //     window.location.href = result.redirectTo || "/"
+  //   }
+  // }
 
   return (
     <div className="flex flex-col gap-4 flex-1">

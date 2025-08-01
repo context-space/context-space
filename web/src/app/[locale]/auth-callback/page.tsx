@@ -1,21 +1,12 @@
 "use client"
 
+import type { AuthState } from "@/components/auth"
 import { useTranslations } from "next-intl"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
-import Logo from "@/components/common/logo"
-import { FramelessLayout } from "@/components/layouts"
-import { Button } from "@/components/ui/button"
+import { AuthCallbackLayout } from "@/components/auth"
 import { createClient } from "@/lib/supabase/client"
 import { clientLogger } from "@/lib/utils"
-
-type AuthStatus = "loading" | "success" | "error"
-
-interface AuthState {
-  status: AuthStatus
-  message: string
-  details?: string
-}
 
 export default function AuthCallbackPage() {
   const t = useTranslations()
@@ -26,7 +17,7 @@ export default function AuthCallbackPage() {
     message: t("auth.oauth.processing"),
   })
 
-  const redirectTo = searchParams.get("redirect_to") || searchParams.get("from") || "/"
+  const redirectTo = searchParams.get("redirect_to") ?? "/"
 
   // Handle authentication
   useEffect(() => {
@@ -146,18 +137,7 @@ export default function AuthCallbackPage() {
     return () => {
       subscription.unsubscribe()
     }
-  }, [searchParams, t])
-
-  // Auto-redirect on success
-  useEffect(() => {
-    if (authState.status === "success") {
-      const timeoutId = setTimeout(() => {
-        router.push(redirectTo)
-      }, 1500)
-
-      return () => clearTimeout(timeoutId)
-    }
-  }, [authState.status, router, redirectTo])
+  }, [searchParams, t, authState.status])
 
   const handleRetryLogin = useCallback(() => {
     const loginPath = redirectTo !== "/"
@@ -166,15 +146,11 @@ export default function AuthCallbackPage() {
     router.push(loginPath)
   }, [router, redirectTo])
 
-  const handleGoHome = useCallback(() => {
-    router.push("/")
-  }, [router])
-
-  const handleContinueNow = useCallback(() => {
+  const handleCancel = useCallback(() => {
     router.push(redirectTo)
   }, [router, redirectTo])
 
-  const getTitle = () => {
+  const getTitle = useCallback(() => {
     switch (authState.status) {
       case "error":
         return t("auth.oauth.titles.authenticationError")
@@ -183,9 +159,9 @@ export default function AuthCallbackPage() {
       default:
         return t("auth.oauth.titles.processingAuthentication")
     }
-  }
+  }, [authState.status, t])
 
-  const getSubtitle = () => {
+  const getSubtitle = useCallback(() => {
     switch (authState.status) {
       case "loading":
         return t("auth.oauth.processing")
@@ -196,85 +172,19 @@ export default function AuthCallbackPage() {
       default:
         return ""
     }
-  }
+  }, [authState.status, t])
 
   return (
-    <FramelessLayout>
-      <div className="flex flex-col items-center space-y-6 max-w-md text-center">
-        <Logo size={72} />
-
-        <div className="space-y-2">
-          <h1 className="text-xl font-medium text-neutral-900 dark:text-white">
-            {getTitle()}
-          </h1>
-          <p className="text-sm text-neutral-500 dark:text-gray-400">
-            {getSubtitle()}
-          </p>
-        </div>
-
-        {/* Error State */}
-        {authState.status === "error" && (
-          <div className="w-full space-y-4">
-            <div className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-red-200 dark:border-red-800 space-y-3">
-              <div className="font-medium">{authState.message}</div>
-              {authState.details && (
-                <div className="text-xs text-red-600 dark:text-red-400 leading-relaxed">
-                  {authState.details}
-                </div>
-              )}
-            </div>
-
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleGoHome}
-                className="flex-1"
-              >
-                {t("common.goHome")}
-              </Button>
-              <Button
-                variant="default"
-                size="sm"
-                onClick={handleRetryLogin}
-                className="flex-1"
-              >
-                {t("auth.oauth.retryLogin")}
-              </Button>
-            </div>
-          </div>
-        )}
-
-        {/* Success State */}
-        {authState.status === "success" && (
-          <div className="w-full space-y-4">
-            <div className="text-sm text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 p-3 rounded-lg border border-green-200 dark:border-green-800">
-              {authState.message}
-            </div>
-            <div className="text-xs text-neutral-400 dark:text-gray-500">
-              {t("auth.oauth.redirectingAutomatically")}
-            </div>
-            <Button
-              variant="default"
-              size="sm"
-              onClick={handleContinueNow}
-              className="w-full"
-            >
-              {t("auth.oauth.continueNow")}
-            </Button>
-          </div>
-        )}
-
-        {/* Loading State */}
-        {authState.status === "loading" && (
-          <div className="w-full">
-            <div className="flex items-center justify-center space-x-2 text-sm text-neutral-500 dark:text-gray-400">
-              <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-              <span>{authState.message}</span>
-            </div>
-          </div>
-        )}
-      </div>
-    </FramelessLayout>
+    <AuthCallbackLayout
+      authState={authState}
+      redirectTo={redirectTo}
+      onGetTitle={getTitle}
+      onGetSubtitle={getSubtitle}
+      onRetry={handleRetryLogin}
+      onCancel={handleCancel}
+      autoRedirectDelay={1000}
+      retryText={t("auth.oauth.retryLogin")}
+      cancelText={t("auth.oauth.cancelLogin")}
+    />
   )
 }

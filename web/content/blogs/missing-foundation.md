@@ -1,5 +1,4 @@
 ---
-id: missing-foundation
 title: "Context Engineering: The Missing Foundation Every AI Developer Needs"
 description: "Most AI developers are still stuck in prompt engineering, trying to fix outputs by tweaking inputs. But true reliability comes from context engineering—the discipline of designing how AI systems gather, retain, and use information across time. "
 publishedAt: 2025-07-09

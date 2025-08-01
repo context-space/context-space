@@ -16,8 +16,8 @@ export default function Header({ className }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 w-full backdrop-blur-lg">
-      <div className={cn("mx-auto max-w-[1600px] px-6 border-b border-neutral-200/60 dark:border-white/[0.05]", className)}>
+    <header className="sticky top-0 z-50 w-full backdrop-blur-2xl">
+      <div className={cn("mx-auto max-w-[1600px] px-6", className)}>
         <div className="flex h-16 items-center justify-between">
           <HeaderLogo />
           <div className="flex items-center gap-4">

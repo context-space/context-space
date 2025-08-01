@@ -9,86 +9,6 @@
     "description": "Internal Server Error",
     "goHome": "Go Home"
   },
-  "hero": {
-    "badge": "Open Source",
-    "getStarted": "Get Started",
-    "viewOnGithub": "View on GitHub",
-    "title": {
-      "part1": "Ultimate",
-      "part2": "Context Engineering",
-      "part3": "Infrastructure"
-    },
-    "typewriter": {
-      "prefix": "One",
-      "word1": "Context",
-      "word2": "Space",
-      "word3": "Step"
-    },
-    "features": {
-      "1": {
-        "title": "Context Engineering Infrastructure",
-        "description": "Comprehensive context management beyond prompt engineering - the right information, at the right time, in the right format."
-      },
-      "2": {
-        "title": "14+ Service Integrations",
-        "description": "Production-ready integrations with GitHub, Slack, Airtable, HubSpot, Notion, Figma, Spotify, Stripe, and more."
-      },
-      "3": {
-        "title": "Enhanced MCP Support",
-        "description": "Production-grade Model Context Protocol implementation with built-in OAuth flows and persistent credential management."
-      },
-      "4": {
-        "title": "Enterprise Security",
-        "description": "HashiCorp Vault integration, automatic token rotation, encrypted credential storage, and OAuth UI flows."
-      },
-      "5": {
-        "title": "RESTful API",
-        "description": "Clean HTTP endpoints with comprehensive documentation at api.context.space that actually work reliably in production."
-      },
-      "6": {
-        "title": "Open Source Community",
-        "description": "AGPL v3 license transitioning to Apache 2.0, with active Discord community and welcoming contribution process."
-      }
-    },
-    "readMore": "Read More"
-  },
-  "landing": {
-    "features": {
-      "title": "Everything You Need",
-      "subtitle": "Powerful features designed to streamline your workflow and boost productivity with enterprise-grade security and performance",
-      "cta": {
-        "text": "Want to see more? Check out our roadmap or",
-        "link": "contribute on GitHub"
-      }
-    },
-    "roadmap": {
-      "title": "Context Engineering Roadmap",
-      "subtitle": "Our journey from production-ready integrations to full context engineering infrastructure built on MCP principles.",
-      "status": {
-        "completed": "Production Ready",
-        "current": "In Development",
-        "planned": "Planned"
-      },
-      "items": {
-        "productionInfrastructure": "Production-ready deployment infrastructure",
-        "serviceIntegrations": "14+ service integrations (GitHub, Slack, HubSpot, etc.)",
-        "oauthFlows": "Built-in OAuth flows and credential management",
-        "enterpriseSecurity": "HashiCorp Vault integration and enterprise security",
-        "nativeMcpSupport": "Native Model Context Protocol support",
-        "contextMemory": "Persistent context memory and state management",
-        "smartAggregation": "Smart context aggregation across services",
-        "apiDocumentation": "Comprehensive RESTful API documentation",
-        "semanticRetrieval": "Semantic context retrieval and search",
-        "contextOptimization": "Intelligent context optimization",
-        "realtimeUpdates": "Real-time context updates and synchronization",
-        "advancedMcp": "Advanced MCP ecosystem features",
-        "contextSynthesis": "AI-powered context synthesis",
-        "predictiveLoading": "Predictive context loading",
-        "aiContextReasoning": "AI context reasoning and intelligence",
-        "fullContextEngineering": "Complete context engineering platform"
-      }
-    }
-  },
   "index": {
     "title": "Context Space"
   },
@@ -189,6 +109,7 @@
       "unknownError": "An unknown error occurred",
       "tryAgain": "Please try again or contact support",
       "retryLogin": "Retry Login",
+      "cancelLogin": "Cancel",
       "continueNow": "Continue Now",
       "noAutoRedirect": "If you are not redirected automatically,",
       "clickHere": "click here",
@@ -234,7 +155,9 @@
         "close": "Close",
         "tryAgain": "Try Again",
         "authenticationFailed": "OAuth authentication failed",
-        "invalidCallback": "Invalid OAuth callback - missing required parameters"
+        "invalidCallback": "Invalid OAuth callback - missing required parameters",
+        "retryConnection": "Retry Connection",
+        "backToIntegrations": "Back to Integrations"
       }
     }
   },
@@ -422,6 +345,7 @@
     "noIntegrationsFound": "No integrations found",
     "workingOnMore": "We're working on adding more integrations. Check back soon!",
     "latestIntegrations": "Latest",
+    "recommendedIntegrations": "Featured",
     "search": {
       "title": "Search Integrations",
       "description": "Search for integrations and providers",
@@ -444,8 +368,8 @@
       "connected": "Connected",
       "configured": "Configured",
       "notConfigured": "Not configured",
-      "noConnectionRequired": "No connection required",
-      "noConnectionRequiredDesc": "No connection required for this integration.",
+      "noConnectionRequired": "Connection-free",
+      "noConnectionRequiredDesc": "Connection-free for this integration.",
       "oauth": {
         "description": "Connect using OAuth to authorize access to your account.",
         "requiredPermissions": "Permissions",
@@ -456,7 +380,10 @@
         "connectWithOAuth": "Connect with OAuth",
         "updatePermissions": "Update Permissions",
         "disconnect": "Disconnect",
-        "permissions": "permissions"
+        "permissions": "permissions",
+        "waiting": "Please wait, it will be redirected soon...",
+        "connectFailed": "Failed to connect",
+        "failedToGetOAuthUrl": "Failed to get OAuth URL"
       },
       "apiKey": {
         "title": "API Key",
@@ -472,6 +399,12 @@
       },
       "loginRequired": "Login Required",
       "loginRequiredDescription": "Please login to connect integrations and access this feature."
+    },
+    "hotIntegrations": "Hottest",
+    "loadingMore": {
+      "title": "Discover all {count} integrations",
+      "description": "Looking for something specific? Use our powerful search to find the perfect integration for your needs.",
+      "searchHint": "Press to search"
     }
   },
   "operations": {

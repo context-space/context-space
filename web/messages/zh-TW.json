@@ -9,88 +9,8 @@
     "description": "內部伺服器錯誤",
     "goHome": "返回首頁"
   },
-  "hero": {
-    "badge": "開源",
-    "getStarted": "開始使用",
-    "viewOnGithub": "在 GitHub 上查看",
-    "title": {
-      "part1": "終極",
-      "part2": "語境工程",
-      "part3": "基礎設施"
-    },
-    "typewriter": {
-      "prefix": "一個",
-      "word1": "語境",
-      "word2": "空間",
-      "word3": "步驟"
-    },
-    "features": {
-      "1": {
-        "title": "語境工程基礎設施",
-        "description": "超越提示工程的全面語境管理 - 在正確的時間，以正確的格式提供正確的資訊。"
-      },
-      "2": {
-        "title": "14+ 服務整合",
-        "description": "與 GitHub、Slack、Airtable、HubSpot、Notion、Figma、Spotify、Stripe 等服務的生產級整合。"
-      },
-      "3": {
-        "title": "增強的 MCP 支援",
-        "description": "生產級模型語境協議實作，內建 OAuth 流程和持久化憑證管理。"
-      },
-      "4": {
-        "title": "企業級安全",
-        "description": "HashiCorp Vault 整合、自動令牌輪換、加密憑證儲存和 OAuth UI 流程。"
-      },
-      "5": {
-        "title": "RESTful API",
-        "description": "簡潔的 HTTP 端點，在 api.context.space 提供全面文件，生產環境中可靠運行。"
-      },
-      "6": {
-        "title": "開源社群",
-        "description": "AGPL v3 授權過渡到 Apache 2.0，活躍的 Discord 社群和友善的貢獻流程。"
-      }
-    },
-    "readMore": "了解更多"
-  },
   "index": {
     "title": "Context Space"
-  },
-  "landing": {
-    "features": {
-      "title": "您所需要的一切",
-      "subtitle": "強大的功能設計，旨在簡化您的工作流程，提升生產力，並提供企業級安全性和效能保障",
-      "cta": {
-        "text": "想了解更多？查看我們的路線圖或",
-        "link": "在 GitHub 上貢獻"
-      }
-    },
-    "roadmap": {
-      "title": "語境工程路線圖",
-      "subtitle": "從生產級整合到基於 MCP 原則的完整語境工程基礎設施的發展歷程。",
-      "status": {
-        "completed": "生產就緒",
-        "current": "開發中",
-        "planned": "計劃中"
-      },
-      "items": {
-        "productionInfrastructure": "生產級部署基礎設施",
-        "serviceIntegrations": "14+ 服務整合 (GitHub、Slack、HubSpot 等)",
-        "oauthFlows": "內建 OAuth 流程和憑證管理",
-        "enterpriseSecurity": "HashiCorp Vault 整合和企業安全",
-        "nativeMcpSupport": "原生模型語境協議支援",
-        "contextMemory": "持久化語境記憶和狀態管理",
-        "smartAggregation": "跨服務智慧語境聚合",
-        "apiDocumentation": "全面的 RESTful API 文件",
-        "semanticRetrieval": "語義語境檢索和搜尋",
-        "contextOptimization": "智慧語境優化",
-        "realtimeUpdates": "即時語境更新和同步",
-        "advancedMcp": "高級 MCP 生態系統功能",
-        "contextSynthesis": "AI 驅動的語境合成",
-        "predictiveLoading": "預測性語境載入",
-        "aiContextReasoning": "AI 語境推理和智慧",
-        "fullContextEngineering": "完整語境工程平台"
-      }
-    }
   },
   "nav": {
     "integrations": "整合",
@@ -189,6 +109,7 @@
       "unknownError": "發生未知錯誤",
       "tryAgain": "請重試或聯絡客服",
       "retryLogin": "重新登入",
+      "cancelLogin": "取消",
       "continueNow": "立即繼續",
       "noAutoRedirect": "如果沒有自動跳轉，",
       "clickHere": "請點擊這裡",
@@ -234,7 +155,9 @@
         "close": "關閉",
         "tryAgain": "重試",
         "authenticationFailed": "OAuth 身份驗證失敗",
-        "invalidCallback": "無效的 OAuth 回調 - 缺少必需的參數"
+        "invalidCallback": "無效的 OAuth 回調 - 缺少必需的參數",
+        "retryConnection": "重試連接",
+        "backToIntegrations": "返回集成"
       }
     }
   },
@@ -422,6 +345,7 @@
     "noIntegrationsFound": "未找到整合",
     "workingOnMore": "我們正在努力新增更多整合。請稍後查看！",
     "latestIntegrations": "最新",
+    "recommendedIntegrations": "推薦",
     "search": {
       "title": "搜尋整合",
       "description": "搜尋整合和提供商",
@@ -456,7 +380,10 @@
         "connectWithOAuth": "使用 OAuth 連接",
         "updatePermissions": "更新權限",
         "disconnect": "斷開連接",
-        "permissions": "個權限"
+        "permissions": "個權限",
+        "waiting": "請稍候，即將跳轉...",
+        "connectFailed": "連接失敗",
+        "failedToGetOAuthUrl": "無法取得 OAuth URL"
       },
       "apiKey": {
         "title": "API 金鑰",
@@ -472,6 +399,12 @@
       },
       "loginRequired": "需要登入",
       "loginRequiredDescription": "請先登入以連接整合並存取此功能。"
+    },
+    "hotIntegrations": "最熱",
+    "loadingMore": {
+      "title": "探索全部 {count} 個整合",
+      "description": "在尋找特定的工具？使用我們強大的搜尋功能找到最適合您需求的整合。",
+      "searchHint": "點擊搜尋"
     }
   },
   "operations": {

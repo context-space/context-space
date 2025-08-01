@@ -1,5 +1,4 @@
 ---
-id: manus-lessons
 title: "Context Engineering for AI Agents: Key Lessons from Manus"
 description: "Manus recently published an in-depth article on their official website titled “Context Engineering for AI Agents: Lessons from Building Manus”. In it, they reflect on the technical and architectural challenges of building long-running AI agents that can reason, remember, and act in the real world."
 publishedAt: 2025-07-19
@@ -140,4 +139,4 @@ The future of AI agents will be built by teams that understand these production 
 - [Original Manus blog post](https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus) with detailed technical implementation
 
 
-*The field is young, the challenges are real, and the opportunities are enormous. The question isn't whether context engineering will become critical—it's whether you'll learn these lessons through experimentation or through others' experience.* 
+*The field is young, the challenges are real, and the opportunities are enormous. The question isn't whether context engineering will become critical—it's whether you'll learn these lessons through experimentation or through others' experience.*

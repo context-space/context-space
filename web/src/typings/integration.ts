@@ -39,6 +39,7 @@ export interface Provider {
   auth_type: AuthType
   categories: string[]
   status: ProviderStatus
+  tags: string[]
 }
 
 export interface ProviderDetail extends Provider {
@@ -68,6 +69,7 @@ export type ProviderStatistics = Record<ProviderStatus | ConnectionStatus, numbe
 export interface IntegrationCollection {
   integrations: Integration[]
   recommended_integrations: Integration[]
+  hot_integrations: Integration[]
   provider_statistics: ProviderStatistics
 }
 

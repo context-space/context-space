@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     description: "Discover and connect with hundreds of powerful integrations for your Context Space platform.",
     images: [
       {
-        url: "/api/og?title=Integrations&description=Discover and connect with hundreds of powerful integrations",
+        url: `/api/og?title=Integrations&description=${encodeURIComponent("Discover and connect with hundreds of powerful integrations")}`,
         width: 1200,
         height: 630,
         alt: "Context Space Integrations",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Integrations | Context Space",
     description: "Discover and connect with hundreds of powerful integrations for your Context Space platform.",
-    images: ["/api/og?title=Integrations&description=Discover and connect with hundreds of powerful integrations"],
+    images: [`/api/og?title=Integrations&description=${encodeURIComponent("Discover and connect with hundreds of powerful integrations")}`],
   },
 }
 
@@ -40,7 +40,7 @@ export default async function IntegrationsPage({ params }: IntegrationsPageProps
   const t = await getTranslations()
   const accessToken = await getServerToken()
   const integrationService = new IntegrationService(accessToken, locale)
-  const { integrations, recommended_integrations, provider_statistics } = await integrationService.getIntegrations()
+  const { integrations, recommended_integrations, provider_statistics, hot_integrations } = await integrationService.getIntegrations()
 
   return (
     <BaseLayout>
@@ -56,6 +56,7 @@ export default async function IntegrationsPage({ params }: IntegrationsPageProps
       <IntegrationsPageContent
         integrations={integrations}
         recommended_integrations={recommended_integrations}
+        hot_integrations={hot_integrations}
         provider_statistics={provider_statistics}
       />
     </BaseLayout>

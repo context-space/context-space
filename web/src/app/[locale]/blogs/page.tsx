@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import type { Locale } from "@/i18n/routing"
 import { getTranslations } from "next-intl/server"
 import { BaseLayout } from "@/components/layouts"
 import { Breadcrumbs } from "@/components/seo/breadcrumbs"
@@ -9,13 +8,8 @@ import { getAllBlogs } from "@/lib/blog"
 import { generateBlogListStructuredData, generateBreadcrumbStructuredData } from "@/lib/seo/structured-data"
 import { BlogsPageContent } from "./page-content"
 
-interface BlogsPageProps {
-  params: Promise<{ locale: Locale }>
-}
-
-export async function generateMetadata({ params }: BlogsPageProps): Promise<Metadata> {
-  const { locale } = await params
-  const canonicalUrl = `${baseURL}/${locale}/blogs`
+export async function generateMetadata(): Promise<Metadata> {
+  const canonicalUrl = `${baseURL}/blogs`
 
   return {
     title: "Blog | Context Space",
@@ -42,7 +36,7 @@ export async function generateMetadata({ params }: BlogsPageProps): Promise<Meta
       siteName: "Context Space",
       images: [
         {
-          url: "/api/og?title=Blog&description=Latest updates and insights from Context Space",
+          url: `/api/og?title=Blog&description=${encodeURIComponent("Latest updates and insights from Context Space")}`,
           width: 1200,
           height: 630,
           alt: "Context Space Blog",
@@ -53,14 +47,13 @@ export async function generateMetadata({ params }: BlogsPageProps): Promise<Meta
       card: "summary_large_image",
       title: "Blog | Context Space",
       description: "Stay updated with the latest news, tutorials, and insights from Context Space.",
-      images: ["/api/og?title=Blog&description=Latest updates and insights from Context Space"],
+      images: [`/api/og?title=Blog&description=${encodeURIComponent("Latest updates and insights from Context Space")}`],
       creator: "@contextspace",
     },
   }
 }
 
-export default async function BlogsPage({ params }: BlogsPageProps) {
-  const { locale } = await params
+export default async function BlogsPage() {
   const t = await getTranslations()
   const blogs = getAllBlogs()
 
@@ -77,8 +70,8 @@ export default async function BlogsPage({ params }: BlogsPageProps) {
   )
 
   const breadcrumbItems = [
-    { name: t("nav.home"), url: `/${locale}` },
-    { name: t("blogs.title"), url: `/${locale}/blogs` },
+    { name: t("nav.home"), url: `/` },
+    { name: t("blogs.title"), url: `/blogs` },
   ]
 
   const breadcrumbStructuredData = generateBreadcrumbStructuredData(breadcrumbItems)

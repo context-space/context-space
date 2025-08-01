@@ -24,10 +24,7 @@ async function Page({ params }: Props) {
       <StructuredData data={structuredData} />
       <Hero />
       <Features />
-      {/* <What /> */}
-      {/* <Why /> */}
       <Roadmap />
-      {/* <CTA /> */}
     </HomeLayout>
   )
 }

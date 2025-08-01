@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Youtube Data",
+    "icon_url": "https://r2.context.space/providers/logos/youtube_mcp.svg",
+    "identifier": "youtube_mcp"
+  },
+  {
+    "name": "Google Maps",
+    "icon_url": "https://r2.context.space/providers/logos/googlemaps_mcp.svg",
+    "identifier": "googlemaps_mcp"
+  },
+  {
+    "name": "Airbnb",
+    "icon_url": "https://r2.context.space/providers/logos/airbnb_mcp.svg",
+    "identifier": "airbnb_mcp"
+  },
+  {
+    "name": "Amap API",
+    "icon_url": "https://r2.context.space/providers/logos/amap.png",
+    "identifier": "amap"
+  },
+  {
+    "name": "NewsNow",
+    "icon_url": "https://r2.context.space/providers/logos/newsnow-mcp.svg",
+    "identifier": "newsnow_mcp"
+  },
+  {
+    "name": "Brave Search",
+    "icon_url": "https://r2.context.space/providers/logos/brave-search-mcp.svg",
+    "identifier": "brave_search_mcp"
+  },
+  {
+    "name": "Stripe",
+    "icon_url": "https://r2.context.space/providers/logos/stripe.svg",
+    "identifier": "stripe"
+  },
+  {
+    "name": "Spotify",
+    "icon_url": "https://r2.context.space/providers/logos/spotify.svg",
+    "identifier": "spotify"
+  },
+  {
+    "name": "Slack",
+    "icon_url": "https://r2.context.space/providers/logos/slack.svg",
+    "identifier": "slack"
+  },
+  {
+    "name": "Serper",
+    "icon_url": "https://r2.context.space/providers/logos/serper.svg",
+    "identifier": "serper"
+  },
+  {
+    "name": "HubSpot",
+    "icon_url": "https://r2.context.space/providers/logos/hubspot.svg",
+    "identifier": "hubspot"
+  },
+  {
+    "name": "Airtable",
+    "icon_url": "https://r2.context.space/providers/logos/airtable.svg",
+    "identifier": "airtable"
+  },
+  {
+    "name": "Internet Search",
+    "icon_url": "https://r2.context.space/providers/logos/search.svg",
+    "identifier": "search"
+  },
+  {
+    "name": "Notion",
+    "icon_url": "https://r2.context.space/providers/logos/notion.svg",
+    "identifier": "notion"
+  },
+  {
+    "name": "GitHub",
+    "icon_url": "https://r2.context.space/providers/logos/github.svg",
+    "identifier": "github"
+  },
+  {
+    "name": "Figma",
+    "icon_url": "https://r2.context.space/providers/logos/figma.svg",
+    "identifier": "figma"
+  },
+  {
+    "name": "Website Fetch",
+    "icon_url": "https://r2.context.space/providers/logos/fetch.svg",
+    "identifier": "fetch"
+  },
+  {
+    "name": "EOD Historical Data",
+    "icon_url": "https://r2.context.space/providers/logos/eodhd.svg",
+    "identifier": "eodhd"
+  }
+]

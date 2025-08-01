@@ -1,5 +1,4 @@
 ---
-id: smarter-systems
 title: "Context is the New Engine: Why Smarter Systems Are Built on Understanding, Not Just Speed"
 description: As AI models become increasingly commoditized, the real competitive edge lies not in speed — but in context. The next generation of AI won’t just react — it will remember, adapt, and reason.
 publishedAt: 2025-07-09

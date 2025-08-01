@@ -1,5 +1,4 @@
 ---
-id: why-tool-first
 title: "Beyond the Black Box: Why We Built Context Space as a Tool-First Infrastructure"
 description: "Current AI agents operate like a black box. We believe the future is 'Tool-First'—transforming complex capabilities like memory and orchestration into standard, observable tools to build truly robust and controllable AI."
 publishedAt: 2025-07-18
@@ -65,4 +64,4 @@ This is the bedrock for building truly complex and robust AI systems. It's how w
 
 We're just getting started. If you believe in a future where AI development is controllable, observable, and scalable, we invite you to join us.
 
-**🌟Star Context Space on GitHub** and help us build the foundation for the next generation of AI: https://github.com/context-space/context-space 
+**🌟Star Context Space on GitHub** and help us build the foundation for the next generation of AI: https://github.com/context-space/context-space

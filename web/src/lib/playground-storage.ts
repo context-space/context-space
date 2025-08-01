@@ -25,7 +25,7 @@ const getGlobalPlaygroundKey = (userId?: string) => {
 const loadGlobalPlaygroundData = (userId?: string): GlobalPlaygroundData => {
   try {
     const key = getGlobalPlaygroundKey(userId)
-    const stored = localStorage.getItem(key)
+    const stored = sessionStorage.getItem(key)
 
     if (!stored) {
       return { providers: {}, lastUpdated: Date.now() }
@@ -49,7 +49,7 @@ const saveGlobalPlaygroundData = (data: GlobalPlaygroundData, userId?: string) =
   try {
     const key = getGlobalPlaygroundKey(userId)
     data.lastUpdated = Date.now()
-    localStorage.setItem(key, JSON.stringify(data))
+    sessionStorage.setItem(key, JSON.stringify(data))
   } catch (error) {
     storageLogger.error("Failed to save global playground data", { error, userId })
   }
@@ -108,7 +108,7 @@ export const clearAllPlaygroundData = (userId?: string) => {
     if (typeof window === "undefined") return
 
     const key = getGlobalPlaygroundKey(userId)
-    localStorage.removeItem(key)
+    sessionStorage.removeItem(key)
   } catch (error) {
     storageLogger.error("Failed to clear all playground data", { error, userId })
   }

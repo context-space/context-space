@@ -160,7 +160,11 @@ function DesktopNavigation() {
         <ScrollButton
           key={id}
           sectionId={id}
-          className={cn(styles.button.desktop, styles.button.base)}
+          className={cn(
+            "text-[15px] font-medium transition-colors relative",
+            "after:absolute after:left-0 after:bottom-[-8px] after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300",
+            "text-neutral-700 dark:text-gray-300 hover:text-neutral-900 dark:hover:text-white hover:after:w-full",
+          )}
         >
           {t(labelKey)}
         </ScrollButton>
@@ -174,10 +178,11 @@ function DesktopNavigation() {
           key={item.href}
           href={item.href}
           className={cn(
-            "text-[15px] font-medium transition-colors",
+            "text-[15px] font-medium transition-colors relative",
+            "after:absolute after:left-0 after:bottom-[-8px] after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300",
             isActive(pathname, item.href)
-              ? "text-primary"
-              : styles.button.base,
+              ? "text-primary hover:text-primary/80"
+              : "text-neutral-700 dark:text-gray-300 hover:text-neutral-900 dark:hover:text-white hover:after:w-full",
           )}
         >
           {item.label}

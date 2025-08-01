@@ -1,5 +1,4 @@
 ---
-id: manus-vs-context-space
 title: "Two Approaches to Context Engineering: Manus vs Context Space"
 description: "An in-depth comparison of how Manus and Context Space tackle context engineering from different angles - runtime optimization vs infrastructure building - and why both approaches are essential for the future of AI agents."
 publishedAt: 2025-07-19
@@ -117,4 +116,4 @@ The context engineering revolution is just beginning. Let's build it together.
 
 👉 **[Read Manus's insights](https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus)** to understand the runtime optimization layer
 
-The future needs both approaches. Which layer will you build? 
+The future needs both approaches. Which layer will you build?

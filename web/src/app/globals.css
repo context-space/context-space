@@ -7,12 +7,12 @@
 
 :root {
   --background: oklch(0.985 0 0);
-  --foreground: oklch(26.9% 0 0);
+  --foreground: oklch(25% 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: var(--background);
   --popover-foreground: var(--foreground);
-  --primary: oklch(66.076% 0.06378 282.418);
+  --primary: oklch(54.031% 0.06862 281.826);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -74,6 +74,12 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(0.269 0 0);
   --sidebar-ring: oklch(0.754 0.15 275);
+}
+
+@theme {
+  --breakpoint-xs: 30rem;
+  --breakpoint-2xl: 100rem;
+  --breakpoint-3xl: 120rem;
 }
 
 @theme inline {

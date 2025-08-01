@@ -9,88 +9,8 @@
     "description": "内部服务器错误",
     "goHome": "返回首页"
   },
-  "hero": {
-    "badge": "开源",
-    "getStarted": "开始使用",
-    "viewOnGithub": "在 GitHub 上查看",
-    "title": {
-      "part1": "终极",
-      "part2": "语境工程",
-      "part3": "基础设施"
-    },
-    "typewriter": {
-      "prefix": "一个",
-      "word1": "语境",
-      "word2": "空间",
-      "word3": "步骤"
-    },
-    "features": {
-      "1": {
-        "title": "语境工程基础设施",
-        "description": "超越提示工程的全面语境管理 - 在正确的时间，以正确的格式提供正确的信息。"
-      },
-      "2": {
-        "title": "14+ 服务集成",
-        "description": "与 GitHub、Slack、Airtable、HubSpot、Notion、Figma、Spotify、Stripe 等服务的生产级集成。"
-      },
-      "3": {
-        "title": "增强的 MCP 支持",
-        "description": "生产级模型语境协议实现，内置 OAuth 流程和持久化凭证管理。"
-      },
-      "4": {
-        "title": "企业级安全",
-        "description": "HashiCorp Vault 集成、自动令牌轮换、加密凭证存储和 OAuth UI 流程。"
-      },
-      "5": {
-        "title": "RESTful API",
-        "description": "简洁的 HTTP 端点，在 api.context.space 提供全面文档，生产环境中可靠运行。"
-      },
-      "6": {
-        "title": "开源社区",
-        "description": "AGPL v3 许可证过渡到 Apache 2.0，活跃的 Discord 社区和友好的贡献流程。"
-      }
-    },
-    "readMore": "了解更多"
-  },
   "index": {
     "title": "Context Space"
-  },
-  "landing": {
-    "features": {
-      "title": "您所需要的一切",
-      "subtitle": "强大的功能设计，旨在简化您的工作流程，提升生产力，并提供企业级安全性和性能保障",
-      "cta": {
-        "text": "想了解更多？查看我们的路线图或",
-        "link": "在 GitHub 上贡献"
-      }
-    },
-    "roadmap": {
-      "title": "语境工程路线图",
-      "subtitle": "从生产级集成到基于 MCP 原则的完整语境工程基础设施的发展历程。",
-      "status": {
-        "completed": "生产就绪",
-        "current": "开发中",
-        "planned": "计划中"
-      },
-      "items": {
-        "productionInfrastructure": "生产级部署基础设施",
-        "serviceIntegrations": "14+ 服务集成 (GitHub、Slack、HubSpot 等)",
-        "oauthFlows": "内置 OAuth 流程和凭证管理",
-        "enterpriseSecurity": "HashiCorp Vault 集成和企业安全",
-        "nativeMcpSupport": "原生模型语境协议支持",
-        "contextMemory": "持久化语境内存和状态管理",
-        "smartAggregation": "跨服务智能语境聚合",
-        "apiDocumentation": "全面的 RESTful API 文档",
-        "semanticRetrieval": "语义语境检索和搜索",
-        "contextOptimization": "智能语境优化",
-        "realtimeUpdates": "实时语境更新和同步",
-        "advancedMcp": "高级 MCP 生态系统功能",
-        "contextSynthesis": "AI 驱动的语境合成",
-        "predictiveLoading": "预测性语境加载",
-        "aiContextReasoning": "AI 语境推理和智能",
-        "fullContextEngineering": "完整语境工程平台"
-      }
-    }
   },
   "nav": {
     "integrations": "集成",
@@ -189,6 +109,7 @@
       "unknownError": "发生未知错误",
       "tryAgain": "请重试或联系客服",
       "retryLogin": "重新登录",
+      "cancelLogin": "取消",
       "continueNow": "立即继续",
       "noAutoRedirect": "如果没有自动跳转，",
       "clickHere": "请点击这里",
@@ -234,7 +155,9 @@
         "close": "关闭",
         "tryAgain": "重试",
         "authenticationFailed": "OAuth 身份验证失败",
-        "invalidCallback": "无效的 OAuth 回调 - 缺少必需的参数"
+        "invalidCallback": "无效的 OAuth 回调 - 缺少必需的参数",
+        "retryConnection": "重试连接",
+        "backToIntegrations": "返回集成"
       }
     }
   },
@@ -422,6 +345,7 @@
     "noIntegrationsFound": "未找到集成",
     "workingOnMore": "我们正在努力添加更多集成。请稍后查看！",
     "latestIntegrations": "最新",
+    "recommendedIntegrations": "推荐",
     "search": {
       "title": "搜索集成",
       "description": "搜索集成和提供商",
@@ -456,7 +380,10 @@
         "connectWithOAuth": "使用 OAuth 连接",
         "updatePermissions": "更新权限",
         "disconnect": "断开连接",
-        "permissions": "个权限"
+        "permissions": "个权限",
+        "waiting": "请稍候，即将跳转...",
+        "connectFailed": "连接失败",
+        "failedToGetOAuthUrl": "无法获取 OAuth URL"
       },
       "apiKey": {
         "title": "API 密钥",
@@ -472,6 +399,12 @@
       },
       "loginRequired": "需要登录",
       "loginRequiredDescription": "请先登录以连接集成并访问此功能。"
+    },
+    "hotIntegrations": "最热",
+    "loadingMore": {
+      "title": "探索全部 {count} 个集成",
+      "description": "在寻找特定的工具？使用我们强大的搜索功能找到最适合您需求的集成。",
+      "searchHint": "点击搜索"
     }
   },
   "operations": {

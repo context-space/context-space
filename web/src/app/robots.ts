@@ -2,6 +2,17 @@ import type { MetadataRoute } from "next"
 import { baseURL } from "@/config"
 
 export default function robots(): MetadataRoute.Robots {
+  if (baseURL.includes("dev")) {
+    return {
+      rules: [
+        {
+          userAgent: "*",
+          disallow: "/",
+        },
+      ],
+    }
+  }
+
   return {
     rules: [
       {
@@ -19,7 +30,7 @@ export default function robots(): MetadataRoute.Robots {
           "/logout",
           "/login",
           "/auth-callback",
-          "/mcp-oauth-callback",
+          "/provider-callback",
         ],
       },
       {

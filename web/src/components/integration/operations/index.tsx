@@ -73,7 +73,7 @@ export function Operations({ operations }: OperationsSectionProps) {
                         <span className="font-medium text-sm">
                           {operation.name}
                         </span>
-                        <div className="h-px flex-1 bg-border" />
+                        <div className="h-px flex-1 border-b border-base" />
                         <div className="flex gap-1 flex-wrap">
                           {operation.required_permissions.map(permission => (
                             <Badge

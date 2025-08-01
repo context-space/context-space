@@ -41,7 +41,7 @@ export const generateClaudeCommand = (apiKeyValue?: string, hideKey = false, int
   const displayToken = hideKey && apiKeyValue ? "*".repeat(32) : token
   const serverName = integrationName || integrationId || "context-space"
   const serverUrl = integrationId ? `${baseURL}/api/mcp/${integrationId}` : `${baseURL}/api/mcp`
-  return `claude mcp add --transport http "${serverName}" ${serverUrl} --header "Authorization: Bearer ${displayToken}"`
+  return `claude mcp add --transport http "${serverName.replaceAll(" ", "-")}" ${serverUrl} --header "Authorization: Bearer ${displayToken}"`
 }
 
 const generateCursorDeepLink = (serverName: string, serverConfig: unknown): string => {

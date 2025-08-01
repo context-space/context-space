@@ -1,5 +1,4 @@
 ---
-id: prompt-context
 title: Forget prompt engineering. Context is the new compute
 description: "While the AI world obsesses over bigger models and better prompts, the next wave of AI success won’t be won by prompt whisperers, but by teams who treat context as infrastructure. "
 publishedAt: 2025-07-09

@@ -77,15 +77,31 @@ export function AuthProvider({ children, initialSession }: AuthProviderProps) {
       // 清理本地状态
       clearAllPlaygroundData()
 
-      // 刷新页面，让 middleware 处理后续的重定向逻辑
+      // 调用 Supabase 客户端登出 - 这会：
+      // 1. 清除本地存储的会话信息
+      // 2. 向 Supabase 发送登出请求使 token 失效
+      // 3. 触发 auth state change 事件
+      const { error } = await supabase.auth.signOut()
+
+      if (error) {
+        authProviderLogger.error("Supabase signOut error", { error })
+        // 即使登出失败，也继续流程，因为我们已经清理了本地状态
+      } else {
+        authProviderLogger.info("User successfully signed out")
+      }
+
+      // 刷新页面，让 middleware 检测到会话失效并处理重定向
       setTimeout(() => {
         router.refresh()
       }, 100)
     } catch (error) {
       authProviderLogger.error("Error signing out", { error })
-      throw error
+      // 即使出错也要清理状态并刷新
+      setTimeout(() => {
+        router.refresh()
+      }, 100)
     }
-  }, [user?.id, router])
+  }, [user?.id, router, supabase])
 
   const getToken = useCallback(async () => {
     return await getClientToken()

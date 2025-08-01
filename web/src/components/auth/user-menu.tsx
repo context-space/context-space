@@ -55,7 +55,7 @@ export function UserMenu() {
           "focus:outline-none focus:ring-2 focus:ring-primary/30 focus:ring-offset-2 dark:focus:ring-offset-black/20",
         )}
       >
-        <Link href={`/login?from=${encodeURIComponent(window.location.pathname)}`}>
+        <Link href={`/login?from=${encodeURIComponent(window.location.href)}`}>
           {t("header.login")}
         </Link>
       </button>
