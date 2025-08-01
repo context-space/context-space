@@ -1,0 +1,36 @@
+{
+  "name": "EverArt",
+  "description": "使用各種模型的 AI 圖像生成。",
+  "categories": [
+    "影像",
+    "藝術"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具訪問",
+      "description": "訪問 MCP 伺服器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "generate_image",
+      "name": "生成圖像",
+      "description": "使用 EverArt 模型生成圖像並返回可點擊的鏈接以查看生成的圖像。該工具將返回一個 URL，可以點擊以在瀏覽器中查看圖像。可用模型：\n- 5000:FLUX1.1: 標準質量\n- 9000:FLUX1.1-ultra: 超高質量\n- 6000:SD3.5: 穩定擴散 3.5\n- 7000:Recraft-Real: 照片真實風格\n- 8000:Recraft-Vector: 向量藝術風格\n\n響應將包含查看生成圖像的直接鏈接。",
+      "parameters": [
+        {
+          "name": "image_count",
+          "description": "要生成的圖像數量"
+        },
+        {
+          "name": "prompt",
+          "description": "所需圖像的文本描述"
+        },
+        {
+          "name": "model",
+          "description": "模型 ID (5000:FLUX1.1, 9000:FLUX1.1-ultra, 6000:SD3.5, 7000:Recraft-Real, 8000:Recraft-Vector)"
+        }
+      ]
+    }
+  ]
+}

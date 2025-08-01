@@ -1,0 +1,107 @@
+{
+  "name": "Exa",
+  "description": "結合網頁搜索、LinkedIn搜索、公司研究、深度研究者和內容爬取。",
+  "categories": [
+    "深度研究者",
+    "內容提取"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具訪問",
+      "description": "訪問 MCP 伺服器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "web_search_exa",
+      "name": "網頁搜索 Exa",
+      "description": "使用 Exa AI 搜索網頁 - 執行實時網頁搜索並可以從特定 URL 擷取內容。支持可配置的結果數量，並返回來自最相關網站的內容。",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "搜索查詢"
+        },
+        {
+          "name": "numResults",
+          "description": "要返回的搜索結果數量（默認：5）"
+        }
+      ]
+    },
+    {
+      "identifier": "company_research_exa",
+      "name": "公司研究 Exa",
+      "description": "使用 Exa AI 研究公司 - 查找有關企業、組織和公司的全面信息。提供有關公司運營、新聞、財務信息和行業分析的見解。",
+      "parameters": [
+        {
+          "name": "numResults",
+          "description": "要返回的搜索結果數量（默認：5）"
+        },
+        {
+          "name": "companyName",
+          "description": "要研究的公司名稱"
+        }
+      ]
+    },
+    {
+      "identifier": "crawling_exa",
+      "name": "爬取 Exa",
+      "description": "使用 Exa AI 從特定 URL 擷取和爬取內容 - 從網頁檢索完整文本內容、元數據和結構化信息。非常適合從已知 URL 擷取詳細內容。",
+      "parameters": [
+        {
+          "name": "maxCharacters",
+          "description": "要擷取的最大字符數（默認：3000）"
+        },
+        {
+          "name": "url",
+          "description": "要爬取並擷取內容的 URL"
+        }
+      ]
+    },
+    {
+      "identifier": "linkedin_search_exa",
+      "name": "LinkedIn 搜索 Exa",
+      "description": "使用 Exa AI 搜索 LinkedIn 個人資料和公司 - 查找 LinkedIn 上的專業個人資料、公司頁面和商業相關內容。對於網絡聯繫、招聘和商業研究非常有用。",
+      "parameters": [
+        {
+          "name": "searchType",
+          "description": "要搜索的 LinkedIn 內容類型（默認：所有）"
+        },
+        {
+          "name": "numResults",
+          "description": "要返回的 LinkedIn 結果數量（默認：5）"
+        },
+        {
+          "name": "query",
+          "description": "LinkedIn 搜索查詢（例如：人名、公司、職位）"
+        }
+      ]
+    },
+    {
+      "identifier": "deep_researcher_start",
+      "name": "深度研究者啟動",
+      "description": "開始一個全面的 AI 驅動的深度研究任務以處理複雜查詢。此工具啟動一個智能代理，執行廣泛的網頁搜索、爬取相關頁面、分析信息，並將結果綜合成詳細的研究報告。該代理對研究主題進行批判性思考，並提供徹底且來源可靠的答案。對於需要深入分析而非簡單搜索的複雜研究問題，請使用此工具。啟動研究任務後，立即使用 deep_researcher_check 及返回的任務 ID 來監控進度並檢索結果。",
+      "parameters": [
+        {
+          "name": "instructions",
+          "description": "複雜的研究問題或對 AI 研究者的詳細指示。具體說明您想研究的內容及任何特定方面。"
+        },
+        {
+          "name": "model",
+          "description": "研究模型：'exa-research'（更快，15-45秒，適合大多數查詢）或 'exa-research-pro'（更全面，45秒-2分鐘，適合複雜主題）。默認：exa-research"
+        }
+      ]
+    },
+    {
+      "identifier": "deep_researcher_check",
+      "name": "深度研究者檢查",
+      "description": "檢查深度研究任務的狀態並檢索結果。此工具監控執行全面網頁搜索的 AI 代理的進度，分析多個來源，並將結果綜合成詳細的研究報告。該工具包括內置的 5 秒延遲，以便進行處理時間。重要提示：您必須重複調用此工具（輪詢），直到狀態變為 'completed' 以獲取最終研究結果。當狀態為 'running' 時，請等待幾秒鐘，然後使用相同的任務 ID 再次調用此工具。",
+      "parameters": [
+        {
+          "name": "taskId",
+          "description": "從 deep_researcher_start 工具返回的任務 ID"
+        }
+      ]
+    }
+  ]
+}

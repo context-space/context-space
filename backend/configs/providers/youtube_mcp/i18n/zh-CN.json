@@ -1,0 +1,140 @@
+{
+  "name": "Youtube",
+  "description": "利用 YouTube 数据 与 YouTube 内容进行交互。",
+  "categories": [
+    "视频",
+    "转录"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具访问",
+      "description": "访问 MCP 服务器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "getVideoDetails",
+      "name": "获取视频详细信息",
+      "description": "获取多个 YouTube 视频的详细信息。返回包括视频元数据、统计信息和内容详细信息的综合数据。当您需要特定视频的完整信息时，请使用此功能。",
+      "parameters": [
+        {
+          "name": "videoIds",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "searchVideos",
+      "name": "搜索视频",
+      "description": "根据查询字符串搜索视频。返回与搜索条件匹配的视频列表，包括标题、描述和元数据。当您需要查找与特定主题或关键字相关的视频时，请使用此功能。",
+      "parameters": [
+        {
+          "name": "query",
+          "description": ""
+        },
+        {
+          "name": "maxResults",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "getTranscripts",
+      "name": "获取转录",
+      "description": "检索多个视频的转录。返回视频字幕的文本内容，适用于无障碍和内容分析。当您需要多个视频的口语内容时，请使用此功能。",
+      "parameters": [
+        {
+          "name": "lang",
+          "description": ""
+        },
+        {
+          "name": "videoIds",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "getRelatedVideos",
+      "name": "获取相关视频",
+      "description": "检索特定视频的相关视频。返回与指定视频相似或相关的视频列表，基于 YouTube 的推荐算法。当您想要发现与特定视频相似的内容时，请使用此功能。",
+      "parameters": [
+        {
+          "name": "videoId",
+          "description": ""
+        },
+        {
+          "name": "maxResults",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "getChannelStatistics",
+      "name": "获取频道统计信息",
+      "description": "检索多个频道的统计信息。返回每个频道的详细指标，包括订阅者数量、观看次数和视频数量。当您需要分析多个 YouTube 频道的表现和覆盖范围时，请使用此功能。",
+      "parameters": [
+        {
+          "name": "channelIds",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "getChannelTopVideos",
+      "name": "获取频道热门视频",
+      "description": "检索特定频道的热门视频。返回该频道中观看次数最多或最受欢迎的视频列表。使用此功能可以识别频道中最成功的内容。",
+      "parameters": [
+        {
+          "name": "channelId",
+          "description": ""
+        },
+        {
+          "name": "maxResults",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "getVideoEngagementRatio",
+      "name": "获取视频参与率",
+      "description": "计算多个视频的参与率。返回每个视频的观看次数、点赞次数、评论次数和计算出的参与率等指标。当您想要衡量观众与视频的互动时，请使用此功能。",
+      "parameters": [
+        {
+          "name": "videoIds",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "getTrendingVideos",
+      "name": "获取热门视频",
+      "description": "根据地区和类别检索热门视频。返回在指定地区和类别中当前流行的视频列表。当您想要发现特定区域或类别中的热门内容时，请使用此功能。可用的类别 ID：1（电影与动画）、2（汽车与车辆）、10（音乐）、15（宠物与动物）、17（体育）、18（短片）、19（旅行与活动）、20（游戏）、21（视频博客）、22（人物与博客）、23（喜剧）、24（娱乐）、25（新闻与政治）、26（如何与风格）、27（教育）、28（科学与技术）、29（非营利与行动主义）、30（电影）、31（动漫/动画）、32（动作/冒险）、33（经典）、34（喜剧）、35（纪录片）、36（剧情）、37（家庭）、38（外国）、39（恐怖）、40（科幻/奇幻）、41（惊悚）、42（短片）、43（节目）、44（预告片）。",
+      "parameters": [
+        {
+          "name": "regionCode",
+          "description": ""
+        },
+        {
+          "name": "categoryId",
+          "description": ""
+        },
+        {
+          "name": "maxResults",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "compareVideos",
+      "name": "比较视频",
+      "description": "根据统计信息比较多个视频。返回指定视频的观看次数、点赞次数、评论次数和其他指标的比较。当您想要并排分析多个视频的表现时，请使用此功能。",
+      "parameters": [
+        {
+          "name": "videoIds",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

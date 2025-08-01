@@ -1,0 +1,179 @@
+{
+  "name": "HuggingFace",
+  "description": "Accesses Hugging Face's models, datasets, and research papers seamlessly. Interacts with a wide range of resources and tools to enhance your LLM's capabilities. ",
+  "categories": [
+    "dataset",
+    "LLM",
+    "info"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "search-models",
+      "name": "Search Models",
+      "description": "Search for models on Hugging Face Hub",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "Search term (e.g., 'bert', 'gpt')"
+        },
+        {
+          "name": "author",
+          "description": "Filter by author/organization (e.g., 'huggingface', 'google')"
+        },
+        {
+          "name": "tags",
+          "description": "Filter by tags (e.g., 'text-classification', 'translation')"
+        },
+        {
+          "name": "limit",
+          "description": "Maximum number of results to return"
+        }
+      ]
+    },
+    {
+      "identifier": "get-model-info",
+      "name": "Get Model Info",
+      "description": "Get detailed information about a specific model",
+      "parameters": [
+        {
+          "name": "model_id",
+          "description": "The ID of the model (e.g., 'google/bert-base-uncased')"
+        }
+      ]
+    },
+    {
+      "identifier": "search-datasets",
+      "name": "Search Datasets",
+      "description": "Search for datasets on Hugging Face Hub",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "Search term"
+        },
+        {
+          "name": "author",
+          "description": "Filter by author/organization"
+        },
+        {
+          "name": "tags",
+          "description": "Filter by tags"
+        },
+        {
+          "name": "limit",
+          "description": "Maximum number of results to return"
+        }
+      ]
+    },
+    {
+      "identifier": "get-dataset-info",
+      "name": "Get Dataset Info",
+      "description": "Get detailed information about a specific dataset",
+      "parameters": [
+        {
+          "name": "dataset_id",
+          "description": "The ID of the dataset (e.g., 'squad')"
+        }
+      ]
+    },
+    {
+      "identifier": "search-spaces",
+      "name": "Search Spaces",
+      "description": "Search for Spaces on Hugging Face Hub",
+      "parameters": [
+        {
+          "name": "limit",
+          "description": "Maximum number of results to return"
+        },
+        {
+          "name": "query",
+          "description": "Search term"
+        },
+        {
+          "name": "author",
+          "description": "Filter by author/organization"
+        },
+        {
+          "name": "tags",
+          "description": "Filter by tags"
+        },
+        {
+          "name": "sdk",
+          "description": "Filter by SDK (e.g., 'streamlit', 'gradio', 'docker')"
+        }
+      ]
+    },
+    {
+      "identifier": "get-space-info",
+      "name": "Get Space Info",
+      "description": "Get detailed information about a specific Space",
+      "parameters": [
+        {
+          "name": "space_id",
+          "description": "The ID of the Space (e.g., 'huggingface/diffusers-demo')"
+        }
+      ]
+    },
+    {
+      "identifier": "get-paper-info",
+      "name": "Get Paper Info",
+      "description": "Get information about a specific paper on Hugging Face",
+      "parameters": [
+        {
+          "name": "arxiv_id",
+          "description": "The arXiv ID of the paper (e.g., '1810.04805')"
+        }
+      ]
+    },
+    {
+      "identifier": "get-daily-papers",
+      "name": "Get Daily Papers",
+      "description": "Get the list of daily papers curated by Hugging Face",
+      "parameters": null
+    },
+    {
+      "identifier": "search-collections",
+      "name": "Search Collections",
+      "description": "Search for collections on Hugging Face Hub",
+      "parameters": [
+        {
+          "name": "limit",
+          "description": "Maximum number of results to return"
+        },
+        {
+          "name": "owner",
+          "description": "Filter by owner"
+        },
+        {
+          "name": "item",
+          "description": "Filter by item (e.g., 'models/teknium/OpenHermes-2.5-Mistral-7B')"
+        },
+        {
+          "name": "query",
+          "description": "Search term for titles and descriptions"
+        }
+      ]
+    },
+    {
+      "identifier": "get-collection-info",
+      "name": "Get Collection Info",
+      "description": "Get detailed information about a specific collection",
+      "parameters": [
+        {
+          "name": "namespace",
+          "description": "The namespace of the collection (user or organization)"
+        },
+        {
+          "name": "collection_id",
+          "description": "The ID part of the collection"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,365 @@
+{
+  "name": "CloudFlare 綁定",
+  "description": "使用儲存、人工智慧和運算基元建構 Workers 應用程式。",
+  "categories": [
+    "worker",
+    "hyperdrive"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具存取",
+      "description": "存取 MCP 伺服器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "accounts_list",
+      "name": "帳戶清單",
+      "description": "列出您 Cloudflare 帳戶中的所有帳戶",
+      "parameters": null
+    },
+    {
+      "identifier": "set_active_account",
+      "name": "設定活動帳戶",
+      "description": "設定用於需要 accountId 的工具呼叫的活動帳戶",
+      "parameters": [
+        {
+          "name": "activeAccountIdParam",
+          "description": "使用者 Cloudflare 帳戶中存在的 accountId，應作為活動的 accountId。"
+        }
+      ]
+    },
+    {
+      "identifier": "kv_namespaces_list",
+      "name": "KV 命名空間清單",
+      "description": "列出您 Cloudflare 帳戶中的所有 KV 命名空間。當您需要列出所有 KV 命名空間時使用此工具。回傳具有以下屬性的 KV 命名空間清單：\n  - id：KV 命名空間的 ID。\n  - title：KV 命名空間的標題。",
+      "parameters": [
+        {
+          "name": "params",
+          "description": "列出 KV 命名空間的可選參數"
+        }
+      ]
+    },
+    {
+      "identifier": "kv_namespace_create",
+      "name": "建立 KV 命名空間",
+      "description": "在您的 Cloudflare 帳戶中建立一個新的 KV 命名空間",
+      "parameters": [
+        {
+          "name": "title",
+          "description": "KV 命名空間的可讀名稱／標題"
+        }
+      ]
+    },
+    {
+      "identifier": "kv_namespace_delete",
+      "name": "刪除 KV 命名空間",
+      "description": "刪除您 Cloudflare 帳戶中的 KV 命名空間",
+      "parameters": [
+        {
+          "name": "namespace_id",
+          "description": "KV 命名空間的 ID"
+        }
+      ]
+    },
+    {
+      "identifier": "kv_namespace_get",
+      "name": "取得 KV 命名空間",
+      "description": "取得您 Cloudflare 帳戶中 KV 命名空間的詳細資訊。當您需要取得特定 KV 命名空間的詳細資訊時使用此工具。回傳具有以下屬性的 KV 命名空間：\n  - id：KV 命名空間的 ID。\n  - title：KV 命名空間的標題。\n  - supports_url_encoding：KV 命名空間是否支援 URL 編碼。\n  - beta：KV 命名空間是否處於測試階段。",
+      "parameters": [
+        {
+          "name": "namespace_id",
+          "description": "KV 命名空間的 ID"
+        }
+      ]
+    },
+    {
+      "identifier": "kv_namespace_update",
+      "name": "更新 KV 命名空間",
+      "description": "更新您 Cloudflare 帳戶中 KV 命名空間的標題",
+      "parameters": [
+        {
+          "name": "title",
+          "description": "KV 命名空間的可讀名稱／標題"
+        },
+        {
+          "name": "namespace_id",
+          "description": "KV 命名空間的 ID"
+        }
+      ]
+    },
+    {
+      "identifier": "workers_list",
+      "name": "Workers 清單",
+      "description": "列出您 Cloudflare 帳戶中的所有 Workers。如僅需單一 Worker 的詳細資訊，請使用 workers_get_worker。",
+      "parameters": null
+    },
+    {
+      "identifier": "workers_get_worker",
+      "name": "取得 Worker",
+      "description": "取得 Cloudflare Worker 的詳細資訊。",
+      "parameters": [
+        {
+          "name": "scriptName",
+          "description": "要擷取的 worker 腳本名稱"
+        }
+      ]
+    },
+    {
+      "identifier": "workers_get_worker_code",
+      "name": "取得 Worker 程式碼",
+      "description": "取得 Cloudflare Worker 的原始程式碼。注意：這可能是已打包的 Worker 版本。",
+      "parameters": [
+        {
+          "name": "scriptName",
+          "description": "要擷取的 worker 腳本名稱"
+        }
+      ]
+    },
+    {
+      "identifier": "r2_buckets_list",
+      "name": "R2 儲存桶清單",
+      "description": "列出您 Cloudflare 帳戶中的 R2 儲存桶",
+      "parameters": [
+        {
+          "name": "direction",
+          "description": "排序方向"
+        },
+        {
+          "name": "name_contains",
+          "description": "要篩選的儲存桶名稱。僅回傳名稱中包含此短語的儲存桶。"
+        },
+        {
+          "name": "per_page",
+          "description": "每頁數量"
+        },
+        {
+          "name": "start_after",
+          "description": "從此儲存桶名稱之後開始搜尋。儲存桶按字典順序排序。"
+        },
+        {
+          "name": "cursor",
+          "description": "查詢參數：上一次列出儲存桶呼叫時收到的分頁游標。R2 儲存桶使用游標而非頁碼進行分頁。"
+        }
+      ]
+    },
+    {
+      "identifier": "r2_bucket_create",
+      "name": "建立 R2 儲存桶",
+      "description": "在您的 Cloudflare 帳戶中建立一個新的 R2 儲存桶",
+      "parameters": [
+        {
+          "name": "name",
+          "description": "R2 儲存桶的名稱"
+        }
+      ]
+    },
+    {
+      "identifier": "r2_bucket_get",
+      "name": "取得 R2 儲存桶",
+      "description": "取得特定 R2 儲存桶的詳細資訊",
+      "parameters": [
+        {
+          "name": "name",
+          "description": "R2 儲存桶的名稱"
+        }
+      ]
+    },
+    {
+      "identifier": "r2_bucket_delete",
+      "name": "刪除 R2 儲存桶",
+      "description": "刪除 R2 儲存桶",
+      "parameters": [
+        {
+          "name": "name",
+          "description": "R2 儲存桶的名稱"
+        }
+      ]
+    },
+    {
+      "identifier": "d1_databases_list",
+      "name": "D1 資料庫清單",
+      "description": "列出您 Cloudflare 帳戶中的所有 D1 資料庫",
+      "parameters": [
+        {
+          "name": "name",
+          "description": "名稱篩選（可選）"
+        },
+        {
+          "name": "page",
+          "description": "頁碼（可選）"
+        },
+        {
+          "name": "per_page",
+          "description": "每頁數量（可選）"
+        }
+      ]
+    },
+    {
+      "identifier": "d1_database_create",
+      "name": "建立 D1 資料庫",
+      "description": "在您的 Cloudflare 帳戶中建立一個新的 D1 資料庫",
+      "parameters": [
+        {
+          "name": "primary_location_hint",
+          "description": "主要位置提示"
+        },
+        {
+          "name": "name",
+          "description": "資料庫名稱"
+        }
+      ]
+    },
+    {
+      "identifier": "d1_database_delete",
+      "name": "刪除 D1 資料庫",
+      "description": "刪除您 Cloudflare 帳戶中的 D1 資料庫",
+      "parameters": [
+        {
+          "name": "database_id",
+          "description": "資料庫 ID"
+        }
+      ]
+    },
+    {
+      "identifier": "d1_database_get",
+      "name": "取得 D1 資料庫",
+      "description": "取得您 Cloudflare 帳戶中的 D1 資料庫",
+      "parameters": [
+        {
+          "name": "database_id",
+          "description": "資料庫 ID"
+        }
+      ]
+    },
+    {
+      "identifier": "d1_database_query",
+      "name": "查詢 D1 資料庫",
+      "description": "查詢您 Cloudflare 帳戶中的 D1 資料庫",
+      "parameters": [
+        {
+          "name": "database_id",
+          "description": "資料庫 ID"
+        },
+        {
+          "name": "sql",
+          "description": "SQL 查詢語句"
+        },
+        {
+          "name": "params",
+          "description": "查詢參數"
+        }
+      ]
+    },
+    {
+      "identifier": "hyperdrive_configs_list",
+      "name": "Hyperdrive 設定清單",
+      "description": "列出您 Cloudflare 帳戶中的 Hyperdrive 設定",
+      "parameters": [
+        {
+          "name": "per_page",
+          "description": "每頁結果數量"
+        },
+        {
+          "name": "order",
+          "description": "排序欄位"
+        },
+        {
+          "name": "direction",
+          "description": "排序方向"
+        },
+        {
+          "name": "page",
+          "description": "頁碼"
+        }
+      ]
+    },
+    {
+      "identifier": "hyperdrive_config_delete",
+      "name": "刪除 Hyperdrive 設定",
+      "description": "刪除您 Cloudflare 帳戶中的 Hyperdrive 設定",
+      "parameters": [
+        {
+          "name": "hyperdrive_id",
+          "description": "Hyperdrive 設定的 ID"
+        }
+      ]
+    },
+    {
+      "identifier": "hyperdrive_config_get",
+      "name": "取得 Hyperdrive 設定",
+      "description": "取得您 Cloudflare 帳戶中特定 Hyperdrive 設定的詳細資訊",
+      "parameters": [
+        {
+          "name": "hyperdrive_id",
+          "description": "Hyperdrive 設定的 ID"
+        }
+      ]
+    },
+    {
+      "identifier": "hyperdrive_config_edit",
+      "name": "編輯 Hyperdrive 設定",
+      "description": "編輯（patch）您 Cloudflare 帳戶中的 Hyperdrive 設定",
+      "parameters": [
+        {
+          "name": "scheme",
+          "description": "資料庫協定"
+        },
+        {
+          "name": "caching_disabled",
+          "description": "是否停用快取"
+        },
+        {
+          "name": "user",
+          "description": "資料庫使用者"
+        },
+        {
+          "name": "hyperdrive_id",
+          "description": "Hyperdrive 設定的 ID"
+        },
+        {
+          "name": "database",
+          "description": "資料庫名稱"
+        },
+        {
+          "name": "host",
+          "description": "資料庫主機位址"
+        },
+        {
+          "name": "caching_stale_while_revalidate",
+          "description": "快取過期後重新驗證期間（秒）"
+        },
+        {
+          "name": "name",
+          "description": "Hyperdrive 設定的名稱（字母數字、底線、連字元）"
+        },
+        {
+          "name": "port",
+          "description": "資料庫連接埠"
+        },
+        {
+          "name": "caching_max_age",
+          "description": "最大快取時長（秒）"
+        }
+      ]
+    },
+    {
+      "identifier": "search_cloudflare_documentation",
+      "name": "搜尋 Cloudflare 文件",
+      "description": "搜尋 Cloudflare 文件。本工具用於回答關於 Cloudflare 產品或功能的任何問題，包括：Workers、Pages、R2、Images、Stream、D1、Durable Objects、KV、Workflows、Hyperdrive、Queues；AutoRAG、Workers AI、Vectorize、AI Gateway、Browser Rendering；Zero Trust、Access、Tunnel、Gateway、Browser Isolation、WARP、DDoS、Magic Transit、Magic WAN；CDN、Cache、DNS、Zaraz、Argo、Rulesets、Terraform、帳戶與計費。結果將依查詢語意相似之片段回傳。",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "查詢內容"
+        }
+      ]
+    },
+    {
+      "identifier": "migrate_pages_to_workers_guide",
+      "name": "將 Pages 遷移至 Workers 指南",
+      "description": "在將 Pages 專案遷移至 Workers 之前，請務必閱讀本指南。",
+      "parameters": null
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "name": "DuckDuckGo",
+  "description": "通过 DuckDuckGo 提供网络搜索功能，并具有内容获取和解析的附加功能。",
+  "categories": [
+    "搜索",
+    "获取"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具访问",
+      "description": "访问 MCP 服务器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "search",
+      "name": "搜索",
+      "description": "\n    搜索 DuckDuckGo 并返回格式化的结果。\n\n    参数：\n        query: 搜索查询字符串\n        max_results: 返回的最大结果数（默认：10）\n        ctx: 用于日志记录的 MCP 上下文\n    ",
+      "parameters": [
+        {
+          "name": "query",
+          "description": ""
+        },
+        {
+          "name": "max_results",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "fetch_content",
+      "name": "获取内容",
+      "description": "\n    从网页 URL 获取并解析内容。\n\n    参数：\n        url: 要获取内容的网页 URL\n        ctx: 用于日志记录的 MCP 上下文\n    ",
+      "parameters": [
+        {
+          "name": "url",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

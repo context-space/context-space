@@ -1,0 +1,1001 @@
+{
+  "identifier": "asana_mcp",
+  "name": "Asana",
+  "description": "Interacts with your Asana workspace through various AI platforms and tools that support MCP.",
+  "auth_type": "apikey",
+  "icon_url": "",
+  "categories": [
+    "project",
+    "team"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools",
+      "oauth_scopes": []
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "asana_list_workspaces",
+      "name": "Asana List Workspaces",
+      "description": "List all available workspaces in Asana",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "opt_fields",
+          "type": "string",
+          "description": "Comma-separated list of optional fields to include",
+          "required": false
+        }
+      ]
+    },
+    {
+      "identifier": "asana_search_projects",
+      "name": "Asana Search Projects",
+      "description": "Search for projects in Asana using name pattern matching",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "archived",
+          "type": "boolean",
+          "description": "Only return archived projects",
+          "required": false,
+          "default": false
+        },
+        {
+          "name": "opt_fields",
+          "type": "string",
+          "description": "Comma-separated list of optional fields to include",
+          "required": false
+        },
+        {
+          "name": "workspace",
+          "type": "string",
+          "description": "The workspace to search in",
+          "required": true
+        },
+        {
+          "name": "name_pattern",
+          "type": "string",
+          "description": "Regular expression pattern to match project names",
+          "required": true
+        }
+      ]
+    },
+    {
+      "identifier": "asana_search_tasks",
+      "name": "Asana Search Tasks",
+      "description": "Search tasks in a workspace with advanced filtering options",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "due_at_after",
+          "type": "string",
+          "description": "ISO 8601 datetime string",
+          "required": false
+        },
+        {
+          "name": "start_on",
+          "type": "string",
+          "description": "ISO 8601 date string or null",
+          "required": false
+        },
+        {
+          "name": "created_by_not",
+          "type": "string",
+          "description": "Comma-separated list of user IDs to exclude",
+          "required": false
+        },
+        {
+          "name": "teams_any",
+          "type": "string",
+          "description": "Comma-separated list of team IDs",
+          "required": false
+        },
+        {
+          "name": "created_by_any",
+          "type": "string",
+          "description": "Comma-separated list of user IDs",
+          "required": false
+        },
+        {
+          "name": "assigned_by_any",
+          "type": "string",
+          "description": "Comma-separated list of user IDs",
+          "required": false
+        },
+        {
+          "name": "sort_by",
+          "type": "string",
+          "description": "Sort by: due_date, created_at, completed_at, likes, modified_at",
+          "required": false,
+          "default": "modified_at"
+        },
+        {
+          "name": "opt_fields",
+          "type": "string",
+          "description": "Comma-separated list of optional fields to include",
+          "required": false
+        },
+        {
+          "name": "projects_any",
+          "type": "string",
+          "description": "Comma-separated list of project IDs",
+          "required": false
+        },
+        {
+          "name": "projects_not",
+          "type": "string",
+          "description": "Comma-separated list of project IDs to exclude",
+          "required": false
+        },
+        {
+          "name": "created_on",
+          "type": "string",
+          "description": "ISO 8601 date string or null",
+          "required": false
+        },
+        {
+          "name": "modified_on",
+          "type": "string",
+          "description": "ISO 8601 date string or null",
+          "required": false
+        },
+        {
+          "name": "due_on_after",
+          "type": "string",
+          "description": "ISO 8601 date string",
+          "required": false
+        },
+        {
+          "name": "due_on",
+          "type": "string",
+          "description": "ISO 8601 date string or null",
+          "required": false
+        },
+        {
+          "name": "modified_at_before",
+          "type": "string",
+          "description": "ISO 8601 datetime string",
+          "required": false
+        },
+        {
+          "name": "start_on_before",
+          "type": "string",
+          "description": "ISO 8601 date string",
+          "required": false
+        },
+        {
+          "name": "created_on_before",
+          "type": "string",
+          "description": "ISO 8601 date string",
+          "required": false
+        },
+        {
+          "name": "has_attachment",
+          "type": "boolean",
+          "description": "Filter for tasks with attachments",
+          "required": false
+        },
+        {
+          "name": "tags_any",
+          "type": "string",
+          "description": "Comma-separated list of tag IDs",
+          "required": false
+        },
+        {
+          "name": "completed_at_after",
+          "type": "string",
+          "description": "ISO 8601 datetime string",
+          "required": false
+        },
+        {
+          "name": "is_blocking",
+          "type": "boolean",
+          "description": "Filter for incomplete tasks with dependents",
+          "required": false
+        },
+        {
+          "name": "completed_on_before",
+          "type": "string",
+          "description": "ISO 8601 date string",
+          "required": false
+        },
+        {
+          "name": "is_subtask",
+          "type": "boolean",
+          "description": "Filter for subtasks",
+          "required": false
+        },
+        {
+          "name": "custom_fields",
+          "type": "object",
+          "description": "Object containing custom field filters. Keys should be in the format \"{gid}.{operation}\" where operation can be:\n- {gid}.is_set: Boolean - For all custom field types, check if value is set\n- {gid}.value: String|Number|String(enum_option_gid) - Direct value match for Text, Number or Enum fields\n- {gid}.starts_with: String - For Text fields only, check if value starts with string\n- {gid}.ends_with: String - For Text fields only, check if value ends with string\n- {gid}.contains: String - For Text fields only, check if value contains string\n- {gid}.less_than: Number - For Number fields only, check if value is less than number\n- {gid}.greater_than: Number - For Number fields only, check if value is greater than number\n\nExample: { \"12345.value\": \"high\", \"67890.contains\": \"urgent\" }",
+          "required": false
+        },
+        {
+          "name": "completed_at_before",
+          "type": "string",
+          "description": "ISO 8601 datetime string",
+          "required": false
+        },
+        {
+          "name": "resource_subtype",
+          "type": "string",
+          "description": "Filter by task subtype (e.g. milestone)",
+          "required": false
+        },
+        {
+          "name": "tags_all",
+          "type": "string",
+          "description": "Comma-separated list of tag IDs that must all match",
+          "required": false
+        },
+        {
+          "name": "workspace",
+          "type": "string",
+          "description": "The workspace to search in",
+          "required": true
+        },
+        {
+          "name": "commented_on_by_not",
+          "type": "string",
+          "description": "Comma-separated list of user IDs to exclude",
+          "required": false
+        },
+        {
+          "name": "portfolios_any",
+          "type": "string",
+          "description": "Comma-separated list of portfolio IDs",
+          "required": false
+        },
+        {
+          "name": "completed_on",
+          "type": "string",
+          "description": "ISO 8601 date string or null",
+          "required": false
+        },
+        {
+          "name": "created_at_after",
+          "type": "string",
+          "description": "ISO 8601 datetime string",
+          "required": false
+        },
+        {
+          "name": "liked_by_not",
+          "type": "string",
+          "description": "Comma-separated list of user IDs to exclude",
+          "required": false
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "description": "Text to search for in task names and descriptions",
+          "required": false
+        },
+        {
+          "name": "is_blocked",
+          "type": "boolean",
+          "description": "Filter for tasks with incomplete dependencies",
+          "required": false
+        },
+        {
+          "name": "followers_not",
+          "type": "string",
+          "description": "Comma-separated list of user IDs to exclude",
+          "required": false
+        },
+        {
+          "name": "assigned_by_not",
+          "type": "string",
+          "description": "Comma-separated list of user IDs to exclude",
+          "required": false
+        },
+        {
+          "name": "modified_at_after",
+          "type": "string",
+          "description": "ISO 8601 datetime string",
+          "required": false
+        },
+        {
+          "name": "sections_all",
+          "type": "string",
+          "description": "Comma-separated list of section IDs that must all match",
+          "required": false
+        },
+        {
+          "name": "start_on_after",
+          "type": "string",
+          "description": "ISO 8601 date string",
+          "required": false
+        },
+        {
+          "name": "projects_all",
+          "type": "string",
+          "description": "Comma-separated list of project IDs that must all match",
+          "required": false
+        },
+        {
+          "name": "sections_any",
+          "type": "string",
+          "description": "Comma-separated list of section IDs",
+          "required": false
+        },
+        {
+          "name": "modified_on_before",
+          "type": "string",
+          "description": "ISO 8601 date string",
+          "required": false
+        },
+        {
+          "name": "due_at_before",
+          "type": "string",
+          "description": "ISO 8601 datetime string",
+          "required": false
+        },
+        {
+          "name": "tags_not",
+          "type": "string",
+          "description": "Comma-separated list of tag IDs to exclude",
+          "required": false
+        },
+        {
+          "name": "completed_on_after",
+          "type": "string",
+          "description": "ISO 8601 date string",
+          "required": false
+        },
+        {
+          "name": "created_at_before",
+          "type": "string",
+          "description": "ISO 8601 datetime string",
+          "required": false
+        },
+        {
+          "name": "assignee_any",
+          "type": "string",
+          "description": "Comma-separated list of user IDs",
+          "required": false
+        },
+        {
+          "name": "created_on_after",
+          "type": "string",
+          "description": "ISO 8601 date string",
+          "required": false
+        },
+        {
+          "name": "due_on_before",
+          "type": "string",
+          "description": "ISO 8601 date string",
+          "required": false
+        },
+        {
+          "name": "sort_ascending",
+          "type": "boolean",
+          "description": "Sort in ascending order",
+          "required": false,
+          "default": false
+        },
+        {
+          "name": "assignee_not",
+          "type": "string",
+          "description": "Comma-separated list of user IDs to exclude",
+          "required": false
+        },
+        {
+          "name": "sections_not",
+          "type": "string",
+          "description": "Comma-separated list of section IDs to exclude",
+          "required": false
+        },
+        {
+          "name": "completed",
+          "type": "boolean",
+          "description": "Filter for completed tasks",
+          "required": false
+        },
+        {
+          "name": "modified_on_after",
+          "type": "string",
+          "description": "ISO 8601 date string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "identifier": "asana_get_task",
+      "name": "Asana Get Task",
+      "description": "Get detailed information about a specific task",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "opt_fields",
+          "type": "string",
+          "description": "Comma-separated list of optional fields to include",
+          "required": false
+        },
+        {
+          "name": "task_id",
+          "type": "string",
+          "description": "The task ID to retrieve",
+          "required": true
+        }
+      ]
+    },
+    {
+      "identifier": "asana_create_task",
+      "name": "Asana Create Task",
+      "description": "Create a new task in a project",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "assignee",
+          "type": "string",
+          "description": "Assignee (can be 'me' or a user ID)",
+          "required": false
+        },
+        {
+          "name": "followers",
+          "type": "array",
+          "description": "Array of user IDs to add as followers",
+          "required": false
+        },
+        {
+          "name": "due_on",
+          "type": "string",
+          "description": "Due date in YYYY-MM-DD format",
+          "required": false
+        },
+        {
+          "name": "project_id",
+          "type": "string",
+          "description": "The project to create the task in",
+          "required": true
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Name of the task",
+          "required": true
+        },
+        {
+          "name": "html_notes",
+          "type": "string",
+          "description": "HTML-like formatted description of the task. Does not support ALL HTML tags. Only a subset. The only allowed TAG in the HTML are: \u003cbody\u003e \u003ch1\u003e \u003ch2\u003e \u003col\u003e \u003cul\u003e \u003cli\u003e \u003cstrong\u003e \u003cem\u003e \u003cu\u003e \u003cs\u003e \u003ccode\u003e \u003cpre\u003e \u003cblockquote\u003e \u003ca data-asana-type=\"\" data-asana-gid=\"\"\u003e \u003chr\u003e \u003cimg\u003e \u003ctable\u003e \u003ctr\u003e \u003ctd\u003e. No other tags are allowed. Use the \\n to create a newline. Do not use \\n after \u003cbody\u003e. Example: \u003cbody\u003e\u003ch1\u003eMotivation\u003c/h1\u003e\nA customer called in to complain\n\u003ch1\u003eGoal\u003c/h1\u003e\nFix the problem\u003c/body\u003e",
+          "required": false
+        },
+        {
+          "name": "projects",
+          "type": "array",
+          "description": "Array of project IDs to add this task to",
+          "required": false
+        },
+        {
+          "name": "notes",
+          "type": "string",
+          "description": "Description of the task",
+          "required": false
+        },
+        {
+          "name": "parent",
+          "type": "string",
+          "description": "The parent task ID to set this task under",
+          "required": false
+        },
+        {
+          "name": "resource_subtype",
+          "type": "string",
+          "description": "The type of the task. Can be one of 'default_task' or 'milestone'",
+          "required": false
+        },
+        {
+          "name": "custom_fields",
+          "type": "object",
+          "description": "Object mapping custom field GID strings to their values. For enum fields use the enum option GID as the value.",
+          "required": false
+        }
+      ]
+    },
+    {
+      "identifier": "asana_get_task_stories",
+      "name": "Asana Get Task Stories",
+      "description": "Get comments and stories for a specific task",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "task_id",
+          "type": "string",
+          "description": "The task ID to get stories for",
+          "required": true
+        },
+        {
+          "name": "opt_fields",
+          "type": "string",
+          "description": "Comma-separated list of optional fields to include",
+          "required": false
+        }
+      ]
+    },
+    {
+      "identifier": "asana_update_task",
+      "name": "Asana Update Task",
+      "description": "Update an existing task's details",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "due_on",
+          "type": "string",
+          "description": "New due date in YYYY-MM-DD format",
+          "required": false
+        },
+        {
+          "name": "assignee",
+          "type": "string",
+          "description": "New assignee (can be 'me' or a user ID)",
+          "required": false
+        },
+        {
+          "name": "completed",
+          "type": "boolean",
+          "description": "Mark task as completed or not",
+          "required": false
+        },
+        {
+          "name": "resource_subtype",
+          "type": "string",
+          "description": "The type of the task. Can be one of 'default_task' or 'milestone'",
+          "required": false
+        },
+        {
+          "name": "custom_fields",
+          "type": "object",
+          "description": "Object mapping custom field GID strings to their values. For enum fields use the enum option GID as the value.",
+          "required": false
+        },
+        {
+          "name": "task_id",
+          "type": "string",
+          "description": "The task ID to update",
+          "required": true
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "New name for the task",
+          "required": false
+        },
+        {
+          "name": "notes",
+          "type": "string",
+          "description": "New description for the task",
+          "required": false
+        }
+      ]
+    },
+    {
+      "identifier": "asana_get_project",
+      "name": "Asana Get Project",
+      "description": "Get detailed information about a specific project",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "project_id",
+          "type": "string",
+          "description": "The project ID to retrieve",
+          "required": true
+        },
+        {
+          "name": "opt_fields",
+          "type": "string",
+          "description": "Comma-separated list of optional fields to include",
+          "required": false
+        }
+      ]
+    },
+    {
+      "identifier": "asana_get_project_task_counts",
+      "name": "Asana Get Project Task Counts",
+      "description": "Get the number of tasks in a project",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "project_id",
+          "type": "string",
+          "description": "The project ID to get task counts for",
+          "required": true
+        },
+        {
+          "name": "opt_fields",
+          "type": "string",
+          "description": "Comma-separated list of optional fields to include",
+          "required": false
+        }
+      ]
+    },
+    {
+      "identifier": "asana_get_project_sections",
+      "name": "Asana Get Project Sections",
+      "description": "Get sections in a project",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "project_id",
+          "type": "string",
+          "description": "The project ID to get sections for",
+          "required": true
+        },
+        {
+          "name": "opt_fields",
+          "type": "string",
+          "description": "Comma-separated list of optional fields to include",
+          "required": false
+        }
+      ]
+    },
+    {
+      "identifier": "asana_create_task_story",
+      "name": "Asana Create Task Story",
+      "description": "Create a comment or story on a task",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "The text content of the story/comment",
+          "required": true
+        },
+        {
+          "name": "opt_fields",
+          "type": "string",
+          "description": "Comma-separated list of optional fields to include",
+          "required": false
+        },
+        {
+          "name": "task_id",
+          "type": "string",
+          "description": "The task ID to add the story to",
+          "required": true
+        }
+      ]
+    },
+    {
+      "identifier": "asana_add_task_dependencies",
+      "name": "Asana Add Task Dependencies",
+      "description": "Set dependencies for a task",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "task_id",
+          "type": "string",
+          "description": "The task ID to add dependencies to",
+          "required": true
+        },
+        {
+          "name": "dependencies",
+          "type": "array",
+          "description": "Array of task IDs that this task depends on",
+          "required": true
+        }
+      ]
+    },
+    {
+      "identifier": "asana_add_task_dependents",
+      "name": "Asana Add Task Dependents",
+      "description": "Set dependents for a task (tasks that depend on this task)",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "task_id",
+          "type": "string",
+          "description": "The task ID to add dependents to",
+          "required": true
+        },
+        {
+          "name": "dependents",
+          "type": "array",
+          "description": "Array of task IDs that depend on this task",
+          "required": true
+        }
+      ]
+    },
+    {
+      "identifier": "asana_create_subtask",
+      "name": "Asana Create Subtask",
+      "description": "Create a new subtask for an existing task",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "notes",
+          "type": "string",
+          "description": "Description of the subtask",
+          "required": false
+        },
+        {
+          "name": "due_on",
+          "type": "string",
+          "description": "Due date in YYYY-MM-DD format",
+          "required": false
+        },
+        {
+          "name": "assignee",
+          "type": "string",
+          "description": "Assignee (can be 'me' or a user ID)",
+          "required": false
+        },
+        {
+          "name": "opt_fields",
+          "type": "string",
+          "description": "Comma-separated list of optional fields to include",
+          "required": false
+        },
+        {
+          "name": "parent_task_id",
+          "type": "string",
+          "description": "The parent task ID to create the subtask under",
+          "required": true
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Name of the subtask",
+          "required": true
+        }
+      ]
+    },
+    {
+      "identifier": "asana_get_multiple_tasks_by_gid",
+      "name": "Asana Get Multiple Tasks By Gid",
+      "description": "Get detailed information about multiple tasks by their GIDs (maximum 25 tasks)",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "task_ids",
+          "type": "string",
+          "description": "Array or comma-separated string of task GIDs to retrieve (max 25)",
+          "required": true
+        },
+        {
+          "name": "opt_fields",
+          "type": "string",
+          "description": "Comma-separated list of optional fields to include",
+          "required": false
+        }
+      ]
+    },
+    {
+      "identifier": "asana_get_project_status",
+      "name": "Asana Get Project Status",
+      "description": "Get a project status update",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "project_status_gid",
+          "type": "string",
+          "description": "The project status GID to retrieve",
+          "required": true
+        },
+        {
+          "name": "opt_fields",
+          "type": "string",
+          "description": "Comma-separated list of optional fields to include",
+          "required": false
+        }
+      ]
+    },
+    {
+      "identifier": "asana_get_project_statuses",
+      "name": "Asana Get Project Statuses",
+      "description": "Get all status updates for a project",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "opt_fields",
+          "type": "string",
+          "description": "Comma-separated list of optional fields to include",
+          "required": false
+        },
+        {
+          "name": "project_gid",
+          "type": "string",
+          "description": "The project GID to get statuses for",
+          "required": true
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "description": "Results per page (1-100)",
+          "required": false
+        },
+        {
+          "name": "offset",
+          "type": "string",
+          "description": "Pagination offset token",
+          "required": false
+        }
+      ]
+    },
+    {
+      "identifier": "asana_create_project_status",
+      "name": "Asana Create Project Status",
+      "description": "Create a new status update for a project",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "html_text",
+          "type": "string",
+          "description": "HTML formatted text for the status update",
+          "required": false
+        },
+        {
+          "name": "opt_fields",
+          "type": "string",
+          "description": "Comma-separated list of optional fields to include",
+          "required": false
+        },
+        {
+          "name": "project_gid",
+          "type": "string",
+          "description": "The project GID to create the status for",
+          "required": true
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "description": "The text content of the status update",
+          "required": true
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "description": "The color of the status (green, yellow, red)",
+          "required": false,
+          "enum": [
+            "green",
+            "yellow",
+            "red"
+          ]
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "description": "The title of the status update",
+          "required": false
+        }
+      ]
+    },
+    {
+      "identifier": "asana_delete_project_status",
+      "name": "Asana Delete Project Status",
+      "description": "Delete a project status update",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "project_status_gid",
+          "type": "string",
+          "description": "The project status GID to delete",
+          "required": true
+        }
+      ]
+    },
+    {
+      "identifier": "asana_set_parent_for_task",
+      "name": "Asana Set Parent For Task",
+      "description": "Set the parent of a task and position the subtask within the other subtasks of that parent",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "data",
+          "type": "string",
+          "description": "",
+          "required": true
+        },
+        {
+          "name": "task_id",
+          "type": "string",
+          "description": "The task ID to operate on",
+          "required": true
+        },
+        {
+          "name": "opts",
+          "type": "string",
+          "description": "",
+          "required": false
+        }
+      ]
+    },
+    {
+      "identifier": "asana_get_tasks_for_tag",
+      "name": "Asana Get Tasks For Tag",
+      "description": "Get tasks for a specific tag",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "tag_gid",
+          "type": "string",
+          "description": "The tag GID to retrieve tasks for",
+          "required": true
+        },
+        {
+          "name": "opt_fields",
+          "type": "string",
+          "description": "Comma-separated list of optional fields to include",
+          "required": false
+        },
+        {
+          "name": "opt_pretty",
+          "type": "boolean",
+          "description": "Provides the response in a 'pretty' format",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "description": "The number of objects to return per page. The value must be between 1 and 100.",
+          "required": false
+        },
+        {
+          "name": "offset",
+          "type": "string",
+          "description": "An offset to the next page returned by the API.",
+          "required": false
+        }
+      ]
+    },
+    {
+      "identifier": "asana_get_tags_for_workspace",
+      "name": "Asana Get Tags For Workspace",
+      "description": "Get tags in a workspace",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "opt_fields",
+          "type": "string",
+          "description": "Comma-separated list of optional fields to include",
+          "required": false
+        },
+        {
+          "name": "workspace_gid",
+          "type": "string",
+          "description": "Globally unique identifier for the workspace or organization",
+          "required": true
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "description": "Results per page. The number of objects to return per page. The value must be between 1 and 100.",
+          "required": false
+        },
+        {
+          "name": "offset",
+          "type": "string",
+          "description": "Offset token. An offset to the next page returned by the API.",
+          "required": false
+        }
+      ]
+    }
+  ]
+}

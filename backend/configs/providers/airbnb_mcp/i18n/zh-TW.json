@@ -1,0 +1,111 @@
+{
+  "name": "Airbnb",
+  "description": "用於搜索 Airbnb 列表，具備先進的過濾功能和詳細的物業信息檢索。",
+  "categories": [
+    "地點",
+    "居住"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具訪問",
+      "description": "訪問 MCP 伺服器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "airbnb_search",
+      "name": "Airbnb 搜索",
+      "description": "使用各種過濾器和分頁搜索 Airbnb 列表。為用戶提供直接鏈接。",
+      "parameters": [
+        {
+          "name": "placeId",
+          "description": "Google 地圖地點 ID（覆蓋位置參數）"
+        },
+        {
+          "name": "infants",
+          "description": "嬰兒數量"
+        },
+        {
+          "name": "minPrice",
+          "description": "住宿的最低價格"
+        },
+        {
+          "name": "maxPrice",
+          "description": "住宿的最高價格"
+        },
+        {
+          "name": "checkout",
+          "description": "退房日期（YYYY-MM-DD）"
+        },
+        {
+          "name": "children",
+          "description": "兒童數量"
+        },
+        {
+          "name": "pets",
+          "description": "寵物數量"
+        },
+        {
+          "name": "cursor",
+          "description": "用於分頁的 Base64 編碼字符串"
+        },
+        {
+          "name": "ignoreRobotsText",
+          "description": "忽略此請求的 robots.txt 規則"
+        },
+        {
+          "name": "location",
+          "description": "要搜索的位置（城市、州等）"
+        },
+        {
+          "name": "checkin",
+          "description": "入住日期（YYYY-MM-DD）"
+        },
+        {
+          "name": "adults",
+          "description": "成人數量"
+        }
+      ]
+    },
+    {
+      "identifier": "airbnb_listing_details",
+      "name": "Airbnb 列表詳情",
+      "description": "獲取特定 Airbnb 列表的詳細信息。為用戶提供直接鏈接。",
+      "parameters": [
+        {
+          "name": "children",
+          "description": "兒童數量"
+        },
+        {
+          "name": "infants",
+          "description": "嬰兒數量"
+        },
+        {
+          "name": "pets",
+          "description": "寵物數量"
+        },
+        {
+          "name": "ignoreRobotsText",
+          "description": "忽略此請求的 robots.txt 規則"
+        },
+        {
+          "name": "id",
+          "description": "Airbnb 列表 ID"
+        },
+        {
+          "name": "checkin",
+          "description": "入住日期（YYYY-MM-DD）"
+        },
+        {
+          "name": "checkout",
+          "description": "退房日期（YYYY-MM-DD）"
+        },
+        {
+          "name": "adults",
+          "description": "成人數量"
+        }
+      ]
+    }
+  ]
+}

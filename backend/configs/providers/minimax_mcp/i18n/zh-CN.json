@@ -1,0 +1,264 @@
+{
+  "name": "MiniMax",
+  "description": "支持与强大的文本转语音和视频/图像生成 API 进行交互。",
+  "categories": [
+    "文本转语音",
+    "图像/视频生成"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具访问",
+      "description": "访问 MCP 服务器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "text_to_audio",
+      "name": "文本转音频",
+      "description": "将文本转换为音频，使用指定的声音并将输出音频文件保存到指定目录。\n    目录是可选的，如果未提供，输出文件将保存到 $HOME/Desktop。\n    声音 ID 是可选的，如果未提供，将使用默认声音。\n\n    成本警告：此工具会调用 Minimax 的 API，可能会产生费用。仅在用户明确请求时使用。\n\n    参数：\n        text (str): 要转换为语音的文本。\n        voice_id (str, optional): 要使用的声音 ID。例如，\"male-qn-qingse\"/\"audiobook_female_1\"/\"cute_boy\"/\"Charming_Lady\"...\n        model (string, optional): 要使用的模型。\n        speed (float, optional): 生成音频的速度。控制生成语音的速度。值范围从 0.5 到 2.0，1.0 为默认速度。\n        vol (float, optional): 生成音频的音量。控制生成语音的音量。值范围从 0 到 10，1 为默认音量。\n        pitch (int, optional): 生成音频的音调。控制生成语音的音调。值范围从 -12 到 12，0 为默认音调。\n        emotion (str, optional): 生成音频的情感。控制生成语音的情感。值范围 [\"happy\", \"sad\", \"angry\", \"fearful\", \"disgusted\", \"surprised\", \"neutral\"]，\"happy\" 为默认情感。\n        sample_rate (int, optional): 生成音频的采样率。控制生成语音的采样率。值范围 [8000,16000,22050,24000,32000,44100]，32000 为默认采样率。\n        bitrate (int, optional): 生成音频的比特率。控制生成语音的比特率。值范围 [32000,64000,128000,256000]，128000 为默认比特率。\n        channel (int, optional): 生成音频的通道。控制生成语音的通道。值范围 [1, 2]，1 为默认通道。\n        format (str, optional): 生成音频的格式。控制生成语音的格式。值范围 [\"pcm\", \"mp3\",\"flac\"]，\"mp3\" 为默认格式。\n        language_boost (str, optional): 生成音频的语言增强。控制生成语音的语言增强。值范围 ['Chinese', 'Chinese,Yue', 'English', 'Arabic', 'Russian', 'Spanish', 'French', 'Portuguese', 'German', 'Turkish', 'Dutch', 'Ukrainian', 'Vietnamese', 'Indonesian', 'Japanese', 'Italian', 'Korean', 'Thai', 'Polish', 'Romanian', 'Greek', 'Czech', 'Finnish', 'Hindi', 'auto']，\"auto\" 为默认语言增强。\n        output_directory (str): 保存音频的目录。\n\n    返回：\n        包含输出文件路径和使用的声音名称的文本内容。",
+      "parameters": [
+        {
+          "name": "format",
+          "description": ""
+        },
+        {
+          "name": "pitch",
+          "description": ""
+        },
+        {
+          "name": "bitrate",
+          "description": ""
+        },
+        {
+          "name": "output_directory",
+          "description": ""
+        },
+        {
+          "name": "vol",
+          "description": ""
+        },
+        {
+          "name": "channel",
+          "description": ""
+        },
+        {
+          "name": "model",
+          "description": ""
+        },
+        {
+          "name": "sample_rate",
+          "description": ""
+        },
+        {
+          "name": "language_boost",
+          "description": ""
+        },
+        {
+          "name": "text",
+          "description": ""
+        },
+        {
+          "name": "voice_id",
+          "description": ""
+        },
+        {
+          "name": "speed",
+          "description": ""
+        },
+        {
+          "name": "emotion",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "list_voices",
+      "name": "列出声音",
+      "description": "列出所有可用的声音。\n\n    参数：\n        voice_type (str, optional): 要列出的声音类型。值范围 [\"all\", \"system\", \"voice_cloning\"]，\"all\" 为默认。\n    返回：\n        包含声音列表的文本内容。",
+      "parameters": [
+        {
+          "name": "voice_type",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "voice_clone",
+      "name": "声音克隆",
+      "description": "使用提供的音频文件克隆声音。新声音将在首次使用时收费。\n\n    成本警告：此工具会调用 Minimax 的 API，可能会产生费用。仅在用户明确请求时使用。\n\n     参数：\n        voice_id (str): 要使用的声音 ID。\n        file (str): 要克隆的音频文件的路径或音频文件的 URL。\n        text (str, optional): 用于演示音频的文本。\n        is_url (bool, optional): 文件是否为 URL。默认为 False。\n        output_directory (str): 保存演示音频的目录。\n    返回：\n        包含克隆声音的声音 ID 的文本内容。",
+      "parameters": [
+        {
+          "name": "voice_id",
+          "description": ""
+        },
+        {
+          "name": "file",
+          "description": ""
+        },
+        {
+          "name": "text",
+          "description": ""
+        },
+        {
+          "name": "output_directory",
+          "description": ""
+        },
+        {
+          "name": "is_url",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "play_audio",
+      "name": "播放音频",
+      "description": "播放音频文件。支持 WAV 和 MP3 格式。不支持视频。\n\n     参数：\n        input_file_path (str): 要播放的音频文件的路径。\n        is_url (bool, optional): 音频文件是否为 URL。\n    返回：\n        包含音频文件路径的文本内容。",
+      "parameters": [
+        {
+          "name": "input_file_path",
+          "description": ""
+        },
+        {
+          "name": "is_url",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "generate_video",
+      "name": "生成视频",
+      "description": "根据提示生成视频。\n\n    成本警告：此工具会调用 Minimax 的 API，可能会产生费用。仅在用户明确请求时使用。\n\n     参数：\n        model (str, optional): 要使用的模型。值范围 [\"T2V-01\", \"T2V-01-Director\", \"I2V-01\", \"I2V-01-Director\", \"I2V-01-live\", \"MiniMax-Hailuo-02\"]。\"Director\" 支持插入摄像机移动控制的指令。\"I2V\" 用于图像到视频。\"T2V\" 用于文本到视频。\"MiniMax-Hailuo-02\" 是最新模型，效果最佳，超清晰质量和精确响应。\n        prompt (str): 用于生成视频的提示。当使用 Director 模型时，提示支持 15 种摄像机移动指令（枚举值）\n            -Truck: [Truck left], [Truck right]\n            -Pan: [Pan left], [Pan right]\n            -Push: [Push in], [Pull out]\n            -Pedestal: [Pedestal up], [Pedestal down]\n            -Tilt: [Tilt up], [Tilt down]\n            -Zoom: [Zoom in], [Zoom out]\n            -Shake: [Shake]\n            -Follow: [Tracking shot]\n            -Static: [Static shot]\n        first_frame_image (str): 第一帧图像。模型必须是 \"I2V\" 系列。\n        duration (int, optional): 视频的持续时间。模型必须是 \"MiniMax-Hailuo-02\"。值可以是 6 和 10。\n        resolution (str, optional): 视频的分辨率。模型必须是 \"MiniMax-Hailuo-02\"。值范围 [\"768P\", \"1080P\"]\n        output_directory (str): 保存视频的目录。\n        async_mode (bool, optional): 是否使用异步模式。默认为 False。如果为 True，视频生成任务将异步提交，响应将返回 task_id。应使用 `query_video_generation` 工具检查任务状态并获取结果。\n    返回：\n        包含输出视频文件路径的文本内容。",
+      "parameters": [
+        {
+          "name": "output_directory",
+          "description": ""
+        },
+        {
+          "name": "async_mode",
+          "description": ""
+        },
+        {
+          "name": "model",
+          "description": ""
+        },
+        {
+          "name": "prompt",
+          "description": ""
+        },
+        {
+          "name": "first_frame_image",
+          "description": ""
+        },
+        {
+          "name": "duration",
+          "description": ""
+        },
+        {
+          "name": "resolution",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "query_video_generation",
+      "name": "查询视频生成",
+      "description": "查询视频生成任务的状态。\n\n    参数：\n        task_id (str): 要查询的任务 ID。如果 `async_mode` 为 True，应为 `generate_video` 工具返回的 task_id。\n        output_directory (str): 保存视频的目录。\n    返回：\n        包含任务状态的文本内容。",
+      "parameters": [
+        {
+          "name": "output_directory",
+          "description": ""
+        },
+        {
+          "name": "task_id",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "text_to_image",
+      "name": "文本转图像",
+      "description": "根据提示生成图像。\n\n    成本警告：此工具会调用 Minimax 的 API，可能会产生费用。仅在用户明确请求时使用。\n\n     参数：\n        model (str, optional): 要使用的模型。值范围 [\"image-01\"]，\"image-01\" 为默认。\n        prompt (str): 用于生成图像的提示。\n        aspect_ratio (str, optional): 图像的纵横比。值范围 [\"1:1\", \"16:9\",\"4:3\", \"3:2\", \"2:3\", \"3:4\", \"9:16\", \"21:9\"]，\"1:1\" 为默认。\n        n (int, optional): 要生成的图像数量。值范围 [1, 9]，1 为默认。\n        prompt_optimizer (bool, optional): 是否优化提示。值范围 [True, False]，True 为默认。\n        output_directory (str): 保存图像的目录。\n    返回：\n        包含输出图像文件路径的文本内容。",
+      "parameters": [
+        {
+          "name": "n",
+          "description": ""
+        },
+        {
+          "name": "prompt_optimizer",
+          "description": ""
+        },
+        {
+          "name": "output_directory",
+          "description": ""
+        },
+        {
+          "name": "model",
+          "description": ""
+        },
+        {
+          "name": "prompt",
+          "description": ""
+        },
+        {
+          "name": "aspect_ratio",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "music_generation",
+      "name": "音乐生成",
+      "description": "使用 AI 模型创建音乐生成任务。根据提示和歌词生成音乐。\n\n    成本警告：此工具会调用 Minimax 的 API，可能会产生费用。仅在用户明确请求时使用。\n\n    参数：\n        prompt (str): 描述风格、情绪、场景等的音乐创作灵感。\n            示例：\"流行音乐，悲伤，适合雨夜\"。字符范围：[10, 300]\n        lyrics (str): 用于音乐生成的歌词。\n            使用换行符 (\\n) 分隔每行歌词。支持歌词结构标签 [Intro][Verse][Chorus][Bridge][Outro] \n            以增强音乐性。字符范围：[10, 600]（每个汉字、标点符号和字母计为 1 个字符）\n        stream (bool, optional): 是否启用流模式。默认为 False\n        sample_rate (int, optional): 生成音乐的采样率。值：[16000, 24000, 32000, 44100]\n        bitrate (int, optional): 生成音乐的比特率。值：[32000, 64000, 128000, 256000]\n        format (str, optional): 生成音乐的格式。值：[\"mp3\", \"wav\", \"pcm\"]。默认为 \"mp3\"\n        output_directory (str, optional): 保存生成音乐文件的目录\n        \n    注意：目前支持生成最长 1 分钟的音乐。\n\n    返回：\n        包含生成音乐文件路径或生成状态的文本内容。",
+      "parameters": [
+        {
+          "name": "prompt",
+          "description": ""
+        },
+        {
+          "name": "lyrics",
+          "description": ""
+        },
+        {
+          "name": "sample_rate",
+          "description": ""
+        },
+        {
+          "name": "bitrate",
+          "description": ""
+        },
+        {
+          "name": "format",
+          "description": ""
+        },
+        {
+          "name": "output_directory",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "voice_design",
+      "name": "声音设计",
+      "description": "根据描述提示生成声音。\n\n    成本警告：此工具会调用 Minimax 的 API，可能会产生费用。仅在用户明确请求时使用。\n\n     参数：\n        prompt (str): 用于生成声音的提示。\n        preview_text (str): 用于预览声音的文本。\n        voice_id (str, optional): 要使用的声音 ID。例如，\"male-qn-qingse\"/\"audiobook_female_1\"/\"cute_boy\"/\"Charming_Lady\"...\n        output_directory (str, optional): 保存声音的目录。\n    返回：\n        包含输出声音文件路径的文本内容。",
+      "parameters": [
+        {
+          "name": "output_directory",
+          "description": ""
+        },
+        {
+          "name": "prompt",
+          "description": ""
+        },
+        {
+          "name": "preview_text",
+          "description": ""
+        },
+        {
+          "name": "voice_id",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

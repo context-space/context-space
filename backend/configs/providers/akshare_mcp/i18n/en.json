@@ -1,0 +1,156 @@
+{
+  "name": "Akshare",
+  "description": "Provides access to Chinese stock market data including historical prices, real-time data, news, and financial statements. Retrieves comprehensive financial information for stocks with flexible parameters.",
+  "categories": [
+    "stock",
+    "news"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "get_hist_data",
+      "name": "Get Hist Data",
+      "description": "Get historical stock market data. 'eastmoney_direct' support all A,B,H shares",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Stock symbol/ticker (e.g. '000001')"
+        },
+        {
+          "name": "start_date",
+          "description": "Start date in YYYY-MM-DD format"
+        },
+        {
+          "name": "source",
+          "description": "Data source"
+        },
+        {
+          "name": "indicators_list",
+          "description": "Technical indicators to add"
+        },
+        {
+          "name": "interval",
+          "description": "Time interval"
+        },
+        {
+          "name": "end_date",
+          "description": "End date in YYYY-MM-DD format"
+        },
+        {
+          "name": "adjust",
+          "description": "Adjustment type"
+        },
+        {
+          "name": "recent_n",
+          "description": "Number of most recent records to return"
+        },
+        {
+          "name": "interval_multiplier",
+          "description": "Interval multiplier"
+        }
+      ]
+    },
+    {
+      "identifier": "get_realtime_data",
+      "name": "Get Realtime Data",
+      "description": "Get real-time stock market data. 'eastmoney_direct' support all A,B,H shares",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Stock symbol/ticker (e.g. '000001')"
+        },
+        {
+          "name": "source",
+          "description": "Data source"
+        }
+      ]
+    },
+    {
+      "identifier": "get_news_data",
+      "name": "Get News Data",
+      "description": "Get stock-related news data.",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Stock symbol/ticker (e.g. '000001')"
+        },
+        {
+          "name": "recent_n",
+          "description": "Number of most recent records to return"
+        }
+      ]
+    },
+    {
+      "identifier": "get_balance_sheet",
+      "name": "Get Balance Sheet",
+      "description": "Get company balance sheet data.",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Stock symbol/ticker (e.g. '000001')"
+        },
+        {
+          "name": "recent_n",
+          "description": "Number of most recent records to return"
+        }
+      ]
+    },
+    {
+      "identifier": "get_income_statement",
+      "name": "Get Income Statement",
+      "description": "Get company income statement data.",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Stock symbol/ticker (e.g. '000001')"
+        },
+        {
+          "name": "recent_n",
+          "description": "Number of most recent records to return"
+        }
+      ]
+    },
+    {
+      "identifier": "get_cash_flow",
+      "name": "Get Cash Flow",
+      "description": "Get company cash flow statement data.",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Stock symbol/ticker (e.g. '000001')"
+        },
+        {
+          "name": "source",
+          "description": "Data source"
+        },
+        {
+          "name": "recent_n",
+          "description": "Number of most recent records to return"
+        }
+      ]
+    },
+    {
+      "identifier": "get_inner_trade_data",
+      "name": "Get Inner Trade Data",
+      "description": "Get company insider trading data.",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Stock symbol/ticker (e.g. '000001')"
+        }
+      ]
+    },
+    {
+      "identifier": "get_time_info",
+      "name": "Get Time Info",
+      "description": "Get current time with ISO format, timestamp, and the last trading day.",
+      "parameters": null
+    }
+  ]
+}

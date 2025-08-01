@@ -1,0 +1,157 @@
+{
+  "identifier": "todoist_mcp",
+  "name": "Todoist",
+  "description": "Enables natural language task management through Model Context Protocol.",
+  "auth_type": "apikey",
+  "icon_url": "",
+  "categories": [
+    "task management",
+    "filter"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools",
+      "oauth_scopes": []
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "todoist_create_task",
+      "name": "Todoist Create Task",
+      "description": "Create a new task in Todoist with optional description, due date, and priority",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "priority",
+          "type": "number",
+          "description": "Task priority from 1 (normal) to 4 (urgent) (optional)",
+          "required": false
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "description": "The content/title of the task",
+          "required": true
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "Detailed description of the task (optional)",
+          "required": false
+        },
+        {
+          "name": "due_string",
+          "type": "string",
+          "description": "Natural language due date like 'tomorrow', 'next Monday', 'Jan 23' (optional)",
+          "required": false
+        }
+      ]
+    },
+    {
+      "identifier": "todoist_get_tasks",
+      "name": "Todoist Get Tasks",
+      "description": "Get a list of tasks from Todoist with various filters",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "filter",
+          "type": "string",
+          "description": "Natural language filter like 'today', 'tomorrow', 'next week', 'priority 1', 'overdue' (optional)",
+          "required": false
+        },
+        {
+          "name": "priority",
+          "type": "number",
+          "description": "Filter by priority level (1-4) (optional)",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "description": "Maximum number of tasks to return (optional)",
+          "required": false,
+          "default": 10
+        },
+        {
+          "name": "project_id",
+          "type": "string",
+          "description": "Filter tasks by project ID (optional)",
+          "required": false
+        }
+      ]
+    },
+    {
+      "identifier": "todoist_update_task",
+      "name": "Todoist Update Task",
+      "description": "Update an existing task in Todoist by searching for it by name and then updating it",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "task_name",
+          "type": "string",
+          "description": "Name/content of the task to search for and update",
+          "required": true
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "description": "New content/title for the task (optional)",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "New description for the task (optional)",
+          "required": false
+        },
+        {
+          "name": "due_string",
+          "type": "string",
+          "description": "New due date in natural language like 'tomorrow', 'next Monday' (optional)",
+          "required": false
+        },
+        {
+          "name": "priority",
+          "type": "number",
+          "description": "New priority level from 1 (normal) to 4 (urgent) (optional)",
+          "required": false
+        }
+      ]
+    },
+    {
+      "identifier": "todoist_delete_task",
+      "name": "Todoist Delete Task",
+      "description": "Delete a task from Todoist by searching for it by name",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "task_name",
+          "type": "string",
+          "description": "Name/content of the task to search for and delete",
+          "required": true
+        }
+      ]
+    },
+    {
+      "identifier": "todoist_complete_task",
+      "name": "Todoist Complete Task",
+      "description": "Mark a task as complete by searching for it by name",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "task_name",
+          "type": "string",
+          "description": "Name/content of the task to search for and complete",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

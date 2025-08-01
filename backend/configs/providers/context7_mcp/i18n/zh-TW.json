@@ -1,0 +1,47 @@
+{
+  "name": "Context7",
+  "description": "最新的 LLM 和 AI 代碼編輯器的代碼文檔",
+  "categories": [
+    "程式碼文件",
+    "LLM"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具訪問",
+      "description": "訪問 MCP 伺服器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "resolve-library-id",
+      "name": "解析庫 ID",
+      "description": "將包/產品名稱解析為與 Context7 兼容的庫 ID，並返回匹配庫的列表。\n\n您必須在調用 'get-library-docs' 之前調用此函數，以獲取有效的與 Context7 兼容的庫 ID，除非用戶在查詢中明確提供了格式為 '/org/project' 或 '/org/project/version' 的庫 ID。\n\n選擇過程：\n1. 分析查詢以了解用戶正在尋找的庫/包\n2. 根據以下內容返回最相關的匹配項：\n- 與查詢的名稱相似度（優先考慮精確匹配）\n- 與查詢意圖的描述相關性\n- 文檔覆蓋範圍（優先考慮代碼片段數量較高的庫）\n- 信任分數（考慮得分在 7-10 的庫更具權威性）\n\n響應格式：\n- 在明確標記的部分返回所選庫 ID\n- 提供簡要解釋為什麼選擇此庫\n- 如果存在多個良好的匹配項，請承認這一點，但繼續使用最相關的項\n- 如果沒有良好的匹配項，請明確說明並建議查詢改進\n\n對於模糊的查詢，請在進行最佳猜測匹配之前請求澄清。",
+      "parameters": [
+        {
+          "name": "libraryName",
+          "description": "要搜索的庫名稱，以檢索與 Context7 兼容的庫 ID。"
+        }
+      ]
+    },
+    {
+      "identifier": "get-library-docs",
+      "name": "獲取庫文檔",
+      "description": "獲取庫的最新文檔。您必須首先調用 'resolve-library-id' 以獲取使用此工具所需的確切與 Context7 兼容的庫 ID，除非用戶在查詢中明確提供了格式為 '/org/project' 或 '/org/project/version' 的庫 ID。",
+      "parameters": [
+        {
+          "name": "topic",
+          "description": "專注於文檔的主題（例如，'hooks'、'routing'）。"
+        },
+        {
+          "name": "tokens",
+          "description": "要檢索的文檔的最大標記數（默認：10000）。較高的值提供更多上下文，但消耗更多標記。"
+        },
+        {
+          "name": "context7CompatibleLibraryID",
+          "description": "確切的與 Context7 兼容的庫 ID（例如，'/mongodb/docs'、'/vercel/next.js'、'/supabase/supabase'、'/vercel/next.js/v14.3.0-canary.87'），從 'resolve-library-id' 獲取或直接從用戶查詢中以格式 '/org/project' 或 '/org/project/version' 獲取。"
+        }
+      ]
+    }
+  ]
+}

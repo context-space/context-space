@@ -1,0 +1,148 @@
+{
+  "name": "维基百科",
+  "description": "提供实时访问维基百科信息的能力，并使大型语言模型能够搜索、检索、总结和提取来自多种语言的维基百科文章的详细内容。",
+  "categories": [
+    "信息",
+    "提取"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具访问",
+      "description": "访问 MCP 服务器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "search_wikipedia",
+      "name": "搜索维基百科",
+      "description": "在维基百科中搜索与查询匹配的文章。",
+      "parameters": [
+        {
+          "name": "query",
+          "description": ""
+        },
+        {
+          "name": "limit",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "get_article",
+      "name": "获取文章",
+      "description": "获取维基百科文章的完整内容。",
+      "parameters": [
+        {
+          "name": "title",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "get_summary",
+      "name": "获取摘要",
+      "description": "获取维基百科文章的摘要。",
+      "parameters": [
+        {
+          "name": "title",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "summarize_article_for_query",
+      "name": "为查询总结文章",
+      "description": "获取针对特定查询量身定制的维基百科文章摘要。",
+      "parameters": [
+        {
+          "name": "title",
+          "description": ""
+        },
+        {
+          "name": "query",
+          "description": ""
+        },
+        {
+          "name": "max_length",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "summarize_article_section",
+      "name": "总结文章部分",
+      "description": "获取维基百科文章特定部分的摘要。",
+      "parameters": [
+        {
+          "name": "title",
+          "description": ""
+        },
+        {
+          "name": "section_title",
+          "description": ""
+        },
+        {
+          "name": "max_length",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "extract_key_facts",
+      "name": "提取关键事实",
+      "description": "从维基百科文章中提取关键事实，选项上可以聚焦于某个主题。",
+      "parameters": [
+        {
+          "name": "title",
+          "description": ""
+        },
+        {
+          "name": "topic_within_article",
+          "description": ""
+        },
+        {
+          "name": "count",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "get_related_topics",
+      "name": "获取相关主题",
+      "description": "获取与维基百科文章相关的主题，基于链接和类别。",
+      "parameters": [
+        {
+          "name": "title",
+          "description": ""
+        },
+        {
+          "name": "limit",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "get_sections",
+      "name": "获取部分",
+      "description": "获取维基百科文章的各个部分。",
+      "parameters": [
+        {
+          "name": "title",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "get_links",
+      "name": "获取链接",
+      "description": "获取维基百科文章中包含的链接。",
+      "parameters": [
+        {
+          "name": "title",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

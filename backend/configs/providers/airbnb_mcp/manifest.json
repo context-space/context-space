@@ -1,0 +1,159 @@
+{
+  "identifier": "airbnb_mcp",
+  "name": "Airbnb",
+  "description": "Searches Airbnb listings with advanced filtering capabilities and detailed property information retrieval.",
+  "auth_type": "none",
+  "icon_url": "",
+  "categories": [
+    "location",
+    "living"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools",
+      "oauth_scopes": []
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "airbnb_search",
+      "name": "Airbnb Search",
+      "description": "Search for Airbnb listings with various filters and pagination. Provide direct links to the user",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "pets",
+          "type": "number",
+          "description": "Number of pets",
+          "required": false
+        },
+        {
+          "name": "cursor",
+          "type": "string",
+          "description": "Base64-encoded string used for Pagination",
+          "required": false
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "description": "Location to search for (city, state, etc.)",
+          "required": true
+        },
+        {
+          "name": "placeId",
+          "type": "string",
+          "description": "Google Maps Place ID (overrides the location parameter)",
+          "required": false
+        },
+        {
+          "name": "children",
+          "type": "number",
+          "description": "Number of children",
+          "required": false
+        },
+        {
+          "name": "checkin",
+          "type": "string",
+          "description": "Check-in date (YYYY-MM-DD)",
+          "required": false
+        },
+        {
+          "name": "checkout",
+          "type": "string",
+          "description": "Check-out date (YYYY-MM-DD)",
+          "required": false
+        },
+        {
+          "name": "infants",
+          "type": "number",
+          "description": "Number of infants",
+          "required": false
+        },
+        {
+          "name": "minPrice",
+          "type": "number",
+          "description": "Minimum price for the stay",
+          "required": false
+        },
+        {
+          "name": "ignoreRobotsText",
+          "type": "boolean",
+          "description": "Ignore robots.txt rules for this request",
+          "required": false
+        },
+        {
+          "name": "maxPrice",
+          "type": "number",
+          "description": "Maximum price for the stay",
+          "required": false
+        },
+        {
+          "name": "adults",
+          "type": "number",
+          "description": "Number of adults",
+          "required": false
+        }
+      ]
+    },
+    {
+      "identifier": "airbnb_listing_details",
+      "name": "Airbnb Listing Details",
+      "description": "Get detailed information about a specific Airbnb listing. Provide direct links to the user",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "pets",
+          "type": "number",
+          "description": "Number of pets",
+          "required": false
+        },
+        {
+          "name": "ignoreRobotsText",
+          "type": "boolean",
+          "description": "Ignore robots.txt rules for this request",
+          "required": false
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "description": "The Airbnb listing ID",
+          "required": true
+        },
+        {
+          "name": "checkin",
+          "type": "string",
+          "description": "Check-in date (YYYY-MM-DD)",
+          "required": false
+        },
+        {
+          "name": "checkout",
+          "type": "string",
+          "description": "Check-out date (YYYY-MM-DD)",
+          "required": false
+        },
+        {
+          "name": "adults",
+          "type": "number",
+          "description": "Number of adults",
+          "required": false
+        },
+        {
+          "name": "children",
+          "type": "number",
+          "description": "Number of children",
+          "required": false
+        },
+        {
+          "name": "infants",
+          "type": "number",
+          "description": "Number of infants",
+          "required": false
+        }
+      ]
+    }
+  ]
+}

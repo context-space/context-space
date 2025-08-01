@@ -1,0 +1,63 @@
+{
+  "identifier": "time_mcp",
+  "name": "Time",
+  "description": "Provides time and timezone conversion capabilities.",
+  "auth_type": "none",
+  "icon_url": "",
+  "categories": [
+    "convert_time",
+    "timezone"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools",
+      "oauth_scopes": []
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "get_current_time",
+      "name": "Get Current Time",
+      "description": "Get current time in a specific timezones",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "timezone",
+          "type": "string",
+          "description": "IANA timezone name (e.g., 'America/New_York', 'Europe/London'). Use 'Asia/Hong_Kong' as local timezone if no timezone provided by the user.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "identifier": "convert_time",
+      "name": "Convert Time",
+      "description": "Convert time between timezones",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "source_timezone",
+          "type": "string",
+          "description": "Source IANA timezone name (e.g., 'America/New_York', 'Europe/London'). Use 'Asia/Hong_Kong' as local timezone if no source timezone provided by the user.",
+          "required": true
+        },
+        {
+          "name": "time",
+          "type": "string",
+          "description": "Time to convert in 24-hour format (HH:MM)",
+          "required": true
+        },
+        {
+          "name": "target_timezone",
+          "type": "string",
+          "description": "Target IANA timezone name (e.g., 'Asia/Tokyo', 'America/San_Francisco'). Use 'Asia/Hong_Kong' as local timezone if no target timezone provided by the user.",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

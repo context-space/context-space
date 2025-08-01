@@ -1,0 +1,156 @@
+{
+  "name": "Akshare",
+  "description": "提供對中國股市數據的訪問，包括歷史價格、實時數據、新聞和財務報表。檢索具有靈活參數的股票綜合財務信息。",
+  "categories": [
+    "股票",
+    "新聞"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具訪問",
+      "description": "訪問 MCP 伺服器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "get_hist_data",
+      "name": "獲取歷史數據",
+      "description": "獲取歷史股市數據。'eastmoney_direct' 支持所有 A、B、H 股",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "股票代碼/標記（例如：'000001'）"
+        },
+        {
+          "name": "start_date",
+          "description": "YYYY-MM-DD 格式的開始日期"
+        },
+        {
+          "name": "source",
+          "description": "數據來源"
+        },
+        {
+          "name": "indicators_list",
+          "description": "要添加的技術指標"
+        },
+        {
+          "name": "interval",
+          "description": "時間間隔"
+        },
+        {
+          "name": "end_date",
+          "description": "YYYY-MM-DD 格式的結束日期"
+        },
+        {
+          "name": "adjust",
+          "description": "調整類型"
+        },
+        {
+          "name": "recent_n",
+          "description": "要返回的最近記錄數"
+        },
+        {
+          "name": "interval_multiplier",
+          "description": "間隔乘數"
+        }
+      ]
+    },
+    {
+      "identifier": "get_realtime_data",
+      "name": "獲取實時數據",
+      "description": "獲取實時股市數據。'eastmoney_direct' 支持所有 A、B、H 股",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "股票代碼/標記（例如：'000001'）"
+        },
+        {
+          "name": "source",
+          "description": "數據來源"
+        }
+      ]
+    },
+    {
+      "identifier": "get_news_data",
+      "name": "獲取新聞數據",
+      "description": "獲取與股票相關的新聞數據。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "股票代碼/標記（例如：'000001'）"
+        },
+        {
+          "name": "recent_n",
+          "description": "要返回的最近記錄數"
+        }
+      ]
+    },
+    {
+      "identifier": "get_balance_sheet",
+      "name": "獲取資產負債表",
+      "description": "獲取公司資產負債表數據。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "股票代碼/標記（例如：'000001'）"
+        },
+        {
+          "name": "recent_n",
+          "description": "要返回的最近記錄數"
+        }
+      ]
+    },
+    {
+      "identifier": "get_income_statement",
+      "name": "獲取損益表",
+      "description": "獲取公司損益表數據。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "股票代碼/標記（例如：'000001'）"
+        },
+        {
+          "name": "recent_n",
+          "description": "要返回的最近記錄數"
+        }
+      ]
+    },
+    {
+      "identifier": "get_cash_flow",
+      "name": "獲取現金流量表",
+      "description": "獲取公司現金流量表數據。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "股票代碼/標記（例如：'000001'）"
+        },
+        {
+          "name": "source",
+          "description": "數據來源"
+        },
+        {
+          "name": "recent_n",
+          "description": "要返回的最近記錄數"
+        }
+      ]
+    },
+    {
+      "identifier": "get_inner_trade_data",
+      "name": "獲取內部交易數據",
+      "description": "獲取公司內部交易數據。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "股票代碼/標記（例如：'000001'）"
+        }
+      ]
+    },
+    {
+      "identifier": "get_time_info",
+      "name": "獲取時間信息",
+      "description": "獲取當前時間，包含 ISO 格式、時間戳和最後交易日。",
+      "parameters": []
+    }
+  ]
+}

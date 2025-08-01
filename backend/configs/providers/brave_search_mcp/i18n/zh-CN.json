@@ -1,0 +1,50 @@
+{
+  "name": "Brave Search",
+  "description": "从 Brave 独立的网络索引提供快速、准确的搜索结果。",
+  "categories": [
+    "搜索"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具访问",
+      "description": "访问 MCP 服务器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "brave_web_search",
+      "name": "Brave Web Search",
+      "description": "使用 Brave Search API 执行网络搜索，适合一般查询、新闻、文章和在线内容。用于广泛的信息收集、最近事件或需要多样化网络来源时。支持分页、内容过滤和新鲜度控制。每个请求最多 20 个结果，支持分页偏移。",
+      "parameters": [
+        {
+          "name": "offset",
+          "description": "分页偏移（最大 9，默认 0）"
+        },
+        {
+          "name": "query",
+          "description": "搜索查询（最大 400 个字符，50 个单词）"
+        },
+        {
+          "name": "count",
+          "description": "结果数量（1-20，默认 10）"
+        }
+      ]
+    },
+    {
+      "identifier": "brave_local_search",
+      "name": "Brave Local Search",
+      "description": "使用 Brave 的本地搜索 API 搜索本地商家和地点。最适合与物理位置、商家、餐厅、服务等相关的查询。返回详细信息，包括：\n- 商家名称和地址\n- 评分和评论数量\n- 电话号码和营业时间\n当查询暗示“在我附近”或提到特定位置时使用此功能。如果未找到本地结果，则自动回退到网络搜索。",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "本地搜索查询（例如：'中央公园附近的比萨'）"
+        },
+        {
+          "name": "count",
+          "description": "结果数量（1-20，默认 5）"
+        }
+      ]
+    }
+  ]
+}

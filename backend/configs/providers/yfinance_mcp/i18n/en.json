@@ -1,0 +1,159 @@
+{
+  "name": "Yahoo Finance",
+  "description": "Provides tools to get pricing, company information and more.",
+  "categories": [
+    "stock",
+    "news"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "get_current_stock_price",
+      "name": "Get Current Stock Price",
+      "description": "Get the current stock price based on stock symbol.",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Stock symbol in Yahoo Finance format."
+        }
+      ]
+    },
+    {
+      "identifier": "get_stock_price_by_date",
+      "name": "Get Stock Price By Date",
+      "description": "Get the stock price for a given stock symbol on a specific date.",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Stock symbol in Yahoo Finance format."
+        },
+        {
+          "name": "date",
+          "description": "The date in YYYY-MM-DD format."
+        }
+      ]
+    },
+    {
+      "identifier": "get_stock_price_date_range",
+      "name": "Get Stock Price Date Range",
+      "description": "Get the stock prices for a given date range for a given stock symbol.",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Stock symbol in Yahoo Finance format."
+        },
+        {
+          "name": "start_date",
+          "description": "The start date in YYYY-MM-DD format."
+        },
+        {
+          "name": "end_date",
+          "description": "The end date in YYYY-MM-DD format."
+        }
+      ]
+    },
+    {
+      "identifier": "get_historical_stock_prices",
+      "name": "Get Historical Stock Prices",
+      "description": "Get historical stock prices for a given stock symbol.",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Stock symbol in Yahoo Finance format."
+        },
+        {
+          "name": "period",
+          "description": "The period for historical data. Defaults to \"1mo\". Valid periods: \"1d\", \"5d\", \"1mo\", \"3mo\", \"6mo\", \"1y\", \"2y\", \"5y\", \"10y\", \"ytd\", \"max\""
+        },
+        {
+          "name": "interval",
+          "description": "The interval beween data points. Defaults to \"1d\". Valid intervals: \"1d\", \"5d\", \"1wk\", \"1mo\", \"3mo\""
+        }
+      ]
+    },
+    {
+      "identifier": "get_dividends",
+      "name": "Get Dividends",
+      "description": "Get dividends for a given stock symbol.",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Stock symbol in Yahoo Finance format."
+        }
+      ]
+    },
+    {
+      "identifier": "get_income_statement",
+      "name": "Get Income Statement",
+      "description": "Get income statement for a given stock symbol.",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Stock symbol in Yahoo Finance format."
+        },
+        {
+          "name": "freq",
+          "description": "At what frequency to get cashflow statements. Defaults to \"yearly\". Valid freqencies: \"yearly\", \"quarterly\", \"trainling\""
+        }
+      ]
+    },
+    {
+      "identifier": "get_cashflow",
+      "name": "Get Cashflow",
+      "description": "Get cashflow for a given stock symbol.",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Stock symbol in Yahoo Finance format."
+        },
+        {
+          "name": "freq",
+          "description": "At what frequency to get cashflow statements. Defaults to \"yearly\". Valid freqencies: \"yearly\", \"quarterly\", \"trainling\""
+        }
+      ]
+    },
+    {
+      "identifier": "get_earning_dates",
+      "name": "Get Earning Dates",
+      "description": "Get earning dates.",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Stock symbol in Yahoo Finance format."
+        },
+        {
+          "name": "limit",
+          "description": "max amount of upcoming and recent earnings dates to return. Default value 12 should return next 4 quarters and last 8 quarters. Increase if more history is needed."
+        }
+      ]
+    },
+    {
+      "identifier": "get_news",
+      "name": "Get News",
+      "description": "Get news for a given stock symbol.",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Stock symbol in Yahoo Finance format."
+        }
+      ]
+    },
+    {
+      "identifier": "get_recommendations",
+      "name": "Get Recommendations",
+      "description": "Get analyst recommendations for a given symbol.",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Stock symbol in Yahoo Finance format."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,365 @@
+{
+  "name": "CloudFlare 绑定",
+  "description": "使用存储、人工智能和计算基元构建 Workers 应用。",
+  "categories": [
+    "worker",
+    "hyperdrive"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具访问",
+      "description": "访问 MCP 服务器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "accounts_list",
+      "name": "账户列表",
+      "description": "列出您 Cloudflare 帐户中的所有账户",
+      "parameters": null
+    },
+    {
+      "identifier": "set_active_account",
+      "name": "设置活动账户",
+      "description": "设置用于需要 accountId 的工具调用的活动账户",
+      "parameters": [
+        {
+          "name": "activeAccountIdParam",
+          "description": "用户 Cloudflare 帐户中存在的 accountId，应作为活动的 accountId。"
+        }
+      ]
+    },
+    {
+      "identifier": "kv_namespaces_list",
+      "name": "KV 命名空间列表",
+      "description": "列出您 Cloudflare 帐户中的所有 KV 命名空间。当您需要列出所有 KV 命名空间时使用此工具。返回具有以下属性的 KV 命名空间列表：\n  - id：KV 命名空间的 ID。\n  - title：KV 命名空间的标题。",
+      "parameters": [
+        {
+          "name": "params",
+          "description": "列出 KV 命名空间的可选参数"
+        }
+      ]
+    },
+    {
+      "identifier": "kv_namespace_create",
+      "name": "创建 KV 命名空间",
+      "description": "在您的 Cloudflare 帐户中创建一个新的 KV 命名空间",
+      "parameters": [
+        {
+          "name": "title",
+          "description": "KV 命名空间的可读名称/标题"
+        }
+      ]
+    },
+    {
+      "identifier": "kv_namespace_delete",
+      "name": "删除 KV 命名空间",
+      "description": "删除您 Cloudflare 帐户中的 KV 命名空间",
+      "parameters": [
+        {
+          "name": "namespace_id",
+          "description": "KV 命名空间的 ID"
+        }
+      ]
+    },
+    {
+      "identifier": "kv_namespace_get",
+      "name": "获取 KV 命名空间",
+      "description": "获取您 Cloudflare 帐户中 KV 命名空间的详细信息。当您需要获取特定 KV 命名空间的详细信息时使用此工具。返回具有以下属性的 KV 命名空间：\n  - id：KV 命名空间的 ID。\n  - title：KV 命名空间的标题。\n  - supports_url_encoding：KV 命名空间是否支持 URL 编码。\n  - beta：KV 命名空间是否处于测试阶段。",
+      "parameters": [
+        {
+          "name": "namespace_id",
+          "description": "KV 命名空间的 ID"
+        }
+      ]
+    },
+    {
+      "identifier": "kv_namespace_update",
+      "name": "更新 KV 命名空间",
+      "description": "更新您 Cloudflare 帐户中 KV 命名空间的标题",
+      "parameters": [
+        {
+          "name": "title",
+          "description": "KV 命名空间的可读名称/标题"
+        },
+        {
+          "name": "namespace_id",
+          "description": "KV 命名空间的 ID"
+        }
+      ]
+    },
+    {
+      "identifier": "workers_list",
+      "name": "Workers 列表",
+      "description": "列出您 Cloudflare 帐户中的所有 Workers。如果只需要单个 Worker 的详细信息，请使用 workers_get_worker。",
+      "parameters": null
+    },
+    {
+      "identifier": "workers_get_worker",
+      "name": "获取 Worker",
+      "description": "获取 Cloudflare Worker 的详细信息。",
+      "parameters": [
+        {
+          "name": "scriptName",
+          "description": "要检索的 worker 脚本的名称"
+        }
+      ]
+    },
+    {
+      "identifier": "workers_get_worker_code",
+      "name": "获取 Worker 代码",
+      "description": "获取 Cloudflare Worker 的源代码。注意：这可能是已打包的 Worker 版本。",
+      "parameters": [
+        {
+          "name": "scriptName",
+          "description": "要检索的 worker 脚本的名称"
+        }
+      ]
+    },
+    {
+      "identifier": "r2_buckets_list",
+      "name": "R2 存储桶列表",
+      "description": "列出您 Cloudflare 帐户中的 R2 存储桶",
+      "parameters": [
+        {
+          "name": "direction",
+          "description": "排序方向"
+        },
+        {
+          "name": "name_contains",
+          "description": "要筛选的存储桶名称。仅返回名称中包含此短语的存储桶。"
+        },
+        {
+          "name": "per_page",
+          "description": "每页数量"
+        },
+        {
+          "name": "start_after",
+          "description": "从该存储桶名称之后开始搜索。存储桶按字典顺序排序。"
+        },
+        {
+          "name": "cursor",
+          "description": "查询参数：上一次列出存储桶调用时收到的分页游标。R2 存储桶使用游标而非页码进行分页。"
+        }
+      ]
+    },
+    {
+      "identifier": "r2_bucket_create",
+      "name": "创建 R2 存储桶",
+      "description": "在您的 Cloudflare 帐户中创建一个新的 R2 存储桶",
+      "parameters": [
+        {
+          "name": "name",
+          "description": "R2 存储桶的名称"
+        }
+      ]
+    },
+    {
+      "identifier": "r2_bucket_get",
+      "name": "获取 R2 存储桶",
+      "description": "获取特定 R2 存储桶的详细信息",
+      "parameters": [
+        {
+          "name": "name",
+          "description": "R2 存储桶的名称"
+        }
+      ]
+    },
+    {
+      "identifier": "r2_bucket_delete",
+      "name": "删除 R2 存储桶",
+      "description": "删除 R2 存储桶",
+      "parameters": [
+        {
+          "name": "name",
+          "description": "R2 存储桶的名称"
+        }
+      ]
+    },
+    {
+      "identifier": "d1_databases_list",
+      "name": "D1 数据库列表",
+      "description": "列出您 Cloudflare 帐户中的所有 D1 数据库",
+      "parameters": [
+        {
+          "name": "name",
+          "description": "名称筛选（可选）"
+        },
+        {
+          "name": "page",
+          "description": "页码（可选）"
+        },
+        {
+          "name": "per_page",
+          "description": "每页数量（可选）"
+        }
+      ]
+    },
+    {
+      "identifier": "d1_database_create",
+      "name": "创建 D1 数据库",
+      "description": "在您的 Cloudflare 帐户中创建一个新的 D1 数据库",
+      "parameters": [
+        {
+          "name": "primary_location_hint",
+          "description": "主要位置提示"
+        },
+        {
+          "name": "name",
+          "description": "数据库名称"
+        }
+      ]
+    },
+    {
+      "identifier": "d1_database_delete",
+      "name": "删除 D1 数据库",
+      "description": "删除您 Cloudflare 帐户中的 D1 数据库",
+      "parameters": [
+        {
+          "name": "database_id",
+          "description": "数据库 ID"
+        }
+      ]
+    },
+    {
+      "identifier": "d1_database_get",
+      "name": "获取 D1 数据库",
+      "description": "获取您 Cloudflare 帐户中的 D1 数据库",
+      "parameters": [
+        {
+          "name": "database_id",
+          "description": "数据库 ID"
+        }
+      ]
+    },
+    {
+      "identifier": "d1_database_query",
+      "name": "查询 D1 数据库",
+      "description": "查询您 Cloudflare 帐户中的 D1 数据库",
+      "parameters": [
+        {
+          "name": "database_id",
+          "description": "数据库 ID"
+        },
+        {
+          "name": "sql",
+          "description": "SQL 查询语句"
+        },
+        {
+          "name": "params",
+          "description": "查询参数"
+        }
+      ]
+    },
+    {
+      "identifier": "hyperdrive_configs_list",
+      "name": "Hyperdrive 配置列表",
+      "description": "列出您 Cloudflare 帐户中的 Hyperdrive 配置",
+      "parameters": [
+        {
+          "name": "per_page",
+          "description": "每页结果数量"
+        },
+        {
+          "name": "order",
+          "description": "排序字段"
+        },
+        {
+          "name": "direction",
+          "description": "排序方向"
+        },
+        {
+          "name": "page",
+          "description": "页码"
+        }
+      ]
+    },
+    {
+      "identifier": "hyperdrive_config_delete",
+      "name": "删除 Hyperdrive 配置",
+      "description": "删除您 Cloudflare 帐户中的 Hyperdrive 配置",
+      "parameters": [
+        {
+          "name": "hyperdrive_id",
+          "description": "Hyperdrive 配置的 ID"
+        }
+      ]
+    },
+    {
+      "identifier": "hyperdrive_config_get",
+      "name": "获取 Hyperdrive 配置",
+      "description": "获取您 Cloudflare 帐户中特定 Hyperdrive 配置的详细信息",
+      "parameters": [
+        {
+          "name": "hyperdrive_id",
+          "description": "Hyperdrive 配置的 ID"
+        }
+      ]
+    },
+    {
+      "identifier": "hyperdrive_config_edit",
+      "name": "编辑 Hyperdrive 配置",
+      "description": "编辑（补丁）您 Cloudflare 帐户中的 Hyperdrive 配置",
+      "parameters": [
+        {
+          "name": "scheme",
+          "description": "数据库协议"
+        },
+        {
+          "name": "caching_disabled",
+          "description": "是否禁用缓存"
+        },
+        {
+          "name": "user",
+          "description": "数据库用户"
+        },
+        {
+          "name": "hyperdrive_id",
+          "description": "Hyperdrive 配置的 ID"
+        },
+        {
+          "name": "database",
+          "description": "数据库名称"
+        },
+        {
+          "name": "host",
+          "description": "数据库主机地址"
+        },
+        {
+          "name": "caching_stale_while_revalidate",
+          "description": "缓存过期重新验证期间（秒）"
+        },
+        {
+          "name": "name",
+          "description": "Hyperdrive 配置的名称（字母数字、下划线、连字符）"
+        },
+        {
+          "name": "port",
+          "description": "数据库端口"
+        },
+        {
+          "name": "caching_max_age",
+          "description": "最大缓存时长（秒）"
+        }
+      ]
+    },
+    {
+      "identifier": "search_cloudflare_documentation",
+      "name": "搜索 Cloudflare 文档",
+      "description": "搜索 Cloudflare 文档。此工具用于回答关于 Cloudflare 产品或功能的任何问题，包括：Workers、Pages、R2、Images、Stream、D1、Durable Objects、KV、Workflows、Hyperdrive、Queues；AutoRAG、Workers AI、Vectorize、AI Gateway、Browser Rendering；Zero Trust、Access、Tunnel、Gateway、Browser Isolation、WARP、DDoS、Magic Transit、Magic WAN；CDN、Cache、DNS、Zaraz、Argo、Rulesets、Terraform、帐户和计费。结果将以与查询语义相似的部分返回。",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "查询内容"
+        }
+      ]
+    },
+    {
+      "identifier": "migrate_pages_to_workers_guide",
+      "name": "将 Pages 迁移至 Workers 指南",
+      "description": "在将 Pages 项目迁移到 Workers 之前，请务必阅读本指南。",
+      "parameters": null
+    }
+  ]
+}

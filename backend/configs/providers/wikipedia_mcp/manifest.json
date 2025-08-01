@@ -1,0 +1,210 @@
+{
+  "identifier": "wikipedia_mcp",
+  "name": "Wikipedia",
+  "description": "Provides real-time access to Wikipedia information and enables LLMs to search, retrieve, summarize, and extract detailed content from Wikipedia articles across multiple languages. ",
+  "auth_type": "none",
+  "icon_url": "",
+  "categories": [
+    "info",
+    "extract"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools",
+      "oauth_scopes": []
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "search_wikipedia",
+      "name": "Search Wikipedia",
+      "description": "Search Wikipedia for articles matching a query.",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "query",
+          "type": "string",
+          "description": "",
+          "required": true
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "description": "",
+          "required": false,
+          "default": 10
+        }
+      ]
+    },
+    {
+      "identifier": "get_article",
+      "name": "Get Article",
+      "description": "Get the full content of a Wikipedia article.",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "title",
+          "type": "string",
+          "description": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "identifier": "get_summary",
+      "name": "Get Summary",
+      "description": "Get a summary of a Wikipedia article.",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "title",
+          "type": "string",
+          "description": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "identifier": "summarize_article_for_query",
+      "name": "Summarize Article For Query",
+      "description": "Get a summary of a Wikipedia article tailored to a specific query.",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "title",
+          "type": "string",
+          "description": "",
+          "required": true
+        },
+        {
+          "name": "query",
+          "type": "string",
+          "description": "",
+          "required": true
+        },
+        {
+          "name": "max_length",
+          "type": "integer",
+          "description": "",
+          "required": false,
+          "default": 250
+        }
+      ]
+    },
+    {
+      "identifier": "summarize_article_section",
+      "name": "Summarize Article Section",
+      "description": "Get a summary of a specific section of a Wikipedia article.",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "title",
+          "type": "string",
+          "description": "",
+          "required": true
+        },
+        {
+          "name": "section_title",
+          "type": "string",
+          "description": "",
+          "required": true
+        },
+        {
+          "name": "max_length",
+          "type": "integer",
+          "description": "",
+          "required": false,
+          "default": 150
+        }
+      ]
+    },
+    {
+      "identifier": "extract_key_facts",
+      "name": "Extract Key Facts",
+      "description": "Extract key facts from a Wikipedia article, optionally focused on a topic.",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "title",
+          "type": "string",
+          "description": "",
+          "required": true
+        },
+        {
+          "name": "topic_within_article",
+          "type": "string",
+          "description": "",
+          "required": false,
+          "default": ""
+        },
+        {
+          "name": "count",
+          "type": "integer",
+          "description": "",
+          "required": false,
+          "default": 5
+        }
+      ]
+    },
+    {
+      "identifier": "get_related_topics",
+      "name": "Get Related Topics",
+      "description": "Get topics related to a Wikipedia article based on links and categories.",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "title",
+          "type": "string",
+          "description": "",
+          "required": true
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "description": "",
+          "required": false,
+          "default": 10
+        }
+      ]
+    },
+    {
+      "identifier": "get_sections",
+      "name": "Get Sections",
+      "description": "Get the sections of a Wikipedia article.",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "title",
+          "type": "string",
+          "description": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "identifier": "get_links",
+      "name": "Get Links",
+      "description": "Get the links contained within a Wikipedia article.",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "title",
+          "type": "string",
+          "description": "",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+{
+  "name": "Yahoo Finance",
+  "description": "提供獲取價格、公司資訊等工具。",
+  "categories": [
+    "股票",
+    "新聞"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具訪問",
+      "description": "訪問 MCP 伺服器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "get_current_stock_price",
+      "name": "獲取當前股票價格",
+      "description": "根據股票代碼獲取當前股票價格。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Yahoo Finance 格式的股票代碼。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_stock_price_by_date",
+      "name": "按日期獲取股票價格",
+      "description": "獲取特定日期的給定股票代碼的股票價格。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Yahoo Finance 格式的股票代碼。"
+        },
+        {
+          "name": "date",
+          "description": "YYYY-MM-DD 格式的日期。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_stock_price_date_range",
+      "name": "獲取股票價格日期範圍",
+      "description": "獲取給定股票代碼在特定日期範圍內的股票價格。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Yahoo Finance 格式的股票代碼。"
+        },
+        {
+          "name": "start_date",
+          "description": "YYYY-MM-DD 格式的開始日期。"
+        },
+        {
+          "name": "end_date",
+          "description": "YYYY-MM-DD 格式的結束日期。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_historical_stock_prices",
+      "name": "獲取歷史股票價格",
+      "description": "獲取給定股票代碼的歷史股票價格。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Yahoo Finance 格式的股票代碼。"
+        },
+        {
+          "name": "period",
+          "description": "歷史數據的期間。默認為 \"1mo\"。有效期間：\"1d\", \"5d\", \"1mo\", \"3mo\", \"6mo\", \"1y\", \"2y\", \"5y\", \"10y\", \"ytd\", \"max\""
+        },
+        {
+          "name": "interval",
+          "description": "數據點之間的間隔。默認為 \"1d\"。有效間隔：\"1d\", \"5d\", \"1wk\", \"1mo\", \"3mo\""
+        }
+      ]
+    },
+    {
+      "identifier": "get_dividends",
+      "name": "獲取股息",
+      "description": "獲取給定股票代碼的股息。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Yahoo Finance 格式的股票代碼。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_income_statement",
+      "name": "獲取損益表",
+      "description": "獲取給定股票代碼的損益表。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Yahoo Finance 格式的股票代碼。"
+        },
+        {
+          "name": "freq",
+          "description": "獲取現金流量表的頻率。默認為 \"yearly\"。有效頻率：\"yearly\", \"quarterly\", \"trainling\""
+        }
+      ]
+    },
+    {
+      "identifier": "get_cashflow",
+      "name": "獲取現金流量",
+      "description": "獲取給定股票代碼的現金流量。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Yahoo Finance 格式的股票代碼。"
+        },
+        {
+          "name": "freq",
+          "description": "獲取現金流量表的頻率。默認為 \"yearly\"。有效頻率：\"yearly\", \"quarterly\", \"trainling\""
+        }
+      ]
+    },
+    {
+      "identifier": "get_earning_dates",
+      "name": "獲取收益日期",
+      "description": "獲取收益日期。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Yahoo Finance 格式的股票代碼。"
+        },
+        {
+          "name": "limit",
+          "description": "要返回的即將到來和最近收益日期的最大數量。默認值 12 應返回接下來的 4 個季度和過去的 8 個季度。如果需要更多歷史，請增加。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_news",
+      "name": "獲取新聞",
+      "description": "獲取給定股票代碼的新聞。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Yahoo Finance 格式的股票代碼。"
+        }
+      ]
+    },
+    {
+      "identifier": "get_recommendations",
+      "name": "獲取建議",
+      "description": "獲取給定代碼的分析師建議。",
+      "parameters": [
+        {
+          "name": "symbol",
+          "description": "Yahoo Finance 格式的股票代碼。"
+        }
+      ]
+    }
+  ]
+}

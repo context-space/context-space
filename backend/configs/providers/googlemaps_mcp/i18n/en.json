@@ -1,0 +1,122 @@
+{
+  "name": "Google Maps",
+  "description": "Provides directions, place details, and geographic data to enhance applications with mapping functionalities.",
+  "categories": [
+    "map",
+    "location"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "maps_geocode",
+      "name": "Maps Geocode",
+      "description": "Convert an address into geographic coordinates",
+      "parameters": [
+        {
+          "name": "address",
+          "description": "The address to geocode"
+        }
+      ]
+    },
+    {
+      "identifier": "maps_reverse_geocode",
+      "name": "Maps Reverse Geocode",
+      "description": "Convert coordinates into an address",
+      "parameters": [
+        {
+          "name": "latitude",
+          "description": "Latitude coordinate"
+        },
+        {
+          "name": "longitude",
+          "description": "Longitude coordinate"
+        }
+      ]
+    },
+    {
+      "identifier": "maps_search_places",
+      "name": "Maps Search Places",
+      "description": "Search for places using Google Places API",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "Search query"
+        },
+        {
+          "name": "location",
+          "description": "Optional center point for the search"
+        },
+        {
+          "name": "radius",
+          "description": "Search radius in meters (max 50000)"
+        }
+      ]
+    },
+    {
+      "identifier": "maps_place_details",
+      "name": "Maps Place Details",
+      "description": "Get detailed information about a specific place",
+      "parameters": [
+        {
+          "name": "place_id",
+          "description": "The place ID to get details for"
+        }
+      ]
+    },
+    {
+      "identifier": "maps_distance_matrix",
+      "name": "Maps Distance Matrix",
+      "description": "Calculate travel distance and time for multiple origins and destinations",
+      "parameters": [
+        {
+          "name": "mode",
+          "description": "Travel mode (driving, walking, bicycling, transit)"
+        },
+        {
+          "name": "origins",
+          "description": "Array of origin addresses or coordinates"
+        },
+        {
+          "name": "destinations",
+          "description": "Array of destination addresses or coordinates"
+        }
+      ]
+    },
+    {
+      "identifier": "maps_elevation",
+      "name": "Maps Elevation",
+      "description": "Get elevation data for locations on the earth",
+      "parameters": [
+        {
+          "name": "locations",
+          "description": "Array of locations to get elevation for"
+        }
+      ]
+    },
+    {
+      "identifier": "maps_directions",
+      "name": "Maps Directions",
+      "description": "Get directions between two points",
+      "parameters": [
+        {
+          "name": "mode",
+          "description": "Travel mode (driving, walking, bicycling, transit)"
+        },
+        {
+          "name": "origin",
+          "description": "Starting point address or coordinates"
+        },
+        {
+          "name": "destination",
+          "description": "Ending point address or coordinates"
+        }
+      ]
+    }
+  ]
+}

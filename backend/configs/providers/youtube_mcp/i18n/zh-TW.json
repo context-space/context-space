@@ -1,0 +1,140 @@
+{
+  "name": "Youtube",
+  "description": "利用 YouTube 數據 API 與 YouTube 內容互動。",
+  "categories": [
+    "影片",
+    "逐字稿"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具訪問",
+      "description": "訪問 MCP 伺服器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "getVideoDetails",
+      "name": "獲取影片詳細資訊",
+      "description": "獲取多個 YouTube 影片的詳細資訊。返回包括影片元數據、統計數據和內容詳細信息的綜合數據。當您需要特定影片的完整資訊時，請使用此功能。",
+      "parameters": [
+        {
+          "name": "videoIds",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "searchVideos",
+      "name": "搜尋影片",
+      "description": "根據查詢字串搜尋影片。返回符合搜尋條件的影片列表，包括標題、描述和元數據。當您需要找到與特定主題或關鍵字相關的影片時，請使用此功能。",
+      "parameters": [
+        {
+          "name": "query",
+          "description": ""
+        },
+        {
+          "name": "maxResults",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "getTranscripts",
+      "name": "獲取逐字稿",
+      "description": "檢索多個影片的逐字稿。返回影片字幕的文字內容，對於無障礙和內容分析非常有用。當您需要多個影片的口語內容時，請使用此功能。",
+      "parameters": [
+        {
+          "name": "lang",
+          "description": ""
+        },
+        {
+          "name": "videoIds",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "getRelatedVideos",
+      "name": "獲取相關影片",
+      "description": "檢索特定影片的相關影片。根據 YouTube 的推薦算法，返回與指定影片相似或相關的影片列表。當您想要發現與特定影片相似的內容時，請使用此功能。",
+      "parameters": [
+        {
+          "name": "videoId",
+          "description": ""
+        },
+        {
+          "name": "maxResults",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "getChannelStatistics",
+      "name": "獲取頻道統計",
+      "description": "檢索多個頻道的統計數據。返回每個頻道的詳細指標，包括訂閱者數、觀看次數和影片數。當您需要分析多個 YouTube 頻道的表現和影響力時，請使用此功能。",
+      "parameters": [
+        {
+          "name": "channelIds",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "getChannelTopVideos",
+      "name": "獲取頻道熱門影片",
+      "description": "檢索特定頻道的熱門影片。根據觀看次數返回該頻道中觀看次數最多或最受歡迎的影片列表。當您想要識別某個頻道中最成功的內容時，請使用此功能。",
+      "parameters": [
+        {
+          "name": "channelId",
+          "description": ""
+        },
+        {
+          "name": "maxResults",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "getVideoEngagementRatio",
+      "name": "獲取影片互動比率",
+      "description": "計算多個影片的互動比率。返回每個影片的觀看次數、喜歡次數、評論次數和計算出的互動比率等指標。當您想要衡量觀眾與影片的互動時，請使用此功能。",
+      "parameters": [
+        {
+          "name": "videoIds",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "getTrendingVideos",
+      "name": "獲取熱門影片",
+      "description": "根據地區和類別檢索熱門影片。返回在指定地區和類別中當前受歡迎的影片列表。當您想要發現特定區域或類別中的熱門內容時，請使用此功能。可用的類別 ID：1（電影與動畫）、2（汽車與交通工具）、10（音樂）、15（寵物與動物）、17（運動）、18（短片）、19（旅遊與活動）、20（遊戲）、21（視頻博客）、22（人物與博客）、23（喜劇）、24（娛樂）、25（新聞與政治）、26（如何與風格）、27（教育）、28（科學與技術）、29（非營利與行動主義）、30（電影）、31（動畫/動畫）、32（動作/冒險）、33（經典）、34（喜劇）、35（紀錄片）、36（劇情）、37（家庭）、38（外國）、39（恐怖）、40（科幻/奇幻）、41（驚悚）、42（短片）、43（節目）、44（預告片）。",
+      "parameters": [
+        {
+          "name": "regionCode",
+          "description": ""
+        },
+        {
+          "name": "categoryId",
+          "description": ""
+        },
+        {
+          "name": "maxResults",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "compareVideos",
+      "name": "比較影片",
+      "description": "根據統計數據比較多個影片。返回指定影片的觀看次數、喜歡次數、評論次數和其他指標的比較。當您想要並排分析多個影片的表現時，請使用此功能。",
+      "parameters": [
+        {
+          "name": "videoIds",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

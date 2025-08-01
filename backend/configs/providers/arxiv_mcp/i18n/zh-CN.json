@@ -1,0 +1,73 @@
+{
+  "name": "ArXiv",
+  "description": "通过本地 MCP 服务器实现对 arXiv.org 研究论文的高效搜索、探索和比较。访问详细的论文元数据，执行基于关键词和作者的搜索，并生成摘要和比较的提示。保持对各种研究类别中热门话题的更新。",
+  "categories": [
+    "论文",
+    "分析"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具访问",
+      "description": "访问 MCP 服务器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "scrape_recent_category_papers",
+      "name": "抓取最新类别论文",
+      "description": "[爬虫] 从特定类别的 'recent' 页面抓取最新论文列表。",
+      "parameters": [
+        {
+          "name": "category",
+          "description": ""
+        },
+        {
+          "name": "max_results",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "search_papers",
+      "name": "搜索论文",
+      "description": "通过关键词搜索 arXiv 论文。",
+      "parameters": [
+        {
+          "name": "keyword",
+          "description": ""
+        },
+        {
+          "name": "max_results",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "get_paper_info",
+      "name": "获取论文信息",
+      "description": "通过论文 ID 获取详细信息。",
+      "parameters": [
+        {
+          "name": "paper_id",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "analyze_trends",
+      "name": "分析趋势",
+      "description": "分析特定类别的最新趋势。",
+      "parameters": [
+        {
+          "name": "category",
+          "description": ""
+        },
+        {
+          "name": "days",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

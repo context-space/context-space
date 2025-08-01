@@ -1,0 +1,47 @@
+{
+  "name": "Context7",
+  "description": "最新的 LLM 和 AI 代码编辑器的代码文档",
+  "categories": [
+    "代码文档",
+    "LLM"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具访问",
+      "description": "访问 MCP 服务器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "resolve-library-id",
+      "name": "解析库 ID",
+      "description": "将包/产品名称解析为与 Context7 兼容的库 ID，并返回匹配库的列表。\n\n您必须在调用 'get-library-docs' 之前调用此函数，以获取有效的与 Context7 兼容的库 ID，除非用户在查询中明确提供了格式为 '/org/project' 或 '/org/project/version' 的库 ID。\n\n选择过程：\n1. 分析查询以了解用户正在寻找哪个库/包\n2. 根据以下内容返回最相关的匹配项：\n- 名称与查询的相似性（优先考虑完全匹配）\n- 描述与查询意图的相关性\n- 文档覆盖范围（优先考虑代码片段数量较高的库）\n- 信任评分（考虑评分为 7-10 的库更具权威性）\n\n响应格式：\n- 在明确标记的部分返回所选库 ID\n- 简要说明选择此库的原因\n- 如果存在多个良好的匹配项，请承认这一点，但继续使用最相关的一个\n- 如果没有良好的匹配项，请明确说明并建议查询的改进\n\n对于模糊的查询，请在继续进行最佳猜测匹配之前请求澄清。",
+      "parameters": [
+        {
+          "name": "libraryName",
+          "description": "要搜索并检索与 Context7 兼容的库 ID 的库名称。"
+        }
+      ]
+    },
+    {
+      "identifier": "get-library-docs",
+      "name": "获取库文档",
+      "description": "获取库的最新文档。您必须首先调用 'resolve-library-id' 以获取使用此工具所需的确切与 Context7 兼容的库 ID，除非用户在查询中明确提供了格式为 '/org/project' 或 '/org/project/version' 的库 ID。",
+      "parameters": [
+        {
+          "name": "topic",
+          "description": "专注于文档的主题（例如，'hooks'，'routing'）。"
+        },
+        {
+          "name": "tokens",
+          "description": "要检索的文档的最大令牌数（默认：10000）。更高的值提供更多上下文，但消耗更多令牌。"
+        },
+        {
+          "name": "context7CompatibleLibraryID",
+          "description": "确切的与 Context7 兼容的库 ID（例如，'/mongodb/docs'，'/vercel/next.js'，'/supabase/supabase'，'/vercel/next.js/v14.3.0-canary.87'），从 'resolve-library-id' 获取或直接从用户查询中以 '/org/project' 或 '/org/project/version' 的格式获取。"
+        }
+      ]
+    }
+  ]
+}

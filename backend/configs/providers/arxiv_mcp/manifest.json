@@ -1,0 +1,103 @@
+{
+  "identifier": "arxiv_mcp",
+  "name": "ArXiv",
+  "description": "Enables efficient search, exploration, and comparison of arXiv.org research papers. Accesses detailed paper metadata, performs keyword and author-based searches, and generates prompts for summarization and comparison.",
+  "auth_type": "none",
+  "icon_url": "",
+  "categories": [
+    "paper",
+    "analyze"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools",
+      "oauth_scopes": []
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "scrape_recent_category_papers",
+      "name": "Scrape Recent Category Papers",
+      "description": "[Crawling] Scrape the 'recent' page of a specific category to retrieve a list of the latest papers.",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "category",
+          "type": "string",
+          "description": "",
+          "required": true
+        },
+        {
+          "name": "max_results",
+          "type": "integer",
+          "description": "",
+          "required": false,
+          "default": 10
+        }
+      ]
+    },
+    {
+      "identifier": "search_papers",
+      "name": "Search Papers",
+      "description": "Search arXiv papers by keyword.",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "keyword",
+          "type": "string",
+          "description": "",
+          "required": true
+        },
+        {
+          "name": "max_results",
+          "type": "integer",
+          "description": "",
+          "required": false,
+          "default": 5
+        }
+      ]
+    },
+    {
+      "identifier": "get_paper_info",
+      "name": "Get Paper Info",
+      "description": "Retrieve detailed information by paper ID.",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "paper_id",
+          "type": "string",
+          "description": "",
+          "required": true
+        }
+      ]
+    },
+    {
+      "identifier": "analyze_trends",
+      "name": "Analyze Trends",
+      "description": "Analyze the latest trends in a specific category.",
+      "category": "mcp_tools",
+      "required_permissions": [],
+      "parameters": [
+        {
+          "name": "category",
+          "type": "string",
+          "description": "",
+          "required": false,
+          "default": "cs.AI"
+        },
+        {
+          "name": "days",
+          "type": "integer",
+          "description": "",
+          "required": false,
+          "default": 30
+        }
+      ]
+    }
+  ]
+}

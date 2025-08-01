@@ -1,0 +1,73 @@
+{
+  "name": "ArXiv",
+  "description": "通過本地 MCP 伺服器啟用對 arXiv.org 研究論文的高效搜索、探索和比較。訪問詳細的論文元數據，執行基於關鍵字和作者的搜索，並生成摘要和比較的提示。隨時了解各種研究類別中的熱門主題。",
+  "categories": [
+    "論文",
+    "分析"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具訪問",
+      "description": "訪問 MCP 伺服器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "scrape_recent_category_papers",
+      "name": "擷取最新類別論文",
+      "description": "[爬蟲] 擷取特定類別的 'recent' 頁面以獲取最新論文列表。",
+      "parameters": [
+        {
+          "name": "category",
+          "description": ""
+        },
+        {
+          "name": "max_results",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "search_papers",
+      "name": "搜索論文",
+      "description": "使用關鍵字搜索 arXiv 論文。",
+      "parameters": [
+        {
+          "name": "keyword",
+          "description": ""
+        },
+        {
+          "name": "max_results",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "get_paper_info",
+      "name": "獲取論文信息",
+      "description": "通過論文 ID 獲取詳細信息。",
+      "parameters": [
+        {
+          "name": "paper_id",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "analyze_trends",
+      "name": "分析趨勢",
+      "description": "分析特定類別的最新趨勢。",
+      "parameters": [
+        {
+          "name": "category",
+          "description": ""
+        },
+        {
+          "name": "days",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

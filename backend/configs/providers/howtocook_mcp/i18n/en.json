@@ -1,0 +1,80 @@
+{
+  "name": "How To Cook",
+  "description": "Recommends recipes, plans meals, and solves the century old problem of \"what to eat today\"",
+  "categories": [
+    "cook",
+    "food"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "mcp_howtocook_getAllRecipes",
+      "name": "Get All Recipes",
+      "description": "Get all recipes",
+      "parameters": [
+        {
+          "name": "no_param",
+          "description": "No parameters"
+        }
+      ]
+    },
+    {
+      "identifier": "mcp_howtocook_getRecipesByCategory",
+      "name": "Get Recipes By Category",
+      "description": "Query recipes by category. Available categories: Seafood, Breakfast, Seasoning, Dessert, Beverage, Meat Dishes, Semi-processed Foods, Soup, Staple Food, Vegetarian Dishes",
+      "parameters": [
+        {
+          "name": "category",
+          "description": "Recipe category name, such as Seafood, Breakfast, Meat Dishes, Staple Food, etc."
+        }
+      ]
+    },
+    {
+      "identifier": "mcp_howtocook_recommendMeals",
+      "name": "Recommend Meals",
+      "description": "Intelligently recommend recipes based on user's dietary restrictions, allergens, and number of people, creating a weekly meal plan and approximate shopping list",
+      "parameters": [
+        {
+          "name": "avoidItems",
+          "description": "List of ingredients to avoid, e.g. [\"onion\", \"ginger\"]"
+        },
+        {
+          "name": "peopleCount",
+          "description": "Number of diners, integer between 1-10"
+        },
+        {
+          "name": "allergies",
+          "description": "List of allergens, e.g. [\"garlic\", \"shrimp\"]"
+        }
+      ]
+    },
+    {
+      "identifier": "mcp_howtocook_whatToEat",
+      "name": "What To Eat",
+      "description": "Don't know what to eat? Get direct recommendations for suitable dish combinations based on number of people",
+      "parameters": [
+        {
+          "name": "peopleCount",
+          "description": "Number of diners, integer between 1-10, will recommend appropriate number of dishes based on people count"
+        }
+      ]
+    },
+    {
+      "identifier": "mcp_howtocook_getRecipeById",
+      "name": "Get Recipe By ID",
+      "description": "Query complete details of a specific recipe by recipe name or ID, including ingredients, steps, etc.",
+      "parameters": [
+        {
+          "name": "query",
+          "description": "Recipe name or ID, supports fuzzy matching of recipe names"
+        }
+      ]
+    }
+  ]
+}

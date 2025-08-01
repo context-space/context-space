@@ -1,0 +1,138 @@
+{
+  "name": "AWS 定价",
+  "description": "访问实时 AWS 定价信息并提供成本分析功能",
+  "categories": [
+    "定价",
+    "成本分析"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP 工具访问",
+      "description": "访问 MCP 服务器工具"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "analyze_cdk_project",
+      "name": "分析 Cdk 项目",
+      "description": "分析 CDK 项目以识别使用的 AWS 服务。该工具动态提取 CDK 构造中的服务信息，而不依赖于硬编码的服务映射。",
+      "parameters": [
+        {
+          "name": "project_path",
+          "description": "项目目录的路径"
+        }
+      ]
+    },
+    {
+      "identifier": "analyze_terraform_project",
+      "name": "分析 Terraform 项目",
+      "description": "分析 Terraform 项目以识别使用的 AWS 服务。该工具动态提取 Terraform 资源声明中的服务信息。",
+      "parameters": [
+        {
+          "name": "project_path",
+          "description": "项目目录的路径"
+        }
+      ]
+    },
+    {
+      "identifier": "get_pricing",
+      "name": "获取定价",
+      "description": "从 AWS Price List API 获取详细的定价信息，并可选择性地应用过滤器。",
+      "parameters": [
+        {
+          "name": "next_token",
+          "description": "从上一个响应获取的分页令牌，以获取下一页结果"
+        },
+        {
+          "name": "service_code",
+          "description": "AWS 服务代码（例如，\"AmazonEC2\"，\"AmazonS3\"，\"AmazonES\"）"
+        },
+        {
+          "name": "region",
+          "description": "AWS 区域 - 单个区域字符串（例如，\"us-east-1\"）或用于多区域比较的列表（例如，[\"us-east-1\", \"us-west-2\", \"eu-west-1\"]）"
+        },
+        {
+          "name": "filters",
+          "description": "定价查询的可选过滤器"
+        },
+        {
+          "name": "max_allowed_characters",
+          "description": "最大响应长度（默认：100,000，使用 -1 表示无限制）"
+        },
+        {
+          "name": "output_options",
+          "description": "可选的输出过滤选项，以减少响应大小。使用 {\"pricing_terms\": [\"OnDemand\"]} 可以显著减少大型服务（如 EC2）的响应大小。"
+        },
+        {
+          "name": "max_results",
+          "description": "每页返回的最大结果数（默认：100，最大：100）"
+        }
+      ]
+    },
+    {
+      "identifier": "get_bedrock_patterns",
+      "name": "获取 Bedrock 模式",
+      "description": "获取 Amazon Bedrock 应用程序的架构模式，包括组件关系和成本考虑。",
+      "parameters": [
+        {
+          "name": "ctx",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "identifier": "generate_cost_report",
+      "name": "生成成本报告",
+      "description": "根据一个或多个 AWS 服务的定价数据生成详细的成本分析报告。\n\n该工具需要 AWS 定价数据，并提供添加详细成本信息的选项。\n\n重要要求：\n- 始终包含详细的单位定价信息（例如，\"$0.0008 每 1K 输入令牌\"）\n- 始终显示计算细节（单位价格 × 使用量 = 总成本）\n- 始终指定定价模型（例如，\"按需\"）\n- 始终明确列出所有假设和排除项\n\n输出格式选项：\n- 'markdown'（默认）：生成格式良好的 markdown 报告\n- 'csv'：生成 CSV 格式报告，包含服务信息、单位定价、成本计算等部分。\n\n示例用法：\n\n```json\n{\n  // 必需参数\n  \"pricing_data\": {\n    // 这应该包含从 get_pricing 检索的定价数据\n    \"status\": \"success\",\n    \"service_name\": \"bedrock\",\n    \"data\": \"... 定价信息 ...\",\n    \"message\": \"从 AWS 定价 URL 检索到 bedrock 的定价\"\n  },\n  \"service_name\": \"Amazon Bedrock\",\n\n  // 核心参数（常用）\n  \"related_services\": [\"Lambda\", \"S3\"],\n  \"pricing_model\": \"按需\",\n  \"assumptions\": [\n    \"标准按需定价模型\",\n    \"未应用缓存或优化\",\n    \"平均请求大小为 4KB\"\n  ],\n  \"exclusions\": [\n    \"区域之间的数据传输成本\",\n    \"自定义模型训练成本\",\n    \"开发和维护成本\"\n  ],\n  \"output_file\": \"cost_analysis_report.md\",  // 或 \"cost_analysis_report.csv\" 用于 CSV 格式\n  \"format\": \"markdown\",  // 或 \"csv\" 用于 CSV 格式\n\n  // 复杂场景的高级参数\n  \"detailed_cost_data\": {\n    \"services\": {\n      \"Amazon Bedrock Foundation Models\": {\n        \"usage\": \"处理 1M 输入令牌和 500K 输出令牌，使用 Claude 3.5 Haiku\",\n        \"estimated_cost\": \"$80.00\",\n        \"free_tier_info\": \"Bedrock 基础模型没有免费层\",\n        \"unit_pricing\": {\n          \"input_tokens\": \"$0.0008 每 1K 令牌\",\n          \"output_tokens\": \"$0.0016 每 1K 令牌\"\n        },\n        \"usage_quantities\": {\n          \"input_tokens\": \"1,000,000 令牌\",\n          \"output_tokens\": \"500,000 令牌\"\n        },\n        \"calculation_details\": \"$0.0008/1K × 1,000K 输入令牌 + $0.0016/1K × 500K 输出令牌 = $80.00\"\n      },\n      \"AWS Lambda\": {\n        \"usage\": \"每月 6,000 次请求，内存为 512 MB\",\n        \"estimated_cost\": \"$0.38\",\n        \"free_tier_info\": \"前 12 个月：每月 1M 请求免费\",\n        \"unit_pricing\": {\n          \"requests\": \"$0.20 每 1M 请求\",\n          \"compute\": \"$0.0000166667 每 GB-秒\"\n        },\n        \"usage_quantities\": {\n          \"requests\": \"6,000 次请求\",\n          \"compute\": \"6,000 次请求 × 1s × 0.5GB = 3,000 GB-秒\"\n        },\n        \"calculation_details\": \"$0.20/1M × 0.006M 请求 + $0.0000166667 × 3,000 GB-秒 = $0.38\"\n      }\n    }\n  },\n\n  // 推荐参数 - 可以直接提供或生成\n  \"recommendations\": {\n    \"immediate\": [\n      \"优化提示工程以减少 Claude 3.5 Haiku 的令牌使用量\",\n      \"根据实际查询模式配置知识库 OCU\",\n      \"为常见查询实施响应缓存以减少令牌使用\"\n    ],\n    \"best_practices\": [\n      \"监控 OCU 利用率指标并根据需要调整容量\",\n      \"在 API 调用之间使用提示缓存以重复上下文\",\n      \"考虑为可预测的工作负载提供预配置吞吐量\"\n    ]\n  }\n}\n```\n",
+      "parameters": [
+        {
+          "name": "exclusions",
+          "description": "从成本分析中排除的项目列表"
+        },
+        {
+          "name": "format",
+          "description": "输出格式（\"markdown\" 或 \"csv\"）"
+        },
+        {
+          "name": "detailed_cost_data",
+          "description": "复杂场景的详细成本信息"
+        },
+        {
+          "name": "output_file",
+          "description": "保存报告文件的路径"
+        },
+        {
+          "name": "recommendations",
+          "description": "直接的建议或生成指导"
+        },
+        {
+          "name": "related_services",
+          "description": "相关 AWS 服务的列表"
+        },
+        {
+          "name": "assumptions",
+          "description": "成本分析的假设列表"
+        },
+        {
+          "name": "pricing_data",
+          "description": "来自 AWS 定价工具的原始定价数据"
+        },
+        {
+          "name": "service_name",
+          "description": "AWS 服务的名称"
+        },
+        {
+          "name": "pricing_model",
+          "description": "定价模型（例如，\"按需\"，\"预留\"）"
+        }
+      ]
+    },
+    {
+      "identifier": "get_pricing_service_codes",
+      "name": "获取定价服务代码",
+      "description": "获取 Price List API 中可用的 AWS 服务代码。\n\n    **目的：** 发现哪些 AWS 服务在 AWS Price List API 中具有可用的定价信息。\n\n    **工作流程：** 这是任何定价查询的起点。首先使用此功能查找正确的服务代码。\n\n    **返回：** 服务代码列表（例如，'AmazonEC2'，'AmazonS3'，'AWSLambda'），可与其他定价工具一起使用。\n\n    **后续步骤：**\n    - 使用 get_pricing_service_attributes() 查看可用于服务的过滤器\n    - 使用 get_pricing() 获取服务的实际定价数据\n\n    **注意：** 服务代码可能与 AWS 控制台名称不同（例如，'AmazonES' 表示 OpenSearch，'AWSLambda' 表示 Lambda）。",
+      "parameters": []
+    }
+  ]
+}

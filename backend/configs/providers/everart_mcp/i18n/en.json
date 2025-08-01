@@ -1,0 +1,36 @@
+{
+  "name": "EverArt",
+  "description": "AI image generation using various models.",
+  "categories": [
+    "image",
+    "art"
+  ],
+  "permissions": [
+    {
+      "identifier": "mcp_tools_access",
+      "name": "MCP Tools Access",
+      "description": "Access to MCP server tools"
+    }
+  ],
+  "operations": [
+    {
+      "identifier": "generate_image",
+      "name": "Generate Image",
+      "description": "Generate images using EverArt Models and returns a clickable link to view the generated image. The tool will return a URL that can be clicked to view the image in a browser. Available models:\n- 5000:FLUX1.1: Standard quality\n- 9000:FLUX1.1-ultra: Ultra high quality\n- 6000:SD3.5: Stable Diffusion 3.5\n- 7000:Recraft-Real: Photorealistic style\n- 8000:Recraft-Vector: Vector art style\n\nThe response will contain a direct link to view the generated image.",
+      "parameters": [
+        {
+          "name": "image_count",
+          "description": "Number of images to generate"
+        },
+        {
+          "name": "prompt",
+          "description": "Text description of desired image"
+        },
+        {
+          "name": "model",
+          "description": "Model ID (5000:FLUX1.1, 9000:FLUX1.1-ultra, 6000:SD3.5, 7000:Recraft-Real, 8000:Recraft-Vector)"
+        }
+      ]
+    }
+  ]
+}
