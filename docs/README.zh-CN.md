@@ -1,7 +1,8 @@
+![Context Space](https://r2.context.space/resources/20250724-235344_1753372441182.jpg)
+
 <div align="center">
-<a href="https://context.space">
-<h1 align="center"> Context Space </h1>
-</a>
+
+### Context Space：首个提升10倍生产力的上下文工程基础设施
 
 [![License](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
 [![Go Version](https://img.shields.io/badge/go-1.24-blue.svg)](https://golang.org/dl/)
@@ -10,29 +11,40 @@
 [![API Docs](https://img.shields.io/badge/API-documented-green.svg)](http://api.context.space/v1/docs)
 [![Contributors](https://img.shields.io/badge/contributors-welcome-orange.svg)]()
 
+中文 | [English](../README.md)
 
-中文 | [English](../README.md)  
-
-**Context Space 是一个面向 AI Agent 构建的工具优先（Tool-first）上下文工程基础设施**，将任务编排、记忆等 Agent 的核心能力统一封装为标准化可调用工具，凭借强大的工具发现和推荐能力，为 Agent 提供清晰、可控、可解释的上下文调用路径，成为构建复杂智能行为的坚实底座。
-
-**🔗 即插即用** • **🔐 企业级安全** • **🚀 生产可用** • **🤖 上下文工程**
-
-[Demo演示](#demo-演示) • [技术路线图](#技术路线图) • [API 文档](http://api.context.space/v1/docs)
 </div>
 
-![Homepage Screenshot](https://r2.context.space/resources/readme-homepage-screenshot.jpg)
+**Context Space** 提供统一的MCP工具、安全可信的集成服务，以及5分钟快速设置，可广泛应用于AI智能体、自动化工作流和跨平台工具的开发。作为**首个上下文工程基础设施**，Context Space将理论转化为实践，提供更好的上下文和外部数据管理功能，使智能体能够有效地与真实世界交互。
 
----
+## 愿景
+
+AI智能体擅长推理，但在真实世界中的执行能力很差，分散的API、混乱的数据源和复杂的认证机制阻碍了它们与外部数据和工具的连接。
+
+Context Space正在改变这一切。通过将任务编排和记忆等核心能力封装为标准化的可调用工具，并内置工具发现和推荐功能，为智能体提供清晰、可控、可解释的上下文调用路径。
+
+Context Space让AI智能体真正可用。结合企业级安全与零配置的易用性，我们正在构建工具优先的上下文工程基础设施，使AI智能体能够无缝且安全地与任何外部服务或数据源交互。
 
 ## 使用Context Space开始上下文工程
 
-上下文工程是构建可靠 AI 智能体的基础。上下文工程在提示词工程的基础上进一步拓展，不仅关注用户输入的内容，还对AI模型推理过程中依赖的所有信息进行系统性设计与管理，例如工具、记忆和数据等。
+上下文工程是构建可靠AI智能体的基础。上下文工程在提示词工程的基础上进一步拓展，不仅关注用户输入的内容，还对AI模型推理过程中依赖的所有信息进行系统性设计与管理，例如工具、记忆和数据等。
 
-当 [MCP（模型上下文协议）](https://modelcontextprotocol.io/)在 2024 年底出现时，所描绘的愿景令人振奋：为 AI 工具提供安全访问外部数据和服务的标准化方式。MCP的广泛应用具有突破性意义，真正定义了AI智能体如何与世界进行交互。
-
-我们基于MCP的愿景构建Context Space，将这项前瞻设想真正落地为生产可用的基础设施。
+MCP为 AI 工具提供安全访问外部数据和服务的标准化方式，Context Space将MCP的愿景转化为生产可用的基础设施。
 
 目前Context Space打造了一个具备持久凭据管理能力的安全集成层，我们正将这一基础设施拓展为面向下一代 AI应用的完整上下文工程平台。
+
+
+## 一键AI集成
+
+**几秒钟**即可将您的AI助手转变为强大的智能体。
+
+**Cursor IDE** - 通过`cursor://`一键安装。点击"添加到Cursor"，即可让Cursor瞬间访问GitHub、Slack、Notion和38+服务，无需编辑任何JSON文件。
+
+**Claude Code** - 简单的CLI集成：
+```bash
+claude mcp add "context-space" https://api.context.space/api/mcp --header "Authorization: Bearer YOUR_API_KEY"
+```
+
 
 ### Demo 演示
 
