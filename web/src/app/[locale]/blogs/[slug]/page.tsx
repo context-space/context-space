@@ -14,22 +14,21 @@ interface BlogPageProps {
   params: Promise<{ locale: Locale, slug: string }>
 }
 
-export async function generateStaticParams() {
-  const { locales } = await import("@/i18n/routing")
+// export async function generateStaticParams() {
+//   const { locales } = await import("@/i18n/routing")
 
-  // 使用 flatMap 为每个 locale 和每个 blog 生成参数组合
-  return locales.flatMap(locale =>
-    allBlogs.map(blog => ({
-      locale,
-      slug: blog.id,
-    })),
-  )
-}
+//   return locales.flatMap(locale =>
+//     allBlogs.map(blog => ({
+//       locale,
+//       slug: blog.id,
+//     })),
+//   )
+// }
 
-export const dynamic = "force-static"
+// export const dynamic = "force-static"
 
 export async function generateMetadata({ params }: BlogPageProps): Promise<Metadata> {
-  const { locale, slug } = await params
+  const { slug } = await params
   const blog = allBlogs.find(blog => blog._raw.flattenedPath === slug)
 
   if (!blog) {
@@ -38,7 +37,7 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
     }
   }
 
-  const canonicalUrl = `${baseURL}/${locale}/blogs/${slug}`
+  const canonicalUrl = `${baseURL}/blogs/${slug}`
   const ogImageUrl = `/api/og?title=${encodeURIComponent(blog.title)}&description=${encodeURIComponent(blog.description)}`
 
   // Generate keywords from title, description and category
@@ -107,7 +106,7 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
 }
 
 export default async function BlogPage({ params }: BlogPageProps) {
-  const { locale, slug } = await params
+  const { slug } = await params
   const t = await getTranslations()
 
   const blog = allBlogs.find(blog => blog.id === slug)
@@ -116,7 +115,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
     notFound()
   }
 
-  const canonicalUrl = `${baseURL}/${locale}/blogs/${slug}`
+  const canonicalUrl = `${baseURL}/blogs/${slug}`
 
   // Generate structured data
   const articleStructuredData = generateArticleStructuredData({
@@ -129,9 +128,9 @@ export default async function BlogPage({ params }: BlogPageProps) {
   })
 
   const breadcrumbItems = [
-    { name: t("nav.home"), url: `/${locale}` },
-    { name: t("blogs.title"), url: `/${locale}/blogs` },
-    { name: blog.title, url: `/${locale}/blogs/${slug}` },
+    { name: t("nav.home"), url: `/` },
+    { name: t("blogs.title"), url: `/blogs` },
+    { name: blog.title, url: `/blogs/${slug}` },
   ]
 
   const breadcrumbStructuredData = generateBreadcrumbStructuredData(breadcrumbItems)

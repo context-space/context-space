@@ -1,5 +1,4 @@
 ---
-id: rag
 title: RAG Isn’t Enough. Context Engineering is how real AI gets built
 description: RAG pipelines and prompt tweaks aren’t enough to power truly intelligent systems. The next generation of AI demands context engineering—the ability to deliver the right information, with memory and semantic awareness, at the right time.
 publishedAt: 2025-07-09
@@ -28,7 +27,7 @@ IEEE and arXiv research confirms it:
 RAG systems plateau without **context awareness**, **long-term memory**, and **semantic reasoning**.
 
 
-## Context Space: The Ultimate Context Engineering Infrastructure
+## Context Space: The Tool-first Context Engineering Infrastructure
 
 We built **Context Space** to solve exactly this.
 

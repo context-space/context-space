@@ -5,30 +5,14 @@ import type { LoginResult, SendCodeResult } from "@/typings/auth"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
 import { baseURL, turnstile } from "@/config"
-import { defaultLocale, locales } from "@/i18n/routing"
 import { createClient } from "@/lib/supabase/server"
 import { serverLogger } from "@/lib/utils"
 
 const loginLogger = serverLogger.withTag("login")
-function extractLocaleFromPath(redirectTo: string): string {
-  const pathSegments = redirectTo.replace(/^\//, "").split("/")
-  const firstSegment = pathSegments[0]
-
-  if (locales.includes(firstSegment as typeof locales[number])) {
-    return firstSegment
-  }
-
-  return defaultLocale
-}
 
 // 验证模式
 const emailSchema = z.object({
   email: z.string().email("Invalid email address"),
-})
-
-const loginSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  verificationCode: z.string().regex(/^\d{6}$/, "Verification code must be 6 digits"),
 })
 
 // 发送验证码
@@ -85,70 +69,7 @@ export async function sendVerificationCode(formData: FormData): Promise<SendCode
   }
 }
 
-// 邮箱验证码登录
-export async function loginWithEmail(formData: FormData): Promise<LoginResult> {
-  const email = formData.get("email") as string
-  const verificationCode = formData.get("verificationCode") as string
-
-  // 验证输入
-  const validation = loginSchema.safeParse({ email, verificationCode })
-  if (!validation.success) {
-    const firstError = validation.error.errors[0]
-    return { success: false, error: firstError.message }
-  }
-
-  try {
-    const supabase = await createClient()
-
-    loginLogger.info("Starting OTP verification", {
-      email: validation.data.email,
-      timestamp: new Date().toISOString(),
-    })
-
-    const { data, error } = await supabase.auth.verifyOtp({
-      email: validation.data.email,
-      token: validation.data.verificationCode,
-      type: "email",
-    })
-
-    if (error) {
-      loginLogger.error("OTP verification failed", {
-        error: error.message,
-        email: validation.data.email,
-      })
-
-      if (error.message.includes("expired")) {
-        return { success: false, error: "验证码已过期，请重新获取验证码" }
-      } else if (error.message.includes("invalid")) {
-        return { success: false, error: "验证码无效，请检查输入是否正确" }
-      } else {
-        return { success: false, error: `验证失败: ${error.message}` }
-      }
-    }
-
-    if (!data.user) {
-      loginLogger.error("OTP verification succeeded but no user returned")
-      return { success: false, error: "登录验证成功但用户信息获取失败" }
-    }
-
-    loginLogger.info("OTP verification successful", data)
-
-    revalidatePath("/", "layout")
-
-    // 返回成功状态和重定向URL，让客户端处理重定向
-    const from = formData.get("from") as string || "/"
-    return { success: true, redirectTo: from }
-  } catch (error) {
-    loginLogger.error("Email login error", { error })
-    return { success: false, error: "登录失败，请重试" }
-  }
-}
-
-// OAuth登录
-export async function loginWithOAuth(formData: FormData): Promise<LoginResult> {
-  const provider = formData.get("provider") as string
-  const from = formData.get("from") as string || "/"
-
+export async function loginWithOAuth(provider: string, callbackUrl: string): Promise<LoginResult> {
   const validProviders = ["google", "github"]
   if (!provider || !validProviders.includes(provider)) {
     return { success: false, error: "Invalid provider" }
@@ -156,18 +77,10 @@ export async function loginWithOAuth(formData: FormData): Promise<LoginResult> {
 
   try {
     const supabase = await createClient()
-
-    const locale = extractLocaleFromPath(from)
-    const callbackPath = locale === defaultLocale ? "/auth-callback" : `/${locale}/auth-callback`
-    const callbackUrl = new URL(callbackPath, baseURL)
-    if (from !== "/") {
-      callbackUrl.searchParams.set("redirect_to", from)
-    }
-
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: provider as Provider,
       options: {
-        redirectTo: callbackUrl.toString(),
+        redirectTo: callbackUrl,
       },
     })
 
@@ -187,7 +100,6 @@ export async function loginWithOAuth(formData: FormData): Promise<LoginResult> {
   }
 }
 
-// 匿名登录
 export async function loginAnonymously(formData: FormData): Promise<LoginResult> {
   const from = formData.get("from") as string || "/"
 
@@ -214,7 +126,6 @@ export async function loginAnonymously(formData: FormData): Promise<LoginResult>
   }
 }
 
-// 修改：发送Magic Link操作
 export async function sendMagicLinkAction(
   prevState: { success: boolean, sent: boolean, errors: Record<string, string>, email?: string },
   formData: FormData,
@@ -222,14 +133,14 @@ export async function sendMagicLinkAction(
   const email = formData.get("email") as string
   const captchaToken = formData.get("captchaToken") as string
   const termsAccepted = formData.get("termsAccepted") === "true"
-  const from = formData.get("from") as string || "/"
+  const callbackURL = formData.get("callbackURL") as string
 
   loginLogger.info("Magic Link request initiated", {
     email,
     hasEmail: !!email,
     hasCaptchaToken: !!captchaToken,
     termsAccepted,
-    from,
+    callbackURL,
     turnstileEnabled: turnstile.enabled,
     timestamp: new Date().toISOString(),
   })
@@ -263,19 +174,9 @@ export async function sendMagicLinkAction(
   try {
     const supabase = await createClient()
 
-    // 构建Magic Link重定向URL
-    const locale = extractLocaleFromPath(from)
-    const callbackPath = locale === defaultLocale ? "/auth-callback" : `/${locale}/auth-callback`
-    const callbackUrl = new URL(callbackPath, baseURL)
-    if (from !== "/") {
-      callbackUrl.searchParams.set("redirect_to", from)
-    }
-
     loginLogger.info("Sending Magic Link via Supabase", {
       email,
-      redirectTo: callbackUrl.toString(),
-      locale,
-      callbackPath,
+      redirectTo: callbackURL,
       hasCaptcha: !!captchaToken,
       baseURL,
       timestamp: new Date().toISOString(),
@@ -283,7 +184,7 @@ export async function sendMagicLinkAction(
 
     const otpOptions: any = {
       shouldCreateUser: true,
-      emailRedirectTo: callbackUrl.toString(),
+      emailRedirectTo: callbackURL,
     }
 
     // Only add captchaToken if it exists
@@ -338,7 +239,7 @@ export async function sendMagicLinkAction(
 
     loginLogger.info("Magic Link sent successfully", {
       email,
-      redirectTo: callbackUrl.toString(),
+      redirectTo: callbackURL,
       timestamp: new Date().toISOString(),
     })
 
@@ -360,5 +261,3 @@ export async function sendMagicLinkAction(
     return { success: false, sent: false, errors }
   }
 }
-
-// 移除邮箱登录操作，因为Magic Link会自动处理登录

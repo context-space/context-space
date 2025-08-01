@@ -1,15 +1,16 @@
 "use client"
 
 import { ChevronDown } from "lucide-react"
-import { useTranslations } from "next-intl"
-import { useRouter } from "next/navigation"
+import { useLocale, useTranslations } from "next-intl"
 import { useCallback, useEffect, useState } from "react"
-import { Badge } from "@/components/ui/badge"
+import { toast } from "sonner"
+import { Status } from "@/components/integrations"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
-import { connectAPIKey, connectOAuth, disconnectCredential } from "@/lib/client/credentials"
+import { getPathname, useRouter } from "@/i18n/navigation"
 import { clientLogger, cn } from "@/lib/utils"
+import { credentialsService } from "@/services/credentials"
 import { ApiKeyConnect } from "./api-key-connect"
 import { OAuthConnect } from "./oauth-connect"
 
@@ -43,11 +44,11 @@ export function Connect({
   const [isOpen, setIsOpen] = useState(!isConnected && authType !== "none")
   const [connected, setConnected] = useState(isConnected)
   const router = useRouter()
+  const locale = useLocale()
   const t = useTranslations()
 
   useEffect(() => {
     setConnected(isConnected)
-    // If connected, collapse the section
     if (isConnected && authType !== "none") {
       setIsOpen(false)
     }
@@ -55,24 +56,34 @@ export function Connect({
 
   const handleOAuthConnect = useCallback(async (selectedPermissions: string[]) => {
     try {
-      await connectOAuth(providerId, selectedPermissions)
-      setConnected(true)
-      setIsOpen(false) // Collapse after successful connection
-      // Use router.refresh() instead of window.location.reload() to avoid flash
-      router.refresh()
+      const redirectUrl = window.location.origin + getPathname({
+        href: {
+          pathname: "/provider-callback",
+          query: {
+            redirect_to: window.location.href,
+          },
+        },
+        locale,
+      })
+      const url = await credentialsService.connectOAuth(providerId, selectedPermissions, redirectUrl)
+      if (!url) {
+        toast.error(t("integrations.connect.oauth.failedToGetOAuthUrl"))
+        throw new Error(t("integrations.connect.oauth.failedToGetOAuthUrl"))
+      }
+      window.location.href = url
+      return true
     } catch (error) {
       integrationConnectLogger.error("Failed to connect with OAuth", { error })
-      setConnected(false)
+      return false
     }
-  }, [providerId, router])
+  }, [providerId, locale, t])
 
   const handleApiKeyConnect = useCallback(async (apiKey: string) => {
     try {
-      const response = await connectAPIKey(providerId, apiKey)
+      const response = await credentialsService.connectAPIKey(providerId, apiKey)
       if (response.success && response.data.is_valid) {
         setConnected(true)
-        setIsOpen(false) // Collapse after successful connection
-        // Use router.refresh() instead of window.location.reload() to avoid flash
+        setIsOpen(false)
         router.refresh()
       } else {
         throw new Error("Invalid API key")
@@ -86,16 +97,15 @@ export function Connect({
   const handleDisconnect = useCallback(async () => {
     try {
       if (credentialId) {
-        await disconnectCredential(credentialId)
+        await credentialsService.disconnectCredential(credentialId)
         setConnected(false)
-        setIsOpen(true) // Expand after disconnection to allow reconnection
-        // Use router.refresh() instead of window.location.reload() to avoid flash
+        setIsOpen(true)
         router.refresh()
       }
     } catch (error) {
       integrationConnectLogger.error("Failed to disconnect", { error })
       setConnected(false)
-      setIsOpen(true) // Expand on error to allow retry
+      setIsOpen(true)
     }
   }, [credentialId, router])
 
@@ -109,9 +119,7 @@ export function Connect({
                 {t("integrations.connect.title")}
                 <div className="flex items-center gap-2">
                   {(authType === "none" || connected) && (
-                    <Badge variant={connected ? "default" : "secondary"} className="bg-green-50 dark:bg-green-500/10 text-green-700 dark:text-green-400 border-green-100 dark:border-green-500/20">
-                      {connected ? t("integrations.connect.connected") : t("integrations.connect.noConnectionRequired")}
-                    </Badge>
+                    <Status status={connected ? "connected" : "free"} type="badge" />
                   )}
                   <CollapsibleTrigger asChild>
                     <Button variant="ghost" size="sm" className="h-8 w-8 p-0">

@@ -20,6 +20,7 @@ export default antfu(
     ],
     rules: {
       "node/prefer-global/process": "off",
+      "style/eol-last": "off",
       "react-hooks-extra/no-direct-set-state-in-use-effect": "off",
       "antfu/curly": "error",
       "curly": "off",
@@ -36,6 +37,7 @@ export default antfu(
     rules: {
       ...nextPlugin.configs.recommended.rules,
       ...nextPlugin.configs["core-web-vitals"].rules,
+      "@next/next/no-img-element": "off",
     },
   },
 )

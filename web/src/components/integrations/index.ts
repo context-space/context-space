@@ -1,4 +1,5 @@
+export { Featured } from "./featured"
+export { LoadingMore } from "./loading-more"
+export { Normal } from "./normal"
 export { ProviderCard } from "./provider-card"
-export { Latest } from "./provider-list"
-export { Search } from "./search"
 export { Status } from "./status"

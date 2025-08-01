@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     })()
 
     const response = streamText({
-      model: openai("gpt-4o"),
+      model: openai("gpt-4.1"),
       messages,
       tools,
       toolCallStreaming: true,

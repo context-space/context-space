@@ -1,10 +1,9 @@
-import { useTranslations } from "next-intl"
+"use client"
+
 import { useEffect, useState } from "react"
 
+const words = ["Space", "Context", "Step"]
 export function TypewriterText() {
-  const t = useTranslations()
-  const words = [t("hero.typewriter.word1"), t("hero.typewriter.word2"), t("hero.typewriter.word3")]
-
   const [currentWordIndex, setCurrentWordIndex] = useState(0)
   const [displayText, setDisplayText] = useState("")
   const [isDeleting, setIsDeleting] = useState(false)
@@ -33,12 +32,11 @@ export function TypewriterText() {
     }, isDeleting ? 50 : 100)
 
     return () => clearTimeout(timeout)
-  }, [displayText, isDeleting, currentWordIndex, words])
+  }, [displayText, isDeleting, currentWordIndex])
 
   return (
-    <p className="text-xl md:text-2xl lg:text-3xl text-neutral-600 dark:text-gray-300 leading-relaxed tracking-wide">
-      {t("hero.typewriter.prefix")}
-      {" "}
+    <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-neutral-600 dark:text-gray-300 leading-relaxed tracking-wide">
+      { "One " }
       <span className="text-primary font-medium">{displayText}</span>
       <span className="animate-pulse">|</span>
     </p>

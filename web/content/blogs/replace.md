@@ -1,5 +1,4 @@
 ---
-id: replace
 title: How Context Engineering Is Quietly Replacing Prompt Hacking
 description: "Prompt engineering is fading. The real breakthroughs in AI now come from context engineering—the discipline of designing intelligent, adaptive environments where LLMs can access, organize, and reason over the right information. "
 publishedAt: 2025-07-09

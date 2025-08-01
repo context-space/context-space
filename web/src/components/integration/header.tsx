@@ -1,4 +1,4 @@
-import { ProviderAvatar } from "./provider-avatar"
+import { ProviderAvatar } from "../common/avatar"
 
 interface HeaderProps {
   name: string

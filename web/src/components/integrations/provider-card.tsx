@@ -1,7 +1,7 @@
 import type { Integration } from "@/typings"
 import { Link } from "@/i18n/navigation"
 import { cn } from "@/lib/utils"
-import { ProviderAvatar } from "../integration/provider-avatar"
+import { ProviderAvatar } from "../common/avatar"
 import { Status } from "./status"
 
 interface ProviderCardProps {
@@ -20,20 +20,18 @@ export function ProviderCard({ provider }: ProviderCardProps) {
         "transition-all duration-300",
       )}
       >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="relative shrink-0">
-              <ProviderAvatar
-                src={provider.icon_url}
-                alt={`${provider.name} logo`}
-                className="size-10"
-              />
-            </div>
+        <div className="flex items-center gap-4">
+          <ProviderAvatar
+            src={provider.icon_url}
+            alt={`${provider.name} logo`}
+            className="size-10"
+          />
+          <div className="flex flex-1 items-center gap-2 justify-between flex-wrap">
             <h3 className="font-medium text-neutral-900 dark:text-white truncate">
               {provider.name}
             </h3>
+            {provider.connection_status && <Status status={provider.connection_status} type="badge" />}
           </div>
-          {provider.connection_status && <Status status={provider.connection_status} type="badge" />}
         </div>
 
         {provider.description && (

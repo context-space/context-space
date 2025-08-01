@@ -1,5 +1,4 @@
 ---
-id: building-tools
 title: "Building Developer Tools for Context Engineering: What Manus Taught Us and What We're Building"
 description: "Context engineering is the new frontier, but the developer tools are still catching up. Drawing from Manus's hard-won lessons and Context Space's tool-first approach, we explore what the next generation of context engineering tools should look like."
 publishedAt: 2025-07-19
@@ -185,4 +184,4 @@ We're building that future at Context Space. Every challenge that Manus solved t
 
 👉 **[Explore our GitHub](https://github.com/context-space/context-space)** to understand our tool-first approach
 
-The "Stochastic Gradient Descent" era of context engineering is ending. The systematic, tool-supported era is beginning. 
+The "Stochastic Gradient Descent" era of context engineering is ending. The systematic, tool-supported era is beginning.

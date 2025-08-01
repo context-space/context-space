@@ -5,6 +5,7 @@ import { Info } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { toast } from "sonner"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -17,7 +18,7 @@ const oauthConnectLogger = clientLogger.withTag("oauth-connect")
 interface OAuthConnectProps {
   permissions: Permission[]
   isConnected: boolean
-  onConnect: (permissions: string[]) => Promise<void>
+  onConnect: (permissions: string[]) => Promise<boolean>
   onDisconnect: () => Promise<void>
   authorizedPermissions: string[]
 }
@@ -30,6 +31,7 @@ export function OAuthConnect({
   authorizedPermissions,
 }: OAuthConnectProps) {
   const [checkedPermissions, setCheckedPermissions] = useState<string[]>(permissions.map(p => p.identifier))
+  const [waiting, setWaiting] = useState(false)
   const [loading, setLoading] = useState(false)
   const t = useTranslations()
   const { isAuthenticated } = useAuth()
@@ -72,21 +74,16 @@ export function OAuthConnect({
       return false
     }
     return true
-  }, [isAuthenticated, t])
+  }, [isAuthenticated, t, router])
 
   const handleConnect = useCallback(async () => {
     if (!checkAuthenticationAndShowToast()) {
       return
     }
 
-    try {
-      setLoading(true)
-      await onConnect(checkedPermissions)
-    } catch (error) {
-      oauthConnectLogger.error("Failed to connect", { error })
-    } finally {
-      setLoading(false)
-    }
+    setWaiting(true)
+    const success = await onConnect(checkedPermissions)
+    if (!success) setWaiting(false)
   }, [checkedPermissions, onConnect, checkAuthenticationAndShowToast])
 
   const handleDisconnect = useCallback(async () => {
@@ -109,14 +106,9 @@ export function OAuthConnect({
       return
     }
 
-    try {
-      setLoading(true)
-      await onConnect(checkedPermissions)
-    } catch (error) {
-      oauthConnectLogger.error("Failed to update permissions", { error })
-    } finally {
-      setLoading(false)
-    }
+    setWaiting(true)
+    const success = await onConnect(checkedPermissions)
+    if (!success) setWaiting(false)
   }, [checkedPermissions, onConnect, checkAuthenticationAndShowToast])
 
   const wantUpdate = useMemo(() => {
@@ -154,7 +146,7 @@ export function OAuthConnect({
           </div>
         </div>
 
-        <ScrollArea style={{ height: (permissions.length > 4 ? 4 : permissions.length) * 36 + 10 }}>
+        <ScrollArea className="pr-4" style={{ height: (permissions.length > 4 ? 4 : permissions.length) * 36 + 10 }}>
           <div className="space-y-2">
             {permissions.map(permission => (
               <div key={permission.identifier} className="flex items-start space-x-3">
@@ -163,15 +155,24 @@ export function OAuthConnect({
                   checked={checkedPermissions.includes(permission.identifier)}
                   onCheckedChange={checked =>
                     handleCheckboxChange(permission.identifier, checked as boolean)}
-                  className="mt-0.5"
+                  className="mt-0.5 cursor-pointer border-base"
                 />
                 <div className="space-y-1 leading-none flex-1">
-                  <label
-                    htmlFor={permission.identifier}
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                  >
-                    {permission.name}
-                  </label>
+                  <div className="flex items-center gap-3 mb-1">
+                    <label
+                      htmlFor={permission.identifier}
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                    >
+                      {permission.name}
+                    </label>
+                    <div className="h-px flex-1 border-b border-base" />
+                    <Badge
+                      variant="outline"
+                      className="text-xs"
+                    >
+                      {permission.identifier}
+                    </Badge>
+                  </div>
                   <p className="text-xs text-muted-foreground">
                     {permission.description}
                   </p>
@@ -193,11 +194,13 @@ export function OAuthConnect({
         className="w-full"
         variant={wantUnconnect ? "outline" : "default"}
         onClick={wantUnconnect ? handleDisconnect : wantUpdate ? handleUpdate : wantConnect ? handleConnect : undefined}
-        disabled={loading || (!wantConnect && !wantUpdate && !wantUnconnect)}
+        disabled={loading || waiting || (!wantConnect && !wantUpdate && !wantUnconnect)}
       >
         {loading
-          ? (wantUpdate ? t("integrations.connect.oauth.updating") : t("integrations.connect.oauth.connecting"))
-          : (wantUnconnect ? t("integrations.connect.oauth.disconnect") : wantUpdate ? t("integrations.connect.oauth.updatePermissions") : wantConnect ? t("integrations.connect.oauth.connectWithOAuth") : t("common.connect"))}
+          ? (t("common.loading"))
+          : waiting
+            ? (t("integrations.connect.oauth.waiting"))
+            : (wantUnconnect ? t("integrations.connect.oauth.disconnect") : wantUpdate ? t("integrations.connect.oauth.updatePermissions") : wantConnect ? t("integrations.connect.oauth.connectWithOAuth") : t("common.connect"))}
       </Button>
     </>
   )

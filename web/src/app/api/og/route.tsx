@@ -159,7 +159,7 @@ function DefaultOGImage({
               fontWeight: "600",
             }}
           >
-            Beta
+            Alpha
           </div>
         </div>
 
@@ -189,7 +189,7 @@ function DefaultOGImage({
                 fontWeight: "600",
               }}
             >
-              Ultimate Context Engineering Infrastructure for AI Agents
+              Tool-first Context Engineering Infrastructure for AI Agents
             </p>
             <p
               style={{
@@ -397,7 +397,7 @@ function IntegrationOGImage({
                   )
                 : (
                     <img
-                      src="https://context.space/logo.svg"
+                      src="https://context.space/logo-color.svg"
                       alt="Context Space logo"
                       style={{
                         width: "48px",

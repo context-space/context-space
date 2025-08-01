@@ -1,5 +1,4 @@
 ---
-id: 10-tools
 title: Top 10 Context Engineering Tools Powering Next-Gen AI
 description: As AI shifts from prompt-based tricks to context-aware intelligence, ten open-source tools are leading the charge. From MCP and QwenLong-CPRS for scalable memory and compression, to LangChain, Chroma, and Redis for managing, retrieving, and caching context.
 publishedAt: 2025-07-09

@@ -21,6 +21,11 @@ const nextConfig: NextConfig = {
         hostname: "cdn-bucket.tos-cn-hongkong.volces.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "img.shields.io",
+        pathname: "/**",
+      },
     ],
   },
 }

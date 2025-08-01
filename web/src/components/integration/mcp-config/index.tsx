@@ -15,6 +15,7 @@ import { useApiKeys } from "@/hooks/use-api-keys"
 import { useAuth } from "@/hooks/use-auth"
 import { useCopyToClipboard } from "@/hooks/use-clipboard"
 import { useAddToCursor } from "@/hooks/use-mcp"
+import { useRouter } from "@/i18n/navigation"
 import { cn } from "@/lib/utils"
 
 interface McpConfigProps {
@@ -31,6 +32,7 @@ export function McpConfig({ onSwitchToApiKeys, authType, isConnected, integratio
   const [isReloading, setIsReloading] = useState(false)
   const [showUnifiedConfig, setShowUnifiedConfig] = useState(false)
   const t = useTranslations()
+  const router = useRouter()
 
   const { isAuthenticated } = useAuth()
   const { openModal } = useAccountModal()
@@ -87,16 +89,15 @@ export function McpConfig({ onSwitchToApiKeys, authType, isConnected, integratio
           <div className="text-sm text-muted-foreground mb-4">
             {t("integrations.connect.loginRequiredDescription")}
           </div>
-          <button
+          <Button
             type="button"
-            className="text-primary hover:underline text-sm font-medium"
             onClick={() => {
               const currentPath = encodeURIComponent(window.location.pathname)
-              window.location.href = `/login?from=${currentPath}`
+              router.push(`/login?from=${currentPath}`)
             }}
           >
             {t("header.login")}
-          </button>
+          </Button>
         </div>
       )
     }
@@ -140,10 +141,8 @@ export function McpConfig({ onSwitchToApiKeys, authType, isConnected, integratio
       )
     }
 
-    // Main content
     return (
       <div className="space-y-4">
-        {/* API Key Selection */}
         <ApiKeySelector
           apiKeys={apiKeys}
           selectedApiKeyId={selectedApiKeyId}
@@ -152,7 +151,7 @@ export function McpConfig({ onSwitchToApiKeys, authType, isConnected, integratio
 
         {/* Configuration Type Toggle - Only show for specific integrations */}
         {integrationId && integrationName && integrationName !== "Context Space" && (
-          <div className="flex flex-col sm:flex-row gap-2">
+          <div className="flex gap-2">
             <Button
               variant={showUnifiedConfig ? "outline" : "default"}
               size="sm"
@@ -172,15 +171,10 @@ export function McpConfig({ onSwitchToApiKeys, authType, isConnected, integratio
           </div>
         )}
 
-        {/* Configuration Info - Only show for specific integrations */}
-        {integrationId && integrationName && integrationName !== "Context Space" && (
+        {showUnifiedConfig && integrationId && integrationName && integrationName !== "Context Space" && (
           <Alert className={cn(
-            showUnifiedConfig
-              ? "border-green-200/40 bg-green-50/40 dark:border-green-800/30 dark:bg-green-950/30"
-              : "border-blue-200/40 bg-blue-50/40 dark:border-blue-800/30 dark:bg-blue-950/30",
-            showUnifiedConfig
-              ? "text-green-700/70 dark:text-green-400/70"
-              : "text-blue-700/70 dark:text-blue-400/70",
+            "border-green-200/40 bg-green-50/40 dark:border-green-800/30 dark:bg-green-950/30",
+            "text-green-700/70 dark:text-green-400/70",
           )}
           >
             <Globe className={cn(
@@ -188,25 +182,12 @@ export function McpConfig({ onSwitchToApiKeys, authType, isConnected, integratio
             )}
             />
             <AlertDescription className={cn(
-              showUnifiedConfig
-                ? "text-green-800/80 dark:text-green-300/80"
-                : "text-blue-800/80 dark:text-blue-300/80",
+              "text-green-800/80 dark:text-green-300/80",
             )}
             >
               <div className="space-y-1">
-                {showUnifiedConfig
-                  ? (
-                      <>
-                        <p className="font-medium">{t("account.unifiedMcpTitle")}</p>
-                        <p className="text-sm">{t("account.unifiedMcpSubtitle")}</p>
-                      </>
-                    )
-                  : (
-                      <>
-                        <p className="font-medium">{t("account.unifiedMcpOption")}</p>
-                        <p className="text-sm">{t("account.unifiedMcpDescription")}</p>
-                      </>
-                    )}
+                <p className="font-medium">{t("account.unifiedMcpTitle")}</p>
+                <p className="text-sm">{t("account.unifiedMcpSubtitle")}</p>
               </div>
             </AlertDescription>
           </Alert>

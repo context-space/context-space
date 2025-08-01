@@ -4,7 +4,7 @@ import { baseAPIURL } from "@/config"
 
 export const serverRemoteFetch = $fetch.create({
   baseURL: baseAPIURL,
-  timeout: 5000,
+  // timeout: 5000,
   // retryStatusCodes: [],
   // retry: 3,
 })

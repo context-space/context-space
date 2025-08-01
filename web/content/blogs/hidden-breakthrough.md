@@ -1,5 +1,4 @@
 ---
-id: hidden-breakthrough
 title: "The Hidden Breakthrough Transforming AI Economics: Context Caching Revolution"
 description: As enterprise costs soar, the context caching revolution is redefining LLM economics. Breakthroughs like semantic caching, product quantization, and intermediate activation storage are slashing inference costs.
 publishedAt: 2025-07-09
@@ -74,7 +73,7 @@ And that’s why we built **Context Space**.
 
 ## Introducing Context Space: The Infrastructure Layer for Context Engineering
 
-Context Space is the **ultimate context engineering infrastructure**, starting from **MCP and integrations**.
+Context Space is the **tool-first context engineering infrastructure**, starting from **MCP and integrations**.
 
 It’s designed for:
 

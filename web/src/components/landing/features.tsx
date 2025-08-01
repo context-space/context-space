@@ -1,52 +1,48 @@
 "use client"
 
 import { Brain, Code, GitBranch, Plug, ShieldCheck, Users } from "lucide-react"
-import { useTranslations } from "next-intl"
-import { useMemo } from "react"
 import { FeatureCard } from "./feature-card"
 
+const features = [
+  {
+    key: "1",
+    icon: Brain,
+    title: "Context Engineering Infrastructure",
+    description: "Comprehensive context management beyond prompt engineering – the right information, at the right time, in the right format.",
+  },
+  {
+    key: "2",
+    icon: Plug,
+    title: "14+ Service Integrations",
+    description: "Production-ready integrations with GitHub, Slack, Airtable, HubSpot, Notion, Figma, Spotify, Stripe, and more.",
+  },
+  {
+    key: "3",
+    icon: GitBranch,
+    title: "Enhanced MCP Support",
+    description: "Production-grade Model Context Protocol implementation with built-in OAuth flows and persistent credential management.",
+  },
+  {
+    key: "4",
+    icon: ShieldCheck,
+    title: "Enterprise Security",
+    description: "HashiCorp Vault integration, automatic token rotation, encrypted credential storage, and OAuth UI flows.",
+  },
+  {
+    key: "5",
+    icon: Code,
+    title: "RESTful API",
+    description: "Clean HTTP endpoints with comprehensive documentation at api.context.space that actually work reliably in production.",
+  },
+  {
+    key: "6",
+    icon: Users,
+    title: "Open Source Community",
+    description: "AGPL v3 license transitioning to Apache 2.0, with active Discord community and welcoming contribution process.",
+  },
+]
+
 export function Features() {
-  const t = useTranslations()
-
-  const features = useMemo(() => [
-    {
-      key: "1",
-      icon: Brain,
-      title: t("hero.features.1.title"),
-      description: t("hero.features.1.description"),
-    },
-    {
-      key: "2",
-      icon: Plug,
-      title: t("hero.features.2.title"),
-      description: t("hero.features.2.description"),
-    },
-    {
-      key: "3",
-      icon: GitBranch,
-      title: t("hero.features.3.title"),
-      description: t("hero.features.3.description"),
-    },
-    {
-      key: "4",
-      icon: ShieldCheck,
-      title: t("hero.features.4.title"),
-      description: t("hero.features.4.description"),
-    },
-    {
-      key: "5",
-      icon: Code,
-      title: t("hero.features.5.title"),
-      description: t("hero.features.5.description"),
-    },
-    {
-      key: "6",
-      icon: Users,
-      title: t("hero.features.6.title"),
-      description: t("hero.features.6.description"),
-    },
-  ], [t])
-
   return (
     <section id="features" className="relative py-24 overflow-hidden">
       {/* Background gradients */}
@@ -59,10 +55,10 @@ export function Features() {
           <div className="text-center space-y-6 mb-16">
             <div className="space-y-4">
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 dark:text-white mb-4">
-                {t("landing.features.title")}
+                Tame Chaos with Context
               </h2>
               <p className="text-xl text-neutral-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
-                {t("landing.features.subtitle")}
+                Build more useful AI systems with seamless integrations, secure credential flows, and production-ready APIs
               </p>
             </div>
           </div>
@@ -83,7 +79,7 @@ export function Features() {
           {/* Bottom CTA */}
           <div className="text-center mt-16">
             <p className="text-neutral-500 dark:text-gray-400 text-sm">
-              {t("landing.features.cta.text")}
+              Want to see more? Check out our roadmap or
               {" "}
               <a
                 href="https://github.com/context-space/context-space"
@@ -91,7 +87,7 @@ export function Features() {
                 rel="noopener noreferrer"
                 className="text-primary hover:text-primary/80 transition-colors font-medium"
               >
-                {t("landing.features.cta.link")}
+                contribute on GitHub
               </a>
             </p>
           </div>

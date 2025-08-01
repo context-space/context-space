@@ -1,5 +1,4 @@
 ---
-id: engineering-deep-dive
 title: Not Just Another Wrapper：The Engineering Behind Context Space
 description: Building production-grade AI is more than wrapping an API. We dive into the core technical advantages of Context Space, from a Vault-secured backend and unified API layer to our 'Tool-First' architecture.
 publishedAt: 2025-07-18
@@ -48,4 +47,4 @@ These architectural choices are what separate a demo from a dependable platform.
 This is our commitment to the developer community: to provide a foundation you can trust, so you can focus on building what matters.
 
 **Dive into our architecture on GitHub and see for yourself.**
-👉 **[Explore the code on GitHub](https://github.com/context-space/context-space)** 
+👉 **[Explore the code on GitHub](https://github.com/context-space/context-space)**

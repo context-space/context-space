@@ -1,20 +1,31 @@
-import type { Locale } from "@/i18n/routing"
+"use client"
+
+import { useLocale } from "next-intl"
+import { useSearchParams } from "next/navigation"
+import { useMemo } from "react"
 import { FramelessLayout } from "@/components/layouts"
 import { Login } from "@/components/login"
+import { getPathname } from "@/i18n/navigation"
 
-interface LoginPageProps {
-  params: Promise<{ locale: Locale }>
-  searchParams: Promise<{ from?: string, error?: string }>
-}
+export default function LoginPage() {
+  const searchParams = useSearchParams()
+  const from = searchParams.get("from")
+  const locale = useLocale()
 
-export default async function LoginPage({ searchParams }: LoginPageProps) {
-  const awaitedSearchParams = await searchParams
-  const from = awaitedSearchParams?.from ? decodeURIComponent(awaitedSearchParams?.from) : "/"
+  const callbackURL = useMemo(() => window.location.origin + getPathname({
+    href: {
+      pathname: "/auth-callback",
+      query: {
+        redirect_to: from ?? "/",
+      },
+    },
+    locale,
+  }), [from, locale])
 
   return (
     <FramelessLayout>
       <div className="min-h-[calc(100vh-20rem)] flex items-center justify-center px-4">
-        <Login from={from} className="pt-16 w-[420px] max-w-[90vw]" />
+        <Login callbackURL={callbackURL} className="pt-16 w-[420px] max-w-[90vw]" />
       </div>
     </FramelessLayout>
   )

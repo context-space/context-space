@@ -1,5 +1,4 @@
 ---
-id: new-stack
 title: The New Stack for AI Builders：Memory + Emotion + Context
 description: "As local models become cheaper and privacy tech matures, user expectations are shifting toward AI that feels more human. "
 publishedAt: 2025-07-09

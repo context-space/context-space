@@ -1,5 +1,4 @@
 ---
-id: 10-open-source-projects
 title: The 10 Best Context Engineering Open Source Projects in 2025
 description: A new era of AI is unfolding and prompts are no longer enough. This article showcases the 10 powerful open-source projects shaping the future of context-aware and memory-enabled AI agents.
 publishedAt: 2025-07-09

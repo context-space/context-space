@@ -246,19 +246,19 @@
                 Click the button below to securely sign in to your account. This magic link will automatically authenticate you.
             </p>
 
-            <a href="{{ .SiteURL }}/auth-callback?token_hash={{ .TokenHash }}&type=email" class="magic-link-button">
-                Sign In Securely
+            <a href="{{ .RedirectTo }}&token_hash={{ .TokenHash }}&type=email" class="magic-link-button">
+                Sign In
             </a>
 
             <div class="security-notice">
                 <p class="security-text">
-                    This link will expire in 1 hour and can only be used once for your security.
+                    This link will expire in 10 minutes and can only be used once for your security.
                 </p>
             </div>
 
             <div class="alternative-link">
                 <p>If the button doesn't work, copy and paste this link into your browser:</p>
-                <a href="{{ .SiteURL }}/auth-callback?token_hash={{ .TokenHash }}&type=email">{{ .SiteURL }}/auth-callback?token_hash={{ .TokenHash }}&type=email</a>
+                <a href="{{ .RedirectTo }}&token_hash={{ .TokenHash }}&type=email">{{ .RedirectTo }}&token_hash={{ .TokenHash }}&type=email</a>
             </div>
 
             <p class="description">

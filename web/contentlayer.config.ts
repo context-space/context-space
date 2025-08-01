@@ -7,7 +7,6 @@ export const Blog = defineDocumentType(() => ({
   contentType: "mdx",
   fields: {
     title: { type: "string", required: true },
-    id: { type: "string", required: true },
     description: { type: "string", required: true },
     publishedAt: { type: "date", required: true },
     category: { type: "string", required: false },
@@ -16,7 +15,8 @@ export const Blog = defineDocumentType(() => ({
     featured: { type: "number", required: false, default: 0 },
   },
   computedFields: {
-    url: { type: "string", resolve: post => `/blogs/${post.id}` },
+    url: { type: "string", resolve: post => `/blogs/${post._raw.flattenedPath}` },
+    id: { type: "string", resolve: post => post._raw.flattenedPath },
   },
 }))
 

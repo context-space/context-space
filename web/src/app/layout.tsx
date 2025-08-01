@@ -16,9 +16,9 @@ export const metadata: Metadata = {
   },
   description,
   keywords: keywords.join(", "),
-  authors: [{ name: "Context Space Team" }],
-  creator: "Context Space",
-  publisher: "Context Space",
+  authors: [{ name: siteName }],
+  creator: siteName,
+  publisher: siteName,
   formatDetection: {
     email: false,
     address: false,
@@ -54,14 +54,7 @@ export const metadata: Metadata = {
     {
       rel: "icon",
       type: "image/svg",
-      url: "/logo-light.svg",
-      media: "(prefers-color-scheme: light)",
-    },
-    {
-      rel: "icon",
-      type: "image/svg",
-      url: "/logo-dark.svg",
-      media: "(prefers-color-scheme: dark)",
+      url: "/logo-color.svg",
     },
   ],
   manifest: "/manifest.json",
@@ -96,8 +89,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
-    site: "@contextspace",
-    creator: "@contextspace",
+    site: "@hi_contextspace",
+    creator: "@hi_contextspace",
     images: ["/api/og"],
   },
   verification: {
@@ -117,15 +110,9 @@ function Layout({ children }: Readonly<{ children: ReactNode }>) {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        {/* RSS Feed */}
-        <link
-          rel="alternate"
-          type="application/rss+xml"
-          title={`${siteName} Blog RSS Feed`}
-          href={`${baseURL}/feed.xml`}
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="alternate" type="application/rss+xml" title={`${siteName} Blog RSS Feed`} href={`${baseURL}/feed.xml`} />
+        <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
       </head>
       <body className="bg-background text-foreground overscroll-none antialiased sprinkle-primary">
         <NextTopLoader
@@ -144,8 +131,6 @@ function Layout({ children }: Readonly<{ children: ReactNode }>) {
             {children}
           </ScrollArea>
         </div>
-
-        {/* Google Analytics */}
         {process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID && (
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID} />
         )}

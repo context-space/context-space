@@ -1,7 +1,7 @@
 {
-  "name": "Context Space - Ultimate Context Engineering Infrastructure",
+  "name": "Context Space - Tool-first Context Engineering Infrastructure",
   "short_name": "Context Space",
-  "description": "Ultimate Context Engineering Infrastructure for AI Agents.",
+  "description": "Tool-first Context Engineering Infrastructure for AI Agents.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

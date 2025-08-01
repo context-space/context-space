@@ -76,6 +76,7 @@ export async function getServer(provider: string, authorization: string) {
                 Authorization: authorization,
               },
               body: JSON.stringify({ parameters }),
+              timeout: 60000,
               method: "POST",
             })) as BaseRemoteAPIResponse<Invocation>
             if (res.success) {

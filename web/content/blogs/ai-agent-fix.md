@@ -1,5 +1,4 @@
 ---
-id: ai-agent-fix
 title: The problem with AI agents isn’t the model, it’s missing context (and we built the fix)
 description: AI agents' primary limitation isn't the model, but the missing context. To solve this, Context Space was created as an open-source infrastructure that replaces configuration chaos with secure, seamless OAuth flows and provides agents with persistent, queryable memory.
 publishedAt: 2025-07-18

@@ -19,7 +19,7 @@ export function DesktopNavigation() {
             "text-[15px] font-medium transition-colors relative",
             "after:absolute after:left-0 after:bottom-[-8px] after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300",
             isActive(pathname, item.href)
-              ? "text-primary hover:text-primary/80 after:w-full"
+              ? "text-primary hover:text-primary/80"
               : "text-neutral-700 dark:text-gray-300 hover:text-neutral-900 dark:hover:text-white hover:after:w-full",
           )}
         >

@@ -1,27 +1,63 @@
 import type { Locale } from "@/i18n/routing"
 import type { ConnectionStatus, Credential, IntegrationCollection, IntegrationDetail, Provider, ProviderDetail } from "@/typings"
+import defu from "defu"
 import { defaultLocale } from "@/i18n/routing"
 import { genAuthorization } from "@/lib/utils/fetch"
 import { remoteFetchWithErrorHandling } from "@/lib/utils/fetch/server"
 
-const recommended_integrations = ["notion", "figma", "github"] as const
+interface FileterOption {
+  filters?: {
+    auth_type?: string
+    provider_name?: string
+    tag?: "hot" | "recommend"
+  }
+  pagination?: {
+    page?: number
+    page_size?: number
+  }
+  sort?: {
+    field?: string
+    order?: string
+  }
+}
+
+const defaultOptions: FileterOption = {
+  // filters: {
+  //   tag: "featured",
+  // },
+  pagination: {
+    page: 1,
+    page_size: 100,
+  },
+  sort: {
+    field: "created_at",
+    order: "desc",
+  },
+}
 
 export class IntegrationService {
   #token: string | undefined
   #locale: Locale
 
-  constructor(token: string | undefined, locale: Locale = defaultLocale) {
+  constructor(token?: string, locale: Locale = defaultLocale) {
     this.#token = token
     this.#locale = locale
   }
 
-  async #getProviders() {
-    const res = await remoteFetchWithErrorHandling<{ providers: Provider[] }>("/providers", {
-      headers: {
-        "Accept-Language": this.#locale,
-      },
-    })
-    return res.providers
+  async getProviders(options?: FileterOption) {
+    try {
+      const mergedOptions = defu(options, defaultOptions)
+      const res = await remoteFetchWithErrorHandling<{ providers: Provider[] }>("/providers/filter", {
+        method: "POST",
+        body: JSON.stringify(mergedOptions),
+        headers: {
+          "Accept-Language": this.#locale,
+        },
+      })
+      return res.providers
+    } catch {
+      return []
+    }
   }
 
   async #getCredentials() {
@@ -59,7 +95,7 @@ export class IntegrationService {
   }
 
   async getIntegrations(): Promise<IntegrationCollection> {
-    const [providers, credentials] = await Promise.all([this.#getProviders(), this.#getCredentials()])
+    const [providers, credentials] = await Promise.all([this.getProviders(), this.#getCredentials()])
     const integrations = providers.map((provider) => {
       const credential = credentials.find(cred => cred.provider_identifier === provider.identifier)
       const connection_status = this.#getConnectionStatus(provider, credential)
@@ -76,7 +112,8 @@ export class IntegrationService {
     }, {} as IntegrationCollection["provider_statistics"])
     return {
       integrations,
-      recommended_integrations: integrations.filter(integration => recommended_integrations.includes(integration.identifier as any)),
+      recommended_integrations: integrations.filter(integration => integration.tags?.includes("recommend")),
+      hot_integrations: integrations.filter(integration => integration.tags?.includes("hot")),
       provider_statistics,
     }
   }
