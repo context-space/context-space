@@ -102,7 +102,7 @@
         {
           "name": "interval",
           "type": "string",
-          "description": "The interval beween data points. Defaults to \"1d\". Valid intervals: \"1d\", \"5d\", \"1wk\", \"1mo\", \"3mo\"",
+          "description": "The interval between data points. Defaults to \"1d\". Valid intervals: \"1d\", \"5d\", \"1wk\", \"1mo\", \"3mo\"",
           "required": false
         }
       ]
@@ -138,7 +138,7 @@
         {
           "name": "freq",
           "type": "string",
-          "description": "At what frequency to get cashflow statements. Defaults to \"yearly\". Valid freqencies: \"yearly\", \"quarterly\", \"trainling\"",
+          "description": "At what frequency to get cashflow statements. Defaults to \"yearly\". Valid frequencies: \"yearly\", \"quarterly\", \"trailing\"",
           "required": false
         }
       ]
@@ -159,7 +159,7 @@
         {
           "name": "freq",
           "type": "string",
-          "description": "At what frequency to get cashflow statements. Defaults to \"yearly\". Valid freqencies: \"yearly\", \"quarterly\", \"trainling\"",
+          "description": "At what frequency to get cashflow statements. Defaults to \"yearly\". Valid frequencies: \"yearly\", \"quarterly\", \"trailing\"",
           "required": false
         }
       ]
