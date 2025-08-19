@@ -99,7 +99,7 @@
         },
         {
           "name": "freq",
-          "description": "获取现金流报表的频率。默认为 \"yearly\"。有效频率：\"yearly\", \"quarterly\", \"trainling\""
+          "description": "获取现金流报表的频率。默认为 \"yearly\"。有效频率：\"yearly\", \"quarterly\", \"trailing\""
         }
       ]
     },
@@ -114,7 +114,7 @@
         },
         {
           "name": "freq",
-          "description": "获取现金流报表的频率。默认为 \"yearly\"。有效频率：\"yearly\", \"quarterly\", \"trainling\""
+          "description": "获取现金流报表的频率。默认为 \"yearly\"。有效频率：\"yearly\", \"quarterly\", \"trailing\""
         }
       ]
     },

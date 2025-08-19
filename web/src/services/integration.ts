@@ -5,7 +5,7 @@ import { defaultLocale } from "@/i18n/routing"
 import { genAuthorization } from "@/lib/utils/fetch"
 import { remoteFetchWithErrorHandling } from "@/lib/utils/fetch/server"
 
-interface FileterOption {
+interface FilterOption {
   filters?: {
     auth_type?: string
     provider_name?: string
@@ -21,7 +21,7 @@ interface FileterOption {
   }
 }
 
-const defaultOptions: FileterOption = {
+const defaultOptions: FilterOption = {
   // filters: {
   //   tag: "featured",
   // },
@@ -44,7 +44,7 @@ export class IntegrationService {
     this.#locale = locale
   }
 
-  async getProviders(options?: FileterOption) {
+  async getProviders(options?: FilterOption) {
     try {
       const mergedOptions = defu(options, defaultOptions)
       const res = await remoteFetchWithErrorHandling<{ providers: Provider[] }>("/providers/filter", {

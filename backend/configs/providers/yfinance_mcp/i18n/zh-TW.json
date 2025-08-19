@@ -99,7 +99,7 @@
         },
         {
           "name": "freq",
-          "description": "獲取現金流量表的頻率。默認為 \"yearly\"。有效頻率：\"yearly\", \"quarterly\", \"trainling\""
+          "description": "獲取現金流量表的頻率。默認為 \"yearly\"。有效頻率：\"yearly\", \"quarterly\", \"trailing\""
         }
       ]
     },
@@ -114,7 +114,7 @@
         },
         {
           "name": "freq",
-          "description": "獲取現金流量表的頻率。默認為 \"yearly\"。有效頻率：\"yearly\", \"quarterly\", \"trainling\""
+          "description": "獲取現金流量表的頻率。默認為 \"yearly\"。有效頻率：\"yearly\", \"quarterly\", \"trailing\""
         }
       ]
     },
