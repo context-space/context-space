@@ -41,10 +41,64 @@ cd backend
    make docker-db
    sleep 5
    make docker-migrate
+   
+   # Create development configuration file
+   mkdir -p configs.dev
+   cat > configs.dev/development.json << 'EOF'
+{
+    "environment": "development",
+    "database": {
+        "host": "postgres",
+        "port": 5432,
+        "username": "postgres",
+        "password": "postgres",
+        "database": "contextspace",
+        "ssl_mode": "disable",
+        "migration_username": "postgres",
+        "migration_password": "postgres"
+    },
+    "vault": {
+        "default_region": "eu",
+        "regions": {
+            "eu": {
+                "address": "http://vault:8200",
+                "token": "dev-root-token",
+                "transit_path": "transit"
+            }
+        }
+    },
+    "security": {
+        "redirect_url_validator": {
+            "allowed_domains": [],
+            "allowed_schemes": []
+        },
+        "cors": {
+            "allowed_origins": ["http://localhost:4321", "*"]
+        }
+    }
+}
+EOF
+   
+   # Load providers into database (CRITICAL STEP)
+   DB_HOST=localhost DB_PORT=5433 DB_USER=postgres DB_PASSWORD=postgres DB_NAME=contextspace DB_SSL_MODE=disable go run cmd/load_providers/main.go --all
+   
+   # Start backend API
    make docker-api
    ```
 
-4. **Verify Setup**
+4. **Install Required Tools**
+   ```bash
+   # Install mockery for generating test mocks
+   go install github.com/vektra/mockery/v2@latest
+   
+   # Install swag for API documentation generation
+   go install github.com/swaggo/swag/cmd/swag@latest
+   
+   # Add Go bin to PATH (add to your ~/.zshrc or ~/.bashrc)
+   export PATH=$PATH:$(go env GOPATH)/bin
+   ```
+
+5. **Verify Setup**
    
    ```bash
    # Generate mocks
@@ -52,6 +106,9 @@ cd backend
 
    # Run tests to ensure everything works
    make test
+   
+   # Check backend API is running
+   curl http://localhost:8080/v1/swagger.json
    ```
 
 ## Adding a New Provider Adapter
@@ -823,7 +880,7 @@ func TestAdapterRegistration(t *testing.T) {
 }
 ```
 
-Make sure your adapter package is imported in `internal/provideradapter/infrastrucutre/templates/init.go`
+Make sure your adapter package is imported in `internal/provideradapter/infrastructure/templates/init.go`
 
 ```go
 import (
