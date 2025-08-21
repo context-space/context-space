@@ -40,7 +40,7 @@ Today, Context Space delivers a secure integration layer with persistent credent
 
 Transform your AI assistant into a powerful agent **in seconds**.
 
-**Cursor IDE** - One-click install via `cursor://` deep links. Click "Add to Cursor" and instantly give Claude access to GitHub, Slack, Notion, and 38+ services without editing any JSON files.
+**Cursor IDE** - One-click install via `cursor://` deep links. Click "Add to Cursor" and instantly give Cursor access to GitHub, Slack, Notion, and 38+ services without editing any JSON files.
 
 **Claude Code** - Simple CLI integration:
 ```bash
