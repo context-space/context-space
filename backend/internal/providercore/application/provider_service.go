@@ -2,13 +2,19 @@ package application
 
 import (
 	"context"
+	"errors"
+	"slices"
 	"sort"
 
 	observability "github.com/context-space/cloud-observability"
 	"github.com/context-space/context-space/backend/internal/providercore/domain"
 	"github.com/context-space/context-space/backend/internal/shared/apierrors"
+	contractProvider "github.com/context-space/context-space/backend/internal/shared/contract/providercore"
 	"github.com/context-space/context-space/backend/internal/shared/events"
+	"github.com/context-space/context-space/backend/internal/shared/serviceerrors"
+	"github.com/context-space/context-space/backend/internal/shared/types"
 	"go.uber.org/zap"
+	"golang.org/x/text/language"
 )
 
 // ProviderEventType defines the events related to providers
@@ -31,29 +37,32 @@ const (
 
 // ProviderService provides provider-related application services
 type ProviderService struct {
-	providerRepo  domain.ProviderRepository
-	operationRepo domain.OperationRepository
-	eventBus      *events.Bus
-	obs           *observability.ObservabilityProvider
+	providerRepo           domain.ProviderRepository
+	operationRepo          domain.OperationRepository
+	providerTranslationACL domain.ProviderTranslationACL
+	eventBus               *events.Bus
+	obs                    *observability.ObservabilityProvider
 }
 
 // NewProviderService creates a new ProviderService
 func NewProviderService(
 	providerRepo domain.ProviderRepository,
 	operationRepo domain.OperationRepository,
+	providerTranslationACL domain.ProviderTranslationACL,
 	eventBus *events.Bus,
 	observabilityProvider *observability.ObservabilityProvider,
 ) *ProviderService {
 	return &ProviderService{
-		providerRepo:  providerRepo,
-		operationRepo: operationRepo,
-		eventBus:      eventBus,
-		obs:           observabilityProvider,
+		providerRepo:           providerRepo,
+		operationRepo:          operationRepo,
+		eventBus:               eventBus,
+		obs:                    observabilityProvider,
+		providerTranslationACL: providerTranslationACL,
 	}
 }
 
 // GetProviderByID retrieves a provider by ID
-func (s *ProviderService) GetProviderByID(ctx context.Context, id string) (*domain.Provider, error) {
+func (s *ProviderService) GetProviderByID(ctx context.Context, id string) (*contractProvider.ProviderDTO, error) {
 	ctx, span := s.obs.Tracer.Start(ctx, "ProviderService.GetProviderByID")
 	defer span.End()
 
@@ -65,11 +74,11 @@ func (s *ProviderService) GetProviderByID(ctx context.Context, id string) (*doma
 		return nil, apierrors.NewNotFoundError("", err)
 	}
 
-	return provider, nil
+	return ProviderToDTONoTranslation(provider, true), nil
 }
 
 // GetProviderByIdentifier retrieves a provider by identifier
-func (s *ProviderService) GetProviderByIdentifier(ctx context.Context, identifier string) (*domain.Provider, error) {
+func (s *ProviderService) GetProviderByIdentifier(ctx context.Context, identifier string) (*contractProvider.ProviderDTO, error) {
 	ctx, span := s.obs.Tracer.Start(ctx, "ProviderService.GetProviderByIdentifier")
 	defer span.End()
 
@@ -81,37 +90,84 @@ func (s *ProviderService) GetProviderByIdentifier(ctx context.Context, identifie
 		return nil, apierrors.NewNotFoundError("", err)
 	}
 
-	return provider, nil
+	return ProviderToDTONoTranslation(provider, true), nil
+}
+
+func (s *ProviderService) GetProviderWithTranslation(ctx context.Context, identifier string, preferredLang language.Tag) (*contractProvider.ProviderDTO, error) {
+	ctx, span := s.obs.Tracer.Start(ctx, "ProviderService.GetProviderWithTranslation")
+	defer span.End()
+
+	provider, err := s.providerRepo.GetByIdentifier(ctx, identifier)
+	if err != nil {
+		return nil, apierrors.NewInternalError("", err)
+	}
+	if provider == nil {
+		return nil, apierrors.NewNotFoundError("", err)
+	}
+
+	translation, err := s.providerTranslationACL.GetProviderTranslation(ctx, identifier, preferredLang)
+	if err != nil && !errors.Is(err, serviceerrors.ErrTranslationNotFound) {
+		return nil, apierrors.NewInternalError("", err)
+	}
+
+	if translation == nil {
+		return ProviderToDTONoTranslation(provider, true), nil
+	}
+
+	return ProviderToDTO(provider, translation, true), nil
 }
 
 // ListProviders retrieves all providers
-func (s *ProviderService) ListProviders(ctx context.Context) ([]*domain.Provider, error) {
+func (s *ProviderService) ListProviders(ctx context.Context) ([]*contractProvider.ProviderDTO, error) {
 	ctx, span := s.obs.Tracer.Start(ctx, "ProviderService.ListProviders")
 	defer span.End()
 
-	providers, err := s.providerRepo.List(ctx)
+	providers, err := s.providerRepo.ListBasicProviders(ctx)
 	if err != nil {
 		return nil, apierrors.NewInternalError("", err)
 	}
 
-	return providers, nil
+	providerDTOs := make([]*contractProvider.ProviderDTO, 0, len(providers))
+	for _, provider := range providers {
+		providerDTOs = append(providerDTOs, ProviderToDTONoTranslation(provider, false))
+	}
+
+	return providerDTOs, nil
+}
+
+// ListProvidersByIDs retrieves providers by IDs
+func (s *ProviderService) ListProvidersByIDs(ctx context.Context, ids []string) ([]*contractProvider.ProviderDTO, error) {
+	ctx, span := s.obs.Tracer.Start(ctx, "ProviderService.ListProvidersByIDs")
+	defer span.End()
+
+	providers, err := s.providerRepo.ListByIDs(ctx, ids)
+	if err != nil {
+		return nil, apierrors.NewInternalError("", err)
+	}
+
+	providerDTOs := make([]*contractProvider.ProviderDTO, 0, len(providers))
+	for _, provider := range providers {
+		providerDTO := ProviderToDTONoTranslation(provider, false)
+		providerDTOs = append(providerDTOs, providerDTO)
+	}
+
+	return providerDTOs, nil
 }
 
 // CreateProvider creates a new provider
 func (s *ProviderService) CreateProvider(
 	ctx context.Context,
 	identifier, name, description, iconURL string,
-	authType domain.ProviderAuthType,
-	status domain.ProviderStatus,
+	authType types.ProviderAuthType,
+	status types.ProviderStatus,
 	categories []string,
 	operations []domain.Operation,
-	permissions []domain.Permission,
 ) (*domain.Provider, error) {
 	ctx, span := s.obs.Tracer.Start(ctx, "ProviderService.CreateProvider")
 	defer span.End()
 
 	// Create new provider
-	provider := domain.NewProvider(identifier, name, description, authType, status, iconURL, categories, permissions, operations)
+	provider := domain.NewProvider(identifier, name, description, authType, status, iconURL, categories, operations)
 
 	// Save provider
 	if err := s.providerRepo.Create(ctx, provider); err != nil {
@@ -232,7 +288,7 @@ func (s *ProviderService) DeactivateProvider(ctx context.Context, id string) err
 }
 
 // GetOperationsByProviderID retrieves operations for a provider
-func (s *ProviderService) GetOperationsByProviderID(ctx context.Context, providerID string) ([]*domain.Operation, error) {
+func (s *ProviderService) GetOperationsByProviderID(ctx context.Context, providerID string) ([]*contractProvider.OperationDTO, error) {
 	ctx, span := s.obs.Tracer.Start(ctx, "ProviderService.GetOperationsByProviderID")
 	defer span.End()
 
@@ -241,14 +297,39 @@ func (s *ProviderService) GetOperationsByProviderID(ctx context.Context, provide
 		return nil, apierrors.NewInternalError("", err)
 	}
 
-	return operations, nil
+	operationsDTOs := make([]*contractProvider.OperationDTO, 0, len(operations))
+	for _, operation := range operations {
+		operationDTO := OperationToDTO(operation)
+		operationsDTOs = append(operationsDTOs, &operationDTO)
+	}
+
+	return operationsDTOs, nil
+}
+
+// ListOperationsByIDs retrieves operations by IDs
+func (s *ProviderService) ListOperationsByIDs(ctx context.Context, ids []string) ([]*contractProvider.OperationDTO, error) {
+	ctx, span := s.obs.Tracer.Start(ctx, "ProviderService.ListOperationsByIDs")
+	defer span.End()
+
+	operations, err := s.operationRepo.ListByIDs(ctx, ids)
+	if err != nil {
+		return nil, apierrors.NewInternalError("", err)
+	}
+
+	operationsDTOs := make([]*contractProvider.OperationDTO, 0, len(operations))
+	for _, operation := range operations {
+		operationDTO := OperationToDTO(operation)
+		operationsDTOs = append(operationsDTOs, &operationDTO)
+	}
+
+	return operationsDTOs, nil
 }
 
 // CreateOperation creates a new operation for a provider
 func (s *ProviderService) CreateOperation(
 	ctx context.Context,
 	identifier, providerID, name, description, category string,
-	requiredPermissions []domain.Permission,
+	requiredPermissions []types.Permission,
 	parameters []domain.Parameter,
 ) (*domain.Operation, error) {
 	ctx, span := s.obs.Tracer.Start(ctx, "ProviderService.CreateOperation")
@@ -379,7 +460,7 @@ func (s *ProviderService) emitOperationEvent(ctx context.Context, eventType Prov
 // ProviderFilterParams represents the parameters for filtering providers
 type ProviderFilterParams struct {
 	Tag          string
-	AuthType     domain.ProviderAuthType
+	AuthType     types.ProviderAuthType
 	ProviderName string
 	Page         int
 	PageSize     int
@@ -389,7 +470,7 @@ type ProviderFilterParams struct {
 
 // ProviderFilterResult represents the result of filtering providers
 type ProviderFilterResult struct {
-	Providers   []*domain.Provider
+	Providers   []*contractProvider.ProviderDTO
 	TotalCount  int
 	CurrentPage int
 	PageSize    int
@@ -399,12 +480,12 @@ type ProviderFilterResult struct {
 }
 
 // FilterProviders filters providers based on various criteria with pagination and sorting
-func (s *ProviderService) FilterProviders(ctx context.Context, params ProviderFilterParams) (*ProviderFilterResult, error) {
+func (s *ProviderService) FilterProviders(ctx context.Context, params ProviderFilterParams, preferredLang language.Tag) (*ProviderFilterResult, error) {
 	ctx, span := s.obs.Tracer.Start(ctx, "ProviderService.FilterProviders")
 	defer span.End()
 
 	// Get all providers first
-	allProviders, err := s.providerRepo.List(ctx)
+	allProviders, err := s.providerRepo.ListBasicProviders(ctx)
 	if err != nil {
 		return nil, apierrors.NewInternalError("", err)
 	}
@@ -440,11 +521,22 @@ func (s *ProviderService) FilterProviders(ctx context.Context, params ProviderFi
 		end = len(filteredProviders)
 	}
 
-	var paginatedProviders []*domain.Provider
+	var paginatedProviders []*contractProvider.ProviderDTO
 	if offset < len(filteredProviders) {
-		paginatedProviders = filteredProviders[offset:end]
+		paginatedProviders = make([]*contractProvider.ProviderDTO, 0, end-offset)
+		for _, provider := range filteredProviders[offset:end] {
+			translation, err := s.providerTranslationACL.GetProviderTranslation(ctx, provider.Identifier, preferredLang)
+			if err != nil && !errors.Is(err, serviceerrors.ErrTranslationNotFound) {
+				return nil, apierrors.NewInternalError("", err)
+			}
+			if translation == nil {
+				paginatedProviders = append(paginatedProviders, ProviderToDTONoTranslation(provider, false))
+			} else {
+				paginatedProviders = append(paginatedProviders, ProviderToDTO(provider, translation, false))
+			}
+		}
 	} else {
-		paginatedProviders = []*domain.Provider{}
+		paginatedProviders = []*contractProvider.ProviderDTO{}
 	}
 
 	// Calculate pagination metadata
@@ -471,7 +563,7 @@ func (s *ProviderService) FilterProviders(ctx context.Context, params ProviderFi
 func (s *ProviderService) filterByTag(providers []*domain.Provider, tagName string) []*domain.Provider {
 	var filtered []*domain.Provider
 	for _, provider := range providers {
-		if provider.HasTag(tagName) {
+		if slices.Contains(provider.Tags, tagName) {
 			filtered = append(filtered, provider)
 		}
 	}
@@ -484,7 +576,7 @@ func (s *ProviderService) applyInMemoryFilters(providers []*domain.Provider, par
 
 	for _, provider := range providers {
 		// Skip deprecated providers
-		if provider.Status == domain.ProviderStatusDeprecated {
+		if provider.Status == types.ProviderStatusDeprecated {
 			continue
 		}
 

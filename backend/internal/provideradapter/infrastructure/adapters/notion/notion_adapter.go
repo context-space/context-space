@@ -11,7 +11,6 @@ import (
 	"github.com/context-space/context-space/backend/internal/provideradapter/domain"
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/base"
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/rest"
-	providercore "github.com/context-space/context-space/backend/internal/providercore/domain"
 	"github.com/context-space/context-space/backend/internal/shared/utils"
 )
 
@@ -66,7 +65,7 @@ type NotionAdapter struct {
 	notionVersion string // Notion API version (e.g., "2022-06-28")
 	restAdapter   domain.Adapter
 	operations    Operations
-	permissionSet providercore.PermissionSet
+	permissionSet domain.PermissionSet
 	defaults      *OperationDefaults
 }
 
@@ -77,7 +76,7 @@ func NewNotionAdapter(
 	oauthConfig *domain.OAuthConfig,
 	notionVersion string,
 	defaults *OperationDefaults,
-	permissions providercore.PermissionSet,
+	permissions domain.PermissionSet,
 	restAdapter *rest.RESTAdapter,
 ) *NotionAdapter {
 	baseAdapter := base.NewBaseAdapter(providerInfo, config)

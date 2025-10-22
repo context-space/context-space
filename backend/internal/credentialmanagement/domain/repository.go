@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	contractCredential "github.com/context-space/context-space/backend/internal/shared/contract/credentialmanagement"
 	"golang.org/x/oauth2"
 )
 
@@ -64,7 +65,7 @@ type CredentialFactory interface {
 	CreateAPIKey(ctx context.Context, userID, providerIdentifier, apiKey string) (*APIKeyCredential, error)
 
 	// CreateNone creates a new no-auth credential
-	CreateNone(ctx context.Context, userID, providerIdentifier string) (*NoneCredential, error)
+	CreateNone(ctx context.Context, userID, providerIdentifier string) (*contractCredential.CredentialDTO, error)
 
 	// GetCredential retrieves a credential by ID and converts it to the proper type
 	GetCredential(ctx context.Context, id string) (interface{}, error)

@@ -17,10 +17,10 @@ import (
 	"github.com/context-space/context-space/backend/internal/integration/domain"
 	providerAdapterDomain "github.com/context-space/context-space/backend/internal/provideradapter/domain"
 	providerDomain "github.com/context-space/context-space/backend/internal/providercore/domain"
-	credentialmanagement_mocks "github.com/context-space/context-space/backend/internal/shared/testing/mocks/credentialmanagement"
 	integration_mocks "github.com/context-space/context-space/backend/internal/shared/testing/mocks/integration"
 	provideradapter_mocks "github.com/context-space/context-space/backend/internal/shared/testing/mocks/provideradapter"
 	shared_mocks "github.com/context-space/context-space/backend/internal/shared/testing/mocks/shared"
+	"github.com/context-space/context-space/backend/internal/shared/types"
 )
 
 // InvocationServiceTestSuite is the main test suite for InvocationService
@@ -37,7 +37,7 @@ type InvocationServiceTestSuite struct {
 	mockInvocationRepo      *integration_mocks.MockInvocationRepository
 	mockEventBus            *shared_mocks.MockEventBus
 	mockRedisClient         *shared_mocks.MockCache
-	mockTokenRefreshService *credentialmanagement_mocks.MockTokenRefresh
+	mockTokenRefreshService *integration_mocks.MockTokenRefreshProvider
 	mockProviderAdapter     *provideradapter_mocks.MockAdapter
 	mockObs                 *observability.ObservabilityProvider
 
@@ -91,7 +91,7 @@ func (suite *InvocationServiceTestSuite) SetupTest() {
 	suite.mockInvocationRepo = &integration_mocks.MockInvocationRepository{}
 	suite.mockEventBus = &shared_mocks.MockEventBus{}
 	suite.mockRedisClient = &shared_mocks.MockCache{}
-	suite.mockTokenRefreshService = &credentialmanagement_mocks.MockTokenRefresh{}
+	suite.mockTokenRefreshService = &integration_mocks.MockTokenRefreshProvider{}
 	suite.mockProviderAdapter = &provideradapter_mocks.MockAdapter{}
 
 	// Create service instance
@@ -198,15 +198,15 @@ func (suite *InvocationServiceTestSuite) TestInvokeOperation() {
 					ID:         "test-provider-id",
 					Identifier: s.testProviderIdentifier,
 					Name:       "Test Provider",
-					Status:     providerDomain.ProviderStatusActive,
+					Status:     types.ProviderStatusActive,
 				}
-				s.mockProviderProvider.On("GetProviderByIdentifier", mock.Anything, s.testProviderIdentifier).Return(provider, nil)
+				s.mockProviderProvider.On("FindProvider", mock.Anything, s.testProviderIdentifier).Return(provider, nil)
 
 				// Mock adapter lookup with OAuth auth type
 				adapterInfo := &providerAdapterDomain.ProviderAdapterInfo{
 					Identifier: s.testProviderIdentifier,
 					Name:       "Test Adapter",
-					AuthType:   providerDomain.AuthTypeOAuth,
+					AuthType:   types.AuthTypeOAuth,
 				}
 				s.mockProviderAdapter.On("GetProviderAdapterInfo").Return(adapterInfo)
 				s.mockAdapterProvider.On("GetAdapter", mock.Anything, s.testProviderIdentifier).Return(s.mockProviderAdapter, nil)
@@ -277,15 +277,15 @@ func (suite *InvocationServiceTestSuite) TestInvokeOperation() {
 					ID:         "test-provider-id",
 					Identifier: s.testProviderIdentifier,
 					Name:       "Test Provider",
-					Status:     providerDomain.ProviderStatusActive,
+					Status:     types.ProviderStatusActive,
 				}
-				s.mockProviderProvider.On("GetProviderByIdentifier", mock.Anything, s.testProviderIdentifier).Return(provider, nil)
+				s.mockProviderProvider.On("FindProvider", mock.Anything, s.testProviderIdentifier).Return(provider, nil)
 
 				// Mock adapter lookup with None auth type
 				adapterInfo := &providerAdapterDomain.ProviderAdapterInfo{
 					Identifier: s.testProviderIdentifier,
 					Name:       "Test Adapter",
-					AuthType:   providerDomain.AuthTypeNone,
+					AuthType:   types.AuthTypeNone,
 				}
 				s.mockProviderAdapter.On("GetProviderAdapterInfo").Return(adapterInfo)
 				s.mockAdapterProvider.On("GetAdapter", mock.Anything, s.testProviderIdentifier).Return(s.mockProviderAdapter, nil)
@@ -334,7 +334,7 @@ func (suite *InvocationServiceTestSuite) TestInvokeOperation() {
 		{
 			name: "provider_not_found_error",
 			setupMocks: func(s *InvocationServiceTestSuite) {
-				s.mockProviderProvider.On("GetProviderByIdentifier", mock.Anything, s.testProviderIdentifier).Return(nil, errors.New("provider not found"))
+				s.mockProviderProvider.On("FindProvider", mock.Anything, s.testProviderIdentifier).Return(nil, errors.New("provider not found"))
 			},
 			userID:        "test-user-123",
 			providerID:    "test-provider",
@@ -355,9 +355,9 @@ func (suite *InvocationServiceTestSuite) TestInvokeOperation() {
 					ID:         "test-provider-id",
 					Identifier: s.testProviderIdentifier,
 					Name:       "Test Provider",
-					Status:     providerDomain.ProviderStatusActive,
+					Status:     types.ProviderStatusActive,
 				}
-				s.mockProviderProvider.On("GetProviderByIdentifier", mock.Anything, s.testProviderIdentifier).Return(provider, nil)
+				s.mockProviderProvider.On("FindProvider", mock.Anything, s.testProviderIdentifier).Return(provider, nil)
 
 				// Mock adapter not found
 				s.mockAdapterProvider.On("GetAdapter", mock.Anything, s.testProviderIdentifier).Return(nil, errors.New("adapter not found"))
@@ -381,15 +381,15 @@ func (suite *InvocationServiceTestSuite) TestInvokeOperation() {
 					ID:         "test-provider-id",
 					Identifier: s.testProviderIdentifier,
 					Name:       "Test Provider",
-					Status:     providerDomain.ProviderStatusActive,
+					Status:     types.ProviderStatusActive,
 				}
-				s.mockProviderProvider.On("GetProviderByIdentifier", mock.Anything, s.testProviderIdentifier).Return(provider, nil)
+				s.mockProviderProvider.On("FindProvider", mock.Anything, s.testProviderIdentifier).Return(provider, nil)
 
 				// Mock adapter lookup with OAuth auth type
 				adapterInfo := &providerAdapterDomain.ProviderAdapterInfo{
 					Identifier: s.testProviderIdentifier,
 					Name:       "Test Adapter",
-					AuthType:   providerDomain.AuthTypeOAuth,
+					AuthType:   types.AuthTypeOAuth,
 				}
 				s.mockProviderAdapter.On("GetProviderAdapterInfo").Return(adapterInfo)
 				s.mockAdapterProvider.On("GetAdapter", mock.Anything, s.testProviderIdentifier).Return(s.mockProviderAdapter, nil)
@@ -417,15 +417,15 @@ func (suite *InvocationServiceTestSuite) TestInvokeOperation() {
 					ID:         "test-provider-id",
 					Identifier: s.testProviderIdentifier,
 					Name:       "Test Provider",
-					Status:     providerDomain.ProviderStatusActive,
+					Status:     types.ProviderStatusActive,
 				}
-				s.mockProviderProvider.On("GetProviderByIdentifier", mock.Anything, s.testProviderIdentifier).Return(provider, nil)
+				s.mockProviderProvider.On("FindProvider", mock.Anything, s.testProviderIdentifier).Return(provider, nil)
 
 				// Mock adapter lookup with OAuth auth type
 				adapterInfo := &providerAdapterDomain.ProviderAdapterInfo{
 					Identifier: s.testProviderIdentifier,
 					Name:       "Test Adapter",
-					AuthType:   providerDomain.AuthTypeOAuth,
+					AuthType:   types.AuthTypeOAuth,
 				}
 				s.mockProviderAdapter.On("GetProviderAdapterInfo").Return(adapterInfo)
 				s.mockAdapterProvider.On("GetAdapter", mock.Anything, s.testProviderIdentifier).Return(s.mockProviderAdapter, nil)
@@ -457,15 +457,15 @@ func (suite *InvocationServiceTestSuite) TestInvokeOperation() {
 					ID:         "test-provider-id",
 					Identifier: s.testProviderIdentifier,
 					Name:       "Test Provider",
-					Status:     providerDomain.ProviderStatusActive,
+					Status:     types.ProviderStatusActive,
 				}
-				s.mockProviderProvider.On("GetProviderByIdentifier", mock.Anything, s.testProviderIdentifier).Return(provider, nil)
+				s.mockProviderProvider.On("FindProvider", mock.Anything, s.testProviderIdentifier).Return(provider, nil)
 
 				// Mock adapter lookup with None auth type
 				adapterInfo := &providerAdapterDomain.ProviderAdapterInfo{
 					Identifier: s.testProviderIdentifier,
 					Name:       "Test Adapter",
-					AuthType:   providerDomain.AuthTypeNone,
+					AuthType:   types.AuthTypeNone,
 				}
 				s.mockProviderAdapter.On("GetProviderAdapterInfo").Return(adapterInfo)
 				s.mockAdapterProvider.On("GetAdapter", mock.Anything, s.testProviderIdentifier).Return(s.mockProviderAdapter, nil)

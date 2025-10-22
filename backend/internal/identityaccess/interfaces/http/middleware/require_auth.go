@@ -43,7 +43,7 @@ func RequireAuth(
 		if strings.HasPrefix(authString, "cs-") {
 			// API key authentication is only allowed for MCP requests
 			requestPath := c.Request.URL.Path
-			if !strings.HasPrefix(requestPath, "/v1/mcp") && !strings.HasPrefix(requestPath, "/v1/invocations") {
+			if !strings.HasPrefix(requestPath, "/v1/mcp") && !strings.HasPrefix(requestPath, "/v1/invocations") && requestPath != "/v1/credentials" {
 				httpapi.Unauthorized(c, "API key authentication is not allowed for this request")
 				c.Abort()
 				return

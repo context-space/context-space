@@ -234,6 +234,65 @@ func (_c *MockProviderAdapterConfigRepository_GetByIdentifier_Call) RunAndReturn
 	return _c
 }
 
+// GetByIdentifierWithoutCache provides a mock function with given fields: ctx, identifier
+func (_m *MockProviderAdapterConfigRepository) GetByIdentifierWithoutCache(ctx context.Context, identifier string) (*domain.ProviderAdapterConfig, error) {
+	ret := _m.Called(ctx, identifier)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetByIdentifierWithoutCache")
+	}
+
+	var r0 *domain.ProviderAdapterConfig
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, string) (*domain.ProviderAdapterConfig, error)); ok {
+		return rf(ctx, identifier)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, string) *domain.ProviderAdapterConfig); ok {
+		r0 = rf(ctx, identifier)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*domain.ProviderAdapterConfig)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = rf(ctx, identifier)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockProviderAdapterConfigRepository_GetByIdentifierWithoutCache_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetByIdentifierWithoutCache'
+type MockProviderAdapterConfigRepository_GetByIdentifierWithoutCache_Call struct {
+	*mock.Call
+}
+
+// GetByIdentifierWithoutCache is a helper method to define mock.On call
+//   - ctx context.Context
+//   - identifier string
+func (_e *MockProviderAdapterConfigRepository_Expecter) GetByIdentifierWithoutCache(ctx interface{}, identifier interface{}) *MockProviderAdapterConfigRepository_GetByIdentifierWithoutCache_Call {
+	return &MockProviderAdapterConfigRepository_GetByIdentifierWithoutCache_Call{Call: _e.mock.On("GetByIdentifierWithoutCache", ctx, identifier)}
+}
+
+func (_c *MockProviderAdapterConfigRepository_GetByIdentifierWithoutCache_Call) Run(run func(ctx context.Context, identifier string)) *MockProviderAdapterConfigRepository_GetByIdentifierWithoutCache_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context), args[1].(string))
+	})
+	return _c
+}
+
+func (_c *MockProviderAdapterConfigRepository_GetByIdentifierWithoutCache_Call) Return(_a0 *domain.ProviderAdapterConfig, _a1 error) *MockProviderAdapterConfigRepository_GetByIdentifierWithoutCache_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockProviderAdapterConfigRepository_GetByIdentifierWithoutCache_Call) RunAndReturn(run func(context.Context, string) (*domain.ProviderAdapterConfig, error)) *MockProviderAdapterConfigRepository_GetByIdentifierWithoutCache_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListAdapterConfigs provides a mock function with given fields: ctx
 func (_m *MockProviderAdapterConfigRepository) ListAdapterConfigs(ctx context.Context) ([]*domain.ProviderAdapterConfig, error) {
 	ret := _m.Called(ctx)

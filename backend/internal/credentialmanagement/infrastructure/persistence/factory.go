@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	"github.com/context-space/context-space/backend/internal/credentialmanagement/domain"
+	contractCredential "github.com/context-space/context-space/backend/internal/shared/contract/credentialmanagement"
 	"golang.org/x/oauth2"
 )
 
@@ -110,14 +111,20 @@ func (f *CredentialFactoryImpl) CreateAPIKey(
 func (f *CredentialFactoryImpl) CreateNone(
 	ctx context.Context,
 	userID, providerIdentifier string,
-) (*domain.NoneCredential, error) {
+) (*contractCredential.CredentialDTO, error) {
 	// Create the none credential domain object
 	noneCred, err := domain.NewNoneCredential(userID, providerIdentifier)
 	if err != nil {
 		return nil, err
 	}
 
-	return noneCred, nil
+	return &contractCredential.CredentialDTO{
+		ID:                 noneCred.ID,
+		UserID:             noneCred.UserID,
+		ProviderIdentifier: noneCred.ProviderIdentifier,
+		Type:               string(noneCred.Type),
+		IsValid:            noneCred.IsValid,
+	}, nil
 }
 
 // GetCredential retrieves a credential by ID and returns the specific type

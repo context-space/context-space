@@ -3,9 +3,17 @@ package middleware
 import (
 	"context"
 
-	"github.com/context-space/context-space/backend/internal/providercore/domain"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/text/language"
+)
+
+// Context keys for provider domain
+type preferredLanguageKeyType string
+
+var (
+	// PreferredLanguageKey is the context key for preferred language in provider requests
+	// This key is used by middleware to store and handlers to retrieve the user's preferred language
+	PreferredLanguageKey preferredLanguageKeyType = "provider.preferredLanguage"
 )
 
 // SupportedLanguages defines the languages supported by the Provider API
@@ -43,8 +51,8 @@ func I18nMiddleware() gin.HandlerFunc {
 		}
 
 		// Store the language.Tag object in gin context and request context
-		c.Set(string(domain.PreferredLanguageKey), preferredLangTag)
-		ctx := context.WithValue(c.Request.Context(), domain.PreferredLanguageKey, preferredLangTag)
+		c.Set(string(PreferredLanguageKey), preferredLangTag)
+		ctx := context.WithValue(c.Request.Context(), PreferredLanguageKey, preferredLangTag)
 		c.Request = c.Request.WithContext(ctx)
 
 		c.Next()

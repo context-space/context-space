@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	providercore "github.com/context-space/context-space/backend/internal/providercore/domain"
+	"github.com/context-space/context-space/backend/internal/shared/types"
 )
 
 // AdapterConfig defines common configuration for adapters
@@ -30,12 +30,10 @@ type CircuitBreakerConfig struct {
 // ProviderAdapterInfo contains the minimal provider information needed by adapters
 type ProviderAdapterInfo struct {
 	Identifier  string
-	Name        string                        `json:"name"`
-	Description string                        `json:"description"`
-	AuthType    providercore.ProviderAuthType `json:"auth_type"`
-	Permissions []providercore.Permission     `json:"permissions"`
-	Operations  []providercore.Operation      `json:"operations"`
-	Status      providercore.ProviderStatus   `json:"status"`
+	Name        string                 `json:"name"`
+	Description string                 `json:"description"`
+	AuthType    types.ProviderAuthType `json:"auth_type"`
+	Status      types.ProviderStatus   `json:"status"`
 }
 
 type ProviderAdapterConfig struct {
@@ -43,6 +41,7 @@ type ProviderAdapterConfig struct {
 	ID           string                 `json:"id"`
 	OAuthConfig  *OAuthConfig           `json:"oauth_config"`
 	CustomConfig map[string]interface{} `json:"custom_config"`
+	Permissions  []types.Permission     `json:"permissions"`
 }
 
 // Adapter is the interface for all provider adapters

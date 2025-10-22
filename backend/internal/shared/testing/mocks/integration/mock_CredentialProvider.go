@@ -5,7 +5,7 @@ package integration_mocks
 import (
 	context "context"
 
-	domain "github.com/context-space/context-space/backend/internal/credentialmanagement/domain"
+	credentialmanagement "github.com/context-space/context-space/backend/internal/shared/contract/credentialmanagement"
 
 	mock "github.com/stretchr/testify/mock"
 )
@@ -24,23 +24,23 @@ func (_m *MockCredentialProvider) EXPECT() *MockCredentialProvider_Expecter {
 }
 
 // CreateNone provides a mock function with given fields: ctx, userID, providerIdentifier
-func (_m *MockCredentialProvider) CreateNone(ctx context.Context, userID string, providerIdentifier string) (*domain.NoneCredential, error) {
+func (_m *MockCredentialProvider) CreateNone(ctx context.Context, userID string, providerIdentifier string) (*credentialmanagement.CredentialDTO, error) {
 	ret := _m.Called(ctx, userID, providerIdentifier)
 
 	if len(ret) == 0 {
 		panic("no return value specified for CreateNone")
 	}
 
-	var r0 *domain.NoneCredential
+	var r0 *credentialmanagement.CredentialDTO
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, string) (*domain.NoneCredential, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, string, string) (*credentialmanagement.CredentialDTO, error)); ok {
 		return rf(ctx, userID, providerIdentifier)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, string, string) *domain.NoneCredential); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, string, string) *credentialmanagement.CredentialDTO); ok {
 		r0 = rf(ctx, userID, providerIdentifier)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*domain.NoneCredential)
+			r0 = ret.Get(0).(*credentialmanagement.CredentialDTO)
 		}
 	}
 
@@ -73,12 +73,12 @@ func (_c *MockCredentialProvider_CreateNone_Call) Run(run func(ctx context.Conte
 	return _c
 }
 
-func (_c *MockCredentialProvider_CreateNone_Call) Return(_a0 *domain.NoneCredential, _a1 error) *MockCredentialProvider_CreateNone_Call {
+func (_c *MockCredentialProvider_CreateNone_Call) Return(_a0 *credentialmanagement.CredentialDTO, _a1 error) *MockCredentialProvider_CreateNone_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *MockCredentialProvider_CreateNone_Call) RunAndReturn(run func(context.Context, string, string) (*domain.NoneCredential, error)) *MockCredentialProvider_CreateNone_Call {
+func (_c *MockCredentialProvider_CreateNone_Call) RunAndReturn(run func(context.Context, string, string) (*credentialmanagement.CredentialDTO, error)) *MockCredentialProvider_CreateNone_Call {
 	_c.Call.Return(run)
 	return _c
 }

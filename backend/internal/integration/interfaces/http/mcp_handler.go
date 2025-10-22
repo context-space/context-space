@@ -11,8 +11,8 @@ import (
 	"github.com/context-space/context-space/backend/internal/integration/application"
 	integrationDomain "github.com/context-space/context-space/backend/internal/integration/domain"
 	providercoreApp "github.com/context-space/context-space/backend/internal/providercore/application"
-	pcdDomain "github.com/context-space/context-space/backend/internal/providercore/domain"
 	httpapi "github.com/context-space/context-space/backend/internal/shared/interfaces/http"
+	"github.com/context-space/context-space/backend/internal/shared/types"
 	"github.com/context-space/context-space/backend/internal/shared/utils"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -354,7 +354,7 @@ func (h *McpHandler) HandleMcpListTools(c *gin.Context) {
 
 	for _, provider := range providers {
 		// Filter by provider status if allowDisabled is false
-		if !allowDisabled && provider.Status != pcdDomain.ProviderStatusActive { // Used pcdDomain alias
+		if !allowDisabled && provider.Status != string(types.ProviderStatusActive) { // Used pcdDomain alias
 			continue
 		}
 

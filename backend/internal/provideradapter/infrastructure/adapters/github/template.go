@@ -5,9 +5,9 @@ import (
 	"time"
 
 	"github.com/context-space/context-space/backend/internal/provideradapter/domain"
+	"github.com/context-space/context-space/backend/internal/shared/types"
 
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/registry"
-	providercore "github.com/context-space/context-space/backend/internal/providercore/domain"
 )
 
 const (
@@ -56,11 +56,11 @@ func (t *GitHubTemplate) CreateAdapter(provider *domain.ProviderAdapterConfig) (
 
 	permissionsData := provider.Permissions
 
-	permissions := make(providercore.PermissionSet, len(permissionsData))
+	permissions := make(domain.PermissionSet, len(permissionsData))
 	for _, permMap := range permissionsData {
 		scopes := permMap.OAuthScopes
 
-		permissions[permMap.Identifier] = *providercore.NewPermission(
+		permissions[permMap.Identifier] = *domain.NewPermission(
 			permMap.Identifier,
 			permMap.Name,
 			permMap.Description,
@@ -91,7 +91,7 @@ func (t *GitHubTemplate) ValidateConfig(provider *domain.ProviderAdapterConfig) 
 		return fmt.Errorf("invalid provider identifier, must be '%s'", identifier)
 	}
 
-	if provider.AuthType != providercore.AuthTypeOAuth {
+	if provider.AuthType != types.AuthTypeOAuth {
 		return fmt.Errorf("invalid or missing auth_type, must be 'oauth'")
 	}
 

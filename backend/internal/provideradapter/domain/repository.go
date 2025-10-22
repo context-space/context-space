@@ -10,6 +10,9 @@ type ProviderAdapterConfigRepository interface {
 	// GetByIdentifier returns a provider by identifier
 	GetByIdentifier(ctx context.Context, identifier string) (*ProviderAdapterConfig, error)
 
+	// GetByIdentifierWithoutCache returns a provider by identifier without cache
+	GetByIdentifierWithoutCache(ctx context.Context, identifier string) (*ProviderAdapterConfig, error)
+
 	// List returns all providers
 	ListAdapterConfigs(ctx context.Context) ([]*ProviderAdapterConfig, error)
 

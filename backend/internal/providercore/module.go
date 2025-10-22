@@ -5,10 +5,12 @@ import (
 
 	observability "github.com/context-space/cloud-observability"
 	"github.com/context-space/context-space/backend/internal/providercore/application"
+	"github.com/context-space/context-space/backend/internal/providercore/infrastructure/acl"
 	"github.com/context-space/context-space/backend/internal/providercore/infrastructure/persistence"
 	pchttp "github.com/context-space/context-space/backend/internal/providercore/interfaces/http"
 	"github.com/context-space/context-space/backend/internal/shared/events"
 	"github.com/context-space/context-space/backend/internal/shared/infrastructure/database"
+	translation "github.com/context-space/context-space/backend/internal/translation/application"
 	"github.com/gin-gonic/gin"
 )
 
@@ -24,15 +26,18 @@ func NewModule(
 	db database.Database,
 	eventBus *events.Bus,
 	observabilityProvider *observability.ObservabilityProvider,
+	providerTranslationService *translation.ProviderTranslationService,
 ) (*Module, error) {
 	// Create repositories
 	providerRepo := persistence.NewProviderRepository(db, observabilityProvider)
 	operationRepo := persistence.NewOperationRepository(db, observabilityProvider)
+	providerTranslationACL := acl.NewProviderTranslationACL(providerTranslationService, observabilityProvider)
 
 	// Create application service
 	providerService := application.NewProviderService(
 		providerRepo,
 		operationRepo,
+		providerTranslationACL,
 		eventBus,
 		observabilityProvider,
 	)

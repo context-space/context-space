@@ -27,62 +27,30 @@ const (
 	// Add other endpoints as needed
 )
 
-var opDefaults = OperationDefaults{
-	Project:        "context-space",
-	CollectionName: "CFA",
-	Search: SearchDefaults{
-		Limit: 10,
-	},
-	Chat: ChatDefaults{
-		Model:       "gpt-4o",
-		Stream:      false,
-		Temperature: 0.1,
-	},
-	Query: QueryDefaults{
-		SearchLimit:         10,
-		RewriteQuery:        false,
-		Rerank:              false,
-		RerankRetrieveCount: 50,
-		RerankModel:         "",
-		LLMModel:            "gpt-4o",
-		LLMTemperature:      0.1,
-	},
+// SearchConfig holds defaults specifically for the 'volcengine_kb.search_knowledge' operation.
+type SearchConfig struct {
+	Limit *int // Default limit for search results
 }
 
-// SearchDefaults holds defaults specifically for the 'volcengine_kb.search_knowledge' operation.
-type SearchDefaults struct {
-	Limit int // Default limit for search results
+// ChatConfig holds defaults specifically for the 'volcengine_kb.chat_completions' operation.
+type ChatConfig struct {
+	Model       *string  // Default LLM model ID or endpoint ID
+	Stream      *bool    // Default stream setting
+	Temperature *float64 // Default sampling temperature
 }
 
-// ChatDefaults holds defaults specifically for the 'volcengine_kb.chat_completions' operation.
-type ChatDefaults struct {
-	Model       string  // Default LLM model ID or endpoint ID
-	Stream      bool    // Default stream setting
-	Temperature float64 // Default sampling temperature
-}
-
-// QueryDefaults holds defaults specifically for the RAG 'volcengine_kb.query' operation.
-type QueryDefaults struct {
+// QueryConfig holds defaults specifically for the RAG 'volcengine_kb.query' operation.
+type QueryConfig struct {
 	// Defaults for the internal Search Knowledge step
-	SearchLimit         int    // Limit for initial knowledge retrieval (before rerank)
-	RewriteQuery        bool   // Enable query rewriting based on history?
-	Rerank              bool   // Enable reranking of search results?
-	RerankRetrieveCount int    // How many chunks to retrieve for reranking (must be >= SearchLimit if Rerank is true)
-	RerankModel         string // Specific rerank model name (optional, uses API default if empty)
+	SearchLimit         *int    // Limit for initial knowledge retrieval (before rerank)
+	RewriteQuery        *bool   // Enable query rewriting based on history?
+	Rerank              *bool   // Enable reranking of search results?
+	RerankRetrieveCount *int    // How many chunks to retrieve for reranking (must be >= SearchLimit if Rerank is true)
+	RerankModel         *string // Specific rerank model name (optional, uses API default if empty)
 
 	// Defaults for the internal LLM call step
-	LLMModel       string  // LLM model ID for the final answer generation
-	LLMTemperature float64 // Temperature for the LLM generation step
-}
-
-// OperationDefaults holds default parameter values for various Volcengine KB operations,
-// grouped by operation type. These are typically configured once when the adapter is created.
-type OperationDefaults struct {
-	Project        string         // Common default: Volcengine project name
-	CollectionName string         // Common default: Volcengine knowledge base collection name
-	Search         SearchDefaults // Defaults for 'search_knowledge'
-	Chat           ChatDefaults   // Defaults for 'chat_completions'
-	Query          QueryDefaults  // Defaults for 'query' (RAG)
+	LLMModel       *string  // LLM model ID for the final answer generation
+	LLMTemperature *float64 // Temperature for the LLM generation step
 }
 
 // OperationHandlerOutput defines what the handler returns to KnowledgeBaseAdapter.Execute.
@@ -166,7 +134,7 @@ func (a *KnowledgeBaseAdapter) registerOperations() {
 	a.RegisterOperation(
 		operationIDSearchKnowledge,
 		&SearchKnowledgeParams{},
-		handleSearchKnowledge,
+		a.handleSearchKnowledge,
 	)
 
 	// Register query operation
@@ -179,7 +147,7 @@ func (a *KnowledgeBaseAdapter) registerOperations() {
 	// Add registrations for other operations here
 }
 
-func handleSearchKnowledge(ctx context.Context, processedParams interface{}) (interface{}, error) {
+func (a *KnowledgeBaseAdapter) handleSearchKnowledge(ctx context.Context, processedParams interface{}) (interface{}, error) {
 	params, ok := processedParams.(*SearchKnowledgeParams)
 	if !ok {
 		return nil, fmt.Errorf("invalid parameters type for %s: expected *SearchKnowledgeParams, got %T", operationIDSearchKnowledge, processedParams)
@@ -189,10 +157,10 @@ func handleSearchKnowledge(ctx context.Context, processedParams interface{}) (in
 
 	// Construct Internal API Request Body using actual types
 	apiRequestBody := &volcenginetypes.SearchKnowledgeRequest{
-		Name:    opDefaults.CollectionName, // Use CollectionName from adapter defaults
-		Project: opDefaults.Project,        // Use Project from adapter defaults
+		Name:    a.baseConfig.CollectionName, // Use CollectionName from adapter defaults
+		Project: a.baseConfig.Project,        // Use Project from adapter defaults
 		Query:   params.Query,
-		Limit:   opDefaults.Search.Limit, // Use adapter's Search default limit
+		Limit:   *a.baseConfig.Search.Limit, // Use adapter's Search default limit
 		// PreProcessing/PostProcessing: Rely on Volcengine API defaults for now, or expose via SearchKnowledgeParams
 	}
 
@@ -204,7 +172,7 @@ func handleSearchKnowledge(ctx context.Context, processedParams interface{}) (in
 	}, nil
 }
 
-func handleChatCompletions(ctx context.Context, processedParams interface{}) (interface{}, error) {
+func (a *KnowledgeBaseAdapter) handleChatCompletions(ctx context.Context, processedParams interface{}) (interface{}, error) {
 	params, ok := processedParams.(*ChatCompletionsParams)
 	if !ok {
 		return nil, fmt.Errorf("invalid parameters type for %s: expected *ChatCompletionsParams, got %T", operationIDChatCompletions, processedParams)
@@ -222,12 +190,12 @@ func handleChatCompletions(ctx context.Context, processedParams interface{}) (in
 	// Prepare optional parameters using Chat defaults
 	var temp *float64
 	// Use Chat.Temperature default
-	if opDefaults.Chat.Temperature >= 0 { // Assuming 0 is a valid temp, check range if needed
-		t := opDefaults.Chat.Temperature
+	if a.baseConfig.Chat.Temperature != nil && *a.baseConfig.Chat.Temperature >= 0 { // Assuming 0 is a valid temp, check range if needed
+		t := *a.baseConfig.Chat.Temperature
 		temp = &t
 	}
 	// Use Chat.Stream default
-	stream := opDefaults.Chat.Stream
+	stream := *a.baseConfig.Chat.Stream
 	// MaxTokens is not currently configurable via defaults, rely on API default
 
 	// Construct Internal API Request Body using actual types
@@ -262,14 +230,14 @@ func (a *KnowledgeBaseAdapter) handleQuery(ctx context.Context, processedParams 
 
 	// Step 1: Search Knowledge
 	searchRequestBody := &volcenginetypes.SearchKnowledgeRequest{
-		Name:    opDefaults.CollectionName,
-		Project: opDefaults.Project,
+		Name:    a.baseConfig.CollectionName,
+		Project: a.baseConfig.Project,
 		Query:   params.Query,
-		Limit:   opDefaults.Query.SearchLimit, // Use Query default SearchLimit for RAG context fetching
+		Limit:   *a.baseConfig.Query.SearchLimit, // Use Query default SearchLimit for RAG context fetching
 	}
 
 	// Configure PreProcessing based on Query defaults and messages
-	if len(params.Messages) > 0 || opDefaults.Query.RewriteQuery {
+	if len(params.Messages) > 0 || *a.baseConfig.Query.RewriteQuery {
 		searchRequestBody.PreProcessing = &volcenginetypes.PreProcessing{}
 		// Add messages if they exist
 		if len(params.Messages) > 0 {
@@ -298,7 +266,7 @@ func (a *KnowledgeBaseAdapter) handleQuery(ctx context.Context, processedParams 
 			searchRequestBody.PreProcessing.Messages = volcApiMessages
 
 			// Enable rewrite only if RewriteQuery default is true AND original user messages exist
-			if opDefaults.Query.RewriteQuery {
+			if *a.baseConfig.Query.RewriteQuery {
 				rewrite := true
 				searchRequestBody.PreProcessing.Rewrite = &rewrite
 			}
@@ -306,16 +274,14 @@ func (a *KnowledgeBaseAdapter) handleQuery(ctx context.Context, processedParams 
 	}
 
 	// Configure PostProcessing based on Query defaults
-	if opDefaults.Query.Rerank {
+	if *a.baseConfig.Query.Rerank {
 		searchRequestBody.PostProcessing = &volcenginetypes.PostProcessing{}
 		rerankSwitch := true
 		searchRequestBody.PostProcessing.RerankSwitch = &rerankSwitch
-		retrieveCount := opDefaults.Query.RerankRetrieveCount
-		searchRequestBody.PostProcessing.RetrieveCount = &retrieveCount
+		searchRequestBody.PostProcessing.RetrieveCount = a.baseConfig.Query.RerankRetrieveCount
 		// Set rerank model only if specified in defaults
-		if opDefaults.Query.RerankModel != "" {
-			rerankModel := opDefaults.Query.RerankModel
-			searchRequestBody.PostProcessing.RerankModel = &rerankModel
+		if a.baseConfig.Query.RerankModel != nil {
+			searchRequestBody.PostProcessing.RerankModel = a.baseConfig.Query.RerankModel
 		}
 		// Other PostProcessing fields (ChunkDiffusionCount, ChunkGroup, RerankOnlyChunk, GetAttachmentLink)
 		// could be added to QueryDefaults and configured here if needed.
@@ -334,7 +300,7 @@ func (a *KnowledgeBaseAdapter) handleQuery(ctx context.Context, processedParams 
 	if err != nil {
 		// Error already wrapped by internal client or needs wrapping
 		if _, ok := err.(*domain.AdapterError); !ok {
-			return nil, domain.NewAdapterError(identifier, searchOperationID, domain.ErrProviderAPIError, fmt.Sprintf("internal knowledge search failed: %v", err), http.StatusInternalServerError)
+			return nil, domain.NewAdapterError(a.ProviderAdapterInfo.Identifier, searchOperationID, domain.ErrProviderAPIError, fmt.Sprintf("internal knowledge search failed: %v", err), http.StatusInternalServerError)
 		}
 		return nil, err // Return existing AdapterError
 	}
@@ -395,12 +361,12 @@ func (a *KnowledgeBaseAdapter) handleQuery(ctx context.Context, processedParams 
 	// Step 4: Call OpenAI
 	// Check for LLM Model configuration removed from here
 	openaiRequest := openai.ChatCompletionNewParams{
-		Model:    opDefaults.Query.LLMModel, // Use Query default LLM model
+		Model:    *a.baseConfig.Query.LLMModel, // Use Query default LLM model
 		Messages: apiMessages,
 	}
 	// Apply Query default LLM temperature if set
-	if opDefaults.Query.LLMTemperature >= 0 { // Assuming 0 is valid
-		openaiRequest.Temperature = openai.Float(opDefaults.Query.LLMTemperature)
+	if a.baseConfig.Query.LLMTemperature != nil && *a.baseConfig.Query.LLMTemperature >= 0 { // Assuming 0 is valid
+		openaiRequest.Temperature = openai.Float(*a.baseConfig.Query.LLMTemperature)
 	}
 	// Apply default stream setting if needed (currently not used for RAG response)
 	// if a.defaults.Stream { // Which stream default? Chat? Query?
@@ -409,13 +375,13 @@ func (a *KnowledgeBaseAdapter) handleQuery(ctx context.Context, processedParams 
 	if err != nil {
 		// Map OpenAI errors (e.g., rate limits, auth) to AdapterError codes if possible.
 		// TODO: Implement more specific error mapping based on OpenAI error types/codes.
-		return nil, domain.NewAdapterError(identifier, operationIDQuery, domain.ErrLLMProviderError, fmt.Sprintf("OpenAI API call failed: %v", err), http.StatusInternalServerError)
+		return nil, domain.NewAdapterError(a.ProviderAdapterInfo.Identifier, operationIDQuery, domain.ErrLLMProviderError, fmt.Sprintf("OpenAI API call failed: %v", err), http.StatusInternalServerError)
 	}
 
 	// Step 5: Process OpenAI Response and Return Updated Messages
 	if len(openaiResponse.Choices) == 0 || openaiResponse.Choices[0].Message.Content == "" {
 		// Handle cases where OpenAI returns no response or empty content
-		return nil, domain.NewAdapterError(identifier, operationIDQuery, domain.ErrLLMEmptyResponse, "OpenAI returned no usable response", http.StatusInternalServerError)
+		return nil, domain.NewAdapterError(a.ProviderAdapterInfo.Identifier, operationIDQuery, domain.ErrLLMEmptyResponse, "OpenAI returned no usable response", http.StatusInternalServerError)
 	}
 
 	// Extract the assistant's response content

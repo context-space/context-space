@@ -7,7 +7,7 @@ import (
 	"github.com/context-space/context-space/backend/internal/provideradapter/domain"
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/registry"
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/rest"
-	providercore "github.com/context-space/context-space/backend/internal/providercore/domain"
+	"github.com/context-space/context-space/backend/internal/shared/types"
 )
 
 const (
@@ -72,7 +72,7 @@ func (t *FetchTemplate) ValidateConfig(provider *domain.ProviderAdapterConfig) e
 		return fmt.Errorf("invalid provider identifier, must be '%s'", identifier)
 	}
 
-	if provider.AuthType != providercore.AuthTypeNone {
+	if provider.AuthType != types.AuthTypeNone {
 		return fmt.Errorf("invalid or missing auth_type, must be 'apikey'")
 	}
 

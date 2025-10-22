@@ -234,12 +234,12 @@ func (_c *MockProviderRepository_GetByIdentifier_Call) RunAndReturn(run func(con
 	return _c
 }
 
-// List provides a mock function with given fields: ctx
-func (_m *MockProviderRepository) List(ctx context.Context) ([]*domain.Provider, error) {
+// ListBasicProviders provides a mock function with given fields: ctx
+func (_m *MockProviderRepository) ListBasicProviders(ctx context.Context) ([]*domain.Provider, error) {
 	ret := _m.Called(ctx)
 
 	if len(ret) == 0 {
-		panic("no return value specified for List")
+		panic("no return value specified for ListBasicProviders")
 	}
 
 	var r0 []*domain.Provider
@@ -264,30 +264,195 @@ func (_m *MockProviderRepository) List(ctx context.Context) ([]*domain.Provider,
 	return r0, r1
 }
 
-// MockProviderRepository_List_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'List'
-type MockProviderRepository_List_Call struct {
+// MockProviderRepository_ListBasicProviders_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListBasicProviders'
+type MockProviderRepository_ListBasicProviders_Call struct {
 	*mock.Call
 }
 
-// List is a helper method to define mock.On call
+// ListBasicProviders is a helper method to define mock.On call
 //   - ctx context.Context
-func (_e *MockProviderRepository_Expecter) List(ctx interface{}) *MockProviderRepository_List_Call {
-	return &MockProviderRepository_List_Call{Call: _e.mock.On("List", ctx)}
+func (_e *MockProviderRepository_Expecter) ListBasicProviders(ctx interface{}) *MockProviderRepository_ListBasicProviders_Call {
+	return &MockProviderRepository_ListBasicProviders_Call{Call: _e.mock.On("ListBasicProviders", ctx)}
 }
 
-func (_c *MockProviderRepository_List_Call) Run(run func(ctx context.Context)) *MockProviderRepository_List_Call {
+func (_c *MockProviderRepository_ListBasicProviders_Call) Run(run func(ctx context.Context)) *MockProviderRepository_ListBasicProviders_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		run(args[0].(context.Context))
 	})
 	return _c
 }
 
-func (_c *MockProviderRepository_List_Call) Return(_a0 []*domain.Provider, _a1 error) *MockProviderRepository_List_Call {
+func (_c *MockProviderRepository_ListBasicProviders_Call) Return(_a0 []*domain.Provider, _a1 error) *MockProviderRepository_ListBasicProviders_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *MockProviderRepository_List_Call) RunAndReturn(run func(context.Context) ([]*domain.Provider, error)) *MockProviderRepository_List_Call {
+func (_c *MockProviderRepository_ListBasicProviders_Call) RunAndReturn(run func(context.Context) ([]*domain.Provider, error)) *MockProviderRepository_ListBasicProviders_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListByIDs provides a mock function with given fields: ctx, ids
+func (_m *MockProviderRepository) ListByIDs(ctx context.Context, ids []string) ([]*domain.Provider, error) {
+	ret := _m.Called(ctx, ids)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListByIDs")
+	}
+
+	var r0 []*domain.Provider
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, []string) ([]*domain.Provider, error)); ok {
+		return rf(ctx, ids)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, []string) []*domain.Provider); ok {
+		r0 = rf(ctx, ids)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]*domain.Provider)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, []string) error); ok {
+		r1 = rf(ctx, ids)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockProviderRepository_ListByIDs_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListByIDs'
+type MockProviderRepository_ListByIDs_Call struct {
+	*mock.Call
+}
+
+// ListByIDs is a helper method to define mock.On call
+//   - ctx context.Context
+//   - ids []string
+func (_e *MockProviderRepository_Expecter) ListByIDs(ctx interface{}, ids interface{}) *MockProviderRepository_ListByIDs_Call {
+	return &MockProviderRepository_ListByIDs_Call{Call: _e.mock.On("ListByIDs", ctx, ids)}
+}
+
+func (_c *MockProviderRepository_ListByIDs_Call) Run(run func(ctx context.Context, ids []string)) *MockProviderRepository_ListByIDs_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context), args[1].([]string))
+	})
+	return _c
+}
+
+func (_c *MockProviderRepository_ListByIDs_Call) Return(_a0 []*domain.Provider, _a1 error) *MockProviderRepository_ListByIDs_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockProviderRepository_ListByIDs_Call) RunAndReturn(run func(context.Context, []string) ([]*domain.Provider, error)) *MockProviderRepository_ListByIDs_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListFullProviders provides a mock function with given fields: ctx
+func (_m *MockProviderRepository) ListFullProviders(ctx context.Context) ([]*domain.Provider, error) {
+	ret := _m.Called(ctx)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListFullProviders")
+	}
+
+	var r0 []*domain.Provider
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context) ([]*domain.Provider, error)); ok {
+		return rf(ctx)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context) []*domain.Provider); ok {
+		r0 = rf(ctx)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]*domain.Provider)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
+		r1 = rf(ctx)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockProviderRepository_ListFullProviders_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListFullProviders'
+type MockProviderRepository_ListFullProviders_Call struct {
+	*mock.Call
+}
+
+// ListFullProviders is a helper method to define mock.On call
+//   - ctx context.Context
+func (_e *MockProviderRepository_Expecter) ListFullProviders(ctx interface{}) *MockProviderRepository_ListFullProviders_Call {
+	return &MockProviderRepository_ListFullProviders_Call{Call: _e.mock.On("ListFullProviders", ctx)}
+}
+
+func (_c *MockProviderRepository_ListFullProviders_Call) Run(run func(ctx context.Context)) *MockProviderRepository_ListFullProviders_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context))
+	})
+	return _c
+}
+
+func (_c *MockProviderRepository_ListFullProviders_Call) Return(_a0 []*domain.Provider, _a1 error) *MockProviderRepository_ListFullProviders_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockProviderRepository_ListFullProviders_Call) RunAndReturn(run func(context.Context) ([]*domain.Provider, error)) *MockProviderRepository_ListFullProviders_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// SyncTagsToProvider provides a mock function with given fields: ctx, providerIdentifier, tags
+func (_m *MockProviderRepository) SyncTagsToProvider(ctx context.Context, providerIdentifier string, tags []string) error {
+	ret := _m.Called(ctx, providerIdentifier, tags)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SyncTagsToProvider")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string, []string) error); ok {
+		r0 = rf(ctx, providerIdentifier, tags)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// MockProviderRepository_SyncTagsToProvider_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SyncTagsToProvider'
+type MockProviderRepository_SyncTagsToProvider_Call struct {
+	*mock.Call
+}
+
+// SyncTagsToProvider is a helper method to define mock.On call
+//   - ctx context.Context
+//   - providerIdentifier string
+//   - tags []string
+func (_e *MockProviderRepository_Expecter) SyncTagsToProvider(ctx interface{}, providerIdentifier interface{}, tags interface{}) *MockProviderRepository_SyncTagsToProvider_Call {
+	return &MockProviderRepository_SyncTagsToProvider_Call{Call: _e.mock.On("SyncTagsToProvider", ctx, providerIdentifier, tags)}
+}
+
+func (_c *MockProviderRepository_SyncTagsToProvider_Call) Run(run func(ctx context.Context, providerIdentifier string, tags []string)) *MockProviderRepository_SyncTagsToProvider_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context), args[1].(string), args[2].([]string))
+	})
+	return _c
+}
+
+func (_c *MockProviderRepository_SyncTagsToProvider_Call) Return(_a0 error) *MockProviderRepository_SyncTagsToProvider_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *MockProviderRepository_SyncTagsToProvider_Call) RunAndReturn(run func(context.Context, string, []string) error) *MockProviderRepository_SyncTagsToProvider_Call {
 	_c.Call.Return(run)
 	return _c
 }

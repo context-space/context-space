@@ -11,7 +11,6 @@ import (
 	credDomain "github.com/context-space/context-space/backend/internal/credentialmanagement/domain"
 	"github.com/context-space/context-space/backend/internal/provideradapter/domain"
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/base"
-	providercore "github.com/context-space/context-space/backend/internal/providercore/domain"
 	"github.com/context-space/context-space/backend/internal/shared/utils"
 )
 
@@ -41,10 +40,10 @@ type OperationDefaults struct {
 type FigmaAdapter struct {
 	*base.BaseAdapter
 	oauthConfig   *domain.OAuthConfig
-	restAdapter   domain.Adapter             // The underlying REST adapter instance
-	defaults      *OperationDefaults         // Operation defaults struct defined above
-	operations    Operations                 // Map of operation ID to definition defined in _operations.go.tmpl
-	permissionSet providercore.PermissionSet // Permission set defined in providercore
+	restAdapter   domain.Adapter       // The underlying REST adapter instance
+	defaults      *OperationDefaults   // Operation defaults struct defined above
+	operations    Operations           // Map of operation ID to definition defined in _operations.go.tmpl
+	permissionSet domain.PermissionSet // Permission set defined in providercore
 }
 
 // NewFigmaAdapter creates a new Figma adapter.
@@ -54,7 +53,7 @@ func NewFigmaAdapter(
 	oauthConfig *domain.OAuthConfig,
 	restAdapter domain.Adapter,
 	defaults *OperationDefaults,
-	permissions providercore.PermissionSet,
+	permissions domain.PermissionSet,
 ) *FigmaAdapter {
 	baseAdapter := base.NewBaseAdapter(providerInfo, config)
 

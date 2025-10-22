@@ -6,9 +6,9 @@ import (
 
 	"github.com/context-space/context-space/backend/internal/provideradapter/domain"
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/rest"
+	"github.com/context-space/context-space/backend/internal/shared/types"
 
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/registry"
-	providercore "github.com/context-space/context-space/backend/internal/providercore/domain"
 )
 
 const (
@@ -76,7 +76,7 @@ func (t *SearchTemplate) ValidateConfig(provider *domain.ProviderAdapterConfig) 
 	}
 
 	// Validate auth_type type and value (must be "none")
-	if provider.AuthType != providercore.AuthTypeNone {
+	if provider.AuthType != types.AuthTypeNone {
 		return fmt.Errorf("invalid auth_type, must be 'none'")
 	}
 

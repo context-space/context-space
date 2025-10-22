@@ -7,6 +7,7 @@ import (
 
 	observability "github.com/context-space/cloud-observability"
 	"github.com/context-space/context-space/backend/internal/provideradapter/domain"
+	"github.com/context-space/context-space/backend/internal/shared/types"
 	"go.uber.org/zap"
 )
 
@@ -20,7 +21,7 @@ type ProviderLoadMetadata struct {
 
 // ProviderLoaderService coordinate provider loading operations across domains
 type ProviderLoaderService struct {
-	coreDataProvider domain.ProviderCoreDataProvider
+	coreDataProvider domain.ProvidercoreAcl
 	configRepository domain.ProviderAdapterConfigRepository
 	loader           domain.ProviderAdapterLoader
 	obs              *observability.ObservabilityProvider
@@ -29,7 +30,7 @@ type ProviderLoaderService struct {
 
 // NewProviderLoaderService create a new provider loader service
 func NewProviderLoaderService(
-	coreDataProvider domain.ProviderCoreDataProvider,
+	coreDataProvider domain.ProvidercoreAcl,
 	configRepository domain.ProviderAdapterConfigRepository,
 	loader domain.ProviderAdapterLoader,
 	obs *observability.ObservabilityProvider,
@@ -47,7 +48,7 @@ func (s *ProviderLoaderService) LoadAllProviders(ctx context.Context) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	// 1. get all provider infos from ProviderCore
+	// 1. get all provider infos from ProviderCore (use English for loading)
 	providerInfos, err := s.coreDataProvider.ListProviders(ctx)
 	if err != nil {
 		return fmt.Errorf("failed to get provider infos from core: %w", err)
@@ -74,11 +75,9 @@ func (s *ProviderLoaderService) LoadAllProviders(ctx context.Context) error {
 
 		config.Identifier = providerInfo.Identifier
 		config.Name = providerInfo.Name
-		config.Status = providerInfo.Status
+		config.Status = types.ProviderStatus(providerInfo.Status)
 		config.Description = providerInfo.Description
-		config.AuthType = providerInfo.AuthType
-		config.Permissions = providerInfo.Permissions
-		config.Operations = providerInfo.Operations
+		config.AuthType = types.ProviderAuthType(providerInfo.AuthType)
 		err = s.loader.LoadProvider(&config)
 		if err != nil {
 			s.obs.Logger.Error(ctx, "failed to load provider", zap.Error(err))
@@ -115,24 +114,22 @@ func (s *ProviderLoaderService) ReloadProvider(ctx context.Context, identifier s
 		return fmt.Errorf("failed to unload provider %s: %w", identifier, err)
 	}
 
-	// 1. get provider info from ProviderCore
-	providerInfo, err := s.coreDataProvider.GetProviderCoreData(ctx, identifier)
+	// 1. get provider info from ProviderCore (use English for loading)
+	providerInfo, err := s.coreDataProvider.GetProvidercoreDataWithoutTranslation(ctx, identifier)
 	if err != nil {
 		return fmt.Errorf("failed to get provider info for %s: %w", identifier, err)
 	}
 
 	// 2. get adapter config from ProviderAdapter
-	config, err := s.configRepository.GetByIdentifier(ctx, identifier)
+	config, err := s.configRepository.GetByIdentifierWithoutCache(ctx, identifier)
 	if err != nil {
 		return fmt.Errorf("failed to get adapter config for %s: %w", identifier, err)
 	}
 	config.Identifier = providerInfo.Identifier
 	config.Name = providerInfo.Name
-	config.Status = providerInfo.Status
+	config.Status = types.ProviderStatus(providerInfo.Status)
 	config.Description = providerInfo.Description
-	config.AuthType = providerInfo.AuthType
-	config.Permissions = providerInfo.Permissions
-	config.Operations = providerInfo.Operations
+	config.AuthType = types.ProviderAuthType(providerInfo.AuthType)
 
 	// 3. execute loading
 	if err := s.loader.LoadProvider(config); err != nil {

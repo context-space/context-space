@@ -12,8 +12,14 @@ type ProviderRepository interface {
 	// GetByIdentifier returns a provider by identifier
 	GetByIdentifier(ctx context.Context, identifier string) (*Provider, error)
 
-	// List returns all providers
-	List(ctx context.Context) ([]*Provider, error)
+	// ListFullProviders returns all providers with operations
+	ListFullProviders(ctx context.Context) ([]*Provider, error)
+
+	// ListBasicProviders returns all providers without operations
+	ListBasicProviders(ctx context.Context) ([]*Provider, error)
+
+	// ListByIDs returns a list of providers by IDs
+	ListByIDs(ctx context.Context, ids []string) ([]*Provider, error)
 
 	// Create creates a new provider
 	Create(ctx context.Context, provider *Provider) error
@@ -38,6 +44,9 @@ type OperationRepository interface {
 
 	// GetByProviderIDAndIdentifier returns an operation by provider ID and identifier
 	GetByProviderIDAndIdentifier(ctx context.Context, providerID, identifier string) (*Operation, error)
+
+	// ListByIDs returns a list of operations by IDs
+	ListByIDs(ctx context.Context, ids []string) ([]*Operation, error)
 
 	// Create creates a new operation
 	Create(ctx context.Context, operation *Operation) error

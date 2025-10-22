@@ -34,7 +34,7 @@ This module provides a unified adapter for the Amap (Gaode Map) API in the Conte
 providerInfo := &domain.ProviderAdapterInfo{
     Identifier: "amap",
     Name:       "Amap API",
-    AuthType:   providercore.AuthTypeAPIKey,
+    AuthType:   types.AuthTypeApiKey,
     Status:     providercore.ProviderStatusActive,
 }
 adapterConfig := &domain.AdapterConfig{Timeout: 10 * time.Second}

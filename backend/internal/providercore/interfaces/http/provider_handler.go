@@ -3,10 +3,11 @@ package http
 import (
 	observability "github.com/context-space/cloud-observability"
 	"github.com/context-space/context-space/backend/internal/providercore/application"
-	"github.com/context-space/context-space/backend/internal/providercore/domain"
-	"github.com/context-space/context-space/backend/internal/providercore/interfaces/http/middleware"
 	"github.com/context-space/context-space/backend/internal/shared/apierrors"
+	contractProvider "github.com/context-space/context-space/backend/internal/shared/contract/providercore"
 	httpapi "github.com/context-space/context-space/backend/internal/shared/interfaces/http"
+	"github.com/context-space/context-space/backend/internal/shared/interfaces/http/middleware"
+	"github.com/context-space/context-space/backend/internal/shared/types"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/text/language"
 )
@@ -41,7 +42,7 @@ func (h *ProviderHandler) RegisterRoutes(router *gin.RouterGroup) {
 // Falls back to parsing Accept-Language header if middleware is not used
 func getPreferredLanguage(c *gin.Context) language.Tag {
 	// First try to get from context (set by middleware)
-	if lang, exists := c.Get(string(domain.PreferredLanguageKey)); exists {
+	if lang, exists := c.Get(string(middleware.PreferredLanguageKey)); exists {
 		if langTag, ok := lang.(language.Tag); ok {
 			return langTag
 		}
@@ -63,47 +64,17 @@ func getPreferredLanguage(c *gin.Context) language.Tag {
 	return tags[0] // Return the highest priority language
 }
 
-// OperationResponse represents an operation in provider response
-type OperationResponse struct {
-	ID                  string               `json:"id"`
-	Identifier          string               `json:"identifier"`
-	Name                string               `json:"name"`
-	Description         string               `json:"description"`
-	Category            string               `json:"category"`
-	RequiredPermissions []PermissionResponse `json:"required_permissions"`
-	Parameters          []ParameterResponse  `json:"parameters,omitempty"`
-}
-
-// ParameterResponse represents a parameter in operation response
-type ParameterResponse struct {
-	Name        string      `json:"name"`
-	Type        string      `json:"type"`
-	Description string      `json:"description"`
-	Required    bool        `json:"required"`
-	Enum        []string    `json:"enum,omitempty"`
-	Default     interface{} `json:"default,omitempty"`
-}
-
-// PermissionResponse represents a permission in provider response
-type PermissionResponse struct {
-	Identifier  string `json:"identifier"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-}
-
 // ProviderResponse represents the provider response
 type ProviderResponse struct {
-	ID          string               `json:"id"`
-	Identifier  string               `json:"identifier"`
-	Name        string               `json:"name"`
-	Description string               `json:"description"`
-	AuthType    string               `json:"auth_type"`
-	Status      string               `json:"status"`
-	IconURL     string               `json:"icon_url"`
-	ApiDocURL   string               `json:"api_doc_url"`
-	Categories  []string             `json:"categories"`
-	Permissions []PermissionResponse `json:"permissions"`
-	Operations  []OperationResponse  `json:"operations"`
+	ID          string   `json:"id"`
+	Identifier  string   `json:"identifier"`
+	Name        string   `json:"name"`
+	Description string   `json:"description"`
+	AuthType    string   `json:"auth_type"`
+	Status      string   `json:"status"`
+	IconURL     string   `json:"icon_url"`
+	ApiDocURL   string   `json:"api_doc_url"`
+	Categories  []string `json:"categories"`
 }
 
 // BriefProviderResponse represents a brief provider response
@@ -121,98 +92,33 @@ type BriefProviderResponse struct {
 }
 
 // mapProviderToResponse maps a domain provider to a provider response
-func mapProviderToResponse(provider *domain.Provider, lang language.Tag) ProviderResponse {
-	// Get translated provider
-	translatedProvider := provider.GetTranslation(lang)
-	// Map operations
-	operations := make([]OperationResponse, len(translatedProvider.Operations))
-	for i, op := range translatedProvider.Operations {
-		parameters := make([]ParameterResponse, len(op.Parameters))
-		for j, param := range op.Parameters {
-			parameters[j] = ParameterResponse{
-				Name:        param.Name,
-				Type:        string(param.Type),
-				Description: param.Description,
-				Required:    param.Required,
-				Enum:        param.Enum,
-				Default:     param.Default,
-			}
-		}
-		permissions := make([]PermissionResponse, len(op.RequiredPermissions))
-		for j, permDef := range op.RequiredPermissions {
-			// Find the translated permission by identifier
-			var translatedPerm domain.Permission
-			found := false
-			for _, p := range translatedProvider.Permissions {
-				if p.Identifier == permDef.Identifier {
-					translatedPerm = p
-					found = true
-					break
-				}
-			}
-			if !found {
-				// Fallback to original permission if translation not found
-				translatedPerm = permDef
-			}
-
-			permissions[j] = PermissionResponse{
-				Identifier:  translatedPerm.Identifier,
-				Name:        translatedPerm.Name,
-				Description: translatedPerm.Description,
-			}
-		}
-		operations[i] = OperationResponse{
-			ID:                  op.ID,
-			Identifier:          op.Identifier,
-			Name:                op.Name,
-			Description:         op.Description,
-			Category:            op.Category,
-			RequiredPermissions: permissions,
-			Parameters:          parameters,
-		}
-	}
-
-	// Map permissions
-	permissions := make([]PermissionResponse, len(translatedProvider.Permissions))
-	for i, perm := range translatedProvider.Permissions {
-		permissions[i] = PermissionResponse{
-			Identifier:  perm.Identifier,
-			Name:        perm.Name,
-			Description: perm.Description,
-		}
-	}
-
+func mapProviderToResponse(providerDTO *contractProvider.ProviderDTO) ProviderResponse {
 	return ProviderResponse{
-		ID:          translatedProvider.ID,
-		Identifier:  translatedProvider.Identifier,
-		Name:        translatedProvider.Name,
-		Description: translatedProvider.Description,
-		AuthType:    string(translatedProvider.AuthType),
-		Status:      string(translatedProvider.Status),
-		IconURL:     translatedProvider.IconURL,
-		ApiDocURL:   translatedProvider.ApiDocURL,
-		Categories:  translatedProvider.Categories,
-		Permissions: permissions,
-		Operations:  operations,
+		ID:          providerDTO.ID,
+		Identifier:  providerDTO.Identifier,
+		Name:        providerDTO.Name,
+		Description: providerDTO.Description,
+		AuthType:    string(providerDTO.AuthType),
+		Status:      string(providerDTO.Status),
+		IconURL:     providerDTO.IconURL,
+		ApiDocURL:   providerDTO.ApiDocURL,
+		Categories:  providerDTO.Categories,
 	}
 }
 
 // mapProviderToBriefResponse maps a domain provider to a brief provider response
-func mapProviderToBriefResponse(provider *domain.Provider, lang language.Tag) BriefProviderResponse {
-	// Get translated provider
-	translatedProvider := provider.GetTranslation(lang)
-
+func mapProviderToBriefResponse(providerDTO *contractProvider.ProviderDTO) BriefProviderResponse {
 	return BriefProviderResponse{
-		ID:          translatedProvider.ID,
-		Identifier:  translatedProvider.Identifier,
-		Name:        translatedProvider.Name,
-		Description: translatedProvider.Description,
-		AuthType:    string(translatedProvider.AuthType),
-		Status:      string(translatedProvider.Status),
-		IconURL:     translatedProvider.IconURL,
-		ApiDocURL:   translatedProvider.ApiDocURL,
-		Categories:  translatedProvider.Categories,
-		Tags:        translatedProvider.Tags,
+		ID:          providerDTO.ID,
+		Identifier:  providerDTO.Identifier,
+		Name:        providerDTO.Name,
+		Description: providerDTO.Description,
+		AuthType:    string(providerDTO.AuthType),
+		Status:      string(providerDTO.Status),
+		IconURL:     providerDTO.IconURL,
+		ApiDocURL:   providerDTO.ApiDocURL,
+		Categories:  providerDTO.Categories,
+		Tags:        providerDTO.Tags,
 	}
 }
 
@@ -232,7 +138,6 @@ type ListProvidersResponse struct {
 // @Router /providers [get]
 func (h *ProviderHandler) ListProviders(c *gin.Context) {
 	ctx := c.Request.Context()
-	preferredLang := getPreferredLanguage(c)
 
 	providers, err := h.providerService.ListProviders(ctx)
 	if err != nil {
@@ -243,10 +148,10 @@ func (h *ProviderHandler) ListProviders(c *gin.Context) {
 	// Map to response
 	providerResponses := make([]BriefProviderResponse, 0, len(providers))
 	for _, provider := range providers {
-		if provider.Status == domain.ProviderStatusDeprecated {
+		if provider.Status == string(types.ProviderStatusDeprecated) {
 			continue
 		}
-		providerResponses = append(providerResponses, mapProviderToBriefResponse(provider, preferredLang))
+		providerResponses = append(providerResponses, mapProviderToBriefResponse(provider))
 	}
 
 	httpapi.OK(c, ListProvidersResponse{
@@ -270,7 +175,7 @@ func (h *ProviderHandler) GetProviderByIdentifier(c *gin.Context) {
 	identifier := c.Param("identifier")
 	preferredLang := getPreferredLanguage(c)
 
-	provider, err := h.providerService.GetProviderByIdentifier(ctx, identifier)
+	provider, err := h.providerService.GetProviderWithTranslation(ctx, identifier, preferredLang)
 	if err != nil {
 		if apiErr, ok := err.(*apierrors.APIError); ok && apiErr.Code == apierrors.ErrNotFound {
 			httpapi.NotFound(c, "Provider not found")
@@ -280,7 +185,7 @@ func (h *ProviderHandler) GetProviderByIdentifier(c *gin.Context) {
 		return
 	}
 
-	httpapi.OK(c, mapProviderToResponse(provider, preferredLang), "Provider retrieved successfully")
+	httpapi.OK(c, mapProviderToResponse(provider), "Provider retrieved successfully")
 }
 
 // CategoriesResponse represents the response for listing provider categories
@@ -439,17 +344,17 @@ func (h *ProviderHandler) FilterProviders(c *gin.Context) {
 	}
 
 	// Convert auth_type string to domain type
-	var authType domain.ProviderAuthType
+	var authType types.ProviderAuthType
 	if req.Filters.AuthType != "" {
 		switch req.Filters.AuthType {
 		case "oauth":
-			authType = domain.AuthTypeOAuth
+			authType = types.AuthTypeOAuth
 		case "apikey":
-			authType = domain.AuthTypeAPIKey
+			authType = types.AuthTypeAPIKey
 		case "basic":
-			authType = domain.AuthTypeBasic
+			authType = types.AuthTypeBasic
 		case "none":
-			authType = domain.AuthTypeNone
+			authType = types.AuthTypeNone
 		}
 	}
 
@@ -464,7 +369,7 @@ func (h *ProviderHandler) FilterProviders(c *gin.Context) {
 		SortOrder:    req.Sort.Order,
 	}
 
-	result, err := h.providerService.FilterProviders(ctx, params)
+	result, err := h.providerService.FilterProviders(ctx, params, preferredLang)
 	if err != nil {
 		httpapi.InternalServerError(c, "Failed to filter providers")
 		return
@@ -473,10 +378,7 @@ func (h *ProviderHandler) FilterProviders(c *gin.Context) {
 	// Map providers to response
 	providerResponses := make([]BriefProviderResponse, 0, len(result.Providers))
 	for _, provider := range result.Providers {
-		if provider.Status == domain.ProviderStatusDeprecated {
-			continue
-		}
-		providerResponses = append(providerResponses, mapProviderToBriefResponse(provider, preferredLang))
+		providerResponses = append(providerResponses, mapProviderToBriefResponse(provider))
 	}
 
 	// Build response

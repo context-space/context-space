@@ -8,7 +8,7 @@ import (
 	"github.com/context-space/context-space/backend/internal/provideradapter/domain"
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/base"
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/registry"
-	providercore "github.com/context-space/context-space/backend/internal/providercore/domain"
+	"github.com/context-space/context-space/backend/internal/shared/types"
 )
 
 // MCPTemplateRegistry holds all registered MCP templates
@@ -33,8 +33,6 @@ func (t *MCPTemplate) CreateAdapter(provider *domain.ProviderAdapterConfig) (dom
 		Name:        provider.Name,
 		Description: provider.Description,
 		AuthType:    provider.AuthType,
-		Permissions: provider.Permissions,
-		Operations:  provider.Operations,
 		Status:      provider.Status,
 	}
 
@@ -150,7 +148,7 @@ func (t *MCPTemplate) ValidateConfig(provider *domain.ProviderAdapterConfig) err
 
 	// Validate auth type is supported
 	switch provider.AuthType {
-	case providercore.AuthTypeNone, providercore.AuthTypeAPIKey:
+	case types.AuthTypeNone, types.AuthTypeAPIKey:
 		// Supported auth types
 	default:
 		return fmt.Errorf("unsupported auth type: %s", provider.AuthType)
@@ -250,6 +248,7 @@ var DefaultMCPTemplates = map[string]*MCPTemplate{
 			},
 		},
 	},
+
 	"context7_mcp": {
 		Identifier: "context7_mcp",
 		DefaultConfig: MCPAdapterConfig{
@@ -386,6 +385,13 @@ var DefaultMCPTemplates = map[string]*MCPTemplate{
 			},
 		},
 	},
+	"postgre_sql_mcp": {
+		Identifier: "postgre_sql_mcp",
+		DefaultConfig: MCPAdapterConfig{
+			Command: "npx",
+			Args:    []string{"-y", "@modelcontextprotocol/server-postgres@0.6.2", "postgresql://localhost/mydb"},
+		},
+	},
 	"duckduckgo_mcp": {
 		Identifier: "duckduckgo_mcp",
 		DefaultConfig: MCPAdapterConfig{
@@ -452,6 +458,89 @@ var DefaultMCPTemplates = map[string]*MCPTemplate{
 		DefaultConfig: MCPAdapterConfig{
 			Command: "uvx",
 			Args:    []string{"mcp-server-calculator@0.1.1"},
+		},
+	},
+	"jina_mcp": {
+		Identifier: "jina_mcp",
+		DefaultConfig: MCPAdapterConfig{
+			Command: "npx",
+			Args:    []string{"jina-mcp-tools@1.1.1"},
+			CredentialMappings: map[string]string{
+				"apikey": "env:JINA_API_KEY",
+			},
+			DummyCredentials: map[string]string{
+				"apikey": "dummy_jina_api_key",
+			},
+		},
+	},
+	"baidu_map_mcp": {
+		Identifier: "baidu_map_mcp",
+		DefaultConfig: MCPAdapterConfig{
+			Command: "npx",
+			Args:    []string{"-y", "@baidumap/mcp-server-baidu-map@1.0.5"},
+			CredentialMappings: map[string]string{
+				"apikey": "env:BAIDU_MAP_API_KEY",
+			},
+			DummyCredentials: map[string]string{
+				"apikey": "dummy_baidu_map_api_key",
+			},
+		},
+	},
+	"google_scholar_mcp": {
+		Identifier: "google_scholar_mcp",
+		DefaultConfig: MCPAdapterConfig{
+			Command: "uvx",
+			Args:    []string{"google-scholar-mcp-server@0.1.3"},
+		},
+	},
+	"search1api_mcp": {
+		Identifier: "search1api_mcp",
+		DefaultConfig: MCPAdapterConfig{
+			Command: "npx",
+			Args:    []string{"-y", "search1api-mcp@0.1.8"},
+			CredentialMappings: map[string]string{
+				"apikey": "env:SEARCH1API_KEY",
+			},
+			DummyCredentials: map[string]string{
+				"apikey": "dummy_search1api_api_key",
+			},
+		},
+	},
+	"gitlab_mcp": {
+		Identifier: "gitlab_mcp",
+		DefaultConfig: MCPAdapterConfig{
+			Command: "npx",
+			Args:    []string{"-y", "@modelcontextprotocol/server-gitlab@2025.4.25"},
+			Envs: map[string]string{
+				"GITLAB_API_URL": "https://gitlab.com/api/v4",
+			},
+			CredentialMappings: map[string]string{
+				"apikey": "env:GITLAB_PERSONAL_ACCESS_TOKEN",
+			},
+			DummyCredentials: map[string]string{
+				"apikey": "dummy_gitlab_personal_access_token",
+			},
+		},
+	},
+	"antv_mcp": {
+		Identifier: "antv_mcp",
+		DefaultConfig: MCPAdapterConfig{
+			Command: "npx",
+			Args:    []string{"-y", "@antv/mcp-server-chart@0.8.0"},
+		},
+	},
+	"tavily_mcp": {
+		Identifier: "tavily_mcp",
+		DefaultConfig: MCPAdapterConfig{
+			Command: "npx",
+			Args:    []string{"-y", "tavily-mcp@0.2.9"},
+		},
+	},
+	"web3_research_mcp": {
+		Identifier: "web3_research_mcp",
+		DefaultConfig: MCPAdapterConfig{
+			Command: "npx",
+			Args:    []string{"-y", "web3-research-mcp@1.0.1"},
 		},
 	},
 }

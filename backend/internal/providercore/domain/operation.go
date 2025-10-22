@@ -3,6 +3,7 @@ package domain
 import (
 	"time"
 
+	"github.com/context-space/context-space/backend/internal/shared/types"
 	"github.com/google/uuid"
 )
 
@@ -14,15 +15,16 @@ type Operation struct {
 	Name                string
 	Description         string
 	Category            string
-	RequiredPermissions []Permission
+	RequiredPermissions []types.Permission
 	Parameters          []Parameter
+	Embedding           []float64 // Vector embedding for semantic search
 	CreatedAt           time.Time
 	UpdatedAt           time.Time
 	DeletedAt           *time.Time
 }
 
 // NewOperation creates a new operation
-func NewOperation(identifier, providerID, name, description, category string, requiredPermissions []Permission, parameters []Parameter) *Operation {
+func NewOperation(identifier, providerID, name, description, category string, requiredPermissions []types.Permission, parameters []Parameter) *Operation {
 	return &Operation{
 		ID:                  uuid.New().String(),
 		Identifier:          identifier,

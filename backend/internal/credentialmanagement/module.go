@@ -6,12 +6,14 @@ import (
 	observability "github.com/context-space/cloud-observability"
 	"github.com/context-space/context-space/backend/internal/credentialmanagement/application"
 	"github.com/context-space/context-space/backend/internal/credentialmanagement/domain"
-	"github.com/context-space/context-space/backend/internal/credentialmanagement/infrastructure/adapter"
+	"github.com/context-space/context-space/backend/internal/credentialmanagement/infrastructure/acl"
 	"github.com/context-space/context-space/backend/internal/credentialmanagement/infrastructure/persistence"
 	"github.com/context-space/context-space/backend/internal/credentialmanagement/infrastructure/vault"
+	"github.com/context-space/context-space/backend/internal/credentialmanagement/interfaces/contract"
 	"github.com/context-space/context-space/backend/internal/credentialmanagement/interfaces/http"
-	provideradapterApp "github.com/context-space/context-space/backend/internal/provideradapter/application"
 	"github.com/context-space/context-space/backend/internal/shared/config"
+	contractCredential "github.com/context-space/context-space/backend/internal/shared/contract/credentialmanagement"
+	contractAdapter "github.com/context-space/context-space/backend/internal/shared/contract/provideradapter"
 	"github.com/context-space/context-space/backend/internal/shared/events"
 	"github.com/context-space/context-space/backend/internal/shared/infrastructure/cache"
 	"github.com/context-space/context-space/backend/internal/shared/infrastructure/database"
@@ -21,13 +23,14 @@ import (
 
 // Module holds all components for the credential management bounded context
 type Module struct {
-	CredentialService    *application.CredentialService
-	CredentialHandler    *http.CredentialHandler
-	OAuthStateService    domain.OAuthStateService
-	tokenRefreshService  domain.TokenRefresh
-	credentialRepository domain.CredentialRepository
-	credentialFactory    domain.CredentialFactory
-	redisClient          cache.Cache
+	CredentialService        *application.CredentialService
+	CredentialHandler        *http.CredentialHandler
+	OAuthStateService        domain.OAuthStateService
+	tokenRefreshService      domain.TokenRefresh
+	credentialRepository     domain.CredentialRepository
+	credentialFactory        domain.CredentialFactory
+	redisClient              cache.Cache
+	credentialContractFacade contractCredential.CredentialManagementContract
 }
 
 // NewModule initializes a new credential management module
@@ -37,7 +40,7 @@ func NewModule(
 	config *config.Config,
 	eventBus events.EventBus,
 	observabilityProvider *observability.ObservabilityProvider,
-	adapterFactory *provideradapterApp.AdapterFactory,
+	providerAdapterContract contractAdapter.ProviderAdapterContract,
 	redisClient cache.Cache,
 ) (*Module, error) {
 	unitOfWorkFactory := database.NewDefaultUnitOfWorkFactory(db, observabilityProvider)
@@ -66,8 +69,7 @@ func NewModule(
 		vaultService,
 	)
 
-	// Create OAuth provider adapter as an anti-corruption layer
-	oauthProviderAdapter := adapter.NewOAuthProviderAdapter(adapterFactory)
+	providerAdapterACL := acl.NewProviderAdapterACL(providerAdapterContract, observabilityProvider)
 
 	// Initialize OAuth state service
 	oauthStateService := application.NewOAuthStateService(oauthStateRepo, observabilityProvider)
@@ -75,7 +77,7 @@ func NewModule(
 	// Initialize token refresh service
 	tokenRefreshService := persistence.NewTokenRefreshService(
 		redisClient,
-		oauthProviderAdapter,
+		providerAdapterACL,
 		credentialRepo,
 		oauthRepo,
 		vaultService,
@@ -88,7 +90,7 @@ func NewModule(
 		credentialFactory,
 		eventBus,
 		observabilityProvider,
-		oauthProviderAdapter,
+		providerAdapterACL,
 		unitOfWorkFactory,
 		config.Provider.OAuthRedirectURL,
 		redisClient,
@@ -109,14 +111,23 @@ func NewModule(
 		redirectURLValidator,
 	)
 
+	// Initialize credential contract facade
+	credentialContractFacade := contract.NewCredentialContractFacade(
+		credentialService,
+		credentialFactory,
+		tokenRefreshService,
+		observabilityProvider,
+	)
+
 	return &Module{
-		CredentialService:    credentialService,
-		CredentialHandler:    credentialHandler,
-		OAuthStateService:    oauthStateService,
-		tokenRefreshService:  tokenRefreshService,
-		credentialRepository: credentialRepo,
-		credentialFactory:    credentialFactory,
-		redisClient:          redisClient,
+		CredentialService:        credentialService,
+		CredentialHandler:        credentialHandler,
+		OAuthStateService:        oauthStateService,
+		tokenRefreshService:      tokenRefreshService,
+		credentialRepository:     credentialRepo,
+		credentialFactory:        credentialFactory,
+		redisClient:              redisClient,
+		credentialContractFacade: credentialContractFacade,
 	}, nil
 }
 
@@ -125,14 +136,8 @@ func (m *Module) RegisterRoutes(router *gin.RouterGroup, requireAuth gin.Handler
 	m.CredentialHandler.RegisterRoutes(router, requireAuth)
 }
 
-// CredentialRepository returns the credential repository for use by other modules
-func (m *Module) CredentialRepository() domain.CredentialRepository {
-	return m.credentialRepository
-}
-
-// CredentialFactory returns the credential factory for use by other modules
-func (m *Module) CredentialFactory() domain.CredentialFactory {
-	return m.credentialFactory
+func (m *Module) GetCredentialContractFacade() contractCredential.CredentialManagementContract {
+	return m.credentialContractFacade
 }
 
 // TokenRefreshService returns the token refresh service for use by other modules
