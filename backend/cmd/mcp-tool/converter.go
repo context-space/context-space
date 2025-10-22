@@ -9,6 +9,7 @@ import (
 
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/mcp"
 	"github.com/context-space/context-space/backend/internal/providercore/domain"
+	"github.com/context-space/context-space/backend/internal/shared/types"
 )
 
 // ManifestData represents the structure of manifest.json
@@ -110,8 +111,8 @@ func convertMCPToolsToOperations(tools []mcp.MCPTool) []domain.Operation {
 			Identifier:          tool.Name,
 			Name:                formatOperationName(tool.Name),
 			Description:         tool.Description,
-			Category:            "mcp_tools",           // Default category for MCP tools
-			RequiredPermissions: []domain.Permission{}, // Will be set later if needed
+			Category:            "mcp_tools",          // Default category for MCP tools
+			RequiredPermissions: []types.Permission{}, // Will be set later if needed
 			Parameters:          parameters,
 		}
 

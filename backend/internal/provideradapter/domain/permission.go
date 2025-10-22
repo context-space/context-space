@@ -1,14 +1,9 @@
 package domain
 
-type Permission struct {
-	Identifier  string   `json:"identifier"`
-	Name        string   `json:"name"`
-	Description string   `json:"description"`
-	OAuthScopes []string `json:"oauth_scopes"`
-}
+import "github.com/context-space/context-space/backend/internal/shared/types"
 
-func NewPermission(identifier, name, description string, oauthScopes []string) *Permission {
-	return &Permission{
+func NewPermission(identifier, name, description string, oauthScopes []string) *types.Permission {
+	return &types.Permission{
 		Identifier:  identifier,
 		Name:        name,
 		Description: description,
@@ -16,17 +11,17 @@ func NewPermission(identifier, name, description string, oauthScopes []string) *
 	}
 }
 
-type PermissionSet map[string]Permission
+type PermissionSet map[string]types.Permission
 
-func NewPermissionSet(permissions []Permission) PermissionSet {
-	permissionsMap := make(map[string]Permission)
+func NewPermissionSet(permissions []types.Permission) PermissionSet {
+	permissionsMap := make(map[string]types.Permission)
 	for _, permission := range permissions {
 		permissionsMap[permission.Identifier] = permission
 	}
 	return permissionsMap
 }
 
-func (p PermissionSet) RequiredOAuthScopes(permissionList []Permission) []string {
+func (p PermissionSet) RequiredOAuthScopes(permissionList []types.Permission) []string {
 	uniqueScopes := make(map[string]bool)
 	for _, permission := range permissionList {
 		for _, scope := range p[permission.Identifier].OAuthScopes {
@@ -42,14 +37,14 @@ func (p PermissionSet) RequiredOAuthScopes(permissionList []Permission) []string
 }
 
 func (p PermissionSet) RequiredOAuthScopesByIdentifiers(permissionIdentifiers []string) []string {
-	requiredPermissions := make([]Permission, 0, len(permissionIdentifiers))
+	requiredPermissions := make([]types.Permission, 0, len(permissionIdentifiers))
 	for _, identifier := range permissionIdentifiers {
 		requiredPermissions = append(requiredPermissions, p[identifier])
 	}
 	return p.RequiredOAuthScopes(requiredPermissions)
 }
 
-func (p PermissionSet) CheckMissingPermissions(requiredPermissionList []Permission, authorizedScopes []string) (bool, []Permission) {
+func (p PermissionSet) CheckMissingPermissions(requiredPermissionList []types.Permission, authorizedScopes []string) (bool, []types.Permission) {
 	authorizedScopeMap := make(map[string]bool)
 
 	// Create a map of provided scopes for O(1) lookup
@@ -58,7 +53,7 @@ func (p PermissionSet) CheckMissingPermissions(requiredPermissionList []Permissi
 	}
 
 	// Track missing permissions using a map to ensure uniqueness
-	missingPermissionsMap := make(map[string]Permission)
+	missingPermissionsMap := make(map[string]types.Permission)
 	allScopesPresent := true
 
 	// Check each permission's required scopes
@@ -82,7 +77,7 @@ func (p PermissionSet) CheckMissingPermissions(requiredPermissionList []Permissi
 	}
 
 	// Convert map to slice for return value
-	missingPermissions := make([]Permission, 0, len(missingPermissionsMap))
+	missingPermissions := make([]types.Permission, 0, len(missingPermissionsMap))
 	for _, permission := range missingPermissionsMap {
 		missingPermissions = append(missingPermissions, permission)
 	}
@@ -91,7 +86,7 @@ func (p PermissionSet) CheckMissingPermissions(requiredPermissionList []Permissi
 }
 
 func (p PermissionSet) CheckMissingPermissionsByIdentifiers(requiredPermissionIdentifiers []string, authorizedScopes []string) (bool, []string) {
-	requiredPermissions := make([]Permission, 0, len(requiredPermissionIdentifiers))
+	requiredPermissions := make([]types.Permission, 0, len(requiredPermissionIdentifiers))
 	for _, identifier := range requiredPermissionIdentifiers {
 		requiredPermissions = append(requiredPermissions, p[identifier])
 	}

@@ -12,7 +12,6 @@ import (
 	"github.com/context-space/context-space/backend/internal/provideradapter/domain"
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/base"
 
-	coreDomain "github.com/context-space/context-space/backend/internal/providercore/domain"
 	"github.com/context-space/context-space/backend/internal/shared/utils"
 )
 
@@ -26,7 +25,7 @@ type HubspotAdapter struct {
 	oauthConfig   *domain.OAuthConfig
 	restAdapter   domain.Adapter
 	operations    Operations
-	permissionSet coreDomain.PermissionSet
+	permissionSet domain.PermissionSet
 }
 
 // NewHubspotAdapter creates a new HubSpot adapter.
@@ -34,7 +33,7 @@ func NewHubspotAdapter(
 	providerInfo *domain.ProviderAdapterInfo,
 	config *domain.AdapterConfig,
 	oauthConfig *domain.OAuthConfig,
-	permissions coreDomain.PermissionSet,
+	permissions domain.PermissionSet,
 	restAdapter domain.Adapter,
 ) *HubspotAdapter {
 	baseAdapter := base.NewBaseAdapter(providerInfo, config)

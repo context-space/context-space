@@ -7,7 +7,7 @@ import (
 	"github.com/context-space/context-space/backend/internal/provideradapter/domain"
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/registry"
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/rest"
-	providercore "github.com/context-space/context-space/backend/internal/providercore/domain"
+	"github.com/context-space/context-space/backend/internal/shared/types"
 )
 
 const (
@@ -70,7 +70,7 @@ func (t *TmdbTemplate) ValidateConfig(provider *domain.ProviderAdapterConfig) er
 		return fmt.Errorf("invalid provider identifier, must be '%s'", identifier)
 	}
 
-	if provider.AuthType != providercore.AuthTypeAPIKey {
+	if provider.AuthType != types.AuthTypeAPIKey {
 		return fmt.Errorf("invalid auth_type, must be 'apikey'")
 	}
 

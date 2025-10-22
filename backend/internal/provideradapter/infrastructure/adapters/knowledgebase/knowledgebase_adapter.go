@@ -12,6 +12,34 @@ import (
 	volcclient "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/knowledgebase/volcengine/client"
 )
 
+var DefaultKnowledgebaseAdapterConfig = KnowledgebaseAdapterConfig{
+	Search: &SearchConfig{
+		Limit: intPtr(10),
+	},
+	Chat: &ChatConfig{
+		Model:       stringPtr("gpt-4o"),
+		Stream:      boolPtr(false),
+		Temperature: float64Ptr(0.1),
+	},
+	Query: &QueryConfig{
+		SearchLimit:         intPtr(10),
+		RewriteQuery:        boolPtr(false),
+		Rerank:              boolPtr(false),
+		RerankRetrieveCount: intPtr(50),
+		RerankModel:         nil,
+		LLMModel:            stringPtr("gpt-4o"),
+		LLMTemperature:      float64Ptr(0.1),
+	},
+}
+
+type KnowledgebaseAdapterConfig struct {
+	Project        string        `json:"project"`
+	CollectionName string        `json:"collection_name"`
+	Search         *SearchConfig `json:"search"`
+	Chat           *ChatConfig   `json:"chat"`
+	Query          *QueryConfig  `json:"query"`
+}
+
 // KnowledgeBaseAdapter is the user-facing adapter for Volcengine Knowledge Base operations.
 // It abstracts the specific Volcengine API calls behind a common interface.
 type KnowledgeBaseAdapter struct {
@@ -19,7 +47,7 @@ type KnowledgeBaseAdapter struct {
 	internalVolcengineClient volcclient.VolcengineClient
 	operations               Operations // Defined in knowledgebase_operations.go
 	openaiClient             openaiclient.OpenaiClient
-	defaults                 *OperationDefaults // Grouped default parameters
+	baseConfig               *KnowledgebaseAdapterConfig // Grouped default parameters
 }
 
 // NewKnowledgeBaseAdapter creates a new instance of the KnowledgeBaseAdapter.
@@ -28,7 +56,7 @@ func NewKnowledgeBaseAdapter(
 	config *domain.AdapterConfig,
 	internalClient volcclient.VolcengineClient,
 	openaiClient openaiclient.OpenaiClient,
-	operationDefaults *OperationDefaults,
+	baseConfig *KnowledgebaseAdapterConfig,
 ) (*KnowledgeBaseAdapter, error) { // Return error for validation
 
 	baseAdapter := base.NewBaseAdapter(providerInfo, config)
@@ -37,7 +65,7 @@ func NewKnowledgeBaseAdapter(
 		internalVolcengineClient: internalClient,
 		openaiClient:             openaiClient,
 		operations:               make(Operations),
-		defaults:                 operationDefaults,
+		baseConfig:               baseConfig,
 	}
 	adapter.registerOperations()
 
@@ -117,4 +145,20 @@ func (a *KnowledgeBaseAdapter) Execute(
 	}
 
 	return result, nil
+}
+
+func intPtr(v int) *int {
+	return &v
+}
+
+func stringPtr(v string) *string {
+	return &v
+}
+
+func boolPtr(v bool) *bool {
+	return &v
+}
+
+func float64Ptr(v float64) *float64 {
+	return &v
 }

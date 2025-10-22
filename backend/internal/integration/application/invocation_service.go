@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"time"
 
 	"github.com/bytedance/sonic"
 	"github.com/google/uuid"
@@ -13,7 +12,6 @@ import (
 	"go.uber.org/zap"
 
 	observability "github.com/context-space/cloud-observability"
-	credentialDomain "github.com/context-space/context-space/backend/internal/credentialmanagement/domain"
 	"github.com/context-space/context-space/backend/internal/integration/domain"
 	"github.com/context-space/context-space/backend/internal/shared/events"
 	"github.com/context-space/context-space/backend/internal/shared/infrastructure/cache"
@@ -60,15 +58,15 @@ const (
 
 // InvocationService handles invocation of provider operations
 type InvocationService struct {
-	providerProvider    domain.ProviderProvider
-	adapterProvider     domain.AdapterProvider
-	credProvider        domain.CredentialProvider
-	invocationRepo      domain.InvocationRepository
-	eventBus            events.EventBus
-	eventTypes          InvocationEventTypes
-	obs                 *observability.ObservabilityProvider
-	redisClient         cache.Cache
-	tokenRefreshService credentialDomain.TokenRefresh
+	providerProvider     domain.ProviderProvider
+	adapterProvider      domain.AdapterProvider
+	credProvider         domain.CredentialProvider
+	invocationRepo       domain.InvocationRepository
+	tokenRefreshProvider domain.TokenRefreshProvider
+	eventBus             events.EventBus
+	eventTypes           InvocationEventTypes
+	obs                  *observability.ObservabilityProvider
+	redisClient          cache.Cache
 }
 
 // NewInvocationService creates a new invocation service
@@ -80,18 +78,18 @@ func NewInvocationService(
 	eventBus events.EventBus,
 	observabilityProvider *observability.ObservabilityProvider,
 	redisClient cache.Cache,
-	tokenRefreshService credentialDomain.TokenRefresh,
+	tokenRefreshProvider domain.TokenRefreshProvider,
 ) *InvocationService {
 	return &InvocationService{
-		providerProvider:    providerProvider,
-		adapterProvider:     adapterProvider,
-		credProvider:        credProvider,
-		invocationRepo:      invocationRepo,
-		eventBus:            eventBus,
-		eventTypes:          DefaultInvocationEventTypes(),
-		obs:                 observabilityProvider,
-		redisClient:         redisClient,
-		tokenRefreshService: tokenRefreshService,
+		providerProvider:     providerProvider,
+		adapterProvider:      adapterProvider,
+		credProvider:         credProvider,
+		tokenRefreshProvider: tokenRefreshProvider,
+		invocationRepo:       invocationRepo,
+		eventBus:             eventBus,
+		eventTypes:           DefaultInvocationEventTypes(),
+		obs:                  observabilityProvider,
+		redisClient:          redisClient,
 	}
 }
 
@@ -128,64 +126,21 @@ func (s *InvocationService) InvokeOperation(
 	}
 
 	// Get the provider adapter
-	providerAdapter, err := s.adapterProvider.GetAdapter(ctx, providerIdentifier)
+	providerAdapter, err := s.adapterProvider.GetAdapterByProviderIdentifier(ctx, providerIdentifier)
 	if err != nil {
 		return nil, fmt.Errorf("%w: %s", ErrProviderAdapterNotFound, err.Error())
 	}
 
 	// Get credential for the provider (if needed)
 	var credential interface{}
-	authType := string(providerAdapter.GetProviderAdapterInfo().AuthType)
+	adapterInfo := providerAdapter.GetAdapterInfoContract()
+	authType := adapterInfo.AuthType
 	s.obs.Logger.Debug(ctx, "Loaded provider adapter",
-		zap.String("provider_identifier", providerAdapter.GetProviderAdapterInfo().Identifier),
+		zap.String("provider_identifier", adapterInfo.Identifier),
 		zap.String("auth_type", authType),
 	)
 
 	if authType != "none" {
-		if authType == "oauth" {
-			// lock the credential prevent refresh token when invoking operation
-			lockKey := fmt.Sprintf(cache.AccessTokenLockKey, providerIdentifier, userID)
-
-			// use retry mechanism to get lock
-			const maxRetries = 5
-			const retryDelay = 100 * time.Millisecond
-			var lock bool
-
-			for attempt := 1; attempt <= maxRetries; attempt++ {
-				lock, err = s.redisClient.AcquireLock(ctx, lockKey, cache.AccessTokenLockTimeout)
-				if err != nil {
-					// when get lock failed, log and retry
-					s.obs.Logger.Warn(ctx, "Failed to acquire lock, retrying",
-						zap.String("lock_key", lockKey),
-						zap.Int("attempt", attempt),
-						zap.Error(err))
-					if attempt < maxRetries {
-						time.Sleep(retryDelay)
-						continue
-					}
-					return nil, fmt.Errorf("%w : %s", ErrOperationNotFound, err.Error())
-				}
-
-				if !lock {
-					// when lock held by another process, retry
-					s.obs.Logger.Debug(ctx, "Lock held by another process, retrying",
-						zap.String("lock_key", lockKey),
-						zap.Int("attempt", attempt))
-					if attempt < maxRetries {
-						time.Sleep(retryDelay)
-						continue
-					}
-					return nil, fmt.Errorf("%w : %s", ErrOperationNotFound, "please try again later")
-				}
-
-				// when get lock successfully, break retry loop
-				break
-			}
-
-			defer s.redisClient.ReleaseLock(ctx, lockKey)
-
-		}
-
 		credential, err = s.credProvider.GetCredentialByUserAndProvider(ctx, userID, providerIdentifier)
 		if err != nil {
 			return nil, fmt.Errorf("failed to get credential: %w", err)
@@ -195,7 +150,7 @@ func (s *InvocationService) InvokeOperation(
 			return nil, ErrCredentialNotFound
 		}
 
-		credential, err = s.tokenRefreshService.RefreshAccessTokenIfNeeded(ctx, providerIdentifier, credential)
+		credential, err = s.tokenRefreshProvider.RefreshAccessToken(ctx, providerIdentifier, credential)
 		if err != nil {
 			s.obs.Logger.Error(ctx, "Failed to refresh access token",
 				zap.String("provider_identifier", providerIdentifier),
@@ -237,7 +192,7 @@ func (s *InvocationService) InvokeOperation(
 	s.emitInvocationEvent(ctx, s.eventTypes.Started, invocation)
 
 	// Execute the operation directly
-	result, execErr := providerAdapter.Execute(ctx, operationIdentifier, params, credential)
+	result, execErr := providerAdapter.ExecuteContract(ctx, operationIdentifier, params, credential)
 
 	if execErr != nil {
 		errMsg := fmt.Sprintf("Failed to execute operation: %s", execErr.Error())

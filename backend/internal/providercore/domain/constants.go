@@ -1,13 +1,6 @@
 package domain
 
-// Context keys for provider domain
-type preferredLanguageKeyType string
 
-var (
-	// PreferredLanguageKey is the context key for preferred language in provider requests
-	// This key is used by middleware to store and handlers to retrieve the user's preferred language
-	PreferredLanguageKey preferredLanguageKeyType = "provider.preferredLanguage"
-)
 
 // ProviderAPIDocURLs maps provider identifiers to their API documentation URLs
 var ProviderAPIDocURLs = map[string]string{
@@ -25,6 +18,7 @@ var ProviderAPIDocURLs = map[string]string{
 	"figma":             "https://www.figma.com/developers/api",
 	"hubspot":           "https://developers.hubspot.com/docs/api/overview",
 	"cfa_knowledgebase": "",
+	"brave_search_mcp":  "https://api-dashboard.search.brave.com/app/keys",
 	"openweathermap":    "https://openweathermap.org/api",
 	"amap":              "https://restapi.amap.com",
 	"tmdb":              "https://developers.themoviedb.org/3/getting-started/introduction",

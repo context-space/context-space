@@ -11,7 +11,6 @@ import (
 	credDomain "github.com/context-space/context-space/backend/internal/credentialmanagement/domain"
 	"github.com/context-space/context-space/backend/internal/provideradapter/domain"
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/base"
-	providercore "github.com/context-space/context-space/backend/internal/providercore/domain"
 	"github.com/context-space/context-space/backend/internal/shared/utils"
 )
 
@@ -19,9 +18,9 @@ import (
 type AirtableAdapter struct {
 	*base.BaseAdapter
 	oauthConfig   *domain.OAuthConfig
-	restAdapter   domain.Adapter             // The underlying REST adapter instance
-	operations    Operations                 // Map of operation ID to definition defined in _operations.go.tmpl
-	permissionSet providercore.PermissionSet // Permission set defined in providercore
+	restAdapter   domain.Adapter       // The underlying REST adapter instance
+	operations    Operations           // Map of operation ID to definition defined in _operations.go.tmpl
+	permissionSet domain.PermissionSet // Permission set defined in providercore
 }
 
 // NewAirtableAdapter creates a new Airtable adapter.
@@ -30,7 +29,7 @@ func NewAirtableAdapter(
 	config *domain.AdapterConfig,
 	oauthConfig *domain.OAuthConfig,
 	restAdapter domain.Adapter,
-	permissions providercore.PermissionSet,
+	permissions domain.PermissionSet,
 ) *AirtableAdapter {
 	baseAdapter := base.NewBaseAdapter(providerInfo, config)
 

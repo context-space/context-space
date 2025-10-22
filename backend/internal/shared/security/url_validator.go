@@ -58,11 +58,6 @@ func (v *RedirectURLValidator) checkMaliciousPatterns(parsedURL *url.URL) error 
 		return fmt.Errorf("dangerous scheme detected: %s", scheme)
 	}
 
-	// Check for URL encoding attempts to bypass validation
-	if strings.Contains(parsedURL.RawQuery, "%2F") || strings.Contains(parsedURL.RawQuery, "%3A") {
-		return fmt.Errorf("URL encoding detected in redirect URL")
-	}
-
 	// Check for double slashes that could indicate protocol confusion
 	if strings.Contains(parsedURL.Host, "//") || strings.Contains(parsedURL.Path, "//") {
 		return fmt.Errorf("double slashes detected in URL")

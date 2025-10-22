@@ -7,7 +7,7 @@ import (
 	"github.com/context-space/context-space/backend/internal/provideradapter/domain"
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/registry"
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/rest"
-	providercore "github.com/context-space/context-space/backend/internal/providercore/domain"
+	"github.com/context-space/context-space/backend/internal/shared/types"
 )
 
 const (
@@ -54,11 +54,11 @@ func (t *SerperTemplate) CreateAdapter(provider *domain.ProviderAdapterConfig) (
 
 	permissionsData := provider.Permissions
 
-	permissions := make(providercore.PermissionSet, len(permissionsData))
+	permissions := make(domain.PermissionSet, len(permissionsData))
 	for _, permMap := range permissionsData {
 		scopes := permMap.OAuthScopes
 
-		permissions[permMap.Identifier] = *providercore.NewPermission(
+		permissions[permMap.Identifier] = *domain.NewPermission(
 			permMap.Identifier,
 			permMap.Name,
 			permMap.Description,
@@ -88,7 +88,7 @@ func (t *SerperTemplate) ValidateConfig(provider *domain.ProviderAdapterConfig) 
 		return fmt.Errorf("invalid provider identifier, must be '%s'", identifier)
 	}
 
-	if provider.AuthType != providercore.AuthTypeAPIKey {
+	if provider.AuthType != types.AuthTypeAPIKey {
 		return fmt.Errorf("invalid 'auth_type' in config (must be 'apikey')")
 	}
 

@@ -19,6 +19,9 @@ type Config struct {
 	Provider      ProviderConfig      `json:"provider"`
 	Observability ObservabilityConfig `json:"observability"`
 	Security      SecurityConfig      `json:"security"`
+	OpenAI        OpenAIConfig        `json:"openai"`
+	Discovery     DiscoveryConfig     `json:"discovery"`
+	GRPC          GRPCConfig          `json:"grpc"`
 }
 
 // ServerConfig holds the server specific configuration
@@ -113,6 +116,38 @@ type CORSConfig struct {
 	AllowedOrigins []string `json:"allowed_origins"`
 }
 
+// OpenAIConfig holds OpenAI API configuration
+type OpenAIConfig struct {
+	APIKey         string `json:"api_key"`
+	BaseURL        string `json:"base_url"`
+	Model          string `json:"model"`
+	EmbeddingModel string `json:"embedding_model"`
+}
+
+// DiscoveryConfig holds discovery algorithm configuration
+type DiscoveryConfig struct {
+	TopProviders      int    `json:"top_providers"`
+	TopOperations     int    `json:"top_operations"`
+	EnableLLMAnalysis bool   `json:"enable_llm_analysis"`
+	EmbeddingModel    string `json:"embedding_model"`
+}
+
+// GRPCConfig holds gRPC server configuration
+type GRPCConfig struct {
+	Address               string `json:"address"`
+	MaxConnectionIdle     int    `json:"max_connection_idle"`
+	MaxConnectionAge      int    `json:"max_connection_age"`
+	MaxConnectionAgeGrace int    `json:"max_connection_age_grace"`
+	KeepAliveTime         int    `json:"keep_alive_time"`
+	KeepAliveTimeout      int    `json:"keep_alive_timeout"`
+	MinTime               int    `json:"min_time"`
+	PermitWithoutStream   bool   `json:"permit_without_stream"`
+	MaxRecvMsgSize        int    `json:"max_recv_msg_size"`
+	MaxSendMsgSize        int    `json:"max_send_msg_size"`
+	EnableReflection      bool   `json:"enable_reflection"`
+	ShutdownTimeout       int    `json:"shutdown_timeout"`
+}
+
 // Load loads configuration from file and environment variables
 func Load() (*Config, error) {
 	// Load from configuration file
@@ -144,6 +179,26 @@ func Load() (*Config, error) {
 			CORS: CORSConfig{
 				AllowedOrigins: []string{},
 			},
+		},
+		Discovery: DiscoveryConfig{
+			TopProviders:      5,
+			TopOperations:     20,
+			EnableLLMAnalysis: true,
+			EmbeddingModel:    "text-embedding-3-small",
+		},
+		GRPC: GRPCConfig{
+			Address:               ":50051",
+			MaxConnectionIdle:     300,  // 5 minutes
+			MaxConnectionAge:      7200, // 2 hours
+			MaxConnectionAgeGrace: 30,   // 30 seconds
+			KeepAliveTime:         30,   // 30 seconds
+			KeepAliveTimeout:      5,    // 5 seconds
+			MinTime:               30,   // 30 seconds
+			PermitWithoutStream:   false,
+			MaxRecvMsgSize:        1024 * 1024 * 4, // 4MB
+			MaxSendMsgSize:        1024 * 1024 * 4, // 4MB
+			EnableReflection:      true,            // Enable for development
+			ShutdownTimeout:       30,              // 30 seconds
 		},
 	}
 
@@ -271,6 +326,34 @@ func overrideWithEnv(config *Config) {
 	}
 	if envVal := os.Getenv("METRICS_ENABLED"); envVal != "" {
 		config.Observability.Metrics.Enabled = strings.ToLower(envVal) == "true"
+	}
+
+	// OpenAI config
+	if envVal := os.Getenv("OPENAI_API_KEY"); envVal != "" {
+		config.OpenAI.APIKey = envVal
+	}
+	if envVal := os.Getenv("OPENAI_BASE_URL"); envVal != "" {
+		config.OpenAI.BaseURL = envVal
+	}
+	if envVal := os.Getenv("OPENAI_MODEL"); envVal != "" {
+		config.OpenAI.Model = envVal
+	}
+	if envVal := os.Getenv("OPENAI_EMBEDDING_MODEL"); envVal != "" {
+		config.OpenAI.EmbeddingModel = envVal
+	}
+
+	// Discovery config
+	if envVal := os.Getenv("DISCOVERY_TOP_PROVIDERS"); envVal != "" {
+		fmt.Sscanf(envVal, "%d", &config.Discovery.TopProviders)
+	}
+	if envVal := os.Getenv("DISCOVERY_TOP_OPERATIONS"); envVal != "" {
+		fmt.Sscanf(envVal, "%d", &config.Discovery.TopOperations)
+	}
+	if envVal := os.Getenv("DISCOVERY_ENABLE_LLM_ANALYSIS"); envVal != "" {
+		config.Discovery.EnableLLMAnalysis = strings.ToLower(envVal) == "true"
+	}
+	if envVal := os.Getenv("DISCOVERY_EMBEDDING_MODEL"); envVal != "" {
+		config.Discovery.EmbeddingModel = envVal
 	}
 }
 

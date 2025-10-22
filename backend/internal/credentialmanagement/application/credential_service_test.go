@@ -96,7 +96,6 @@ func (suite *CredentialServiceTestSuite) SetupTest() {
 	suite.mockUnitOfWork = &shared_mocks.MockUnitOfWork{}
 	suite.mockUnitOfWorkFactory = &shared_mocks.MockUnitOfWorkFactory{}
 	suite.mockRedisClient = &shared_mocks.MockCache{}
-	suite.mockTokenRefreshService = &credentialmanagement_mocks.MockTokenRefresh{}
 	suite.mockVaultService = &credentialmanagement_mocks.MockVaultService{}
 	suite.mockDB = &shared_mocks.MockDatabase{}
 

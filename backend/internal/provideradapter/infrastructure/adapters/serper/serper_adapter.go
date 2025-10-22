@@ -8,14 +8,13 @@ import (
 	credDomain "github.com/context-space/context-space/backend/internal/credentialmanagement/domain"
 	"github.com/context-space/context-space/backend/internal/provideradapter/domain"
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/base"
-	providercore "github.com/context-space/context-space/backend/internal/providercore/domain"
 )
 
 // SerperAdapter is an adapter for the Serper API
 type SerperAdapter struct {
 	*base.BaseAdapter
 	restAdapter domain.Adapter // Uses RESTAdapter for actual execution
-	permissions providercore.PermissionSet
+	permissions domain.PermissionSet
 	operations  Operations // Map operation ID to OperationDefinition
 }
 
@@ -24,7 +23,7 @@ func NewSerperAdapter(
 	providerInfo *domain.ProviderAdapterInfo,
 	config *domain.AdapterConfig,
 	restAdapter domain.Adapter,
-	permissions providercore.PermissionSet,
+	permissions domain.PermissionSet,
 ) *SerperAdapter {
 
 	baseAdapter := base.NewBaseAdapter(providerInfo, config)

@@ -6,16 +6,14 @@ import (
 	"github.com/gin-gonic/gin"
 
 	observability "github.com/context-space/cloud-observability"
-	credDomain "github.com/context-space/context-space/backend/internal/credentialmanagement/domain"
-	credentialDomain "github.com/context-space/context-space/backend/internal/credentialmanagement/domain"
 	"github.com/context-space/context-space/backend/internal/integration/application"
-	"github.com/context-space/context-space/backend/internal/integration/domain"
-	"github.com/context-space/context-space/backend/internal/integration/infrastructure/adapter"
-	"github.com/context-space/context-space/backend/internal/integration/infrastructure/credential"
+	"github.com/context-space/context-space/backend/internal/integration/infrastructure/acl"
 	"github.com/context-space/context-space/backend/internal/integration/infrastructure/persistence"
 	"github.com/context-space/context-space/backend/internal/integration/interfaces/http"
-	providerAdapterApp "github.com/context-space/context-space/backend/internal/provideradapter/application"
 	providercoreApp "github.com/context-space/context-space/backend/internal/providercore/application"
+	contractCredential "github.com/context-space/context-space/backend/internal/shared/contract/credentialmanagement"
+	contractAdapter "github.com/context-space/context-space/backend/internal/shared/contract/provideradapter"
+	contractProvider "github.com/context-space/context-space/backend/internal/shared/contract/providercore"
 	"github.com/context-space/context-space/backend/internal/shared/events"
 	"github.com/context-space/context-space/backend/internal/shared/infrastructure/cache"
 	"github.com/context-space/context-space/backend/internal/shared/infrastructure/database"
@@ -34,19 +32,29 @@ func NewModule(
 	db database.Database,
 	eventBus *events.Bus,
 	observabilityProvider *observability.ObservabilityProvider,
-	providerProvider domain.ProviderProvider,
-	adapterFactory *providerAdapterApp.AdapterFactory,
-	credentialFactory credDomain.CredentialFactory,
+	providerContract contractProvider.ProviderCoreReader,
+	adapterContract contractAdapter.ProviderAdapterContract,
+	credentialContract contractCredential.CredentialManagementContract,
 	providerService *providercoreApp.ProviderService,
 	redisClient cache.Cache,
-	tokenRefreshService credentialDomain.TokenRefresh,
 ) (*Module, error) {
 	// Create repositories
 	invocationRepo := persistence.NewInvocationRepository(db, observabilityProvider)
 
-	// Create provider adapter
-	adapterProvider := adapter.NewProviderAdapter(adapterFactory)
-	credProvider := credential.NewCredentialProviderAdapter(credentialFactory)
+	// Create ACL for provider operations
+	providerProvider := acl.NewProviderACL(providerContract, observabilityProvider)
+
+	// Create ACL that uses contract facade for provider adapter
+	adapterProvider := acl.NewProviderAdapterACL(
+		adapterContract,
+		observabilityProvider,
+	)
+
+	// Create ACL for credential management
+	credProvider := acl.NewCredentialACL(
+		credentialContract,
+		observabilityProvider,
+	)
 
 	// Create application service
 	invocationService := application.NewInvocationService(
@@ -57,7 +65,7 @@ func NewModule(
 		eventBus,
 		observabilityProvider,
 		redisClient,
-		tokenRefreshService,
+		credProvider, // Same ACL instance implements both interfaces
 	)
 
 	// Create HTTP handler

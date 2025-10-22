@@ -17,6 +17,7 @@ type ProviderModel struct {
 	Status         string          `gorm:"type:varchar(20);not null"`
 	IconURL        string          `gorm:"type:text"`
 	JSONAttributes json.RawMessage `gorm:"type:jsonb;column:json_attributes"`
+	Embedding      string          `gorm:"type:vector(1536)"`
 	CreatedAt      time.Time       `gorm:"type:timestamp with time zone;not null;default:now()"`
 	UpdatedAt      time.Time       `gorm:"type:timestamp with time zone;not null;default:now()"`
 	DeletedAt      gorm.DeletedAt  `gorm:"type:timestamp with time zone;index"`
@@ -36,6 +37,7 @@ type OperationModel struct {
 	Description    string          `gorm:"type:text"`
 	Category       string          `gorm:"type:varchar(50);not null"`
 	JSONAttributes json.RawMessage `gorm:"type:jsonb;column:json_attributes"`
+	Embedding      string          `gorm:"type:vector(1536)"`
 	CreatedAt      time.Time       `gorm:"type:timestamp with time zone;not null;default:now()"`
 	UpdatedAt      time.Time       `gorm:"type:timestamp with time zone;not null;default:now()"`
 	DeletedAt      gorm.DeletedAt  `gorm:"type:timestamp with time zone;index"`

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/json"
+	"context"
 	"flag"
 	"fmt"
 	"log"
@@ -10,11 +10,17 @@ import (
 	"strings"
 	"time"
 
+	"github.com/bytedance/sonic"
 	adapter_domain "github.com/context-space/context-space/backend/internal/provideradapter/domain"
 	"github.com/context-space/context-space/backend/internal/providercore/domain"
+	"github.com/context-space/context-space/backend/internal/shared/types"
 	"github.com/google/uuid"
+	"github.com/sashabaranov/go-openai"
 	"go.uber.org/zap"
 )
+
+// Global OpenAI client
+var openaiClient *openai.Client
 
 // ProviderJSON represents the structure of a provider JSON file
 type ProviderJSON struct {
@@ -62,6 +68,22 @@ type ParameterJSON struct {
 	Default     interface{} `json:"default,omitempty"`
 }
 
+type Provider struct {
+	ID          string                 `json:"id"`
+	Identifier  string                 `json:"identifier"`
+	Name        string                 `json:"name"`
+	Description string                 `json:"description"`
+	AuthType    types.ProviderAuthType `json:"auth_type"`
+	Status      types.ProviderStatus   `json:"status"`
+	IconURL     string                 `json:"icon_url"`
+	Categories  []string               `json:"categories"`
+	Tags        []string               `json:"tags"`
+	Operations  []OperationJSON        `json:"operations"`
+	Embedding   []float64              `json:"-"` // Vector embedding for semantic search
+	CreatedAt   time.Time              `json:"created_at"`
+	UpdatedAt   time.Time              `json:"updated_at"`
+	DeletedAt   *time.Time             `json:"deleted_at"`
+}
 type ApiKeyConfig struct {
 	Value string `json:"value"`
 }
@@ -161,6 +183,9 @@ func main() {
 	providerId := flag.String("provider-id", "", "Provider ID to update")
 	loadAll := flag.Bool("all", false, "Load all providers from the providers directory")
 	providerNames := flag.String("providers", "", "Specific providers to load (only used when --all is not set)")
+	openaiAPIKey := flag.String("openai-key", os.Getenv("OPENAI_API_KEY"), "OpenAI API key for generating embeddings")
+	openaiBaseURL := flag.String("openai-base-url", os.Getenv("OPENAI_BASE_URL"), "OpenAI API base URL (optional, defaults to OpenAI's API)")
+	generateEmbeddings := flag.Bool("embeddings", true, "Generate embeddings for providers and operations")
 	flag.Parse()
 
 	// Initialize logger
@@ -169,6 +194,24 @@ func main() {
 		log.Fatalf("Failed to initialize logger: %v", err)
 	}
 	defer logger.Sync()
+
+	// Initialize OpenAI client if embeddings are requested
+	if *generateEmbeddings {
+		if *openaiAPIKey == "" {
+			fmt.Printf("Error: OpenAI API key is required when --embeddings flag is used\n")
+			fmt.Printf("Set OPENAI_API_KEY environment variable or use --openai-key flag\n")
+			return
+		}
+
+		config := openai.DefaultConfig(*openaiAPIKey)
+		if *openaiBaseURL != "" {
+			config.BaseURL = *openaiBaseURL
+			fmt.Printf("Using custom OpenAI base URL: %s\n", *openaiBaseURL)
+		}
+
+		openaiClient = openai.NewClientWithConfig(config)
+		fmt.Println("OpenAI client initialized for embedding generation")
+	}
 
 	var providersWithTranslations []*ProviderWithTranslations
 
@@ -219,7 +262,7 @@ func main() {
 		fmt.Printf("  Auth Type: %s\n", provider.AuthType)
 		fmt.Printf("  Categories: %v\n", provider.Categories)
 		fmt.Printf("  Operations: %d\n", len(provider.Operations))
-		fmt.Printf("  Permissions: %d\n", len(provider.Permissions))
+		fmt.Printf("  Permissions: %d\n", len(pwt.Adapter.Permissions))
 		fmt.Printf("  Translations: %d\n", len(pwt.Translations))
 
 		fmt.Println()
@@ -340,12 +383,12 @@ func loadTranslationsFromDir(i18nDir string, providerIdentifier string) ([]Trans
 
 			// Validate JSON format and convert to compact JSON string
 			var temp interface{}
-			if err := json.Unmarshal(translationData, &temp); err != nil {
+			if err := sonic.Unmarshal(translationData, &temp); err != nil {
 				return nil, fmt.Errorf("failed to unmarshal JSON from %s: %w", translationPath, err)
 			}
 
 			// Convert to compact JSON string
-			compactJSON, err := json.Marshal(temp)
+			compactJSON, err := sonic.Marshal(temp)
 			if err != nil {
 				return nil, fmt.Errorf("failed to marshal compact JSON: %w", err)
 			}
@@ -372,14 +415,14 @@ func loadProviderFromFile(filePath string) (*domain.Provider, *adapter_domain.Pr
 	providerID := uuid.New().String()
 
 	var providerJSON ProviderJSON
-	if err := json.Unmarshal(data, &providerJSON); err != nil {
+	if err := sonic.Unmarshal(data, &providerJSON); err != nil {
 		return nil, nil, fmt.Errorf("failed to unmarshal JSON from %s: %w", filePath, err)
 	}
 
 	// Convert permissions from JSON to domain model
-	permissions := make([]domain.Permission, 0, len(providerJSON.Permissions))
+	permissions := make([]types.Permission, 0, len(providerJSON.Permissions))
 	for _, permJSON := range providerJSON.Permissions {
-		perm := domain.NewPermission(permJSON.Identifier, permJSON.Name, permJSON.Description, permJSON.OAuthScopes)
+		perm := adapter_domain.NewPermission(permJSON.Identifier, permJSON.Name, permJSON.Description, permJSON.OAuthScopes)
 		permissions = append(permissions, *perm)
 	}
 
@@ -387,10 +430,10 @@ func loadProviderFromFile(filePath string) (*domain.Provider, *adapter_domain.Pr
 	operations := make([]domain.Operation, 0, len(providerJSON.Operations))
 	for _, opJSON := range providerJSON.Operations {
 		// Convert required permissions identifiers to Permission objects
-		var requiredPermissions []domain.Permission
+		var requiredPermissions []types.Permission
 		if len(opJSON.RequiredPermissions) > 0 {
 			// Create a map for quick lookup of permissions by identifier
-			permMap := make(map[string]domain.Permission)
+			permMap := make(map[string]types.Permission)
 			for _, perm := range permissions {
 				permMap[perm.Identifier] = perm
 			}
@@ -419,9 +462,9 @@ func loadProviderFromFile(filePath string) (*domain.Provider, *adapter_domain.Pr
 	}
 
 	// Use default status if not specified
-	status := domain.ProviderStatusActive
+	status := types.ProviderStatusActive
 	if providerJSON.Status != "" {
-		status = domain.ProviderStatus(providerJSON.Status)
+		status = types.ProviderStatus(providerJSON.Status)
 	}
 
 	// Create provider
@@ -430,11 +473,10 @@ func loadProviderFromFile(filePath string) (*domain.Provider, *adapter_domain.Pr
 		Identifier:  providerJSON.Identifier,
 		Name:        providerJSON.Name,
 		Description: providerJSON.Description,
-		AuthType:    domain.ProviderAuthType(providerJSON.AuthType),
+		AuthType:    types.ProviderAuthType(providerJSON.AuthType),
 		Status:      status,
 		IconURL:     providerJSON.IconURL,
 		Categories:  providerJSON.Categories,
-		Permissions: permissions,
 		Operations:  operations,
 	}
 
@@ -444,7 +486,8 @@ func loadProviderFromFile(filePath string) (*domain.Provider, *adapter_domain.Pr
 			Name:        provider.Name,
 			Description: provider.Description,
 		},
-		ID: providerID,
+		ID:          providerID,
+		Permissions: permissions,
 	}
 	if providerJSON.OAuthConfig != nil {
 		adapter.OAuthConfig = providerJSON.OAuthConfig
@@ -581,22 +624,37 @@ func generateProvidersInsertSQL(providersWithTranslations []*ProviderWithTransla
 		}
 	}
 
+	ctx := context.Background()
+
 	for _, pwt := range providersWithTranslations {
 		provider := pwt.Provider
 
 		// Create JSON attributes with categories and permissions count
 		jsonAttributes := map[string]interface{}{
-			"categories":  provider.Categories,
-			"permissions": provider.Permissions,
+			"categories": provider.Categories,
 		}
-		jsonAttributesData, err := json.Marshal(jsonAttributes)
+		jsonAttributesData, err := sonic.Marshal(jsonAttributes)
 		if err != nil {
 			return fmt.Errorf("failed to marshal json_attributes: %w", err)
 		}
 
+		// Generate embedding for provider description if OpenAI client is available
+		var embeddingStr string = "NULL"
+		if openaiClient != nil {
+			fmt.Printf("Generating embedding for provider: %s\n", provider.Identifier)
+			embedding, err := generateEmbedding(ctx, provider.Description)
+			if err != nil {
+				fmt.Printf("Warning: Failed to generate embedding for provider %s: %v\n", provider.Identifier, err)
+				embeddingStr = "NULL"
+			} else if embedding != nil {
+				embeddingStr = "'" + formatEmbeddingForPostgres(embedding) + "'"
+				fmt.Printf("Successfully generated embedding for provider: %s (%d dimensions)\n", provider.Identifier, len(embedding))
+			}
+		}
+
 		// Generate INSERT statement
-		sql := fmt.Sprintf(`INSERT INTO providers (id, identifier, name, description, auth_type, status, icon_url, json_attributes)
-VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');
+		sql := fmt.Sprintf(`INSERT INTO providers (id, identifier, name, description, auth_type, status, icon_url, json_attributes, embedding)
+VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s);
 
 `,
 			escapeSQL(provider.ID),
@@ -607,6 +665,7 @@ VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');
 			escapeSQL(string(provider.Status)),
 			escapeSQL(provider.IconURL),
 			escapeSQL(string(jsonAttributesData)),
+			embeddingStr,
 		)
 
 		if _, err := file.WriteString(sql); err != nil {
@@ -638,6 +697,8 @@ func generateOperationsInsertSQL(providersWithTranslations []*ProviderWithTransl
 		}
 	}
 
+	ctx := context.Background()
+
 	for _, pwt := range providersWithTranslations {
 		provider := pwt.Provider
 
@@ -647,14 +708,28 @@ func generateOperationsInsertSQL(providersWithTranslations []*ProviderWithTransl
 				"required_permissions": operation.RequiredPermissions,
 				"parameters":           operation.Parameters,
 			}
-			jsonAttributesData, err := json.Marshal(jsonAttributes)
+			jsonAttributesData, err := sonic.Marshal(jsonAttributes)
 			if err != nil {
 				return fmt.Errorf("failed to marshal operation json_attributes: %w", err)
 			}
 
+			// Generate embedding for operation description if OpenAI client is available
+			var embeddingStr string = "NULL"
+			if openaiClient != nil {
+				fmt.Printf("Generating embedding for operation: %s.%s\n", provider.Identifier, operation.Identifier)
+				embedding, err := generateEmbedding(ctx, operation.Description)
+				if err != nil {
+					fmt.Printf("Warning: Failed to generate embedding for operation %s.%s: %v\n", provider.Identifier, operation.Identifier, err)
+					embeddingStr = "NULL"
+				} else if embedding != nil {
+					embeddingStr = "'" + formatEmbeddingForPostgres(embedding) + "'"
+					fmt.Printf("Successfully generated embedding for operation: %s.%s (%d dimensions)\n", provider.Identifier, operation.Identifier, len(embedding))
+				}
+			}
+
 			// Generate INSERT statement
-			sql := fmt.Sprintf(`INSERT INTO operations (id, identifier, provider_id, name, description, category, json_attributes)
-VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s');
+			sql := fmt.Sprintf(`INSERT INTO operations (id, identifier, provider_id, name, description, category, json_attributes, embedding)
+VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', %s);
 
 `,
 				escapeSQL(operation.ID),
@@ -664,6 +739,7 @@ VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s');
 				escapeSQL(operation.Description),
 				escapeSQL(operation.Category),
 				escapeSQL(string(jsonAttributesData)),
+				embeddingStr,
 			)
 
 			if _, err := file.WriteString(sql); err != nil {
@@ -709,19 +785,25 @@ func generateProviderAdaptersInsertSQL(providersWithTranslations []*ProviderWith
 			configs["custom_config"] = adapter.CustomConfig
 		}
 
-		configsData, err := json.Marshal(configs)
+		configsData, err := sonic.Marshal(configs)
 		if err != nil {
 			return fmt.Errorf("failed to marshal adapter configs: %w", err)
 		}
 
+		permissionsData, err := sonic.Marshal(adapter.Permissions)
+		if err != nil {
+			return fmt.Errorf("failed to marshal adapter permissions: %w", err)
+		}
+
 		// Generate INSERT statement
-		sql := fmt.Sprintf(`INSERT INTO provider_adapters (id, identifier, configs)
-VALUES ('%s', '%s', '%s');
+		sql := fmt.Sprintf(`INSERT INTO provider_adapters (id, identifier, configs, permissions)
+VALUES ('%s', '%s', '%s', '%s');
 
 `,
 			escapeSQL(adapter.ID),
 			escapeSQL(adapter.Identifier),
 			escapeSQL(string(configsData)),
+			escapeSQL(string(permissionsData)),
 		)
 
 		if _, err := file.WriteString(sql); err != nil {
@@ -781,7 +863,7 @@ VALUES ('%s', '%s', '%s', '%s');
 }
 
 func generateProvidersDeleteSQL(oldProviderId string, file *os.File) error {
-	sql := fmt.Sprintf(`UPDATE providers SET deleted_at = NOW() WHERE id = '%s' LIMIT 1;
+	sql := fmt.Sprintf(`UPDATE providers SET deleted_at = NOW() WHERE id = '%s';
 
 `,
 		escapeSQL(oldProviderId),
@@ -814,15 +896,21 @@ func generateProviderAdaptersUpdateSQL(providersWithTranslations *ProviderWithTr
 		configs["custom_config"] = adapter.CustomConfig
 	}
 
-	configsData, err := json.Marshal(configs)
+	configsData, err := sonic.Marshal(configs)
 	if err != nil {
 		return fmt.Errorf("failed to marshal adapter configs: %w", err)
 	}
 
-	sql := fmt.Sprintf(`UPDATE provider_adapters SET configs = '%s' WHERE identifier = '%s';
+	permissionsData, err := sonic.Marshal(adapter.Permissions)
+	if err != nil {
+		return fmt.Errorf("failed to marshal adapter permissions: %w", err)
+	}
+
+	sql := fmt.Sprintf(`UPDATE provider_adapters SET configs = '%s', permissions = '%s' WHERE identifier = '%s';
 
 `,
 		escapeSQL(string(configsData)),
+		escapeSQL(string(permissionsData)),
 		escapeSQL(adapter.Identifier),
 	)
 	if _, err := file.WriteString(sql); err != nil {
@@ -851,4 +939,57 @@ func generateProviderTranslationsUpdateSQL(providersWithTranslations *ProviderWi
 // escapeSQL escapes single quotes in SQL strings to prevent SQL injection
 func escapeSQL(s string) string {
 	return strings.ReplaceAll(s, "'", "''")
+}
+
+// generateEmbedding generates embedding for the given text using OpenAI API
+func generateEmbedding(ctx context.Context, text string) ([]float64, error) {
+	if openaiClient == nil {
+		return nil, fmt.Errorf("OpenAI client not initialized")
+	}
+
+	if text == "" {
+		return nil, nil
+	}
+
+	req := openai.EmbeddingRequest{
+		Input: []string{text},
+		Model: openai.SmallEmbedding3,
+	}
+
+	resp, err := openaiClient.CreateEmbeddings(ctx, req)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create embedding: %w", err)
+	}
+
+	if len(resp.Data) == 0 {
+		return nil, fmt.Errorf("no embedding data returned")
+	}
+
+	// Convert from []float32 to []float64
+	embedding := make([]float64, len(resp.Data[0].Embedding))
+	for i, v := range resp.Data[0].Embedding {
+		embedding[i] = float64(v)
+	}
+
+	return embedding, nil
+}
+
+// formatEmbeddingForPostgres converts a float64 slice to PostgreSQL vector format
+func formatEmbeddingForPostgres(embedding []float64) string {
+	if len(embedding) == 0 {
+		return "NULL"
+	}
+
+	var builder strings.Builder
+	builder.WriteString("[")
+
+	for i, val := range embedding {
+		if i > 0 {
+			builder.WriteString(",")
+		}
+		builder.WriteString(fmt.Sprintf("%f", val))
+	}
+
+	builder.WriteString("]")
+	return builder.String()
 }

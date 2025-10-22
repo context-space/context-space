@@ -235,6 +235,65 @@ func (_c *MockOperationRepository_GetByProviderIDAndIdentifier_Call) RunAndRetur
 	return _c
 }
 
+// ListByIDs provides a mock function with given fields: ctx, ids
+func (_m *MockOperationRepository) ListByIDs(ctx context.Context, ids []string) ([]*domain.Operation, error) {
+	ret := _m.Called(ctx, ids)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListByIDs")
+	}
+
+	var r0 []*domain.Operation
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, []string) ([]*domain.Operation, error)); ok {
+		return rf(ctx, ids)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, []string) []*domain.Operation); ok {
+		r0 = rf(ctx, ids)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]*domain.Operation)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, []string) error); ok {
+		r1 = rf(ctx, ids)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockOperationRepository_ListByIDs_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListByIDs'
+type MockOperationRepository_ListByIDs_Call struct {
+	*mock.Call
+}
+
+// ListByIDs is a helper method to define mock.On call
+//   - ctx context.Context
+//   - ids []string
+func (_e *MockOperationRepository_Expecter) ListByIDs(ctx interface{}, ids interface{}) *MockOperationRepository_ListByIDs_Call {
+	return &MockOperationRepository_ListByIDs_Call{Call: _e.mock.On("ListByIDs", ctx, ids)}
+}
+
+func (_c *MockOperationRepository_ListByIDs_Call) Run(run func(ctx context.Context, ids []string)) *MockOperationRepository_ListByIDs_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context), args[1].([]string))
+	})
+	return _c
+}
+
+func (_c *MockOperationRepository_ListByIDs_Call) Return(_a0 []*domain.Operation, _a1 error) *MockOperationRepository_ListByIDs_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockOperationRepository_ListByIDs_Call) RunAndReturn(run func(context.Context, []string) ([]*domain.Operation, error)) *MockOperationRepository_ListByIDs_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListByProviderID provides a mock function with given fields: ctx, providerID
 func (_m *MockOperationRepository) ListByProviderID(ctx context.Context, providerID string) ([]*domain.Operation, error) {
 	ret := _m.Called(ctx, providerID)

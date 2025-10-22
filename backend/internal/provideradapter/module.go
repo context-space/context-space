@@ -15,17 +15,22 @@ import (
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/persistence"
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/registry"
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/templates"
+	"github.com/context-space/context-space/backend/internal/provideradapter/interfaces/contract"
 	"github.com/context-space/context-space/backend/internal/provideradapter/interfaces/http"
 	providercore "github.com/context-space/context-space/backend/internal/providercore/application"
+	contractAdapter "github.com/context-space/context-space/backend/internal/shared/contract/provideradapter"
 	"github.com/context-space/context-space/backend/internal/shared/infrastructure/database"
+	translation "github.com/context-space/context-space/backend/internal/translation/application"
 )
 
-// Module encapsulates all provider adapter components
+// Module represents the provider adapter module
 type Module struct {
-	adapterFactory        *application.AdapterFactory
-	providerLoaderService *application.ProviderLoaderService
-	adapterHandler        *http.AdapterHandler
-	obs                   *observability.ObservabilityProvider
+	adapterFactory         *application.AdapterFactory
+	providerLoaderService  *application.ProviderLoaderService
+	providerAdapterService *application.ProviderAdapterService
+	adapterHandler         *http.AdapterHandler
+	adapterContractFacade  contractAdapter.ProviderAdapterContract
+	obs                    *observability.ObservabilityProvider
 }
 
 // NewModule creates a new provider adapter module
@@ -33,22 +38,40 @@ func NewModule(
 	db database.Database,
 	observabilityProvider *observability.ObservabilityProvider,
 	providerCoreService *providercore.ProviderService,
+	providerTranslationService *translation.ProviderTranslationService,
 ) (*Module, error) {
 	// Initialize adapter factory
 	adapterFactory := application.NewAdapterFactory()
 
+	// Create ACL for accessing ProviderCore data
 	providerCoreACL := acl.NewProviderCoreACL(providerCoreService, observabilityProvider)
+	providerTranslationACL := acl.NewProviderTranslationACL(providerTranslationService, observabilityProvider)
 
 	// Create repositories
-	providerRepo := persistence.NewAdapterRepository(db, observabilityProvider)
+	adapterRepo := persistence.NewAdapterRepository(db, observabilityProvider)
 
+	// Create provider loader
 	providerLoader := registry.NewProviderLoader(adapterFactory)
 
-	// Initialize provider loader
+	// Initialize provider loader service
 	providerLoaderService := application.NewProviderLoaderService(
 		providerCoreACL,
-		providerRepo,
+		adapterRepo,
 		providerLoader,
+		observabilityProvider,
+	)
+
+	// Initialize provider adapter service
+	providerAdapterService := application.NewProviderAdapterService(
+		providerCoreACL,
+		providerTranslationACL,
+		adapterRepo,
+		observabilityProvider,
+	)
+
+	// Create contract facade for external modules
+	adapterContractFacade := contract.NewAdapterContractFacade(
+		adapterFactory,
 		observabilityProvider,
 	)
 
@@ -60,14 +83,17 @@ func NewModule(
 	// Initialize HTTP handlers
 	adapterHandler := http.NewAdapterHandler(
 		adapterFactory,
+		providerAdapterService,
 		providerLoaderService,
 	)
 
 	return &Module{
-		adapterFactory:        adapterFactory,
-		providerLoaderService: providerLoaderService,
-		adapterHandler:        adapterHandler,
-		obs:                   observabilityProvider,
+		adapterFactory:         adapterFactory,
+		providerLoaderService:  providerLoaderService,
+		providerAdapterService: providerAdapterService,
+		adapterHandler:         adapterHandler,
+		adapterContractFacade:  adapterContractFacade,
+		obs:                    observabilityProvider,
 	}, nil
 }
 
@@ -108,6 +134,15 @@ func (m *Module) GetAdapterFactory() *application.AdapterFactory {
 	return m.adapterFactory
 }
 
+// GetAdapterReaderFacade returns the contract facade for external modules
+func (m *Module) GetAdapterContractFacade() contractAdapter.ProviderAdapterContract {
+	return m.adapterContractFacade
+}
+
 func (m *Module) GetProviderLoaderService() *application.ProviderLoaderService {
 	return m.providerLoaderService
+}
+
+func (m *Module) GetProviderAdapterService() *application.ProviderAdapterService {
+	return m.providerAdapterService
 }

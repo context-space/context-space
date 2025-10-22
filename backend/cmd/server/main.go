@@ -26,6 +26,7 @@ import (
 	"github.com/context-space/context-space/backend/internal/shared/infrastructure/cache"
 	"github.com/context-space/context-space/backend/internal/shared/infrastructure/database"
 	"github.com/context-space/context-space/backend/internal/shared/interfaces/http/middleware"
+	"github.com/context-space/context-space/backend/internal/translation"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -251,11 +252,21 @@ func main() {
 		observabilityProvider.Logger.Fatal(ctx, "Failed to initialize identity and access module", zap.Error(err))
 	}
 
+	// Initialize provider translation module
+	providerTranslationModule, err := translation.NewModule(
+		postgresClient,
+		observabilityProvider,
+	)
+	if err != nil {
+		observabilityProvider.Logger.Fatal(ctx, "Failed to initialize provider translation module", zap.Error(err))
+	}
+
 	// Initialize provider core module
 	providerCoreModule, err := providercore.NewModule(
 		postgresClient,
 		eventBus,
 		observabilityProvider,
+		providerTranslationModule.GetProviderTranslationService(),
 	)
 	if err != nil {
 		observabilityProvider.Logger.Fatal(ctx, "Failed to initialize provider core module", zap.Error(err))
@@ -266,6 +277,7 @@ func main() {
 		postgresClient,
 		observabilityProvider,
 		providerCoreModule.GetProviderService(),
+		providerTranslationModule.GetProviderTranslationService(),
 	)
 	if err != nil {
 		observabilityProvider.Logger.Fatal(ctx, "Failed to initialize provider adapter module", zap.Error(err))
@@ -278,7 +290,7 @@ func main() {
 		cfg,
 		eventBus,
 		observabilityProvider,
-		providerAdapterModule.GetAdapterFactory(),
+		providerAdapterModule.GetAdapterContractFacade(),
 		redisClient,
 	)
 	if err != nil {
@@ -291,11 +303,10 @@ func main() {
 		eventBus,
 		observabilityProvider,
 		providerCoreModule.GetProviderService(),
-		providerAdapterModule.GetAdapterFactory(),
-		credentialManagementModule.CredentialFactory(),
+		providerAdapterModule.GetAdapterContractFacade(),
+		credentialManagementModule.GetCredentialContractFacade(),
 		providerCoreModule.GetProviderService(),
 		redisClient,
-		credentialManagementModule.TokenRefreshService(),
 	)
 	if err != nil {
 		observabilityProvider.Logger.Fatal(ctx, "Failed to initialize integration module", zap.Error(err))
@@ -370,11 +381,11 @@ func main() {
 		Handler: router,
 	}
 
-	// Start the server in a goroutine
+	// Start the HTTP server in a goroutine
 	go func() {
-		logger.Info("Starting server", zap.String("address", server.Addr))
+		logger.Info("Starting HTTP server", zap.String("address", server.Addr))
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			observabilityProvider.Logger.Fatal(ctx, "Failed to start server", zap.Error(err))
+			observabilityProvider.Logger.Fatal(ctx, "Failed to start HTTP server", zap.Error(err))
 		}
 	}()
 
@@ -382,7 +393,7 @@ func main() {
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
-	logger.Info("Shutting down server...")
+	logger.Info("Shutting down servers...")
 
 	// log memory stats
 	var m runtime.MemStats
@@ -398,10 +409,10 @@ func main() {
 	defer cancel()
 
 	if err := server.Shutdown(shutdownCtx); err != nil {
-		observabilityProvider.Logger.Fatal(ctx, "Server forced to shutdown", zap.Error(err))
+		observabilityProvider.Logger.Fatal(ctx, "HTTP server forced to shutdown", zap.Error(err))
 	}
 
-	logger.Info("Server exiting")
+	logger.Info("Servers exiting")
 }
 
 // initializeRoutes registers all API routes

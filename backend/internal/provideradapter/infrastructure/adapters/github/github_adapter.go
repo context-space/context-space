@@ -11,7 +11,6 @@ import (
 	githubOAuth "golang.org/x/oauth2/github"
 
 	"github.com/context-space/context-space/backend/internal/provideradapter/domain"
-	providercore "github.com/context-space/context-space/backend/internal/providercore/domain"
 )
 
 // GitHubAdapter is an adapter for GitHub
@@ -19,7 +18,7 @@ type GitHubAdapter struct {
 	*base.BaseAdapter
 	oauthConfig   *domain.OAuthConfig
 	operations    Operations
-	permissionSet providercore.PermissionSet
+	permissionSet domain.PermissionSet
 }
 
 // NewGitHubAdapter creates a new GitHub adapter
@@ -27,7 +26,7 @@ func NewGitHubAdapter(
 	providerAdapterInfo *domain.ProviderAdapterInfo,
 	config *domain.AdapterConfig,
 	oauthConfig *domain.OAuthConfig,
-	permissions providercore.PermissionSet,
+	permissions domain.PermissionSet,
 ) *GitHubAdapter {
 	baseAdapter := base.NewBaseAdapter(providerAdapterInfo, config)
 

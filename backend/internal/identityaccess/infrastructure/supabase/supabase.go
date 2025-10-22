@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	"github.com/bytedance/sonic"
-	"github.com/context-space/cloud-observability"
+	observability "github.com/context-space/cloud-observability"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 )

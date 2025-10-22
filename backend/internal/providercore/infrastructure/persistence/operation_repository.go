@@ -4,26 +4,42 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"sync"
+	"time"
 
 	"github.com/bytedance/sonic"
 	observability "github.com/context-space/cloud-observability"
 	"github.com/context-space/context-space/backend/internal/providercore/domain"
+	"github.com/context-space/context-space/backend/internal/shared/infrastructure/cache"
 	"github.com/context-space/context-space/backend/internal/shared/infrastructure/database"
+	"github.com/context-space/context-space/backend/internal/shared/types"
+	"github.com/context-space/context-space/backend/internal/shared/utils"
 	"gorm.io/gorm"
+)
+
+const (
+	cacheKeyOperationByID                      = "operation_by_id:"
+	cacheKeyOperationByProviderIDAndIdentifier = "operation_by_provider_id_and_identifier:"
 )
 
 // OperationRepository implements the domain.OperationRepository interface
 type OperationRepository struct {
-	db  database.Database
-	obs *observability.ObservabilityProvider
+	db        database.Database
+	obs       *observability.ObservabilityProvider
+	cache     *cache.LRUCache[string, *domain.Operation]
+	cacheOnce sync.Once
 }
 
 // NewOperationRepository creates a new operation repository
 func NewOperationRepository(db database.Database, observabilityProvider *observability.ObservabilityProvider) *OperationRepository {
-	return &OperationRepository{
+	repo := &OperationRepository{
 		db:  db,
 		obs: observabilityProvider,
 	}
+	repo.cacheOnce.Do(func() {
+		repo.cache = cache.NewLRUCache[string, *domain.Operation](500, 1*time.Hour)
+	})
+	return repo
 }
 
 // ListByProviderID returns all operations for a provider
@@ -46,6 +62,12 @@ func (r *OperationRepository) ListByProviderID(ctx context.Context, providerID s
 		operations = append(operations, operation)
 	}
 
+	batchCache := make(map[string]*domain.Operation, len(operations))
+	for _, operation := range operations {
+		batchCache[utils.StringsBuilder(cacheKeyOperationByProviderIDAndIdentifier, operation.ProviderID, ":", operation.Identifier)] = operation
+	}
+	r.cache.BatchSet(batchCache)
+
 	return operations, nil
 }
 
@@ -53,6 +75,11 @@ func (r *OperationRepository) ListByProviderID(ctx context.Context, providerID s
 func (r *OperationRepository) GetByID(ctx context.Context, id string) (*domain.Operation, error) {
 	ctx, span := r.obs.Tracer.Start(ctx, "OperationRepository.GetByID")
 	defer span.End()
+
+	cachekey := utils.StringsBuilder(cacheKeyOperationByID, id)
+	if operation, ok := r.cache.Get(cachekey); ok {
+		return operation, nil
+	}
 
 	var model OperationModel
 	result := r.db.WithContext(ctx).Where("id = ?", id).First(&model)
@@ -63,13 +90,55 @@ func (r *OperationRepository) GetByID(ctx context.Context, id string) (*domain.O
 		return nil, result.Error
 	}
 
-	return r.mapToDomain(&model)
+	operation, err := r.mapToDomain(&model)
+	if err != nil {
+		return nil, err
+	}
+
+	r.cache.Set(cachekey, operation)
+	return operation, nil
+}
+
+// ListByIDs returns a list of operations by IDs
+func (r *OperationRepository) ListByIDs(ctx context.Context, ids []string) ([]*domain.Operation, error) {
+	ctx, span := r.obs.Tracer.Start(ctx, "OperationRepository.ListByIDs")
+	defer span.End()
+
+	var models []OperationModel
+	result := r.db.WithContext(ctx).Where("id IN (?)", ids).Find(&models)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	operations := make([]*domain.Operation, 0, len(models))
+	for i := range models {
+		operation, err := r.mapToDomain(&models[i])
+		if err != nil {
+			return nil, err
+		}
+		operations = append(operations, operation)
+	}
+
+	batchCache := make(map[string]*domain.Operation, len(operations))
+	batchIDCache := make(map[string]*domain.Operation, len(operations))
+	for _, operation := range operations {
+		batchCache[utils.StringsBuilder(cacheKeyOperationByProviderIDAndIdentifier, operation.ProviderID, ":", operation.Identifier)] = operation
+		batchIDCache[utils.StringsBuilder(cacheKeyOperationByID, operation.ID)] = operation
+	}
+	r.cache.BatchSet(batchCache)
+	r.cache.BatchSet(batchIDCache)
+	return operations, nil
 }
 
 // GetByProviderIDAndIdentifier returns an operation by provider ID and identifier
 func (r *OperationRepository) GetByProviderIDAndIdentifier(ctx context.Context, providerID, identifier string) (*domain.Operation, error) {
 	ctx, span := r.obs.Tracer.Start(ctx, "OperationRepository.GetByProviderIDAndIdentifier")
 	defer span.End()
+
+	cachekey := utils.StringsBuilder(cacheKeyOperationByProviderIDAndIdentifier, providerID, ":", identifier)
+	if operation, ok := r.cache.Get(cachekey); ok {
+		return operation, nil
+	}
 
 	var model OperationModel
 	result := r.db.WithContext(ctx).Where("provider_id = ? AND identifier = ?", providerID, identifier).First(&model)
@@ -80,7 +149,13 @@ func (r *OperationRepository) GetByProviderIDAndIdentifier(ctx context.Context, 
 		return nil, result.Error
 	}
 
-	return r.mapToDomain(&model)
+	operation, err := r.mapToDomain(&model)
+	if err != nil {
+		return nil, err
+	}
+
+	r.cache.Set(cachekey, operation)
+	return operation, nil
 }
 
 // Create creates a new operation
@@ -131,8 +206,8 @@ func (r *OperationRepository) Delete(ctx context.Context, id string) error {
 // mapToDomain maps an operation model to a domain operation
 func (r *OperationRepository) mapToDomain(model *OperationModel) (*domain.Operation, error) {
 	var jsonAttributes struct {
-		RequiredPermissions []domain.Permission `json:"required_permissions"`
-		Parameters          []domain.Parameter  `json:"parameters"`
+		RequiredPermissions []types.Permission `json:"required_permissions"`
+		Parameters          []domain.Parameter `json:"parameters"`
 	}
 
 	if err := sonic.Unmarshal(model.JSONAttributes, &jsonAttributes); err != nil {
@@ -157,8 +232,8 @@ func (r *OperationRepository) mapToDomain(model *OperationModel) (*domain.Operat
 // mapToModel maps a domain operation to an operation model
 func (r *OperationRepository) mapToModel(operation *domain.Operation) (*OperationModel, error) {
 	jsonAttributes := struct {
-		RequiredPermissions []domain.Permission `json:"required_permissions"`
-		Parameters          []domain.Parameter  `json:"parameters"`
+		RequiredPermissions []types.Permission `json:"required_permissions"`
+		Parameters          []domain.Parameter `json:"parameters"`
 	}{
 		RequiredPermissions: operation.RequiredPermissions,
 		Parameters:          operation.Parameters,

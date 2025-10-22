@@ -11,24 +11,33 @@ import (
 	volcclient "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/knowledgebase/volcengine/client"
 	volcenginetypes "github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/adapters/knowledgebase/volcengine/types"
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/registry"
-	providercore "github.com/context-space/context-space/backend/internal/providercore/domain"
+	"github.com/context-space/context-space/backend/internal/shared/types"
 )
 
 const (
-	identifier  = "cfa_knowledgebase"
 	region      = "cn-north-1"
 	endpoint    = "https://api-knowledgebase.mlp.cn-beijing.volces.com"
 	serviceName = "air"
 )
 
+var DefaultKnowledgebaseTemplates = []string{
+	"cfa_knowledgebase",
+}
+
 // Register the Volcengine Knowledge Base adapter template
 func init() {
-	template := &KnowledgeBaseTemplate{}
-	registry.RegisterAdapterTemplate("cfa_knowledgebase", template)
+	for _, identifier := range DefaultKnowledgebaseTemplates {
+		template := &KnowledgeBaseTemplate{
+			Identifier: identifier,
+		}
+		registry.RegisterAdapterTemplate(identifier, template)
+	}
 }
 
 // KnowledgeBaseTemplate is a template for creating Volcengine Knowledge Base adapters
-type KnowledgeBaseTemplate struct{}
+type KnowledgeBaseTemplate struct {
+	Identifier string
+}
 
 // CreateAdapter creates a new Volcengine Knowledge Base adapter based on the provided configuration.
 // It handles extracting configuration, creating the internal Volcengine client, and instantiating the adapter.
@@ -68,6 +77,7 @@ func (t *KnowledgeBaseTemplate) CreateAdapter(provider *domain.ProviderAdapterCo
 	var jsonAttributes struct {
 		VolcengineCredentials *volcenginetypes.VolcengineCredential `json:"volcengine_credentials"`
 		OpenaiCredentials     *openaitypes.OpenaiCredential         `json:"openai_credentials"`
+		KnowledgebaseConfig   *KnowledgebaseAdapterConfig           `json:"knowledgebase_config"`
 	}
 	err = sonic.Unmarshal(jsonBytes, &jsonAttributes)
 	if err != nil {
@@ -75,6 +85,10 @@ func (t *KnowledgeBaseTemplate) CreateAdapter(provider *domain.ProviderAdapterCo
 	}
 
 	volcengineCreds := jsonAttributes.VolcengineCredentials
+
+	baseConfig := DefaultKnowledgebaseAdapterConfig
+
+	mergeKnowledgebaseConfig(&baseConfig, jsonAttributes.KnowledgebaseConfig)
 
 	internalClient := volcclient.NewVolcengineClient(
 		providerInfo.Identifier, // Pass providerIdentifier
@@ -96,7 +110,7 @@ func (t *KnowledgeBaseTemplate) CreateAdapter(provider *domain.ProviderAdapterCo
 		adapterConfig,
 		*internalClient, // Pass the dereferenced struct value
 		*openaiClient,
-		&opDefaults,
+		&baseConfig,
 	)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create KnowledgeBaseAdapter: %w", err)
@@ -111,11 +125,11 @@ func (t *KnowledgeBaseTemplate) ValidateConfig(provider *domain.ProviderAdapterC
 		return fmt.Errorf("provider is required")
 	}
 
-	if provider.Identifier != identifier {
-		return fmt.Errorf("invalid provider identifier, must be '%s'", identifier)
+	if provider.Identifier != t.Identifier {
+		return fmt.Errorf("invalid provider identifier, must be '%s'", t.Identifier)
 	}
 
-	if provider.AuthType != providercore.AuthTypeNone {
+	if provider.AuthType != types.AuthTypeNone {
 		return fmt.Errorf("missing or invalid auth_type, expected 'none'")
 	}
 
@@ -127,6 +141,7 @@ func (t *KnowledgeBaseTemplate) ValidateConfig(provider *domain.ProviderAdapterC
 	var jsonAttributes struct {
 		VolcengineCredentials *volcenginetypes.VolcengineCredential `json:"volcengine_credentials"`
 		OpenaiCredentials     *openaitypes.OpenaiCredential         `json:"openai_credentials"`
+		KnowledgebaseConfig   *KnowledgebaseAdapterConfig           `json:"knowledgebase_config"`
 	}
 	err = sonic.Unmarshal(jsonBytes, &jsonAttributes)
 	if err != nil {
@@ -145,5 +160,127 @@ func (t *KnowledgeBaseTemplate) ValidateConfig(provider *domain.ProviderAdapterC
 		return fmt.Errorf("openai_credentials is required")
 	}
 
+	if jsonAttributes.KnowledgebaseConfig == nil {
+		return fmt.Errorf("knowledgebase_config is required")
+	}
+
+	if jsonAttributes.KnowledgebaseConfig.Project == "" {
+		return fmt.Errorf("knowledgebase_config project is required")
+	}
+
+	if jsonAttributes.KnowledgebaseConfig.CollectionName == "" {
+		return fmt.Errorf("knowledgebase_config collection_name is required")
+	}
+
+	if jsonAttributes.KnowledgebaseConfig.Search != nil {
+		if jsonAttributes.KnowledgebaseConfig.Search.Limit != nil && *jsonAttributes.KnowledgebaseConfig.Search.Limit <= 0 {
+			return fmt.Errorf("knowledgebase_config search limit must be greater than 0")
+		}
+	}
+
+	if jsonAttributes.KnowledgebaseConfig.Chat != nil {
+		if jsonAttributes.KnowledgebaseConfig.Chat.Model != nil && *jsonAttributes.KnowledgebaseConfig.Chat.Model == "" {
+			return fmt.Errorf("knowledgebase_config chat model is required")
+		}
+		if jsonAttributes.KnowledgebaseConfig.Chat.Temperature != nil && *jsonAttributes.KnowledgebaseConfig.Chat.Temperature < 0 {
+			return fmt.Errorf("knowledgebase_config chat temperature must be greater than 0")
+		}
+	}
+
+	if jsonAttributes.KnowledgebaseConfig.Query != nil {
+		if jsonAttributes.KnowledgebaseConfig.Query.SearchLimit != nil && *jsonAttributes.KnowledgebaseConfig.Query.SearchLimit <= 0 {
+			return fmt.Errorf("knowledgebase_config query search limit must be greater than 0")
+		}
+		if jsonAttributes.KnowledgebaseConfig.Query.RerankRetrieveCount != nil && *jsonAttributes.KnowledgebaseConfig.Query.RerankRetrieveCount <= 0 {
+			return fmt.Errorf("knowledgebase_config query rerank retrieve count must be greater than 0")
+		}
+		if jsonAttributes.KnowledgebaseConfig.Query.RerankModel != nil && *jsonAttributes.KnowledgebaseConfig.Query.RerankModel == "" {
+			return fmt.Errorf("knowledgebase_config query rerank model is required")
+		}
+		if jsonAttributes.KnowledgebaseConfig.Query.LLMModel != nil && *jsonAttributes.KnowledgebaseConfig.Query.LLMModel == "" {
+			return fmt.Errorf("knowledgebase_config query llm model is required")
+		}
+		if jsonAttributes.KnowledgebaseConfig.Query.LLMTemperature != nil && *jsonAttributes.KnowledgebaseConfig.Query.LLMTemperature < 0 {
+			return fmt.Errorf("knowledgebase_config query llm temperature must be greater than 0")
+		}
+	}
+
 	return nil
+}
+
+// mergeKnowledgebaseConfig merge KnowledgebaseAdapterConfig, only non-nil values will override default values
+func mergeKnowledgebaseConfig(base *KnowledgebaseAdapterConfig, input *KnowledgebaseAdapterConfig) {
+	if input == nil {
+		return
+	}
+
+	base.Project = input.Project
+	base.CollectionName = input.CollectionName
+
+	if input.Search != nil {
+		if base.Search == nil {
+			base.Search = &SearchConfig{}
+		}
+		mergeSearchConfig(base.Search, input.Search)
+	}
+
+	if input.Chat != nil {
+		if base.Chat == nil {
+			base.Chat = &ChatConfig{}
+		}
+		mergeChatConfig(base.Chat, input.Chat)
+	}
+
+	if input.Query != nil {
+		if base.Query == nil {
+			base.Query = &QueryConfig{}
+		}
+		mergeQueryConfig(base.Query, input.Query)
+	}
+}
+
+// mergeSearchConfig merge SearchConfig, only non-nil values will override default values
+func mergeSearchConfig(base *SearchConfig, input *SearchConfig) {
+	if input.Limit != nil && *input.Limit > 0 {
+		base.Limit = input.Limit
+	}
+}
+
+// mergeChatConfig merge ChatConfig, only non-nil values will override default values
+func mergeChatConfig(base *ChatConfig, input *ChatConfig) {
+	if input.Model != nil {
+		base.Model = input.Model
+	}
+	if input.Stream != nil {
+		base.Stream = input.Stream
+	}
+	if input.Temperature != nil {
+		base.Temperature = input.Temperature
+	}
+}
+
+// mergeQueryConfig merge QueryConfig, only non-nil values will override default values
+func mergeQueryConfig(base *QueryConfig, input *QueryConfig) {
+	if input.SearchLimit != nil {
+		base.SearchLimit = input.SearchLimit
+	}
+	if input.RerankRetrieveCount != nil {
+		base.RerankRetrieveCount = input.RerankRetrieveCount
+	}
+	if input.RerankModel != nil {
+		base.RerankModel = input.RerankModel
+	}
+	if input.LLMModel != nil {
+		base.LLMModel = input.LLMModel
+	}
+	if input.LLMTemperature != nil {
+		base.LLMTemperature = input.LLMTemperature
+	}
+
+	if input.RewriteQuery != nil {
+		base.RewriteQuery = input.RewriteQuery
+	}
+	if input.Rerank != nil {
+		base.Rerank = input.Rerank
+	}
 }

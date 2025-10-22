@@ -16,7 +16,6 @@ require (
 	github.com/golang-migrate/migrate/v4 v4.18.3
 	github.com/google/go-github/v71 v71.0.0
 	github.com/google/uuid v1.6.0
-	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/hashicorp/vault/api v1.20.0
 	github.com/lib/pq v1.10.9 // indirect
 	github.com/mitchellh/mapstructure v1.5.0
@@ -52,6 +51,7 @@ require (
 	github.com/invopop/jsonschema v0.13.0
 	github.com/joho/godotenv v1.5.1
 	github.com/mark3labs/mcp-go v0.34.0
+	github.com/sashabaranov/go-openai v1.40.5
 )
 
 require (

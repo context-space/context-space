@@ -21,11 +21,11 @@ import (
 var skipPaths = []string{"/health"}
 
 const (
-	// maxRequestBodySize is the maximum size of the request body to be logged
+	// 请求体记录的最大大小限制（64KB）
 	maxRequestBodySize = 64 * 1024
 )
 
-// List of supported Content-Types for logging
+// 支持记录的Content-Type列表
 var loggableContentTypes = []string{
 	"application/json",
 	"application/xml",
@@ -94,7 +94,7 @@ func RequestLoggingMiddleware(obs *observability.ObservabilityProvider) gin.Hand
 	}
 }
 
-// isLoggableContentType checks if the Content-Type is loggable
+// isLoggableContentType 检查Content-Type是否可记录
 func isLoggableContentType(contentType string) bool {
 	for _, loggableType := range loggableContentTypes {
 		if strings.Contains(strings.ToLower(contentType), loggableType) {
@@ -104,24 +104,24 @@ func isLoggableContentType(contentType string) bool {
 	return false
 }
 
-// readRequestBody safely reads and reconstructs the request body
+// readRequestBody 安全地读取并重建请求体
 func readRequestBody(c *gin.Context) string {
-	// Check if Content-Type is loggable
+	// 检查Content-Type是否可记录
 	contentType := c.GetHeader("Content-Type")
 	if !isLoggableContentType(contentType) {
 		return ""
 	}
 
-	// Read request body
+	// 读取请求体
 	body, err := io.ReadAll(c.Request.Body)
 	if err != nil {
 		return ""
 	}
 
-	// Reconstruct request body for subsequent handlers
+	// 重建请求体供后续handler使用
 	c.Request.Body = io.NopCloser(strings.NewReader(string(body)))
 
-	// Limit the size of the logged body
+	// 限制记录的body大小
 	if len(body) > maxRequestBodySize {
 		return string(body[:maxRequestBodySize]) + "...truncated"
 	}

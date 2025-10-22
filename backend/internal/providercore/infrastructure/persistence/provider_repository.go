@@ -9,89 +9,28 @@ import (
 	observability "github.com/context-space/cloud-observability"
 	"github.com/context-space/context-space/backend/internal/providercore/domain"
 	"github.com/context-space/context-space/backend/internal/shared/infrastructure/database"
-	"github.com/context-space/context-space/backend/internal/shared/utils"
-	lru "github.com/hashicorp/golang-lru/v2"
-	"go.uber.org/zap"
-	"golang.org/x/text/language"
+	"github.com/context-space/context-space/backend/internal/shared/types"
 	"gorm.io/gorm"
-)
-
-// JSON structures for deserializing translations JSONB field
-type translationJSON struct {
-	Name        string       `json:"name"`
-	Description string       `json:"description"`
-	Categories  []string     `json:"categories"`
-	Permissions []permission `json:"permissions"`
-	Operations  []operation  `json:"operations"`
-}
-
-type permission struct {
-	Identifier  string `json:"identifier"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-}
-
-type operation struct {
-	Identifier  string      `json:"identifier"`
-	Name        string      `json:"name"`
-	Description string      `json:"description"`
-	Parameters  []parameter `json:"parameters"`
-}
-
-type parameter struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
-}
-
-// Cache configuration constants
-const (
-	cachePrefixID         = "provider-id:"
-	cachePrefixIdentifier = "provider-identifier:"
-	defaultCacheSize      = 10
 )
 
 // ProviderRepository implements the domain.ProviderRepository interface
 type ProviderRepository struct {
-	db    database.Database
-	obs   *observability.ObservabilityProvider
-	cache *lru.Cache[string, *domain.Provider]
+	db  database.Database
+	obs *observability.ObservabilityProvider
 }
 
 // NewProviderRepository creates a new provider repository
 func NewProviderRepository(db database.Database, observabilityProvider *observability.ObservabilityProvider) *ProviderRepository {
-	cache, err := lru.New[string, *domain.Provider](defaultCacheSize)
-	if err != nil {
-		// This should never happen with a valid size, but handle it gracefully
-		observabilityProvider.Logger.Fatal(context.Background(), "Failed to initialize provider cache", zap.Error(err))
-	}
-
 	return &ProviderRepository{
-		db:    db,
-		obs:   observabilityProvider,
-		cache: cache,
+		db:  db,
+		obs: observabilityProvider,
 	}
-}
-
-// getCacheKeyByID returns the cache key for a provider by ID
-func (r *ProviderRepository) getCacheKeyByID(id string) string {
-	return utils.StringsBuilder(cachePrefixID, id)
-}
-
-// getCacheKeyByIdentifier returns the cache key for a provider by identifier
-func (r *ProviderRepository) getCacheKeyByIdentifier(identifier string) string {
-	return utils.StringsBuilder(cachePrefixIdentifier, identifier)
 }
 
 // GetByID retrieves a provider by ID
 func (r *ProviderRepository) GetByID(ctx context.Context, id string) (*domain.Provider, error) {
 	ctx, span := r.obs.Tracer.Start(ctx, "ProviderRepository.GetByID")
 	defer span.End()
-
-	// Check cache first
-	cacheKey := r.getCacheKeyByID(id)
-	if cachedProvider, found := r.cache.Get(cacheKey); found {
-		return cachedProvider, nil
-	}
 
 	var model ProviderModel
 	result := r.db.WithContext(ctx).First(&model, "id = ?", id)
@@ -116,32 +55,36 @@ func (r *ProviderRepository) GetByID(ctx context.Context, id string) (*domain.Pr
 
 	// Set operations on the provider
 	provider.Operations = operations
+	return provider, nil
+}
 
-	// Load translations for this provider
-	if err := r.loadTranslations(ctx, provider); err != nil {
-		r.obs.Logger.Warn(ctx, "Failed to load translations for provider, continuing without translations",
-			zap.String("provider_id", provider.ID),
-			zap.Error(err))
-		// Continue without translations - GetTranslation will handle fallback
+// ListByIDs retrieves a list of providers by IDs
+func (r *ProviderRepository) ListByIDs(ctx context.Context, ids []string) ([]*domain.Provider, error) {
+	ctx, span := r.obs.Tracer.Start(ctx, "ProviderRepository.ListByIDs")
+	defer span.End()
+
+	var models []ProviderModel
+	result := r.db.WithContext(ctx).Where("id IN (?)", ids).Find(&models)
+	if result.Error != nil {
+		return nil, result.Error
 	}
 
-	// Add to cache with both keys
-	r.cache.Add(r.getCacheKeyByID(provider.ID), provider)
-	r.cache.Add(r.getCacheKeyByIdentifier(provider.Identifier), provider)
+	providers := make([]*domain.Provider, 0, len(models))
+	for i := range models {
+		provider, err := r.mapToDomain(&models[i])
+		if err != nil {
+			return nil, err
+		}
+		providers = append(providers, provider)
+	}
 
-	return provider, nil
+	return providers, nil
 }
 
 // GetByIdentifier retrieves a provider by identifier
 func (r *ProviderRepository) GetByIdentifier(ctx context.Context, identifier string) (*domain.Provider, error) {
 	ctx, span := r.obs.Tracer.Start(ctx, "ProviderRepository.GetByIdentifier")
 	defer span.End()
-
-	// Check cache first
-	cacheKey := r.getCacheKeyByIdentifier(identifier)
-	if cachedProvider, found := r.cache.Get(cacheKey); found {
-		return cachedProvider, nil
-	}
 
 	var model ProviderModel
 	result := r.db.WithContext(ctx).First(&model, "identifier = ?", identifier)
@@ -166,24 +109,11 @@ func (r *ProviderRepository) GetByIdentifier(ctx context.Context, identifier str
 
 	// Set operations on the provider
 	provider.Operations = operations
-
-	// Load translations for this provider
-	if err := r.loadTranslations(ctx, provider); err != nil {
-		r.obs.Logger.Warn(ctx, "Failed to load translations for provider, continuing without translations",
-			zap.String("provider_identifier", provider.Identifier),
-			zap.Error(err))
-		// Continue without translations - GetTranslation will handle fallback
-	}
-
-	// Add to cache with both keys
-	r.cache.Add(r.getCacheKeyByIdentifier(provider.Identifier), provider)
-	r.cache.Add(r.getCacheKeyByID(provider.ID), provider)
-
 	return provider, nil
 }
 
-// List returns all providers
-func (r *ProviderRepository) List(ctx context.Context) ([]*domain.Provider, error) {
+// ListFullProviders returns all providers with operations
+func (r *ProviderRepository) ListFullProviders(ctx context.Context) ([]*domain.Provider, error) {
 	ctx, span := r.obs.Tracer.Start(ctx, "ProviderRepository.List")
 	defer span.End()
 
@@ -195,14 +125,6 @@ func (r *ProviderRepository) List(ctx context.Context) ([]*domain.Provider, erro
 
 	providers := make([]*domain.Provider, 0, len(models))
 	for i := range models {
-		// Check cache first by ID
-		cacheKey := r.getCacheKeyByID(models[i].ID)
-		if cachedProvider, found := r.cache.Get(cacheKey); found {
-			providers = append(providers, cachedProvider)
-			continue
-		}
-
-		// Cache miss - load from database
 		provider, err := r.mapToDomain(&models[i])
 		if err != nil {
 			return nil, err
@@ -216,19 +138,28 @@ func (r *ProviderRepository) List(ctx context.Context) ([]*domain.Provider, erro
 
 		// Set operations on the provider
 		provider.Operations = operations
+		providers = append(providers, provider)
+	}
 
-		// Load translations for this provider
-		if err := r.loadTranslations(ctx, provider); err != nil {
-			r.obs.Logger.Warn(ctx, "Failed to load translations for provider, continuing without translations",
-				zap.String("provider_identifier", provider.Identifier),
-				zap.Error(err))
-			// Continue without translations - GetTranslation will handle fallback
+	return providers, nil
+}
+
+func (r *ProviderRepository) ListBasicProviders(ctx context.Context) ([]*domain.Provider, error) {
+	ctx, span := r.obs.Tracer.Start(ctx, "ProviderRepository.ListBasicProviders")
+	defer span.End()
+
+	var models []ProviderModel
+	result := r.db.WithContext(ctx).Find(&models)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	providers := make([]*domain.Provider, 0, len(models))
+	for i := range models {
+		provider, err := r.mapToDomain(&models[i])
+		if err != nil {
+			return nil, err
 		}
-
-		// Add to cache with both keys for cache warming
-		r.cache.Add(r.getCacheKeyByID(provider.ID), provider)
-		r.cache.Add(r.getCacheKeyByIdentifier(provider.Identifier), provider)
-
 		providers = append(providers, provider)
 	}
 
@@ -264,11 +195,6 @@ func (r *ProviderRepository) Update(ctx context.Context, provider *domain.Provid
 	if result.Error != nil {
 		return result.Error
 	}
-
-	// Clear cache entries for the updated provider to ensure fresh data on next access
-	r.cache.Remove(r.getCacheKeyByID(provider.ID))
-	r.cache.Remove(r.getCacheKeyByIdentifier(provider.Identifier))
-
 	return nil
 }
 
@@ -277,8 +203,7 @@ func (r *ProviderRepository) Delete(ctx context.Context, id string) error {
 	ctx, span := r.obs.Tracer.Start(ctx, "ProviderRepository.Delete")
 	defer span.End()
 
-	var providerIdentifier string
-	err := r.db.Transaction(ctx, func(tx *gorm.DB) error {
+	return r.db.Transaction(ctx, func(tx *gorm.DB) error {
 		// First, get the provider identifier for deleting translations
 		var providerModel ProviderModel
 		result := tx.Where("id = ?", id).First(&providerModel)
@@ -288,9 +213,6 @@ func (r *ProviderRepository) Delete(ctx context.Context, id string) error {
 			}
 			return result.Error
 		}
-
-		// Store identifier for cache invalidation
-		providerIdentifier = providerModel.Identifier
 
 		// Delete operations associated with this provider
 		result = tx.Where("provider_id = ?", id).Delete(&OperationModel{})
@@ -316,14 +238,6 @@ func (r *ProviderRepository) Delete(ctx context.Context, id string) error {
 
 		return nil
 	})
-
-	if err == nil {
-		// Clear cache entries for the deleted provider
-		r.cache.Remove(r.getCacheKeyByID(id))
-		r.cache.Remove(r.getCacheKeyByIdentifier(providerIdentifier))
-	}
-
-	return err
 }
 
 // loadOperations loads all operations for a provider
@@ -349,28 +263,23 @@ func (r *ProviderRepository) loadOperations(ctx context.Context, providerID stri
 // mapToDomain maps a provider model to a domain provider
 func (r *ProviderRepository) mapToDomain(model *ProviderModel) (*domain.Provider, error) {
 	var jsonAttributes struct {
-		Categories  []string            `json:"categories"`
-		Permissions []domain.Permission `json:"permissions"`
-		Tags        []string            `json:"tags"`
+		Categories []string `json:"categories"`
+		Tags       []string `json:"tags"`
 	}
 
 	if err := sonic.Unmarshal(model.JSONAttributes, &jsonAttributes); err != nil {
 		return nil, fmt.Errorf("failed to unmarshal provider info metadata: %w", err)
 	}
 
-	authType := domain.ProviderAuthType(model.AuthType)
-	status := domain.ProviderStatus(model.Status)
-
 	return &domain.Provider{
 		ID:          model.ID,
 		Identifier:  model.Identifier,
 		Name:        model.Name,
 		Description: model.Description,
-		AuthType:    authType,
-		Status:      status,
+		AuthType:    types.ProviderAuthType(model.AuthType),
+		Status:      types.ProviderStatus(model.Status),
 		IconURL:     model.IconURL,
 		Categories:  jsonAttributes.Categories,
-		Permissions: jsonAttributes.Permissions,
 		Tags:        jsonAttributes.Tags,
 		CreatedAt:   model.CreatedAt,
 		UpdatedAt:   model.UpdatedAt,
@@ -381,11 +290,9 @@ func (r *ProviderRepository) mapToDomain(model *ProviderModel) (*domain.Provider
 // mapToModel maps a domain provider to a provider model
 func (r *ProviderRepository) mapToModel(provider *domain.Provider) (*ProviderModel, error) {
 	jsonAttributes := struct {
-		Categories  []string            `json:"categories"`
-		Permissions []domain.Permission `json:"permissions"`
+		Categories []string `json:"categories"`
 	}{
-		Categories:  provider.Categories,
-		Permissions: provider.Permissions,
+		Categories: provider.Categories,
 	}
 
 	jsonAttributesJSON, err := sonic.Marshal(jsonAttributes)
@@ -408,131 +315,6 @@ func (r *ProviderRepository) mapToModel(provider *domain.Provider) (*ProviderMod
 	}, nil
 }
 
-// loadTranslations loads all translations for a provider
-func (r *ProviderRepository) loadTranslations(ctx context.Context, provider *domain.Provider) error {
-	ctx, span := r.obs.Tracer.Start(ctx, "ProviderRepository.loadTranslations")
-	defer span.End()
-
-	var translationModels []ProviderTranslationModel
-	result := r.db.WithContext(ctx).Where("provider_identifier = ?", provider.Identifier).Find(&translationModels)
-	if result.Error != nil {
-		r.obs.Logger.Warn(ctx, "Failed to load translations for provider",
-			zap.String("provider_identifier", provider.Identifier),
-			zap.Error(result.Error))
-		return result.Error
-	}
-
-	// Process each translation record
-	for _, model := range translationModels {
-		var keyTag language.Tag
-		switch model.LanguageCode {
-		case "en":
-			keyTag = language.English
-		case "zh-CN":
-			keyTag = language.SimplifiedChinese
-		case "zh-TW":
-			keyTag = language.TraditionalChinese
-		default:
-			r.obs.Logger.Warn(ctx, "Unsupported language code in translation data, skipping",
-				zap.String("language_code", model.LanguageCode),
-				zap.String("provider_identifier", provider.Identifier))
-			continue // Skip this translation if the code is not one of the three expected
-		}
-
-		// Unmarshal translation JSON
-		var tj translationJSON
-		if err := sonic.Unmarshal(model.Translations, &tj); err != nil {
-			r.obs.Logger.Warn(ctx, "Failed to unmarshal translation JSON, skipping",
-				zap.String("language_code", model.LanguageCode),
-				zap.String("provider_identifier", provider.Identifier),
-				zap.Error(err))
-			continue
-		}
-
-		// Translate Permissions
-		translatedPerms := make([]domain.Permission, len(provider.Permissions))
-		copy(translatedPerms, provider.Permissions)
-
-		// Create permission translation map for efficient lookup
-		permTranslationMap := make(map[string]permission)
-		for _, perm := range tj.Permissions {
-			permTranslationMap[perm.Identifier] = perm
-		}
-
-		// Apply permission translations
-		for i := range translatedPerms {
-			if permTranslation, exists := permTranslationMap[translatedPerms[i].Identifier]; exists {
-				translatedPerms[i].Name = permTranslation.Name
-				translatedPerms[i].Description = permTranslation.Description
-				// Deep copy OAuthScopes for data isolation
-				clonedScopes := make([]string, len(translatedPerms[i].OAuthScopes))
-				copy(clonedScopes, translatedPerms[i].OAuthScopes)
-				translatedPerms[i].OAuthScopes = clonedScopes
-			}
-		}
-
-		// Translate Operations and their Parameters
-		translatedOps := make([]domain.Operation, len(provider.Operations))
-		copy(translatedOps, provider.Operations)
-
-		// Create operation translation map for efficient lookup
-		opTranslationMap := make(map[string]operation)
-		for _, op := range tj.Operations {
-			opTranslationMap[op.Identifier] = op
-		}
-
-		// Apply operation translations
-		for i := range translatedOps {
-			// Deep copy Parameters
-			clonedParams := make([]domain.Parameter, len(translatedOps[i].Parameters))
-			copy(clonedParams, translatedOps[i].Parameters)
-			translatedOps[i].Parameters = clonedParams
-
-			if opTranslation, exists := opTranslationMap[translatedOps[i].Identifier]; exists {
-				translatedOps[i].Name = opTranslation.Name
-				translatedOps[i].Description = opTranslation.Description
-
-				// Create parameter translation map for efficient lookup
-				paramTranslationMap := make(map[string]parameter)
-				for _, param := range opTranslation.Parameters {
-					paramTranslationMap[param.Name] = param
-				}
-
-				// Apply parameter translations
-				for j := range translatedOps[i].Parameters {
-					if paramTranslation, exists := paramTranslationMap[translatedOps[i].Parameters[j].Name]; exists {
-						translatedOps[i].Parameters[j].Description = paramTranslation.Description
-					}
-				}
-			}
-		}
-
-		// Construct TranslatedProvider
-		translatedProvider := domain.TranslatedProvider{
-			ID:          provider.ID,
-			Identifier:  provider.Identifier,
-			Name:        tj.Name,
-			Description: tj.Description,
-			AuthType:    provider.AuthType,
-			Status:      provider.Status,
-			IconURL:     provider.IconURL,
-			Categories:  tj.Categories,
-			Tags:        provider.Tags,
-			Permissions: translatedPerms,
-			Operations:  translatedOps,
-			CreatedAt:   provider.CreatedAt,
-			UpdatedAt:   provider.UpdatedAt,
-			DeletedAt:   provider.DeletedAt,
-		}
-
-		// Set translation on provider
-		// The keyTag is now guaranteed to be one of language.English, language.SimplifiedChinese, or language.TraditionalChinese
-		provider.SetTranslation(keyTag, translatedProvider)
-	}
-
-	return nil
-}
-
 // SyncTagsToProvider syncs tags to provider's json_attributes
 func (r *ProviderRepository) SyncTagsToProvider(ctx context.Context, providerIdentifier string, tags []string) error {
 	ctx, span := r.obs.Tracer.Start(ctx, "ProviderRepository.SyncTagsToProvider")
@@ -547,9 +329,8 @@ func (r *ProviderRepository) SyncTagsToProvider(ctx context.Context, providerIde
 
 	// Parse existing json_attributes
 	var jsonAttributes struct {
-		Categories  []string            `json:"categories"`
-		Permissions []domain.Permission `json:"permissions"`
-		Tags        []string            `json:"tags"`
+		Categories []string `json:"categories"`
+		Tags       []string `json:"tags"`
 	}
 
 	if err := sonic.Unmarshal(model.JSONAttributes, &jsonAttributes); err != nil {
@@ -570,10 +351,6 @@ func (r *ProviderRepository) SyncTagsToProvider(ctx context.Context, providerIde
 	if result.Error != nil {
 		return result.Error
 	}
-
-	// Clear cache
-	r.cache.Remove(r.getCacheKeyByIdentifier(providerIdentifier))
-	r.cache.Remove(r.getCacheKeyByID(model.ID))
 
 	return nil
 }

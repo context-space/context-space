@@ -7,7 +7,7 @@ import (
 	"github.com/context-space/context-space/backend/internal/provideradapter/domain"
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/registry"
 	"github.com/context-space/context-space/backend/internal/provideradapter/infrastructure/rest"
-	providercore "github.com/context-space/context-space/backend/internal/providercore/domain"
+	"github.com/context-space/context-space/backend/internal/shared/types"
 )
 
 const (
@@ -61,11 +61,11 @@ func (t *AirtableTemplate) CreateAdapter(provider *domain.ProviderAdapterConfig)
 	permissionsData := provider.Permissions
 
 	// Convert permissions to coreDomain.Permission slice
-	permissions := make(providercore.PermissionSet, len(permissionsData))
+	permissions := make(domain.PermissionSet, len(permissionsData))
 	for _, permMap := range permissionsData {
 		scopes := permMap.OAuthScopes
 
-		permissions[permMap.Identifier] = *providercore.NewPermission(
+		permissions[permMap.Identifier] = *domain.NewPermission(
 			permMap.Identifier,
 			permMap.Name,
 			permMap.Description,
@@ -96,7 +96,7 @@ func (t *AirtableTemplate) ValidateConfig(provider *domain.ProviderAdapterConfig
 	}
 
 	// Validate auth_type specifically for OAuth
-	if provider.AuthType != providercore.AuthTypeOAuth {
+	if provider.AuthType != types.AuthTypeOAuth {
 		return fmt.Errorf("invalid or missing auth_type, must be 'oauth'")
 	}
 
