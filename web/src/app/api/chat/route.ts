@@ -1,12 +1,12 @@
 import type { Message } from "ai"
 import type { NextRequest } from "next/server"
 
-import { createOpenAI } from "@ai-sdk/openai"
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js"
 import { experimental_createMCPClient, streamText } from "ai"
 import { NextResponse } from "next/server"
 
 import { baseURL } from "@/config"
+import { createLLMProvider } from "@/lib/llm-provider"
 import { getServerToken } from "@/lib/supabase/server"
 import { serverLogger } from "@/lib/utils"
 
@@ -28,10 +28,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const openai = createOpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-      baseURL: process.env.OPENAI_BASE_URL,
-    })
+    const { client: llm, model } = createLLMProvider()
 
     const tools = await (async function () {
       if (!provider) {
@@ -58,7 +55,7 @@ export async function POST(request: NextRequest) {
     })()
 
     const response = streamText({
-      model: openai("gpt-4.1"),
+      model: llm(model),
       messages,
       tools,
       toolCallStreaming: true,
