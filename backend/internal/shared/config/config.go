@@ -20,6 +20,8 @@ type Config struct {
 	Observability ObservabilityConfig `json:"observability"`
 	Security      SecurityConfig      `json:"security"`
 	OpenAI        OpenAIConfig        `json:"openai"`
+	MiniMax       MiniMaxConfig       `json:"minimax"`
+	LLMProvider   string              `json:"llm_provider"`
 	Discovery     DiscoveryConfig     `json:"discovery"`
 	GRPC          GRPCConfig          `json:"grpc"`
 }
@@ -122,6 +124,13 @@ type OpenAIConfig struct {
 	BaseURL        string `json:"base_url"`
 	Model          string `json:"model"`
 	EmbeddingModel string `json:"embedding_model"`
+}
+
+// MiniMaxConfig holds MiniMax API configuration
+type MiniMaxConfig struct {
+	APIKey  string `json:"api_key"`
+	BaseURL string `json:"base_url"`
+	Model   string `json:"model"`
 }
 
 // DiscoveryConfig holds discovery algorithm configuration
@@ -340,6 +349,22 @@ func overrideWithEnv(config *Config) {
 	}
 	if envVal := os.Getenv("OPENAI_EMBEDDING_MODEL"); envVal != "" {
 		config.OpenAI.EmbeddingModel = envVal
+	}
+
+	// MiniMax config
+	if envVal := os.Getenv("MINIMAX_API_KEY"); envVal != "" {
+		config.MiniMax.APIKey = envVal
+	}
+	if envVal := os.Getenv("MINIMAX_BASE_URL"); envVal != "" {
+		config.MiniMax.BaseURL = envVal
+	}
+	if envVal := os.Getenv("MINIMAX_MODEL"); envVal != "" {
+		config.MiniMax.Model = envVal
+	}
+
+	// LLM provider selection
+	if envVal := os.Getenv("LLM_PROVIDER"); envVal != "" {
+		config.LLMProvider = envVal
 	}
 
 	// Discovery config

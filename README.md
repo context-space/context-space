@@ -147,6 +147,38 @@ curl -H "Authorization: Bearer <jwt-token>" \
 
 ---
 
+## LLM Provider Configuration
+
+Context Space supports configurable LLM providers for the chat playground and knowledge base RAG. By default, OpenAI is used, but you can switch to **MiniMax** or other OpenAI-compatible providers.
+
+### Supported Providers
+
+| Provider | Models | Context Window | Env Var |
+|----------|--------|---------------|---------|
+| **OpenAI** (default) | gpt-4.1, gpt-4o, gpt-4o-mini | Varies | `OPENAI_API_KEY` |
+| **MiniMax** | MiniMax-M2.7, MiniMax-M2.7-highspeed | 204K tokens | `MINIMAX_API_KEY` |
+
+### Configuration
+
+Set these environment variables to configure your LLM provider:
+
+```bash
+# Option 1: Use OpenAI (default)
+OPENAI_API_KEY=sk-...
+
+# Option 2: Use MiniMax
+LLM_PROVIDER=minimax
+MINIMAX_API_KEY=sk-...
+
+# Optional: Override model or base URL
+LLM_MODEL=MiniMax-M2.7-highspeed
+MINIMAX_BASE_URL=https://api.minimax.io/v1
+```
+
+The provider is auto-detected from available API keys if `LLM_PROVIDER` is not set. When only `MINIMAX_API_KEY` is present, MiniMax is used automatically.
+
+---
+
 ## Contributing
 
 **You are invited to help shape the future of context engineering.**
